@@ -1,4 +1,4 @@
-mojura
+Mojura
 ======
 
 Mojura Framework
