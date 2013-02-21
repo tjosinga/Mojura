@@ -1,0 +1,20 @@
+{{#is_list_view}}
+	<ul>
+		{{#items}}
+			<li><a href="{{web_url}}">{{fullname}}</a></li>
+		{{/items}}
+	</ul>
+{{/is_list_view}}
+
+{{#is_thumbs_view}}
+	<ul class="thumbnails">
+		{{#items}}
+		  <li class="{{span}}">
+		    <a class="thumbnail" href="{{web_url}}">
+		      <img src="{{avatar}}&s={{size}}" alt="">
+		      <p class="small_title">{{thumb_name}}</p>
+		    </a>
+		  </li>
+		{{/items}}
+	</ul>
+{{/is_thumbs_view}}

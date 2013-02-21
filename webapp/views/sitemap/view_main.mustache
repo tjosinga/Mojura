@@ -1,0 +1,7 @@
+{{#has_pages}}
+	<ul {{#html_class}}class='{{html_class}}'{{/html_class}}>
+		{{#pages}}
+			<li><a href='{{page_url}}'>{{title}}</a>{{{subpages}}}</li>{{inc_index}}
+		{{/pages}}		
+	</ul>
+{{/has_pages}}

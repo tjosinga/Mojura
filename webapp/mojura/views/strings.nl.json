@@ -1,0 +1,46 @@
+{
+	"title":									"Titel",
+	"name":										"Naam",
+	"info":										"Dit is Mojura",
+	"no_default_page":				"Er is geen standaardpagina ingesteld",
+	"description":						"Omschrijving",
+	
+	"close":									"Sluiten",
+	"save":										"Opslaan",
+	"send":										"Verzenden",
+	"cancel":									"Annuleren",
+	"confirm":								"Bevestigen",
+	"success":								"Succesvol",
+	
+	"action_add":							"Toevoegen",
+	"action_edit":						"Aanpassen",
+	"action_delete":					"Verwijderen",
+
+	"add_view":								"Een nieuw sectie toevoegen",
+	"edit_view":							"Deze sectie aanpassen",
+	"delete_view":						"Deze sectie verwijderen",
+	"add_subview":						"Een nieuw subsectie toevoegen",
+	
+	"saving":									"Opslaan...",
+	"confirming":							"Bevesting...",
+	"sending":								"Versturen...",
+	
+	"add_page":								"Pagina toevoegen",
+	"edit_page":							"Pagina-instellingen aanpassen",
+	"edit_views_on":					"Beheermodus inschakelen",
+	"edit_views_off":					"Beheermodus uitschakelen",
+
+	"view_content":						"Tekst",
+	"view_content_info":			"Je kunt tekst invoeren en/of een web-module selecteren. Deze zullen bij elkaar worden weergegeven.",
+	"view_webview":						"Web-module",
+	"view_no_webview":				"Geen web-module weergeven",
+	"view_advanced":					"Geavanceerd",
+	"view_col_span":					"Breedte in kolommen",
+	"view_col_offset":				"Witruimte aan de linkerkant (in kolommen)",
+	"view_row_offset":				"Witruimte aan de bovenkant",
+	"view_classes":						"CSS classes",
+	
+	"delete_view_warning":		"Weet je zeker dat je deze sectie (inclusief alle eventuele subsecties) wilt verwijderen? Het kan niet ongedaan gemaakt worden.",
+	
+	"readmore":								"Lees meer..."
+}

@@ -1,0 +1,31 @@
+{{^is_logged_in}}
+	<form id='login_form' class='well' action='javascript:void(0)' method='get' onsubmit='LoginView.authenticateWithForm(this)'>
+		<div class='message_login_failed alert alert-error' style='display: none'>
+			<button class="close" data-dismiss="alert">×</button>
+			<strong>{{app_str_system_error}}</strong>: {{app_str_login_failed}}
+		</div>
+		{{#redirect}}
+			<input type='hidden' name='redirect' value='{{redirect}}' />
+		{{/redirect}}
+		
+		<label for='username'>{{app_str_login_username}}:</label>
+		<input type='text' name='username' value='' data-validation='required email numeric' />
+		<label for='password'>{{app_str_login_password}}:</label>
+		<input type='password' name='password' value='' data-validation='required' />
+		<label for='set_cookie'>
+			<input type='checkbox' name='set_cookie' value='' />
+			{{app_str_login_set_cookie}}
+		</label>
+		<input type='submit' name='submit' class='btn btn-primary'
+						data-loading-text='{{app_str_login_authenticating}}'
+						data-complete-text='{{app_str_login_success}}' value='{{app_str_login_login}}'  />
+	</form>
+{{/is_logged_in}}
+{{#is_logged_in}}
+	<form id='signoff_form' class='well' action='javascript:void(0)' method='get' onsubmit='LoginView.signOffWithForm(this)'>
+		<label for=''>{{app_str_login_signoff_info}}</label>
+		<input type='submit' name='submit' class='btn btn-primary' data-validation='required'
+						data-loading-text='{{app_str_login_signoff}}'
+						data-complete-text='{{app_str_login_success}}' value='{{app_str_login_signoff}}'  />
+	</form>
+{{/is_logged_in}}

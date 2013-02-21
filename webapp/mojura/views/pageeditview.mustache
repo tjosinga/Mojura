@@ -1,0 +1,116 @@
+<div class="pull-right">
+  <button class="btn btn-small pull-left btn-edit-page hide" style="margin-right: 5px" onclick="PageEditor.showEditPage()">{{app_str_system_edit_page}}</button>
+  <div class="btn-group pull-left" style="margin-right: 5px">
+	  <button class="btn btn-small hide btn-edit-page dropdown-toggle" data-toggle="dropdown">
+	  	<i class="icon-plus"></i> <span class="caret"></span>
+  	</button>
+		<ul class="dropdown-menu">
+			{{#templates}}
+    		<li><a href="javascript:void(0)" onclick="PageEditor.addSubview('{{pageid}}', '{{templateid}}')">{{title}}</a></li>	
+			{{/templates}}
+  	</ul>  	
+  </div>
+  <button class="btn btn-small pull-left" onclick="PageEditor.togglePageAdmins()" id="toggle_edit_page"><i class='icon-pencil'></i></button>
+</div>
+
+<div class="modal fade hide" id="modalEditPage">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">×</button>
+    <h3>{{app_str_system_edit_page}}</h3>
+  </div>
+  <div class="modal-body">
+		<form action="__api__/pages/{{pageid}}" method="post" onsubmit="return false">
+			<label for="content">{{app_str_system_title}}</label>
+			<input type="text" name="title" value="{{title}}" />
+		</form>  
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal">{{app_str_system_cancel}}</button>
+    <button id="submitEditPage" class="btn btn-primary" data-loading-text='{{app_str_system_action_edit}}...' onclick="$(this).button('loading'); $('form','#modalEditPage').submit();">{{app_str_system_action_edit}}</button>
+  </div>
+</div>
+
+<div class="modal fade hide" id="modalEditView">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">×</button>
+    <h3>{{app_str_system_edit_view}}</h3>
+  </div>
+  <div class="modal-body">
+  	<div class="loading"></div>
+		<form class="hide" action="javascript:void(0)" method="post" onsubmit="">
+			<input type="hidden" name="pageid" value="{{pageid}}" />
+			<input type="hidden" name="viewid" value="test" />
+			
+			<ul class="nav nav-tabs">
+			  <li class="active"><a href="#form_view_content" data-toggle="tab">{{app_str_system_view_content}}</a></li>
+			  <li><a href="#form_view_webview" data-toggle="tab">{{app_str_system_view_webview}}</a></li>
+			  <li><a href="#form_view_advanced" data-toggle="tab">{{app_str_system_view_advanced}}</a></li>
+			</ul>			
+			
+			<div class="tab-content">
+				<div class="tab-pane active" id="form_view_content">
+					<div>{{app_str_system_view_content}}</div>
+					<textarea class="span6" name="content" rows="6"></textarea>
+				</div>
+	
+				<div class="tab-pane" id="form_view_webview">
+					<label for="view">{{app_str_system_view_webview}}</label>
+					<select name="view">
+						<option value="">{{app_str_system_view_no_webview}}</option>
+						{{#views}}
+							<option class="min-col-span{{min_col_span}}" value="{{view_id}}">{{title}}</option>
+						{{/views}}
+					</select>			
+					<div class="view_settings">
+					</div>			
+				</div>
+	
+				<div class="tab-pane" id="form_view_advanced">
+					<label for="col_span">{{app_str_system_view_col_span}}</label>
+					<select name="col_span">
+						{{#col_spans}}
+							<option value="{{index}}">{{title}}</option>
+						{{/col_spans}}
+					</select>			
+					<label for="col_offset">{{app_str_system_view_col_offset}}</label>
+					<select name="col_offset">
+						{{#col_offsets}}
+							<option value="{{index}}">{{title}}</option>
+						{{/col_offsets}}
+					</select>			
+					<label for="row_offset">{{app_str_system_view_row_offset}}</label>
+					<select name="row_offset">
+						{{#row_offsets}}
+							<option value="{{index}}">{{title}}</option>
+						{{/row_offsets}}
+					</select>			
+					<label for="classes">{{app_str_system_view_classes}}</label>
+					<input type="text" name="setting_classes" value="" />
+				</div>
+			</div>
+			
+		</form>  
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal">{{app_str_system_cancel}}</button>
+    <button id="submitEditView" class="btn btn-primary" data-loading-text='{{app_str_system_action_edit}}...' onclick="$(this).button('loading'); $('form','#modalEditView').submit();">{{app_str_system_action_edit}}</button>
+  </div>
+</div>
+
+<div class="modal fade hide" id="modalDeleteView">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">×</button>
+    <h3>{{app_str_system_edit_view}}</h3>
+  </div>
+  <div class="modal-body">
+		<form action="javascript:void(0)" method="post" onsubmit="return false">
+			<input type="hidden" name="pageid" value="{{pageid}}" />
+			<input type="hidden" name="viewid" value="" />
+			<label for="content">{{app_str_system_delete_view_warning}}</label>
+		</form>  
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal">{{app_str_system_cancel}}</button>
+    <button id="submitDeleteView" class="btn btn-danger" data-loading-text='{{app_str_system_action_delete}}...' onclick="$(this).button('loading'); $('form','#modalDeleteView').submit();">{{app_str_system_action_delete}}</button>
+  </div>
+</div>

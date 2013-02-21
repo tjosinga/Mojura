@@ -1,0 +1,30 @@
+##!/usr/bin/env ruby
+#
+#$:.unshift(File.expand_path(File.dirname(__FILE__) + '/../'))
+#Dir.chdir(File.expand_path(File.dirname(__FILE__) + '/../'))
+#
+#require 'rack'
+#require 'api/lib/api'
+#require 'webapp/mojura/lib/webapp'
+#
+#mod = ARGV[0] || 'all'
+#
+#modules = []
+#
+#env = {'rack.session' => {}, 'rack.request.cookie_hash' => {}}
+#MojuraAPI::API.load
+#MojuraAPI::API.init_thread(env)
+#
+#mods = MojuraAPI::API.call('help')
+#
+#mods.each { | mod |
+#   mod["resources"].each { | resource  |
+#     if ((resource[:methods].include?(:put)) && (resource[:methods][:put].include?(:attributes)))
+#       resource[:method][:put][:attributes].each { | attr_name, data |
+##        STDOUT << resouce
+#       }
+#     end
+#   }
+#}
+#
+#
