@@ -1,0 +1,63 @@
+#!/usr/bin/env ruby
+
+$:.unshift(File.expand_path(File.dirname(__FILE__) + '/../'))
+Dir.chdir(File.expand_path(File.dirname(__FILE__) + '/../'))
+
+require 'chunky_png'
+
+view = ARGV[0] || ''
+path = "webapp/views/#{view}"
+
+border = 0
+padding = 5
+iconsize = 16
+
+if (view == '') || (view == '--help')
+	STDOUT << "Usage: ./spritify [view]\n"
+	exit
+end
+
+if !File.exists?("#{path}/icons/")
+	STDOUT << "Couldn't find an icons folder in '#{path}'\n"
+	exit
+end
+
+
+icons = []
+
+# find all icons
+Dir.foreach("#{path}/icons/") { | name |
+	icons.push(name) if (name.end_with?('.png'))
+}
+
+# create a sprite image
+png = ChunkyPNG::Image.new((2 * border) + (2 * padding) + iconsize, (((iconsize + (2 * padding)) * icons.count) + (2 * border)), ChunkyPNG::Color::TRANSPARENT)
+i = 0
+icons.each { | icon_file |
+	icon = ChunkyPNG::Image.from_file("#{path}/icons/#{icon_file}")
+	png.compose!(icon, border + padding, border + padding + ((16 + (2 * padding)) * i))
+	i += 1
+}
+STDOUT << "Saved #{icons.count} icons in #{path}/icons.png" << "\n"
+png.save("#{path}/icons.png", :interlace => true)
+
+# create css
+css = <<-EOD
+/* icons png and css generated with spritify */
+
+[class^="icon-fug-#{view}-"],
+[class*=" icon-fug-#{view}-"] {
+  background-image: url("icons.png") !important;
+  margin: 0px 2px 2px 0px !important;
+  width: 16px !important;
+  height: 16px !important;
+}
+EOD
+
+i = 0
+icons.each { | icon |
+	css << "\n.icon-fug-#{view}-#{File.basename(icon, '.png')} { background-position: -#{border + padding}px -#{border + padding + ((iconsize + (2 * padding)) * i)}px; }"
+	i += 1
+}
+File.open("#{path}/icons.css", 'w') { |f| f.write(css) }
+STDOUT << "Saved css declarations in #{path}/icons.css" << "\n"

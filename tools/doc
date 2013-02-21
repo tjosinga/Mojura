@@ -1,0 +1,2 @@
+#!/bin/bash
+rdoc ../api ../middleware ../app.rb ../webapp -o ../../documentation/ --tab-width=2 --title="Mojura Documentation" --exclude=.txt

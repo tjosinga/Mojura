@@ -1,0 +1,49 @@
+{{#no_wrapping}}
+	{{{render_view}}}
+{{/no_wrapping}}
+{{#simple_wrapping}}
+	<div class="{{classes}}">
+		{{{render_view}}}
+		<div class="clearfix"></div>
+	</div>
+{{/simple_wrapping}}
+{{#normal_wrapping}}
+	{{view_id}}
+	<div class="{{classes}} view">
+		{{#may_edit_view}}
+			<div class="view-admin btn-group hide">
+				<!-- <button class="btn btn-mini pull-left"><i class="icon-move"></i></button> //-->
+				<button class="btn btn-mini pull-left" onclick="PageEditor.showEditView(this.parentNode.parentNode)" 	 rel="tooltip" data-original-title="test edit"><i class="icon-pencil"></i></button>
+				<button class="btn btn-mini pull-left" onclick="PageEditor.showDeleteView(this.parentNode.parentNode)" rel="tooltip" data-original-title="test delete"><i class="icon-trash"></i></button>
+			  <button class="btn btn-small hide btn-edit-page dropdown-toggle" data-toggle="dropdown">
+			  	<i class="icon-plus"></i> <span class="caret"></span>
+		  	</button>
+				<ul class="dropdown-menu">
+					{{#templates}}
+		    		<li><a href="javascript:void(0)" onclick="PageEditor.addSubview('{{pageid}}', '{{templateid}}', '{{viewid}}')">{{title}}</a></li>	
+					{{/templates}}
+		  	</ul>  	
+			</div>
+		{{/may_edit_view}}
+		{{#has_html}}
+			<div class="view-text">
+				{{{html}}}			
+				<div class="clearfix"></div>
+			</div>
+		{{/has_html}}
+		{{#has_data}}
+			<div class="view-data">
+				{{{render_view}}}
+				<div class="clearfix"></div>
+			</div>
+		{{/has_data}}
+		{{#has_subviews}}
+			<div class="view-subviews row">
+				{{#subviews}}
+					{{{render_subview}}}
+				{{/subviews}}
+				<div class="clearfix"></div>
+			</div>
+		{{/has_subviews}}
+	</div>
+{{/normal_wrapping}}
