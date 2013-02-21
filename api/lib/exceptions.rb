@@ -68,7 +68,7 @@ module MojuraAPI
     def initialize(id = '')
     	title = 'Unknown object'
     	title += " ('#{id}')" if (id != '')
-      super.initialize(title, 404)
+      super(title, 404)
     end
   end
 

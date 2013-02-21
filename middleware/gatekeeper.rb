@@ -35,7 +35,9 @@ module Mojura
 
       status, headers, body = @app.call(env)
 
-      if (status == 200) && (!env['is_api_call']) && (!req.cookies.has_key?('web_api_key'))
+      if (status == 200) && (!env['is_api_call']) &&
+         ((!req.cookies.has_key?('web_api_key') || (!env['rack.session'].include?('web_api_key'))))
+
         env['rack.session']['web_api_key'] = 'web-' + SecureRandom.hex(16)
         Rack::Utils.set_cookie_header!(headers, 'web_api_key', {value: env['rack.session']['web_api_key'], path: '/'})
       end

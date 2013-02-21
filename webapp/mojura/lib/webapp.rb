@@ -58,8 +58,8 @@ module MojuraWebApp
 		def api_call(command, params = {}, method = 'get')
 			begin
 				MojuraAPI::API.call(command, params, method)
-			rescue Exception => e
-				raise APIException.new(command, method, e.to_s)
+#			rescue Exception => e
+#				raise APIException.new(command, method, e.to_s)
 			end
 		end
 

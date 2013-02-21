@@ -17,7 +17,7 @@ module MojuraAPI
     end
 
     def all(params)
-    	Page.get_templates((params[:col_count] || 0).to_i)
+    	PageTemplates.get_templates((params[:col_count] || 0).to_i)
     end
 
     def get(params)

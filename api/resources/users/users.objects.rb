@@ -84,8 +84,6 @@ module MojuraAPI
 			return new_token
     end
 
-
-
     def clear_all_cookie_tokens
     	@fields[:cookie_tokens][:value] = {}
     	@fields[:cookie_tokens][:changed] = true
@@ -95,7 +93,7 @@ module MojuraAPI
     def to_a(compact = false)
     	result = super
     	result[:fullname] = (result[:firstname].to_s + ' ' + result[:infix].to_s).strip + ' ' + result[:lastname].to_s
-			if !API.current_user.id.nil?
+			if !self.id.nil?
 	    	#TODO: create avatar support. If ready implement:
 	    	#if (has_avatar)
 	  	  #else
