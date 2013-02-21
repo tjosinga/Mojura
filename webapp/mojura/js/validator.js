@@ -1,4 +1,4 @@
-validator = (function($) {
+var validator = (function($) {
 
   var errors = {};
 
@@ -17,7 +17,7 @@ validator = (function($) {
     $.each(validations, function (index, validation) {
       params = {};
       if (!validateByString(validation, elem, params)) {
-        if (errors[elem.name] == undefined) errors[elem.name] = [];
+        if (errors[elem.name] === undefined) errors[elem.name] = [];
         errors[elem.name].push(validation);
         return false;
       }

@@ -3,6 +3,57 @@ require 'api/lib/dbtree'
 
 module MojuraAPI
 
+  module PageTemplates
+    extend self
+
+    def templates
+      load_templates if @templates.nil?
+      return @templates
+    end
+
+    def load_templates
+      if @templates.nil?
+        @templates = {}
+        path = 'api/resources/pages/templates/'
+        Dir.foreach(path) { |col_count|
+          if (col_count != '.') && (col_count != '..') && (File.directory?(path + col_count))
+            Dir.foreach("#{path}#{col_count}/") { |name|
+              if (name != '.') && (name != '..') && (File.extname(name) == '.json')
+                templateid = File.basename(name, '.json')
+                @templates[templateid] = {col_count: col_count.to_i, template: JSON.parse(File.read("#{path}#{col_count}/#{name}"))}
+                @templates[templateid][:template].symbolize_keys!
+              end
+            }
+          end
+        }
+        @templates = [@templates.sort]
+      end
+      return @templates
+    end
+
+    def get_templates(col_count_filter = 0)
+      load_templates if (@templates.nil?)
+      result = []
+      @templates.each { |view_id, data|
+        result.push({templateid: view_id,
+                     col_count: data[:col_count],
+                     api_url: API.api_url + "pages/template/#{view_id}",
+                    }) if (col_count_filter == 0) || (col_count_filter == data[:col_count])
+      }
+      return result
+    end
+
+    def get_template(templateid)
+      load_templates if (@templates.nil?)
+      return {
+          templateid: templateid,
+          col_count: @templates[templateid][:col_count],
+          template: @templates[templateid][:template],
+      }
+    end
+
+  end
+
   class Page < DbObject
 
     include DbObjectTags
@@ -10,7 +61,7 @@ module MojuraAPI
     include DbObjectRights
     include DbObjectOrderId
 
-    @@templates = nil
+    @templates = nil
 
     def initialize(id = nil)
       super('pages', id, {tree: PageTree})
@@ -170,47 +221,6 @@ module MojuraAPI
 			}
 			return views
 		end
-
-  	def self.load_templates
-      if @@templates.nil?
-        @@templates = {}
-        path = 'api/resources/pages/templates/'
-        Dir.foreach(path) { | col_count |
-          if (col_count != '.') && (col_count != '..') && (File.directory?(path + col_count))
-		        Dir.foreach("#{path}#{col_count}/") { | name |
-		          if (name != '.') && (name != '..') && (File.extname(name) == '.json')
-		          	templateid = File.basename(name, '.json')
-		            @@templates[templateid] = {col_count: col_count.to_i, template: JSON.parse(File.read("#{path}#{col_count}/#{name}"))}
-		            @@templates[templateid][:template].symbolize_keys!
-		          end
-		        }
-	      	end
-        }
-        @@templates = [@@templates.sort]
-      end
-      return @@templates
-  	end
-
-		def self.get_templates(col_count_filter = 0)
-			Page.load_templates if (@@templates.nil?)
-			result = []
-    	@@templates.each { | view_id, data |
-    		result.push({templateid: view_id,
-                     col_count: data[:col_count],
-                     api_url: API.api_url + "pages/template/#{view_id}",
-    								 }) if (col_count_filter == 0) || (col_count_filter == data[:col_count])
-    	}
-    	return result
-    end
-
-    def self.get_template(templateid)
-    	Page.load_templates if (@@templates.nil?)
-    	return {
-          templateid: templateid,
-          col_count: @@templates[templateid][:col_count],
-          template: @@templates[templateid][:template],
-    	}
-    end
 
   end
 
