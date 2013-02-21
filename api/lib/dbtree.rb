@@ -4,17 +4,26 @@ require 'api/lib/mongodb'
 
 module MojuraAPI
 
+  # Singleton module for the single db collection containing all trees
+  module DbTreeCollection
+    extend self
+
+    def collection
+      @collection ||= MongoDb.collection('db_trees')
+    end
+  end
+
 	class DbTree
 
-		@@tree_collection = nil
-		@data_collection
+    @tree_collection
+    @data_collection
 		@cache_fields
 		@tree
 		@use_rights
 		@object_url
 
 		def initialize(db_col_name, use_rights = true, cache_fields = [:title], object_url = '', parent_field = :parentid, order_field = :orderid)
-			@@tree_collection = MongoDb.collection('db_trees') if @@tree_collection.nil?
+			@tree_collection = DbTreeCollection.collection
 			@data_collection = MongoDb.collection(db_col_name.to_s)
 			@db_col_name = db_col_name
 			@parent_field = parent_field
@@ -166,7 +175,7 @@ module MojuraAPI
 		end
 
 		def load_from_db
-			data = @@tree_collection.find_one({collection_name: @db_col_name.to_s})
+			data = @tree_collection.find_one({collection_name: @db_col_name.to_s})
 			if !data.nil?
 	 			@id = data['_id']
  				@tree = data['tree']
@@ -180,8 +189,8 @@ module MojuraAPI
 		def save_to_db
 			data = @tree
 			data.stringify_keys!
-			@@tree_collection.remove({collection_name: @db_col_name.to_s})
-			@@tree_collection.insert({collection_name: @db_col_name.to_s, tree: data})
+      @tree_collection.remove({collection_name: @db_col_name.to_s})
+      @tree_collection.insert({collection_name: @db_col_name.to_s, tree: data})
 		end
 
 	end

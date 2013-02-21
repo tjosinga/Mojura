@@ -12,7 +12,7 @@ module MojuraWebApp
 			options[:show_admin] |= (options.include?(:show_admin) && options[:show_admin])
 			options[:root_url] ||= ''
 			options[:root_url] += '/' if (options[:root_url] != '')
-      unless options[:items].nil?
+      if !options[:items].nil?
         @pages = options[:items]
       else
         options[:depth] ||= 2

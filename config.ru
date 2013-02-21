@@ -5,11 +5,14 @@ require 'rack'
 require 'app'
 require 'json'
 
+require 'middleware/staticfiles'
 require 'middleware/gatekeeper'
 require 'middleware/methodoverride'
 require 'middleware/cookietokens'
 require 'middleware/formatter'
 require 'middleware/multigetter'
+
+use Mojura::StaticFiles
 
 use Rack::Lint
 use Rack::ContentLength

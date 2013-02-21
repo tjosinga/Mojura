@@ -18,26 +18,29 @@ module MojuraAPI
   # of the possible clients.
   module API
 
+    # Convert this module to a singleton
+    extend self
+
     # Module instances used for internal use. Some variables are accesible via identical named methods
-  	@@settings = {}
-    @@modules = nil
-    @@resources = {}
-    @@loaded = false
+  	@settings = {}
+    @modules = nil
+    @resources = {}
+    @loaded = false
 
     # Loads all settings, resources and makes the connection with the database
-    def self.load
-    	return if (@@loaded)
-    	@@settings = YAML.load_file('project_settings.yaml')
-    	@@settings.symbolize_keys!
-    	@@settings[:developing] = true
-      API.load_resources
-	    MongoDb.connect(@@settings[:database])
-      @@loaded = true
+    def load
+    	return if (@loaded)
+    	@settings = YAML.load_file('project_settings.yaml')
+    	@settings.symbolize_keys!
+    	@settings[:developing] = true
+      load_resources
+	    MongoDb.connect(@settings[:database])
+      @loaded = true
     end
 
     # Initialize the current thread with thread-specific information, mainly form the request data.
     # Each thread equalizes one request. Thread handling is handled by this API module.
-  	def self.init_thread(env = {})
+  	def init_thread(env = {})
   		self.load
 			Thread.current[:mojura] = {} if Thread.current[:mojura].nil?
 			Thread.current[:mojura][:env] = env || {}
@@ -62,66 +65,66 @@ module MojuraAPI
   	end
 
   	# Returns the current user.
-  	def self.current_user
+  	def current_user
   		Thread.current[:mojura][:current_user]
   	end
 
   	# Returns the used API url.
-  	def self.api_url
+  	def api_url
   		Thread.current[:mojura][:api_url]
   	end
 
   	# Returns all headers for the response.
-  	def self.headers
+  	def headers
   		Thread.current[:mojura][:api_headers]
   	end
 
   	# Sets all headers for the response.
-  	def self.headers=(hdrs)
+  	def headers=(hdrs)
   		Thread.current[:mojura][:api_headers] = hdrs
   	end
 
   	# Returns all session variables in a hash.
-  	def self.session
+  	def session
   		Thread.current[:mojura][:env]['rack.session']
   	end
 
   	# Prepares the response headers for returning a file instead of text.
-  	def self.send_file(file_path, options = {})
+  	def send_file(file_path, options = {})
   		filename = options[:filename] || File.basename(file_path)
   		options[:mime_type] ||= 'application/octet-stream'
 
   		style = options[:style]
   		style ||= 'inline' if (options[:mime_type][0..5] == 'image/')
   		style ||= 'attachement'
-  		API.headers['X-Accel-Redirect'] = '/' + file_path
- 	 		API.headers['Content-Type'] = options[:mime_type]
- 	 		API.headers['Content-Disposition'] = "#{style}; filename='#{filename}'"
+  		self.headers['X-Accel-Redirect'] = '/' + file_path
+ 	 		self.headers['Content-Type'] = options[:mime_type]
+ 	 		self.headers['Content-Disposition'] = "#{style}; filename='#{filename}'"
   		return {to_path: file_path, options: options}
   	end
 
     # Returns the project settings
-    def self.settings
-      return @@settings
+    def settings
+      return @settings
     end
 
     # Returns an array with all modules
-    def self.modules
-      if @@modules.nil?
-        @@modules = []
+    def modules
+      if @modules.nil?
+        @modules = []
         Dir.foreach('api/resources/') { | name |
           if (name != '.') && (name != '..') && (File.directory?('./api/resources/' + name))
-            @@modules << name
+            @modules << name
           end
         }
       end
-      return @@modules
+      return @modules
     end
 
     # Loads all the REST resources, which are stored in the modules folder.
     # Each resource should be descendant of the RestResource object and deals with
     # the GET, PUT, POST and DELETE requests for that specific resource.
-    def self.load_resources
+    def load_resources
       mods = API.modules
       mods.each { | mod |
         if File.exists?("api/resources/#{mod}/#{mod}.rest.rb")
@@ -131,50 +134,50 @@ module MojuraAPI
     end
 
     # Registers a resource, specifid with the specified module and item(s)_paths
-    def self.register_resource(object)
+    def register_resource(object)
       items_path = "#{object.module.to_s}/#{object.items_path}".gsub(/(\/*)$/, '')
       item_path = "#{object.module.to_s}/#{object.item_path}".gsub(/(\/*)$/, '')
-      @@resources[items_path] = {type: :items, object: object}
-      @@resources[item_path] =  {type: :item, object: object} if (items_path != item_path)
+      @resources[items_path] = {type: :items, object: object}
+      @resources[item_path] =  {type: :item, object: object} if (items_path != item_path)
     end
 
     # Executes a complete request. Request could be a resource, help or nothing
-    def self.call(request_path, params = {}, method = 'get')
-	   	API.load if (!@@loaded)
+    def call(request_path, params = {}, method = 'get')
+	   	self.load if (!@loaded)
 	   	params ||= {}
 	   	params.symbolize_keys!
 
-      if (params[:show_env] == 'true') && (@@settings[:developing])
+      if (params[:show_env] == 'true') && (@settings[:developing])
       	result = Thread.current[:mojura]
       elsif request_path == ''
         result = []
-        mods = API.modules
+        mods = self.modules
         mods.each { | mod |
-          result << {module: mod, url: API.api_url + mod}
+          result << {module: mod, url: self.api_url + mod}
         }
       elsif request_path == 'help'
-      	result = API.help(params)
+      	result = help(params)
       elsif request_path == 'salt'
-      	result = API.salt(params)
+      	result = salt(params)
       elsif request_path == 'authenticate'
-      	result = API.authenticate(params)
+      	result = authenticate(params)
       elsif request_path == 'signoff'
-      	result = API.sign_off(params)
+      	result = sign_off(params)
       else
-        result = API.call_resource(request_path, params, method)
+        result = call_resource(request_path, params, method)
       end
       return result
     end
 
     # Executes the specified method on a specific resource
-    def self.call_resource(request_path, params = {}, method = 'get')
+    def call_resource(request_path, params = {}, method = 'get')
       result = []
       resource = nil
       if request_path.match(/\/help$/)
       	request_path = request_path[0..-6]
       end
 
-      @@resources.each { | p, obj |
+      @resources.each { | p, obj |
         p = p.gsub(/^\//, '').gsub(/\//, "\\/").gsub(/\[(\w+)\]/) { | match | '(' + obj[:object].uri_id_to_regexp(match[1..-2]) + ')' }
         request_path.match(/^#{p}$/) { | m |
           data = m.to_a
@@ -208,10 +211,10 @@ module MojuraAPI
 
     # API method /help. Returns all documentation of the API.
     # noinspection RubyUnusedLocalVariable
-    def self.help(params)
-      API.load_resources
-      result = {core: {title: 'Core', resources: [API.core_conditions]}}
-      @@resources.each { | _, v |
+    def help(params)
+      load_resources
+      result = {core: {title: 'Core', resources: [core_conditions]}}
+      @resources.each { | _, v |
         if v[:type] == :items
           conditions = v[:object].conditions
           unless conditions.empty?
@@ -229,21 +232,21 @@ module MojuraAPI
     # API method /salt. Returns a salt which is needed for authentication
     # :category: Core API methods
     # noinspection RubyUnusedLocalVariable
-    def self.salt(params)
-			API.session[:salt] = ::SecureRandom.hex(16) if !API.session.include?(:salt)
-			return {salt: API.session[:salt], realm: @@settings[:project]}
+    def salt(params)
+			session[:salt] = ::SecureRandom.hex(16) if !session.include?(:salt)
+			return {salt: session[:salt], realm: @settings[:project]}
     end
 
     # API method /authenticate. Authenticates a user and returns the user as object if successful.
     # If the credentials are incorrect, an error will be raised.
     # :category: Core API methods
-    def self.authenticate(params)
+    def authenticate(params)
     	API.salt(params) # forces a generated salt
      	users = Users.new({username: params[:username]})
      	session = Thread.current[:mojura][:env]['rack.session']
      	raise InvalidAuthentication.new if (users.count != 1)
      	user = users.first
-      iterations = 500 + (user.username + @@settings[:project]).length
+      iterations = 500 + (user.username + @settings[:project]).length
      	crypted = PBKDF2.new(:password => user.digest, :salt => API.session[:salt], :iterations => iterations, :key_length => 64, :hash_function => 'SHA1').hex_string
      	if params[:password] == crypted
      		session[:uid] = user.id
@@ -258,7 +261,7 @@ module MojuraAPI
     # API method /sign_off. Signs out the current user.
     # :category: Core API methods
     # noinspection RubyUnusedLocalVariable
-    def self.sign_off(params)
+    def sign_off(params)
    		session[:uid] = nil
    		API.current_user.clear_all_cookie_tokens
 			API.session[:salt] = SecureRandom.hex(16)
@@ -266,7 +269,7 @@ module MojuraAPI
     end
 
     # API information of the core.
-  	def self.core_conditions
+  	def core_conditions
       {
           name: 'Core',
           resourceid: 'core',

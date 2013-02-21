@@ -1,4 +1,4 @@
-PageEditor = (function($) {
+var PageEditor = (function($) {
 
 	function togglePageAdmins()	{
 		$(".btn-edit-page").toggle();
@@ -59,7 +59,7 @@ PageEditor = (function($) {
 			$(".view_settings", "#modalEditView").html("<div class='loading'></div>");
 			$.getJSON("views/" + view + "/strings.nl.json", function(strings) {
 				$.get("views/" + view + "/view_page_edit_settings.mustache?static_only=true", {cache: false}, function(template) {
-					for (var key in strings) { data.settings["app_str_" + view + "_" + key] = strings[key] }
+					for (key in strings) { data.settings["app_str_" + view + "_" + key] = strings[key] }
 					html = Mustache.to_html(template, data.settings);
 					$(".view_settings", "#modalEditView").html(html);
 				}).error(function () {
@@ -97,7 +97,7 @@ PageEditor = (function($) {
 			$("form", "#modalEditView").show();
 		});
 
-		var options = {
+		options = {
 		  success:    function() {
 				location.reload();
 		  }
@@ -124,7 +124,7 @@ PageEditor = (function($) {
 
 	function addSubview(pageid, templateid, path) {
 		url = "__api__/pages/" + pageid + "/views/?_method=put&template=" + templateid;
-		if ((path != undefined) && (path != ""))
+		if ((path !== undefined) && (path != ""))
 			url += "&parentid=" + path;
 		$.getJSON(url, function(data) {
 			location.reload();
