@@ -13,7 +13,6 @@ module Mojura
 
     def call(env)
       filename = 'webapp' + env['REQUEST_PATH']
-      STDOUT << JSON.pretty_generate(env) + "\n"
       if File.file?(filename) && (File.extname(filename) != '.rb')
         headers = { 'Content-Type' => Rack::Mime.mime_type(File.extname(filename)) }
         return [200,  headers, [ File.binread(filename) ]]

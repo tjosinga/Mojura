@@ -71,7 +71,7 @@ module MojuraAPI
     end
 
     def filter(params)
-      FilterParser.instance.parse(params[:filter])
+      FilterParser.parse(params[:filter])
     end
 
     # Creates a new object

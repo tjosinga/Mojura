@@ -58,7 +58,7 @@ module MojuraWebApp
 				if @pageid.nil?
           begin
             @pages = WebApp.api_call('pages')
-            @pageid = @pages.first[:id] if !@pages.items.nil?
+            @pageid = @pages.first[:id] if !@pages.nil?
           rescue APIException => _
             @pages = {}
             @pageid = nil
