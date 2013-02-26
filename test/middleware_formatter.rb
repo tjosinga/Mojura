@@ -43,30 +43,30 @@ Hannah,2006,Osinga,\"Sara, Ruben\"
 
 module Mojura
 
-  class FormatterTester < Test::Unit::TestCase
+	class FormatterTester < Test::Unit::TestCase
 
-    def get_sample
-      return [ {firstname: 'Taco', birthyear: 1977, lastname: 'Osinga', siblings: %w(Frank Rens Douwe-Freerk)},
-               {firstname: 'Chantal', birthyear: 1978, lastname: 'Osinga-Albers', siblings: []},
-               {firstname: 'Hannah', birthyear: 2006, lastname: 'Osinga', siblings: %w(Sara Ruben)}]
-    end
+		def get_sample
+			return [{firstname: 'Taco', birthyear: 1977, lastname: 'Osinga', siblings: %w(Frank Rens Douwe-Freerk)},
+			        {firstname: 'Chantal', birthyear: 1978, lastname: 'Osinga-Albers', siblings: []},
+			        {firstname: 'Hannah', birthyear: 2006, lastname: 'Osinga', siblings: %w(Sara Ruben)}]
+		end
 
-    def test_to_json
-      assert_equal($json_sample, Formatter.new(nil).to_json(self.get_sample))
-    end
+		def test_to_json
+			assert_equal($json_sample, Formatter.new(nil).to_json(self.get_sample))
+		end
 
-    def test_to_xml
-      # assert_equal($xml_sample, Formatter.new(nil).to_xml(self.get_sample))
-    end
+		def test_to_xml
+			# assert_equal($xml_sample, Formatter.new(nil).to_xml(self.get_sample))
+		end
 
-    def test_to_csv
-      assert_equal($csv_sample, Formatter.new(nil).to_csv(self.get_sample))
-    end
+		def test_to_csv
+			assert_equal($csv_sample, Formatter.new(nil).to_csv(self.get_sample))
+		end
 
-    def test_to_vcard
-      # STDOUT << "VCARDS = " + Formatter.new(nil).to_vcard(self.get_sample) + "\n\n"
-    end
+		def test_to_vcard
+			# STDOUT << "VCARDS = " + Formatter.new(nil).to_vcard(self.get_sample) + "\n\n"
+		end
 
-  end
+	end
 
 end

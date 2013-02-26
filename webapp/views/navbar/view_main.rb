@@ -7,22 +7,22 @@ module MojuraWebApp
 		attr_reader :brand_name, :pages, :index, :options
 
 		def initialize(options = {})
-			@index = 0
-			@brand_name = (options[:brand_name] || 'Mojura Development')
+			@index               = 0
+			@brand_name          = (options[:brand_name] || 'Mojura Development')
 			options[:show_admin] |= (options.include?(:show_admin) && options[:show_admin])
-			options[:root_url] ||= ''
+			options[:root_url]   ||= ''
 			options[:root_url] += '/' if (options[:root_url] != '')
-      if !options[:items].nil?
-        @pages = options[:items]
-      else
-        options[:depth] ||= 2
-        options[:menu_only] = (options.include?(:menu_only) && options[:menu_only])
-        begin
-          @pages = WebApp.api_call('pages', {menu_only: options[:menu_only], depth: options[:depth]})
-        rescue APIException => _
-          @pages = {}
-        end
-      end
+			if !options[:items].nil?
+				@pages = options[:items]
+			else
+				options[:depth]     ||= 2
+				options[:menu_only] = (options.include?(:menu_only) && options[:menu_only])
+				begin
+					@pages = WebApp.api_call('pages', {menu_only: options[:menu_only], depth: options[:depth]})
+				rescue APIException => _
+					@pages = {}
+				end
+			end
 			options.delete(:items)
 			super(options, @pages)
 		end
@@ -37,9 +37,9 @@ module MojuraWebApp
 
 		def subpages
 			if @pages[@index].has_key?(:children)
-				options[:items] = @pages[@index][:children]
+				options[:items]      = @pages[@index][:children]
 				options[:show_admin] = @options[:show_admin]
-				options[:root_url] = @options[:root_url] + URI.encode(@pages[@index][:title])
+				options[:root_url]   = @options[:root_url] + URI.encode(@pages[@index][:title])
 				return SitemapView.new(@options).render
 			end
 		end

@@ -1,7 +1,7 @@
-{	
-	"view_title":					"Nieuwsberichten",
+{
+    "view_title": "Nieuwsberichten",
 
-	"add":								"Een nieuwbericht toevoegen",
-	"edit":								"Dit nieuwsbericht aanpassen",
-	"delete":							"Dit nieuwsbericht verwijderen"
+    "add": "Een nieuwbericht toevoegen",
+    "edit": "Dit nieuwsbericht aanpassen",
+    "delete": "Dit nieuwsbericht verwijderen"
 }

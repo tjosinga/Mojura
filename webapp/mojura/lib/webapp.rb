@@ -7,20 +7,20 @@ module MojuraWebApp
 
 	module WebApp
 
-    # Convert module to singleton
-    extend self
+		# Convert module to singleton
+		extend self
 
-		@settings = {}
+		@settings     = {}
 		@new_settings = {}
 		@view_classes = {}
-		@strings = {}
+		@strings      = {}
 
 		def render(uri = '', params = {})
 			params.symbolize_keys!
 			Thread.current[:mojura][:page] = PageView.new(uri, params)
 			Thread.current[:mojura][:page].load
 			WebApp.load_settings if (@settings.count == 0)
-  		WebApp.load_views
+			WebApp.load_views
 			result = Thread.current[:mojura][:page].render
 			WebApp.save_settings if (@new_settings.count > 0)
 			return result
@@ -28,12 +28,12 @@ module MojuraWebApp
 
 		# ------------------------------------------------ Thread Shortcuts --------------------------------------------------
 
-  	def init_thread(env = [])
-      port = env['SERVER_PORT'].to_i
-      port_str = ((port != 80) && (port != 443)) ? ':' + port.to_s : ''
-      Thread.current[:mojura] ||= {}
+		def init_thread(env = [])
+			port                                     = env['SERVER_PORT'].to_i
+			port_str                                 = ((port != 80) && (port != 443)) ? ':' + port.to_s : ''
+			Thread.current[:mojura]                  ||= {}
 			Thread.current[:mojura][:webapp_headers] = {}
-			Thread.current[:mojura][:web_url] = env['rack.url_scheme'].to_s + '://' + env['SERVER_NAME'] + port_str + '/'
+			Thread.current[:mojura][:web_url]        = env['rack.url_scheme'].to_s + '://' + env['SERVER_NAME'] + port_str + '/'
 		end
 
 		def page
@@ -44,14 +44,13 @@ module MojuraWebApp
 			Thread.current[:mojura][:web_url]
 		end
 
-  	def headers
-  		Thread.current[:mojura][:webapp_headers]
-  	end
+		def headers
+			Thread.current[:mojura][:webapp_headers]
+		end
 
-  	def headers=(hdrs)
-  		Thread.current[:mojura][:webapp_headers] = hdrs
-  	end
-
+		def headers=(hdrs)
+			Thread.current[:mojura][:webapp_headers] = hdrs
+		end
 
 		# ------------------------------------------------------- API --------------------------------------------------------
 
@@ -71,23 +70,19 @@ module MojuraWebApp
 			MojuraAPI::RichText.new(text, markup).to_html
 		end
 
-		def settings
-		  MojuraAPI::API.settings
-		end
-
 		def realm
-			MojuraAPI::API.settings[:project]
+			MojuraAPI::Settings.get(:realm)
 		end
 
 		# ------------------------------------------------------ Views -------------------------------------------------------
 
 		def register_view(view_id, view_class, options = {})
 			options[:in_pages] = true if (options[:in_pages].nil?)
-			@view_classes[view_id] = {view_id: view_id,
-                                 class: view_class,
-                                 in_pages: options[:in_pages],
-                                 min_col_span: options[:min_col_span] || 1,
-                                 title: options[:title] || WebApp.app_str(view_id, 'view_title')}
+			@view_classes[view_id] = {view_id:      view_id,
+			                          class:        view_class,
+			                          in_pages:     options[:in_pages],
+			                          min_col_span: options[:min_col_span] || 1,
+			                          title:        options[:title] || WebApp.app_str(view_id, 'view_title')}
 		end
 
 		def get_view_class(view_id)
@@ -105,20 +100,20 @@ module MojuraWebApp
 
 		def load_views
 			path = 'webapp/views/'
-      Dir.foreach(path) { | name |
-	      if (name != '.') && (name != '..') && (File.directory?(path + name))
-	      	filename = path + name + '/view_main.rb'
-	      	require filename if File.exists?(filename)
-	      end
-      }
+			Dir.foreach(path) { |name|
+				if (name != '.') && (name != '..') && (File.directory?(path + name))
+					filename = path + name + '/view_main.rb'
+					require filename if File.exists?(filename)
+				end
+			}
 		end
 
 		def get_views(only_in_pages = true)
 			result = []
-			@view_classes.each { | _, data |
+			@view_classes.each { |_, data|
 				result.push(data.clone) if (!only_in_pages) || ((data.include?(:in_pages) && data[:in_pages]))
 			}
-			result.sort! { | t1, t2 | t1[:title] <=> t2[:title] }
+			result.sort! { |t1, t2| t1[:title] <=> t2[:title] }
 			return result
 		end
 
@@ -148,24 +143,27 @@ module MojuraWebApp
 		# ----------------------------------------------------- Strings ------------------------------------------------------
 
 		def load_app_strings(view, locale = nil)
-			view = view.to_sym
+			view   = view.to_sym
 			locale ||= self.page.locale
-      begin
-				strings_file = case view
-					when :system then "webapp/mojura/views/strings.#{locale}.json"
-					when :view_template_names then "webapp/mojura/views/strings_view_template_names.#{locale}.json"
-					else "webapp/views/#{view}/strings.#{locale}.json"
-				end
- 				@strings[self.page.locale] ||= {}
- 				@strings[self.page.locale][view] = JSON.parse(File.read(strings_file)) if (File.exists?(strings_file))
+			begin
+				strings_file               = case view
+					                             when :system then
+						                             "webapp/mojura/views/strings.#{locale}.json"
+					                             when :view_template_names then
+						                             "webapp/mojura/views/strings_view_template_names.#{locale}.json"
+					                             else
+						                             "webapp/views/#{view}/strings.#{locale}.json"
+				                             end
+				@strings[self.page.locale] ||= {}
+				@strings[self.page.locale][view] = JSON.parse(File.read(strings_file)) if (File.exists?(strings_file))
 			rescue Exception => e
 				raise CorruptStringsFileException.new(view, e.to_s)
 			end
 		end
 
 		def app_str(view, id, options = {})
-			locale = options[:locale] || self.page.locale
-      view = view.to_sym
+			locale           = options[:locale] || self.page.locale
+			view             = view.to_sym
 			@strings[locale] ||= {}
 			self.load_app_strings(view) if (!@strings[locale].include?(view))
 			@strings[locale][view] ||= {}
