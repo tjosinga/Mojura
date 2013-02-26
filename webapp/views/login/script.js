@@ -2,7 +2,6 @@ var LoginView = (function ($) {
     function authenticate(username, password, setCookie, onsuccess, onerror) {
         $.getJSON("__api__/salt", function (data) {
             digest = CryptoJS.MD5(username + ":" + data.realm + ":" + password).toString();
-            alert(digest);
             iters = 500 + data.realm.length + username.length;
             encrypted_digest = CryptoJS.PBKDF2(digest, data.salt, { keySize: 16, iterations: iters });
             url = "__api__/authenticate?username=" + username + "&password=" + encrypted_digest;

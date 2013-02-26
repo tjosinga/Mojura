@@ -47,12 +47,19 @@ module MojuraAPI
 			Thread.current[:mojura][:api_headers] = {}
 			Thread.current[:mojura][:api_url]     = (env['api_url'] || 'http://localhost/')
 
+			STDOUT << "Session #{env['rack.session'].to_hash} \n"
+			STDOUT << "Cookies #{env['rack.request.cookie_hash'].to_hash} \n"
+
 			uid = env['rack.session'].include?(:uid) ? env['rack.session'][:uid] : nil
+			STDOUT << "UID: #{uid}\n"
+
+			Thread.current[:mojura][:current_user] = nil # make sure the current is nil
 			if (uid.nil?) &&
-				(env['rack.request.cookie_hash'].include?('username')) &&
-				(env['rack.request.cookie_hash'].include?('token'))
+					(env['rack.request.cookie_hash'].include?('username')) &&
+					(env['rack.request.cookie_hash'].include?('token'))
 				token    = env['rack.request.cookie_hash']['token']
 				username = env['rack.request.cookie_hash']['username']
+				STDOUT << "Finding user\n"
 				users    = Users.new({username: username})
 				if (users.count == 1) && (users.first.valid_cookie_token?(token))
 					user = users.first
@@ -60,8 +67,8 @@ module MojuraAPI
 					Thread.current[:mojura][:current_user] = user
 				end
 			end
-			Thread.current[:mojura][:current_user] ||= User.new(uid)
-
+			Thread.current[:mojura][:current_user] = User.new(uid)
+			STDOUT << "Welcome #{Thread.current[:mojura][:current_user].to_hash}\n"
 		end
 
 		# Returns the current user.
