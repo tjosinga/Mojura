@@ -8,23 +8,28 @@ module MojuraWebApp
 		attr_reader :request_uri, :request_params, :metatags, :links, :scripts, :script_links, :styles, :templates, :locale, :pageid
 
 		def initialize(uri = '', params = {})
-			@request_uri = uri
+			@request_uri    = uri
 			@request_params = params
-			@metatags = []
-			@links = []
-			@scripts = []
-			@script_links = []
-			@styles = []
-			@templates = []
-			@data = {}
-			@body_html = ''
-			@locale = WebApp.get_setting('locale', 'nl')
+			@metatags       = []
+			@links          = []
+			@scripts        = []
+			@script_links   = []
+			@styles         = []
+			@templates      = []
+			@data           = {}
+			@body_html      = ''
+			@locale         = WebApp.get_setting('locale', 'nl')
 			super({})
 
-			self.include_script_link('https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js')
-			self.include_script_link('https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.21/jquery-ui.min.js')
-			self.include_script_link('http://malsup.github.com/jquery.form.js')
-
+			if (WebApp.get_setting(:use_external_js_libs))
+				self.include_script_link('https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js')
+				self.include_script_link('https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.21/jquery-ui.min.js')
+				self.include_script_link('http://malsup.github.com/jquery.form.js')
+			else
+				self.include_script_link('ext/jquery/jquery.min.js')
+				self.include_script_link('ext/jquery/jquery-ui.min.js')
+				self.include_script_link('ext/jquery/jquery.form.js')
+			end
 			self.include_script_link('ext/bootstrap/js/bootstrap.min.js')
 			self.include_style_link('ext/bootstrap/css/bootstrap.min.css')
 
@@ -38,32 +43,32 @@ module MojuraWebApp
 
 			if !@pageid.nil?
 				@data = WebApp.api_call("pages/#@pageid")
-      elsif @request_uri != ''
+			elsif @request_uri != ''
 				begin
-					pages = WebApp.api_call('pages', {path: CGI.escape(@request_uri)})
+					pages   = WebApp.api_call('pages', {path: CGI.escape(@request_uri)})
 					@pageid = pages.last[:id]
-					@data = WebApp.api_call("pages/#@pageid")
-        rescue HTTPException => e
+					@data   = WebApp.api_call("pages/#@pageid")
+				rescue HTTPException => e
 					if File.exists?("webapp/views/#@request_uri/view_main.rb")
 						@data[:title] = WebApp.app_str(@request_uri, :view_title)
-						@data[:view] = @request_uri
+						@data[:view]  = @request_uri
 					else
 						@data[:title] = "'#{e.class}' for view #@request_uri" #titel from strings.locale.json
-						@data[:view] = nil
+						@data[:view]  = nil
 						@data[:error] = e.to_s
 					end
- 				end
+				end
 			else
 				@pageid = nil # TODO: Select the default page from Settings
 				if @pageid.nil?
-          begin
-            @pages = WebApp.api_call('pages')
-            @pageid = @pages.first[:id] if !@pages.nil?
-          rescue APIException => _
-            @pages = {}
-            @pageid = nil
-          end
-        end
+					begin
+						@pages = WebApp.api_call('pages')
+						@pageid = @pages.first[:id] if !@pages.nil?
+					rescue APIException => _
+						@pages  = {}
+						@pageid = nil
+					end
+				end
 				@data = (@pageid.nil?) ? nil : WebApp.api_call("pages/#@pageid")
 			end
 			@data = {view: 'sitemap', title: WebApp.app_str('system', 'no_default_page')} if @data.nil?
@@ -90,9 +95,9 @@ module MojuraWebApp
 
 		def include_metatag(name, content)
 			in_dict = false
-			@scripts.each { | v |
+			@scripts.each { |v|
 				if v[:name] == name
-					in_dict = true
+					in_dict     = true
 					v[:content] = content
 				end
 			}
@@ -101,7 +106,7 @@ module MojuraWebApp
 
 		def include_link(rel, type, href, title = '')
 			in_dict = false
-			@links.each { | v | in_dict = true if v[:href] == href }
+			@links.each { |v| in_dict = true if v[:href] == href }
 			@links.push({rel: rel, type: type, href: href, title: title}) if !in_dict
 		end
 
@@ -111,13 +116,13 @@ module MojuraWebApp
 
 		def include_script_link(script_url)
 			in_dict = false
-			@script_links.each { | v | in_dict = true if v[:script] == script_url }
+			@script_links.each { |v| in_dict = true if v[:script] == script_url }
 			@script_links.push({script: script_url}) if !in_dict
 		end
 
 		def include_style(style)
 			in_dict = false
-			@scripts.each { | v | in_dict = true if v[:style] == style }
+			@scripts.each { |v| in_dict = true if v[:style] == style }
 			@styles.push({style: style}) if !in_dict
 		end
 
@@ -127,7 +132,7 @@ module MojuraWebApp
 
 		def include_template(id, code)
 			self.include_script_link('ext/mustache/mustache.min.js')
-      code.gsub!(/\{\{app_str_([0-9a-zA-Z]+)_(\w+)\}\}/) { | str |
+			code.gsub!(/\{\{app_str_([0-9a-zA-Z]+)_(\w+)\}\}/) { |str|
 				view, str_id = str.gsub(/(\{\{app_str_|\}\})/, '').split('_', 2)
 				WebApp.app_str(view.to_sym, str_id.to_sym)
 			}
@@ -140,8 +145,8 @@ module MojuraWebApp
 		end
 
 		def render
- 			#preloading so all views can still affect the page object (i.e. to include css, js, etc.)
- 			require 'webapp/views/body/view_main'
+			#preloading so all views can still affect the page object (i.e. to include css, js, etc.)
+			require 'webapp/views/body/view_main'
 			@body_html = WebApp.render_view(:view => 'body', :wrapping => 'simple', :classes => 'container', :add_span => false)
 			super
 		end
@@ -151,11 +156,11 @@ module MojuraWebApp
 		end
 
 		def has_analytics
-			!WebApp.settings[:analyticsid].nil?
+			!Settings(:analyticsid).nil?
 		end
 
 		def analyticsid
-			WebApp.settings[:analyticsid]
+			Settings(:analyticsid)
 		end
 
 	end

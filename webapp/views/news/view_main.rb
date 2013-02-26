@@ -9,7 +9,7 @@ module MojuraWebApp
 			if newsid.nil?
 				data = WebApp.api_call('news')
 			else
-				data = WebApp.api_call("news/#@newsid")
+				data                     = WebApp.api_call("news/#@newsid")
 				WebApp.page.data[:title] = data[:title].to_s
 			end
 			super(options, data)

@@ -1,7 +1,7 @@
-{	
-	"view_title":												"Sitemap",
-	
-	"action_add_page":									"Een nieuwe pagina toevoegen",
-	"action_edit_page":									"Deze pagina aanpassen",
-	"action_delete_page":								"Deze pagina verwijderen"	
+{
+    "view_title": "Sitemap",
+
+    "action_add_page": "Een nieuwe pagina toevoegen",
+    "action_edit_page": "Deze pagina aanpassen",
+    "action_delete_page": "Deze pagina verwijderen"
 }

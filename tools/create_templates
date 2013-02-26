@@ -6,22 +6,22 @@ require 'fileutils'
 $:.unshift(File.expand_path(File.dirname(__FILE__) + '/../'))
 Dir.chdir(File.expand_path(File.dirname(__FILE__) + '/../'))
 
-number_titles = 'Nul,Een,Twee,Drie,Vier,Vijf,Zes,Zeven,Acht,Negen,Tien,Elf,Twaalf'.split(',')
+number_titles   = 'Nul,Een,Twee,Drie,Vier,Vijf,Zes,Zeven,Acht,Negen,Tien,Elf,Twaalf'.split(',')
 default_content = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer cursus enim non est accumsan congue. Pellentesque augue nisl, volutpat non tincidunt eget, convallis nec quam. Etiam pretium fermentum est vel ultricies. Nullam a ligula magna, vitae pharetra erat.'
 
-(1..12).each { | width |
+(1..12).each { |width|
 	path = "/var/www/mojura/api/modules/pages/templates/#{width.to_s.rjust(2, '0')}/"
 	FileUtils.mkdir(path) rescue ''
-	(1..width).each { | col_span |
+	(1..width).each { |col_span|
 		count = (width / col_span).ceil
 		if count * col_span == width
 			data = {view: '', col_span: width, row_offset: 3}
 			if count > 1
 				data['subviews'] = []
-				count.times { | _ | data['subviews'].push({col_span: col_span, content: default_content}) }
+				count.times { |_| data['subviews'].push({col_span: col_span, content: default_content}) }
 				title = number_titles[count] + ' kolommen'
 			else
-			  title = 'Een kolom'
+				title = 'Een kolom'
 			end
 			templateid = "width_#{width.to_s.rjust(2, '0')}_with_#{count.to_s.rjust(2, '0')}_column"
 			templateid += 's' if (count > 1)

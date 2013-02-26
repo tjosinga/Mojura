@@ -3,33 +3,33 @@ require 'api/lib/dbobjects'
 
 module MojuraAPI
 
-  class Group < DbObject
+	class Group < DbObject
 
-    include DbObjectRights
-    include DbObjectTags
+		include DbObjectRights
+		include DbObjectTags
 
-    def initialize(id = nil)
-      super('groups', id)
-    end
+		def initialize(id = nil)
+			super('groups', id)
+		end
 
-    def load_fields
-      yield :name,  String, :required => true
-      yield :description,  String, :extended_only => true
-    end
+		def load_fields
+			yield :name, String, :required => true
+			yield :description, String, :extended_only => true
+		end
 
-  end
+	end
 
 
-  class Groups < DbObjects
+	class Groups < DbObjects
 
-    include DbObjectsRights
+		include DbObjectsRights
 
-    def initialize(where = {}, options = {})
-      options[:sort] = {name: 1} if (options[:sort].nil?)
-      super('groups', Group, where, options)
-    end
+		def initialize(where = {}, options = {})
+			options[:sort] = {name: 1} if (options[:sort].nil?)
+			super('groups', Group, where, options)
+		end
 
-  end
+	end
 
 
 end
