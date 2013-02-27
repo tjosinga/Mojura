@@ -29,9 +29,9 @@ module MojuraAPI
 
 		# Initializes the REST resouce
 		def initialize(mod, items_path, item_path)
-			@module     = mod
+			@module = mod
 			@items_path = items_path
-			@item_path  = item_path
+			@item_path = item_path
 		end
 
 		# Returns a set of objects
@@ -41,9 +41,9 @@ module MojuraAPI
 
 		# Returns the url of another page of the requested resource
 		def new_page_url(new_page, params)
-			result        = API.api_url + params[:query_string] + '?'
+			result = API.api_url + params[:query_string] + '?'
 			params[:page] = new_page
-			newparams     = []
+			newparams = []
 			params.each { |k, v| newparams << "#{k}=#{v}" if ((k != :query_string) && (k != :ids)) }
 			result += newparams.join('&')
 			return result
@@ -55,14 +55,14 @@ module MojuraAPI
 			options[:page] = params[:page].to_i if (!params[:page].nil? && (params[:page].is_a?(Integer) || params[:page].numeric?))
 			options[:pagesize] = params[:pagesize].to_i if (!params[:pagesize].nil? && (params[:pagesize].is_a?(Integer) || params[:pagesize].numeric?))
 			options[:sort] = JSON.parse(params[:sort]) rescue nil
-			objects           = yield options
-			result            = {}
-			result[:count]    = objects.count
-			result[:items]    = objects.to_a
-			pagecount         = (objects.count / (objects.pagesize * 1.0)).ceil
+			objects = yield options
+			result = {}
+			result[:count] = objects.count
+			result[:items] = objects.to_a
+			pagecount = (objects.count / (objects.pagesize * 1.0)).ceil
 			result[:pageinfo] = {
-				current:   objects.page,
-				pagesize:  objects.pagesize,
+				current: objects.page,
+				pagesize: objects.pagesize,
 				pagecount: pagecount
 			}
 			result[:pageinfo][:previous] = new_page_url(objects.page - 1, params) if objects.page > 1
@@ -136,14 +136,14 @@ module MojuraAPI
 		# Return all conditions
 		def conditions
 			result = {
-				name:        self.name,
-				resourceid:  (self.module + '_' + self.items_path.gsub(/\//, '_')).gsub(/_$/, '').gsub(/[\[|\]]/, ''),
+				name: self.name,
+				resourceid: (self.module + '_' + self.items_path.gsub(/\//, '_')).gsub(/_$/, '').gsub(/[\[|\]]/, ''),
 				description: self.description,
-				methods:     {
-					all:    self.all_conditions,
-					get:    self.get_conditions,
-					put:    self.put_conditions,
-					post:   self.post_conditions,
+				methods: {
+					all: self.all_conditions,
+					get: self.get_conditions,
+					put: self.put_conditions,
+					post: self.post_conditions,
 					delete: self.delete_conditions
 				}
 			}
@@ -199,7 +199,7 @@ module MojuraAPI
 		# Returns conditions for pagination, mostly used in the :all method of resources
 		def page_conditions
 			{
-				page:     {required: false, type: Integer, description: 'Number of the page of the items. The first page is page 1, second page is page 2. Default is 1.'},
+				page: {required: false, type: Integer, description: 'Number of the page of the items. The first page is page 1, second page is page 2. Default is 1.'},
 				pagesize: {required: false, type: Integer, description: 'The amount of items per page.'}
 			}
 		end
@@ -221,9 +221,9 @@ module MojuraAPI
 		# Returns conditions for rights, mostly used in the :put method of resource
 		def rights_conditions
 			{
-				userid:  {required: false, type: Array, description: 'A list of user ids who owning this item.'},
+				userid: {required: false, type: Array, description: 'A list of user ids who owning this item.'},
 				groupip: {required: false, type: Array, description: 'A list of group ids who owning this item.'},
-				right:   {required: false, type: Integer, description: 'The CRUD code which tells what the specific rights for the user and group members on this item is.'}
+				right: {required: false, type: Integer, description: 'The CRUD code which tells what the specific rights for the user and group members on this item is.'}
 			}
 		end
 

@@ -31,12 +31,12 @@ module MojuraAPI
 		def put_conditions
 			{
 				description: 'Adds a new setting.',
-				attributes:  {
+				attributes: {
 					category: {required: false, type: String, description: 'The category of the setting. Default is \'core\''},
-					key:      {required: true, type: String, description: 'The key of the setting'},
-					value:    {required: true, type: Mixed, description: 'A value of the setting'},
-					type:     {required: false, type: String, description: 'The of the setting, which can be integer, float, string, boolean, hash or array'},
-					type:     {required: false, type: String, description: 'The value of the setting'},
+					key: {required: true, type: String, description: 'The key of the setting'},
+					value: {required: true, type: Mixed, description: 'A value of the setting'},
+					type: {required: false, type: String, description: 'The of the setting, which can be integer, float, string, boolean, hash or array'},
+					type: {required: false, type: String, description: 'The value of the setting'},
 				}
 			}
 		end
@@ -50,8 +50,8 @@ module MojuraAPI
 		def get_conditions
 			{
 				description: 'Returns a setting.',
-				attributes:  {
-					key:      {required: true, type: String, description: 'The key of the setting'},
+				attributes: {
+					key: {required: true, type: String, description: 'The key of the setting'},
 					category: {required: false, type: String, description: 'The category of the setting. Default is \'core\''}
 				}
 			}
@@ -66,7 +66,7 @@ module MojuraAPI
 			result =
 				{
 					description: 'Updates an setting with a specific value.',
-					attributes:  self.put_conditions[:attributes].each { |_, v| v[:required] = false }
+					attributes: self.put_conditions[:attributes].each { |_, v| v[:required] = false }
 				}
 			result[:attributes].delete(:type)
 			return result
@@ -81,7 +81,7 @@ module MojuraAPI
 		def delete_conditions
 			{
 				description: 'Deletes a setting.',
-				attributes:  self.put_conditions[:attributes].each { |_, v| v[:required] = false }
+				attributes: self.put_conditions[:attributes].each { |_, v| v[:required] = false }
 			}
 		end
 

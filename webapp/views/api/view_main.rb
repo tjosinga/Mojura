@@ -12,13 +12,13 @@ module MojuraWebApp
 		end
 
 		def load_api_help
-			api_modules  = WebApp.api_call('help')
-			method_names = {all:    {http: 'GET', title: 'Multiple items'},
-			                get:    {http: 'GET', title: 'Single item'},
-			                put:    {http: 'PUT', title: 'Add item'},
-			                post:   {http: 'POST', title: 'Edit item'},
+			api_modules = WebApp.api_call('help')
+			method_names = {all: {http: 'GET', title: 'Multiple items'},
+			                get: {http: 'GET', title: 'Single item'},
+			                put: {http: 'PUT', title: 'Add item'},
+			                post: {http: 'POST', title: 'Edit item'},
 			                delete: {http: 'DELETE', title: 'Delete item'}}
-			@modules     = []
+			@modules = []
 			api_modules.each { |mod, mod_data|
 				resources = []
 				mod_data[:resources].each { |resource|
@@ -28,9 +28,9 @@ module MojuraWebApp
 						if method_info.include?(:attributes)
 							method_info[:attributes].each { |field_name, field_info|
 
-								attributes.push({name:        field_name,
-								                 type:        field_info[:type],
-								                 required:    field_info[:required],
+								attributes.push({name: field_name,
+								                 type: field_info[:type],
+								                 required: field_info[:required],
 								                 description: field_info[:description]})
 							}
 						end
@@ -38,13 +38,13 @@ module MojuraWebApp
 						http = method_names[method_name][:http] if method_names.include?(method_name)
 						title = method_names[method_name][:title] if method_names.include?(method_name)
 						description = description.gsub(/\n1./, '<ol><li>').gsub(/\n[0-9]./, '</li><li>') + '</li></ol>' if (method_name == :authenticate)
-						methods.push({name:           method_name,
-						              description:    description.gsub(/\n/, '<br />'),
-						              uri:            method_info[:uri],
-						              http:           http,
-						              title:          title,
+						methods.push({name: method_name,
+						              description: description.gsub(/\n/, '<br />'),
+						              uri: method_info[:uri],
+						              http: http,
+						              title: title,
 						              has_attributes: (attributes.count > 0),
-						              attributes:     attributes})
+						              attributes: attributes})
 					}
 					resources.push({name: resource[:name], description: resource[:description], resourceid: resource[:resourceid], methods: methods})
 				}

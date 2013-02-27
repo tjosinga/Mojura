@@ -39,13 +39,13 @@ module MojuraAPI
 			if compact
 				str, idle = self.to_s.split('[readmore]', 2)
 			else
-				str  = self.to_s
+				str = self.to_s
 				idle = nil
 			end
-			result[:raw]      = str.to_s
+			result[:raw] = str.to_s
 			result[:readmore] = (!idle.nil?)
-			result[:markup]   = @markup
-			result[:html]     = RichText.new(result[:raw]).to_html
+			result[:markup] = @markup
+			result[:html] = RichText.new(result[:raw]).to_html
 			return result
 		end
 

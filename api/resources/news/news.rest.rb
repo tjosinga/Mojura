@@ -16,10 +16,10 @@ module MojuraAPI
 
 		def all(params)
 			params[:pagesize] ||= 10
-			result            = paginate(params) { |options| NewsItems.new(self.filter(params), options) } #self.filter(params), options) }
-			                                                                                               #result[:items].each { | item |
-			                                                                                               #	item[:content] += "blaat"
-			                                                                                               #}
+			result = paginate(params) { |options| NewsItems.new(self.filter(params), options) } #self.filter(params), options) }
+			                                                                                    #result[:items].each { | item |
+			                                                                                    #	item[:content] += "blaat"
+			                                                                                    #}
 			return result
 		end
 
@@ -46,7 +46,7 @@ module MojuraAPI
 		def all_conditions
 			result = {
 				description: 'Returns a list of news items. Use pagination and filtering to make selections.',
-				attributes:  {
+				attributes: {
 					complete: {required: false, type: Boolean, description: 'If set to true, it will return the complete content of the news items. If set to false (default) it will return only the first part of the message. The read more parameter indicates whether a news item has more to read.'},
 				}
 			}
@@ -57,14 +57,14 @@ module MojuraAPI
 		def put_conditions
 			result = {
 				description: 'Creates a news item and returns the object.',
-				attributes:  {
-					category:    {required: true, type: String, description: 'The category of the news item.'},
-					title:       {required: true, type: String, description: 'The title of the news item.'},
-					imageid:     {required: false, type: BSON::ObjectId, description: 'The file id of an image.'},
-					language:    {required: false, type: String, description: 'The language of the news item.'},
-					timestamp:   {required: false, type: DateTime, description: 'The timestamp of the news item.'},
+				attributes: {
+					category: {required: true, type: String, description: 'The category of the news item.'},
+					title: {required: true, type: String, description: 'The title of the news item.'},
+					imageid: {required: false, type: BSON::ObjectId, description: 'The file id of an image.'},
+					language: {required: false, type: String, description: 'The language of the news item.'},
+					timestamp: {required: false, type: DateTime, description: 'The timestamp of the news item.'},
 					format_type: {required: false, type: String, description: 'The formatting type of the content, which could be \'ubb\' (default), \'html\' or \'plain\'.'},
-					content:     {required: true, type: RichText, description: 'The content of the item in the format.'},
+					content: {required: true, type: RichText, description: 'The content of the item in the format.'},
 				}
 			}
 			result[:attributes].merge(self.rights_conditions)
@@ -82,7 +82,7 @@ module MojuraAPI
 			result =
 				{
 					description: 'Updates a news item with the given keys.',
-					attributes:  self.put_conditions[:attributes].each { |_, v| v[:required] = false }
+					attributes: self.put_conditions[:attributes].each { |_, v| v[:required] = false }
 				}
 			return result
 		end

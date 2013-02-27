@@ -11,12 +11,12 @@ module MojuraAPI
 
 		def load_file_settings
 			return if !@settings.nil? && @settings.include?(:file)
-			@settings        ||= {}
+			@settings ||= {}
 			@settings[:file] = YAML.load_file('project_settings.yaml')
 			@settings[:file].symbolize_keys!
-			@settings[:file][:private]   ||= {}
+			@settings[:file][:private] ||= {}
 			@settings[:file][:protected] ||= {}
-			@settings[:file][:public]    ||= {}
+			@settings[:file][:public] ||= {}
 		end
 
 		def load_db_settings
@@ -25,7 +25,7 @@ module MojuraAPI
 			@settings[:db] = MongoDb.collection('settings').find.to_a[0].to_hash rescue {protected: {}, public: {}}
 			@settings[:db].symbolize_keys!
 			@settings[:db][:protected] ||= {}
-			@settings[:db][:public]    ||= {}
+			@settings[:db][:public] ||= {}
 		end
 
 		def save_db_settings
@@ -56,11 +56,11 @@ module MojuraAPI
 						result[level][category] ||= {}
 						keys.each { |key, value|
 							if include_level
-								result[level]                ||= {}
-								result[level][category]      ||= {}
+								result[level] ||= {}
+								result[level][category] ||= {}
 								result[level][category][key] = value
 							else
-								result[category]      ||= {}
+								result[category] ||= {}
 								result[category][key] = value
 							end
 						}
@@ -93,9 +93,9 @@ module MojuraAPI
 		def set(key, value, category = :core, level = :protected)
 			load_file_settings
 			load_db_settings
-			@settings[:db]                                            ||= {}
-			@settings[:db][level.to_sym]                              ||= {}
-			@settings[:db][level.to_sym][category.to_sym]             ||= {}
+			@settings[:db] ||= {}
+			@settings[:db][level.to_sym] ||= {}
+			@settings[:db][level.to_sym][category.to_sym] ||= {}
 			@settings[:db][level.to_sym][category.to_sym][key.to_sym] = value
 			save_db_settings
 		end

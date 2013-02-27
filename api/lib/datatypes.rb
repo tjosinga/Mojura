@@ -101,7 +101,7 @@ module MojuraAPI
 	# These rights can be used as bitmasks. There for these constants can be used to construct combinations.
 	# RIGHTS_READWRITE could be the combination of RIGHT_READ + RIGHT_UPDATE
 	RIGHT_CUSTOM = 8
-	RIGHT_READ   = 4
+	RIGHT_READ = 4
 	RIGHT_UPDATE = 2
 	RIGHT_DELETE = 1
 

@@ -28,7 +28,7 @@ module MojuraAPI
 		def all_conditions
 			{
 				description: 'Returns all templates for pages.',
-				attributes:  {
+				attributes: {
 					col_count: {required: false, type: Integer, description: 'Returns all templates for a specific column count. If none or 0 is given, all templates are returned'}
 				}
 			}

@@ -5,9 +5,9 @@ module MojuraWebApp
 	class ProfileView < BaseView
 
 		def initialize(options = {})
-			userid      = (options[:userid] || WebApp.page.request_params[:userid] || WebApp.current_user.id).to_s
+			userid = (options[:userid] || WebApp.page.request_params[:userid] || WebApp.current_user.id).to_s
 			api_options = {}
-			data        = WebApp.api_call("users/#{userid}", api_options)
+			data = WebApp.api_call("users/#{userid}", api_options)
 			WebApp.page.include_script_link('http://crypto-js.googlecode.com/svn/tags/3.0.2/build/rollups/md5.js') if (data[:may_update])
 			super(options, data)
 		end

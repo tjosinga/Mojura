@@ -22,20 +22,20 @@ module MojuraAPI
 #	    	full = (params.has_key?(:path)) ? params[:path] : ''
 				result = DbFolderTree.new.nodes_of_path(path)
 			else
-				depth  = (params.has_key?(:depth)) ? params[:depth].to_i : 2
+				depth = (params.has_key?(:depth)) ? params[:depth].to_i : 2
 				result = DbFolderTree.new.to_a(depth)
 			end
 			return result
 		end
 
 		def get(params)
-			id                  = (params[:ids][0] == 'root') ? nil : params[:ids][0]
-			oid                 = (!id.nil?) ? BSON::ObjectId(id) : nil
-			result              = DbFolder.new(id).to_a
+			id = (params[:ids][0] == 'root') ? nil : params[:ids][0]
+			oid = (!id.nil?) ? BSON::ObjectId(id) : nil
+			result = DbFolder.new(id).to_a
 			#TODO: Check rights
-			result[:parents]    = DbFolderTree.new.parents_of_node(id)
+			result[:parents] = DbFolderTree.new.parents_of_node(id)
 			result[:subfolders] = DbFolders.new({parentid: oid}).to_a
-			result[:files]      = DbFiles.new({folderid: oid}).to_a
+			result[:files] = DbFiles.new({folderid: oid}).to_a
 			return result
 		end
 
@@ -60,9 +60,9 @@ module MojuraAPI
 		def all_conditions
 			{
 				description: 'Returns a tree of all folders.',
-				attributes:  {
+				attributes: {
 					depth: {required: false, type: Integer, description: 'The depth of the returned tree. If not specified, the whole tree is returned'},
-					path:  {required: false, type: String, description: 'If a path (titles seperated with the \'/\' symbol) is given, a list of all folders on that path are returned. The last folder will be returned fully. Returns an 404 error if the folder does not exists. Each title should be \'urlencoded\'.'},
+					path: {required: false, type: String, description: 'If a path (titles seperated with the \'/\' symbol) is given, a list of all folders on that path are returned. The last folder will be returned fully. Returns an 404 error if the folder does not exists. Each title should be \'urlencoded\'.'},
 				}
 			}
 		end
@@ -70,9 +70,9 @@ module MojuraAPI
 		def put_conditions
 			result = {
 				description: 'Creates a folder and returns the object.',
-				attributes:  {
+				attributes: {
 					folderid: {required: false, type: BSON::ObjectId, description: 'The ID of the parent folder. If none is given, it\'s placed in the root of the tree.'},
-					title:    {required: true, type: String, description: 'The title of the folder, preferably unique.'},
+					title: {required: true, type: String, description: 'The title of the folder, preferably unique.'},
 				}
 			}
 			result[:attributes].merge(self.rights_conditions)
@@ -83,7 +83,7 @@ module MojuraAPI
 		def get_conditions
 			result = {
 				description: 'Returns the root folder or another specified folder, including all its files and subfolders.  Use \'files/folder/0\' to get the root folder.',
-				attributes:  {
+				attributes: {
 					folderid: {required: false, type: BSON::ObjectId, description: 'The ID of the folder. If 0 is given, the root folder will be used.'},
 				}
 			}
@@ -94,7 +94,7 @@ module MojuraAPI
 			result =
 				{
 					description: 'Updates a folder with the given keys.',
-					attributes:  self.put_conditions[:attributes].each { |_, v| v[:required] = false }
+					attributes: self.put_conditions[:attributes].each { |_, v| v[:required] = false }
 				}
 			return result
 		end

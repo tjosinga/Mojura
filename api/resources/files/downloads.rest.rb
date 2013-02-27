@@ -14,7 +14,7 @@ module MojuraAPI
 		end
 
 		def get(params)
-			file    = DbFile.new(params[:ids][0])
+			file = DbFile.new(params[:ids][0])
 			options = {}
 			if file.is_image?
 				options[:auto_create] = true
@@ -34,7 +34,7 @@ module MojuraAPI
 		def get_conditions
 			{
 				description: 'Returns the filedata of the specified file.',
-				attributes:  {
+				attributes: {
 					size: {required: false, type: Integer, description: 'For images: Maximum size (width or height) of the image. Needs to be specified if use auto, height, width or cropped type.'},
 					type: {required: false, type: String, description: 'For images: Type of resizing. Could be one of the following types thumb, avatar, auto, height, width or cropped. Default is auto. The thumb and avatar types use predefined sizes.'},
 				}

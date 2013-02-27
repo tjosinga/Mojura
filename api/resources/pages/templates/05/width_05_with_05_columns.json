@@ -1,27 +1,27 @@
 {
-    "view": "",
-    "col_span": 5,
-    "row_offset": 3,
-    "subviews": [
-        {
-            "col_span": 1,
-            "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer cursus enim non est accumsan congue. Pellentesque augue nisl, volutpat non tincidunt eget, convallis nec quam. Etiam pretium fermentum est vel ultricies. Nullam a ligula magna, vitae pharetra erat."
-        },
-        {
-            "col_span": 1,
-            "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer cursus enim non est accumsan congue. Pellentesque augue nisl, volutpat non tincidunt eget, convallis nec quam. Etiam pretium fermentum est vel ultricies. Nullam a ligula magna, vitae pharetra erat."
-        },
-        {
-            "col_span": 1,
-            "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer cursus enim non est accumsan congue. Pellentesque augue nisl, volutpat non tincidunt eget, convallis nec quam. Etiam pretium fermentum est vel ultricies. Nullam a ligula magna, vitae pharetra erat."
-        },
-        {
-            "col_span": 1,
-            "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer cursus enim non est accumsan congue. Pellentesque augue nisl, volutpat non tincidunt eget, convallis nec quam. Etiam pretium fermentum est vel ultricies. Nullam a ligula magna, vitae pharetra erat."
-        },
-        {
-            "col_span": 1,
-            "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer cursus enim non est accumsan congue. Pellentesque augue nisl, volutpat non tincidunt eget, convallis nec quam. Etiam pretium fermentum est vel ultricies. Nullam a ligula magna, vitae pharetra erat."
-        }
-    ]
+	"view": "",
+	"col_span": 5,
+	"row_offset": 3,
+	"subviews": [
+		{
+			"col_span": 1,
+			"content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer cursus enim non est accumsan congue. Pellentesque augue nisl, volutpat non tincidunt eget, convallis nec quam. Etiam pretium fermentum est vel ultricies. Nullam a ligula magna, vitae pharetra erat."
+		},
+		{
+			"col_span": 1,
+			"content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer cursus enim non est accumsan congue. Pellentesque augue nisl, volutpat non tincidunt eget, convallis nec quam. Etiam pretium fermentum est vel ultricies. Nullam a ligula magna, vitae pharetra erat."
+		},
+		{
+			"col_span": 1,
+			"content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer cursus enim non est accumsan congue. Pellentesque augue nisl, volutpat non tincidunt eget, convallis nec quam. Etiam pretium fermentum est vel ultricies. Nullam a ligula magna, vitae pharetra erat."
+		},
+		{
+			"col_span": 1,
+			"content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer cursus enim non est accumsan congue. Pellentesque augue nisl, volutpat non tincidunt eget, convallis nec quam. Etiam pretium fermentum est vel ultricies. Nullam a ligula magna, vitae pharetra erat."
+		},
+		{
+			"col_span": 1,
+			"content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer cursus enim non est accumsan congue. Pellentesque augue nisl, volutpat non tincidunt eget, convallis nec quam. Etiam pretium fermentum est vel ultricies. Nullam a ligula magna, vitae pharetra erat."
+		}
+	]
 }

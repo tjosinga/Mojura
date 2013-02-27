@@ -33,7 +33,7 @@ module MojuraAPI
 
 		def on_save_data(data)
 			if data.include?(:password) && !data[:password].nil?
-				data[:password]            = Crypt::Blowfish.new('5t9WXHqboKGMDRZ3').encrypt_string(data[:password]).unpack('H*')[0]
+				data[:password] = Crypt::Blowfish.new('5t9WXHqboKGMDRZ3').encrypt_string(data[:password]).unpack('H*')[0]
 				@fields[:password][:value] = data[:password]
 			end
 		end
@@ -49,7 +49,7 @@ module MojuraAPI
 			elsif (self.id.nil?) || (self.id == '')
 				result = ((object_right & orig_right) == orig_right)
 			else
-				result      = false
+				result = false
 				users_right = (orig_right << 4)
 				group_right = (orig_right << 8)
 				owner_right = (orig_right << 12)
@@ -76,28 +76,28 @@ module MojuraAPI
 
 			@fields[:cookie_tokens][:value]
 			@fields[:cookie_tokens][:value][timestamp] = new_token
-			@fields[:cookie_tokens][:changed]          = true
-			API.headers['X-test']                      = @fields[:cookie_tokens][:value].to_s
-			API.headers['X-persist-username']          = self.username
-			API.headers['X-persist-token']             = new_token
+			@fields[:cookie_tokens][:changed] = true
+			API.headers['X-test'] = @fields[:cookie_tokens][:value].to_s
+			API.headers['X-persist-username'] = self.username
+			API.headers['X-persist-token'] = new_token
 			self.save_to_db
 			return new_token
 		end
 
 		def clear_all_cookie_tokens
-			@fields[:cookie_tokens][:value]   = {}
+			@fields[:cookie_tokens][:value] = {}
 			@fields[:cookie_tokens][:changed] = true
 			self.save_to_db
 		end
 
 		def to_a(compact = false)
-			result            = super
+			result = super
 			result[:fullname] = (result[:firstname].to_s + ' ' + result[:infix].to_s).strip + ' ' + result[:lastname].to_s
 			if !self.id.nil?
 				#TODO: create avatar support. If ready implement:
 				#if (has_avatar)
 				#else
-				avatar          = 'http://www.gravatar.com/avatar/' + Digest::MD5.hexdigest(self.email.to_s) + '?d=mm'
+				avatar = 'http://www.gravatar.com/avatar/' + Digest::MD5.hexdigest(self.email.to_s) + '?d=mm'
 				#end
 				result[:avatar] = avatar
 				result[:may_update] = (API.current_user.is_admin) || (API.current_user.id == self.id) if (!compact)

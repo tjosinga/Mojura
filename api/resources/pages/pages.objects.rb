@@ -31,14 +31,14 @@ module MojuraAPI
 
 		def new_view(options = {})
 			{
-				view:           (options[:view] || ''),
-				col_span:       (options[:col_span] || 12),
-				col_offset:     (options[:col_offset] || 0),
-				row_offset:     (options[:row_offset] || 0),
-				content:        (options[:content] || ''),
+				view: (options[:view] || ''),
+				col_span: (options[:col_span] || 12),
+				col_offset: (options[:col_offset] || 0),
+				row_offset: (options[:row_offset] || 0),
+				content: (options[:content] || ''),
 				content_markup: (options[:content_markup] || 'ubb'),
-				settings:       (options[:settings] || {}),
-				subviews:       (options[:subviews] || [])
+				settings: (options[:settings] || {}),
+				subviews: (options[:subviews] || [])
 			}
 		end
 
@@ -65,10 +65,10 @@ module MojuraAPI
 
 		def add_view(parentid, params)
 			@fields[:views][:changed] = true
-			parentid                  ||= ''
-			parent                    = self.get_view(parentid)
-			view                      = (params[:template].nil?) ? self.new_view(params) : self.new_view_from_template(params[:template])
-			index                     = params[:index]
+			parentid ||= ''
+			parent = self.get_view(parentid)
+			view = (params[:template].nil?) ? self.new_view(params) : self.new_view_from_template(params[:template])
+			index = params[:index]
 			if (!index.nil?) && (index.to_i < parent[:subviews].size)
 				view[:index] = index.to_i
 				parent[:subviews].insert(index.to_i, view)
@@ -81,9 +81,9 @@ module MojuraAPI
 
 		def update_view(viewid, params)
 			@fields[:views][:changed] = true
-			viewid                    ||= ''
-			view                      = self.get_view(viewid)
-			template                  = self.new_view()
+			viewid ||= ''
+			view = self.get_view(viewid)
+			template = self.new_view()
 			params.each { |k, v| view[k] = v if (template.include?(k)) }
 
 			if params.include?(:settings)
@@ -98,10 +98,10 @@ module MojuraAPI
 
 			# Moving a view is done by deleting and re-inserting
 			if (params.include?(:parentid)) || (params.include?(:index))
-				ids       = viewid.split(',')
+				ids = viewid.split(',')
 				cur_index = ids.pop.to_i
-				cur_path  = ids.join(',')
-				parent    = self.get_view(cur_path)
+				cur_path = ids.join(',')
+				parent = self.get_view(cur_path)
 				parent[:subviews].delete_at(cur_index)
 				if params.include?(:index)
 					view[:index] = params[:index].to_i
@@ -114,10 +114,10 @@ module MojuraAPI
 
 		def delete_view(viewid)
 			@fields[:views][:changed] = true
-			ids                       = viewid.split(',')
-			index                     = ids.pop.to_i
-			path                      = ids.join(',')
-			subviews                  = (path.empty?) ? self.views : self.get_view(path)[:subviews]
+			ids = viewid.split(',')
+			index = ids.pop.to_i
+			path = ids.join(',')
+			subviews = (path.empty?) ? self.views : self.get_view(path)[:subviews]
 			subviews.delete_at(index)
 		end
 
@@ -126,7 +126,7 @@ module MojuraAPI
 			if indexes.is_a?(String)
 				return {subviews: views} if (indexes.empty?)
 				orig_indexes = indexes
-				indexes      = indexes.to_s.gsub(',,', ',').split(',')
+				indexes = indexes.to_s.gsub(',,', ',').split(',')
 			end
 			raise UnknownPageViewIdException.new(orig_indexes) if (indexes.size == 0)
 			index = indexes.shift.to_i
@@ -140,22 +140,22 @@ module MojuraAPI
 		end
 
 		def to_a
-			result         = super
+			result = super
 			result[:views] = self.views_to_a(result[:views])
 			return result
 		end
 
 		def view_to_a(view, index = 0, path = '')
 			content = view[:content]
-			markup  = view[:content_markup]
-			view    = Marshal.load(Marshal.dump(view))
+			markup = view[:content_markup]
+			view = Marshal.load(Marshal.dump(view))
 			view.delete(:content_markup)
-			viewid          = (path.to_s.empty?) ? index : "#{path},#{index}"
-			view[:viewid]   = viewid
-			view[:path]     = path
-			view[:index]    = index.to_i
+			viewid = (path.to_s.empty?) ? index : "#{path},#{index}"
+			view[:viewid] = viewid
+			view[:path] = path
+			view[:index] = index.to_i
 			view[:view_url] = API.api_url + "pages/#{self.id}/view/#{viewid}"
-			view[:content]  = RichText.new(content, markup).to_parsed_a
+			view[:content] = RichText.new(content, markup).to_parsed_a
 			view[:subviews] = self.views_to_a(view[:subviews], viewid) if (!view[:subviews].nil?)
 			return view
 		end
@@ -205,12 +205,12 @@ module MojuraAPI
 		def load_templates
 			return unless @templates.nil?
 			@templates = {}
-			path       = 'api/resources/pages/templates/'
+			path = 'api/resources/pages/templates/'
 			Dir.foreach(path) { |col_count|
 				if (col_count != '.') && (col_count != '..') && (File.directory?(path + col_count))
 					Dir.foreach("#{path}#{col_count}/") { |name|
 						if (name != '.') && (name != '..') && (File.extname(name) == '.json')
-							templateid             = File.basename(name, '.json')
+							templateid = File.basename(name, '.json')
 							@templates[templateid] = {col_count: col_count.to_i, template: JSON.parse(File.read("#{path}#{col_count}/#{name}"))}
 							@templates[templateid][:template].symbolize_keys!
 						end
@@ -226,8 +226,8 @@ module MojuraAPI
 			@templates.each { |view_id, data|
 				if (col_count_filter == 0) || (col_count_filter == data[:col_count])
 					result.push({templateid: view_id,
-					             col_count:  data[:col_count],
-					             api_url:    API.api_url + "pages/template/#{view_id}",
+					             col_count: data[:col_count],
+					             api_url: API.api_url + "pages/template/#{view_id}",
 					            })
 				end
 			}
@@ -238,8 +238,8 @@ module MojuraAPI
 			load_templates if (@templates.nil?)
 			return {
 				templateid: templateid,
-				col_count:  @templates[templateid][:col_count],
-				template:   @templates[templateid][:template],
+				col_count: @templates[templateid][:col_count],
+				template: @templates[templateid][:template],
 			}
 		end
 

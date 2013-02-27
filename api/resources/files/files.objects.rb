@@ -42,8 +42,8 @@ module MojuraAPI
 		def get_real_filename(options = {})
 			filename = "uploads/files/originals/#@id"
 			if self.is_image?
-				size        = (options[:size] || 0)
-				type        = (options[:type] || 'auto')
+				size = (options[:size] || 0)
+				type = (options[:type] || 'auto')
 				auto_create = options[:auto_create]
 				size = 1024 if (size > 1024)
 				if size > 0
@@ -57,7 +57,7 @@ module MojuraAPI
 		def save_uploaded_file(tempfile, save = true)
 			self.extension = File.extname(self.title).downcase
 			self.mime_type = Rack::Mime.mime_type(self.extension)
-			filename       = self.get_real_filename
+			filename = self.get_real_filename
 			FileUtils.mv(tempfile, filename)
 			FileUtils.chmod(0777, filename)
 			if self.is_image?
@@ -66,7 +66,7 @@ module MojuraAPI
 				self.get_real_filename(:size => 128, :auto_create => true) # force creation of thumb
 			end
 			self.mime_type = Rack::Mime.mime_type(self.extension)
-			self.filesize  = File.size(filename)
+			self.filesize = File.size(filename)
 			self.save_to_db if (save)
 		end
 
@@ -121,7 +121,7 @@ module MojuraAPI
 		end
 
 		def to_a(compact = false)
-			result            = super
+			result = super
 			result[:file_url] = API.api_url + "files/#{self.id}/download"
 			if !self.is_image?
 				result.delete(:img_width)
@@ -141,9 +141,9 @@ module MojuraAPI
 		end
 
 		def extract
-			base_folder          = DbFolder.new
-			base_folder.title    = File.basename(self.title, self.extension)
-			base_folder.rights   = self.rights
+			base_folder = DbFolder.new
+			base_folder.title = File.basename(self.title, self.extension)
+			base_folder.rights = self.rights
 			base_folder.parentid = self.folderid
 			base_folder.save_to_db
 			folders = {'.' => base_folder}
@@ -154,10 +154,10 @@ module MojuraAPI
 					if f.directory?
 						name = File.basename(f.name)
 						if !folders.has_key?(name)
-							folder          = DbFolder.new
-							folder.rights   = self.rights
+							folder = DbFolder.new
+							folder.rights = self.rights
 							folder.parentid = (folders[File.dirname(f.name)].id || base_folder.id)
-							folder.title    = name
+							folder.title = name
 							folder.save_to_db
 							folders[name] = folder
 						end
@@ -171,10 +171,10 @@ module MojuraAPI
 						begin
 							tmpfile.write(f.read)
 							tmpfile.close
-							file          = DbFile.new
+							file = DbFile.new
 							file.folderid = (folders[File.dirname(f.name)].id || base_folder.id)
-							file.rights   = self.rights
-							file.title    = File.basename(f.name)
+							file.rights = self.rights
+							file.title = File.basename(f.name)
 							file.save_to_db
 							file.save_uploaded_file(tmpfile.path, true)
 						ensure

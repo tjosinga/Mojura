@@ -12,13 +12,13 @@ module Mojura
 		def call(env)
 			req = Rack::Request.new(env)
 
-			port     = env['SERVER_PORT'].to_i
+			port = env['SERVER_PORT'].to_i
 			port_str = ((port != 80) && (port != 443)) ? ':' + port.to_s : ''
 
-			env['rack.session']             ||= {}
+			env['rack.session'] ||= {}
 			env['rack.request.cookie_hash'] ||= {}
-			env['is_api_call']              = (env['SERVER_NAME'][0..3].downcase == 'api.')
-			env['api_url']                  = env['rack.url_scheme'].to_s + "://#{env['SERVER_NAME']}#{port_str}/"
+			env['is_api_call'] = (env['SERVER_NAME'][0..3].downcase == 'api.')
+			env['api_url'] = env['rack.url_scheme'].to_s + "://#{env['SERVER_NAME']}#{port_str}/"
 
 			env['api_url'] += '__api__/' if (!env['is_api_call'])
 
@@ -28,7 +28,7 @@ module Mojura
 				env['REQUEST_URI'].gsub!(/^\/__api__/, '')
 
 				# Check for the dynamic web api key
-				wak_cookie  = req.cookies['web_api_key']
+				wak_cookie = req.cookies['web_api_key']
 				wak_session = env['rack.session']['web_api_key']
 				return [403, {}, [{error: 'Unauthorized API access'}]] if (wak_cookie.nil?) || (wak_cookie != wak_session)
 			end

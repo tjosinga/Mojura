@@ -6,7 +6,7 @@ module MojuraAPI
 
 		def initialize(invalid_validations, invalid_key, invalid_value)
 			@invalid_validations = invalid_validations.to_s
-			@invalid_value       = invalid_value
+			@invalid_value = invalid_value
 			super("The validation(s) of #{invalid_key} failed on the value '#{invalid_value}': #{invalid_validations}")
 		end
 

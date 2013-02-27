@@ -8,8 +8,8 @@ require 'chunky_png'
 view = ARGV[0] || ''
 path = "webapp/views/#{view}"
 
-border   = 0
-padding  = 5
+border = 0
+padding = 5
 iconsize = 16
 
 if (view == '') || (view == '--help')
@@ -32,7 +32,7 @@ Dir.foreach("#{path}/icons/") { |name|
 
 # create a sprite image
 png = ChunkyPNG::Image.new((2 * border) + (2 * padding) + iconsize, (((iconsize + (2 * padding)) * icons.count) + (2 * border)), ChunkyPNG::Color::TRANSPARENT)
-i   = 0
+i = 0
 icons.each { |icon_file|
 	icon = ChunkyPNG::Image.from_file("#{path}/icons/#{icon_file}")
 	png.compose!(icon, border + padding, border + padding + ((16 + (2 * padding)) * i))

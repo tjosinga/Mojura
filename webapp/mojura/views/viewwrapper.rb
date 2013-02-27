@@ -9,28 +9,28 @@ module MojuraWebApp
 		def initialize(options = {})
 			options ||= {}
 
-			@view          = (options[:view] || nil)
+			@view = (options[:view] || nil)
 			@subview_index = 0
 
 			options[:add_span] = true if !options.include?(:add_span)
-			options[:col_span]   = (options[:col_span] || options[:parent_col_span] || 12)
-			options[:col_span]   = (options[:col_span] || options[:parent_col_span] || 12)
+			options[:col_span] = (options[:col_span] || options[:parent_col_span] || 12)
+			options[:col_span] = (options[:col_span] || options[:parent_col_span] || 12)
 			options[:col_offset] ||= 0
 
-			data                 = {}
-			data[:viewid]        = (options[:viewid] || '')
-			data[:pageid]        = WebApp.page.id
-			data[:settings]      = (options[:settings] || {})
-			data[:subviews]      = (options[:subviews] || [])
+			data = {}
+			data[:viewid] = (options[:viewid] || '')
+			data[:pageid] = WebApp.page.id
+			data[:settings] = (options[:settings] || {})
+			data[:subviews] = (options[:subviews] || [])
 			data[:may_edit_view] = (options.include?(:may_edit_view) && options[:may_edit_view])
-			data[:classes]       = options[:classes] || 'view'
+			data[:classes] = options[:classes] || 'view'
 			data[:classes] += " #{data[:settings][:classes]}" if (data[:settings].include?(:classes))
 			data[:classes] += " span#{options[:col_span]}" if (options[:add_span])
 			data[:classes] += " offset#{options[:col_offset]}" if (options[:col_offset].to_i > 0)
 			data[:classes] += " row-offset#{options[:row_offset]}" if (options[:row_offset].to_i > 0)
 			data[:classes].strip!
-			options[:wrapping]     = (options[:wrapping].nil?) ? 'normal' : options[:wrapping].to_s
-			data[:no_wrapping]     = (options[:wrapping].to_s == 'nowrap')
+			options[:wrapping] = (options[:wrapping].nil?) ? 'normal' : options[:wrapping].to_s
+			data[:no_wrapping] = (options[:wrapping].to_s == 'nowrap')
 			data[:simple_wrapping] = (options[:wrapping].to_s == 'simple')
 			data[:normal_wrapping] = (options[:wrapping].to_s == 'normal')
 			data[:html] = (options[:html] || options[:content][:html] || '') rescue ''
@@ -66,9 +66,9 @@ module MojuraWebApp
 			begin
 				view_class = WebApp.get_view_class(@view)
 				raise UnknownViewException.new(@view) if (view_class.nil?)
-				options                   = @data[:settings].clone
+				options = @data[:settings].clone
 				options[:parent_col_span] = @options[:col_span]
-				result                    = view_class.new(options).render
+				result = view_class.new(options).render
 			rescue UnknownViewException => e
 				result = e.message
 			rescue Exception => e
@@ -80,10 +80,10 @@ module MojuraWebApp
 		end
 
 		def render_subview
-			options                   = (data[:subviews][@subview_index] || {})
+			options = (data[:subviews][@subview_index] || {})
 			options[:parent_col_span] = @options[:col_span]
-			result                    = WebApp.render_view(options)
-			@subview_index            += 1
+			result = WebApp.render_view(options)
+			@subview_index += 1
 			return result
 		end
 

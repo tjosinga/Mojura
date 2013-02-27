@@ -10,13 +10,13 @@ module MojuraAPI
 	class DbObjectTester < Test::Unit::TestCase
 
 		def get_user
-			@values = {username:  'tjosinga',
-			           password:  'test1password',
+			@values = {username: 'tjosinga',
+			           password: 'test1password',
 			           firstname: 'Taco Jan',
-			           infix:     '',
-			           lastname:  'Osinga',
-			           email:     'taco@osisoft.nl'}
-			user    = User.new
+			           infix: '',
+			           lastname: 'Osinga',
+			           email: 'taco@osisoft.nl'}
+			user = User.new
 			user.load_from_hash(@values)
 			return user
 		end
