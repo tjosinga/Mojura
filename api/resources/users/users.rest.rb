@@ -20,7 +20,7 @@ module MojuraAPI
 		def all_conditions
 			{
 				description: 'Returns a list of users. Use pagination and filtering to make selections.',
-				attributes:  page_conditions.merge(filter_conditions)
+				attributes: page_conditions.merge(filter_conditions)
 			}
 		end
 
@@ -32,14 +32,14 @@ module MojuraAPI
 		def put_conditions
 			{
 				description: 'Creates a user and returns the object.',
-				attributes:  {
-					username:  {required: true, type: String, description: 'The username for the user. Must be unique.'},
-					password:  {required: false, type: String, description: 'A password for the user, encoded as a digest (MD5([username]:[realm]:[password])).'},
+				attributes: {
+					username: {required: true, type: String, description: 'The username for the user. Must be unique.'},
+					password: {required: false, type: String, description: 'A password for the user, encoded as a digest (MD5([username]:[realm]:[password])).'},
 					firstname: {required: true, type: String, description: 'The first name of the user.'},
-					infix:     {required: false, type: String, description: 'The infix of the user.'},
-					lastname:  {required: true, type: String, description: 'The last name of the user.'},
-					email:     {required: true, type: String, description: 'The email address of the user.'},
-					is_admin:  {required: false, type: Boolean, description: 'A boolean wether the user is an admin and has all rights.'}
+					infix: {required: false, type: String, description: 'The infix of the user.'},
+					lastname: {required: true, type: String, description: 'The last name of the user.'},
+					email: {required: true, type: String, description: 'The email address of the user.'},
+					is_admin: {required: false, type: Boolean, description: 'A boolean wether the user is an admin and has all rights.'}
 				}
 			}
 		end
@@ -58,7 +58,7 @@ module MojuraAPI
 
 		def post(params)
 			user = User.new(params[:ids][0])
-			                          #TODO: check rights
+			#TODO: check rights
 			params.delete(:username); # usernames may not be updated
 			params.delete(:password); # password may not be updated directly, only via new_password
 			if params.include?(:new_password)
@@ -76,7 +76,7 @@ module MojuraAPI
 			result =
 				{
 					description: 'Updates an user with the given keys. A username may not be updated.',
-					attributes:  self.put_conditions[:attributes].each { |_, v| v[:required] = false }
+					attributes: self.put_conditions[:attributes].each { |_, v| v[:required] = false }
 				}
 			result[:attributes].delete(:password)
 			result[:attributes][:old_password] = {required: false, type: String, description: 'The digest of the old password. Is required if the authenticated user is not an administrator.'}

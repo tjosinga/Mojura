@@ -27,7 +27,7 @@ module MojuraAPI
 		def all_conditions
 			{
 				description: 'Returns a list of tags of a specific resource.',
-				uri:         @module + '/' + @items_path,
+				uri: @module + '/' + @items_path,
 			}
 		end
 
@@ -41,8 +41,8 @@ module MojuraAPI
 		def put_conditions
 			{
 				description: 'Adds tags to the specified resource.',
-				uri:         @module + '/' + @items_path,
-				attributes:  {
+				uri: @module + '/' + @items_path,
+				attributes: {
 					tags: {required: true, type: String, description: 'A tag or multiple tags separated by a comma. Already existing tags will be ignored.'}
 				}
 			}
@@ -58,8 +58,8 @@ module MojuraAPI
 		def delete_conditions
 			{
 				description: 'Deletes tags from the specified resource.',
-				uri:         @module + '/' + @items_path,
-				attributes:  {
+				uri: @module + '/' + @items_path,
+				attributes: {
 					tags: {required: true, type: String, description: 'A tag or multiple tags separated by a comma. Unknown tags will be ignored.'}
 				}
 			}

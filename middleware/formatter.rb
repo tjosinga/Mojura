@@ -20,7 +20,7 @@ module Mojura
 			if !headers.include?('Content-Type') || headers['Content-Type'] != ''
 				return_type = headers['return_type'] if headers.include?('return_type')
 				body = body[0]
-				req  = Rack::Request.new(env)
+				req = Rack::Request.new(env)
 				return_type = 'jsonp' if ((!req.params['callback'].nil?) && (req.params['callback'] != ''))
 
 				return_type = ((env['is_api_call']) ? 'json' : 'html') if (return_type == '')
@@ -62,11 +62,11 @@ module Mojura
 
 		def to_xml(body)
 			options = {
-				NoAttr:         true,
+				NoAttr: true,
 				XmlDeclaration: true,
-				GroupTags:      {children: 'child', siblings: 'sibling', items: 'item'},
-				anonymousTag:   'item',
-				rootname:       'mojura'
+				GroupTags: {children: 'child', siblings: 'sibling', items: 'item'},
+				anonymousTag: 'item',
+				rootname: 'mojura'
 			}
 			return XmlSimple.xml_out(body.remove_nil_values!, options)
 		end
@@ -76,8 +76,8 @@ module Mojura
 			return '' if !body[0].is_a? Hash
 
 			headers = body[0].keys
-			options = {headers:       headers,
-			           col_sep:       ',',
+			options = {headers: headers,
+			           col_sep: ',',
 			           write_headers: true}
 
 			return CSV.generate(options) do |csv|

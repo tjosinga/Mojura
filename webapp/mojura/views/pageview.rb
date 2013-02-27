@@ -8,17 +8,17 @@ module MojuraWebApp
 		attr_reader :request_uri, :request_params, :metatags, :links, :scripts, :script_links, :styles, :templates, :locale, :pageid
 
 		def initialize(uri = '', params = {})
-			@request_uri    = uri
+			@request_uri = uri
 			@request_params = params
-			@metatags       = []
-			@links          = []
-			@scripts        = []
-			@script_links   = []
-			@styles         = []
-			@templates      = []
-			@data           = {}
-			@body_html      = ''
-			@locale         = WebApp.get_setting('locale', 'nl')
+			@metatags = []
+			@links = []
+			@scripts = []
+			@script_links = []
+			@styles = []
+			@templates = []
+			@data = {}
+			@body_html = ''
+			@locale = WebApp.get_setting('locale', 'nl')
 			super({})
 
 			if (WebApp.get_setting(:use_external_js_libs))
@@ -45,16 +45,16 @@ module MojuraWebApp
 				@data = WebApp.api_call("pages/#@pageid")
 			elsif @request_uri != ''
 				begin
-					pages   = WebApp.api_call('pages', {path: CGI.escape(@request_uri)})
+					pages = WebApp.api_call('pages', {path: CGI.escape(@request_uri)})
 					@pageid = pages.last[:id]
-					@data   = WebApp.api_call("pages/#@pageid")
+					@data = WebApp.api_call("pages/#@pageid")
 				rescue HTTPException => e
 					if File.exists?("webapp/views/#@request_uri/view_main.rb")
 						@data[:title] = WebApp.app_str(@request_uri, :view_title)
-						@data[:view]  = @request_uri
+						@data[:view] = @request_uri
 					else
 						@data[:title] = "'#{e.class}' for view #@request_uri" #titel from strings.locale.json
-						@data[:view]  = nil
+						@data[:view] = nil
 						@data[:error] = e.to_s
 					end
 				end
@@ -65,7 +65,7 @@ module MojuraWebApp
 						@pages = WebApp.api_call('pages')
 						@pageid = @pages.first[:id] if !@pages.nil?
 					rescue APIException => _
-						@pages  = {}
+						@pages = {}
 						@pageid = nil
 					end
 				end
@@ -97,7 +97,7 @@ module MojuraWebApp
 			in_dict = false
 			@scripts.each { |v|
 				if v[:name] == name
-					in_dict     = true
+					in_dict = true
 					v[:content] = content
 				end
 			}

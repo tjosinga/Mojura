@@ -7,7 +7,7 @@ module MojuraAPI
 
 		def connect(database = '')
 			@connection = Mongo::Connection.new()
-			@database   = @connection.db(database.to_s)
+			@database = @connection.db(database.to_s)
 			@collection = {}
 		end
 

@@ -8,7 +8,7 @@ module Mojura
 
 		def call(env)
 			env['rack.request.cookie_hash'] ||= {}
-			status, headers, body           = @app.call(env)
+			status, headers, body = @app.call(env)
 			if headers.include?('X-persist-token')
 				Rack::Utils.set_cookie_header!(headers, 'username', {value: headers['X-persist-username'], path: '/', expires: Time.now + (30 * 24*60*60)})
 				Rack::Utils.set_cookie_header!(headers, 'token', {value: headers['X-persist-token'], path: '/', expires: Time.now + (30 * 24*60*60)})

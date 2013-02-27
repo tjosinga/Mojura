@@ -10,10 +10,10 @@ module MojuraWebApp
 		# Convert module to singleton
 		extend self
 
-		@settings     = {}
+		@settings = {}
 		@new_settings = {}
 		@view_classes = {}
-		@strings      = {}
+		@strings = {}
 
 		def render(uri = '', params = {})
 			params.symbolize_keys!
@@ -29,11 +29,11 @@ module MojuraWebApp
 		# ------------------------------------------------ Thread Shortcuts --------------------------------------------------
 
 		def init_thread(env = [])
-			port                                     = env['SERVER_PORT'].to_i
-			port_str                                 = ((port != 80) && (port != 443)) ? ':' + port.to_s : ''
-			Thread.current[:mojura]                  ||= {}
+			port = env['SERVER_PORT'].to_i
+			port_str = ((port != 80) && (port != 443)) ? ':' + port.to_s : ''
+			Thread.current[:mojura] ||= {}
 			Thread.current[:mojura][:webapp_headers] = {}
-			Thread.current[:mojura][:web_url]        = env['rack.url_scheme'].to_s + '://' + env['SERVER_NAME'] + port_str + '/'
+			Thread.current[:mojura][:web_url] = env['rack.url_scheme'].to_s + '://' + env['SERVER_NAME'] + port_str + '/'
 		end
 
 		def page
@@ -78,11 +78,11 @@ module MojuraWebApp
 
 		def register_view(view_id, view_class, options = {})
 			options[:in_pages] = true if (options[:in_pages].nil?)
-			@view_classes[view_id] = {view_id:      view_id,
-			                          class:        view_class,
-			                          in_pages:     options[:in_pages],
+			@view_classes[view_id] = {view_id: view_id,
+			                          class: view_class,
+			                          in_pages: options[:in_pages],
 			                          min_col_span: options[:min_col_span] || 1,
-			                          title:        options[:title] || WebApp.app_str(view_id, 'view_title')}
+			                          title: options[:title] || WebApp.app_str(view_id, 'view_title')}
 		end
 
 		def get_view_class(view_id)
@@ -143,17 +143,17 @@ module MojuraWebApp
 		# ----------------------------------------------------- Strings ------------------------------------------------------
 
 		def load_app_strings(view, locale = nil)
-			view   = view.to_sym
+			view = view.to_sym
 			locale ||= self.page.locale
 			begin
-				strings_file               = case view
-					                             when :system then
-						                             "webapp/mojura/views/strings.#{locale}.json"
-					                             when :view_template_names then
-						                             "webapp/mojura/views/strings_view_template_names.#{locale}.json"
-					                             else
-						                             "webapp/views/#{view}/strings.#{locale}.json"
-				                             end
+				strings_file = case view
+					               when :system then
+						               "webapp/mojura/views/strings.#{locale}.json"
+					               when :view_template_names then
+						               "webapp/mojura/views/strings_view_template_names.#{locale}.json"
+					               else
+						               "webapp/views/#{view}/strings.#{locale}.json"
+				               end
 				@strings[self.page.locale] ||= {}
 				@strings[self.page.locale][view] = JSON.parse(File.read(strings_file)) if (File.exists?(strings_file))
 			rescue Exception => e
@@ -162,8 +162,8 @@ module MojuraWebApp
 		end
 
 		def app_str(view, id, options = {})
-			locale           = options[:locale] || self.page.locale
-			view             = view.to_sym
+			locale = options[:locale] || self.page.locale
+			view = view.to_sym
 			@strings[locale] ||= {}
 			self.load_app_strings(view) if (!@strings[locale].include?(view))
 			@strings[locale][view] ||= {}

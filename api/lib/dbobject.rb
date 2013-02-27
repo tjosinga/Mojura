@@ -16,23 +16,23 @@ module MojuraAPI
 	# :category: DbObject
 	class DbObject
 
-		@object_module     = nil
+		@object_module = nil
 		@object_collection = nil
-		@loaded            = false
-		@options           = nil
+		@loaded = false
+		@options = nil
 
 		attr_reader :id, :loaded, :fields, :module
 
 		# Initializes the API. It calls the get_fields of its
 		def initialize(db_col_name, id = nil, options = {})
 			raise Exception.new 'DbObject may only be inherited' if (self.instance_of?(DbObject))
-			@loaded            = false
-			@options           = options || {}
-			@id                = id
+			@loaded = false
+			@options = options || {}
+			@id = id
 			@object_collection = MongoDb.collection(db_col_name)
-			@object_module     = (@options.has_key?(:module_name)) ? @options[:module_name] : db_col_name
+			@object_module = (@options.has_key?(:module_name)) ? @options[:module_name] : db_col_name
 			@options[:api_url] ||= API.api_url + @object_module
-			@fields            = get_fields(:load_fields)
+			@fields = get_fields(:load_fields)
 
 			# include all fields of added mixins, if it has a method named load_xxxx_fields
 			self.class.included_modules.each { |mod|
@@ -57,14 +57,14 @@ module MojuraAPI
 			return nil if (proc_name.nil?)
 			result = {}
 			send(proc_name) { |name, type, options|
-				options      ||= {}
+				options ||= {}
 				result[name] = {
-					type:          type,
-					required:      (options[:required]),
-					validations:   options[:validations],
-					hidden:        (options[:hidden]),
-					default:       options[:default],
-					group:         options[:group],
+					type: type,
+					required: (options[:required]),
+					validations: options[:validations],
+					hidden: (options[:hidden]),
+					default: options[:default],
+					group: options[:group],
 					extended_only: (options[:extended_only]),
 				}
 				if type == RichText
@@ -94,7 +94,7 @@ module MojuraAPI
 		# getter and setter for object fields. Database which
 		def method_missing(name, *arguments)
 			value = arguments[0]
-			name  = name.to_s
+			name = name.to_s
 			if name[-1, 1] == '='
 				key = name[0..-2]
 				self.set_field_value(key, value)
@@ -112,7 +112,7 @@ module MojuraAPI
 		# Extracts all values of the database object fields and returns them in a hash
 		# :category: Conversion methods
 		def to_a(compact = false)
-			result      = {}
+			result = {}
 			result[:id] = self.id
 			@fields.each { |field, options|
 				if !options[:hidden] && (!options[:extended_only] || !compact)
@@ -153,14 +153,14 @@ module MojuraAPI
 		# Validates the value for a specific field
 		# :category: Validation methods
 		def validate_field_value(key, value)
-			result      = {}
-			options     = @fields[key.to_sym]
+			result = {}
+			options = @fields[key.to_sym]
 			validations = (options[:validations] || {})
 			validations[:is_required] = true if options[:required]
 			validations.each { |validation, params|
 				method_object = Validator.method((validation.to_s + '?').to_sym)
-				cnt           = method_object.parameters.count
-				is_valid      = true
+				cnt = method_object.parameters.count
+				is_valid = true
 				if cnt == 1
 					is_valid = method_object.call(value)
 				elsif cnt == 2
@@ -211,7 +211,7 @@ module MojuraAPI
 		# :category: Database methods
 		def save_to_db
 			is_new = self.id.nil?
-			data   = {}
+			data = {}
 			@fields.each { |key, options|
 				data[key] = options[:value] if (is_new || options[:changed])
 			}

@@ -15,7 +15,7 @@ module MojuraWebApp
 				@content = ''
 				WebApp.page.data[:views].each { |view_array|
 					view_array[:classes] = 'page-content-row'
-					@content             += WebApp.render_view(view_array)
+					@content += WebApp.render_view(view_array)
 				}
 			end
 		end
@@ -28,10 +28,10 @@ module MojuraWebApp
 		end
 
 		def menu
-			WebApp.render_view(:view     => 'sitemap', :wrapping => 'simple', :add_span => false,
+			WebApp.render_view(:view => 'sitemap', :wrapping => 'simple', :add_span => false,
 			                   :settings => {
-				                   menu_only:  true,
-				                   depth:      WebApp.get_setting(:menu_depth, 1),
+				                   menu_only: true,
+				                   depth: WebApp.get_setting(:menu_depth, 1),
 				                   show_admin: false})
 		end
 

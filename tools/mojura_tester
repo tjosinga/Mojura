@@ -7,13 +7,13 @@ require 'rack'
 require 'api/lib/api'
 require 'webapp/mojura/lib/webapp'
 
-type    = ARGV[0] || 'web'
+type = ARGV[0] || 'web'
 command = ARGV[1] || ''
 
 command, params = command.split('?', 2)
-command         ||= ''
-params          ||= ''
-params          = Rack::Utils.parse_query(params)
+command ||= ''
+params ||= ''
+params = Rack::Utils.parse_query(params)
 params.symbolize_keys!
 
 env = {'rack.session' => {}, 'rack.request.cookie_hash' => {}}

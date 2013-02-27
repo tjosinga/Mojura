@@ -42,7 +42,7 @@ module MojuraAPI
 		def all_conditions
 			{
 				description: 'Returns a list of groups. Use pagination and filtering to make selections.',
-				attributes:  page_conditions.merge(filter_conditions)
+				attributes: page_conditions.merge(filter_conditions)
 			}
 		end
 
@@ -56,9 +56,9 @@ module MojuraAPI
 			result =
 				{
 					description: 'Creates a group and returns the object.',
-					uri:         @module + '/' + @items_path,
-					attributes:  {
-						name:        {required: true, type: String, description: 'The name of the group.'},
+					uri: @module + '/' + @items_path,
+					attributes: {
+						name: {required: true, type: String, description: 'The name of the group.'},
 						description: {required: false, type: String, description: 'A description of the group. The text may be contain UBB codes for markup.'},
 					}
 				}
@@ -70,7 +70,7 @@ module MojuraAPI
 			result =
 				{
 					description: 'Updates a group with the given keys.',
-					attributes:  self.put_conditions[:attributes].each { |_, v| v[:required] = false }
+					attributes: self.put_conditions[:attributes].each { |_, v| v[:required] = false }
 				}
 			return result
 		end
@@ -78,7 +78,7 @@ module MojuraAPI
 		def delete_conditions
 			{
 				description: 'Deletes the group and all its members and rights',
-				uri:         @module + '/' + @item_path,
+				uri: @module + '/' + @item_path,
 			}
 		end
 

@@ -24,10 +24,10 @@ module MojuraAPI
 		extend self
 
 		# Module instances used for internal use. Some variables are accesible via identical named methods
-		@settings  = {}
-		@modules   = nil
+		@settings = {}
+		@modules = nil
 		@resources = {}
-		@loaded    = false
+		@loaded = false
 
 		# Loads all settings, resources and makes the connection with the database
 		def load
@@ -43,24 +43,19 @@ module MojuraAPI
 		def init_thread(env = {})
 			self.load
 			Thread.current[:mojura] = {} if Thread.current[:mojura].nil?
-			Thread.current[:mojura][:env]         = env || {}
+			Thread.current[:mojura][:env] = env || {}
 			Thread.current[:mojura][:api_headers] = {}
-			Thread.current[:mojura][:api_url]     = (env['api_url'] || 'http://localhost/')
-
-			STDOUT << "Session #{env['rack.session'].to_hash} \n"
-			STDOUT << "Cookies #{env['rack.request.cookie_hash'].to_hash} \n"
+			Thread.current[:mojura][:api_url] = (env['api_url'] || 'http://localhost/')
 
 			uid = env['rack.session'].include?(:uid) ? env['rack.session'][:uid] : nil
-			STDOUT << "UID: #{uid}\n"
 
 			Thread.current[:mojura][:current_user] = nil # make sure the current is nil
 			if (uid.nil?) &&
-					(env['rack.request.cookie_hash'].include?('username')) &&
-					(env['rack.request.cookie_hash'].include?('token'))
-				token    = env['rack.request.cookie_hash']['token']
+				(env['rack.request.cookie_hash'].include?('username')) &&
+				(env['rack.request.cookie_hash'].include?('token'))
+				token = env['rack.request.cookie_hash']['token']
 				username = env['rack.request.cookie_hash']['username']
-				STDOUT << "Finding user\n"
-				users    = Users.new({username: username})
+				users = Users.new({username: username})
 				if (users.count == 1) && (users.first.valid_cookie_token?(token))
 					user = users.first
 					user.generate_new_cookie_token(token)
@@ -68,7 +63,6 @@ module MojuraAPI
 				end
 			end
 			Thread.current[:mojura][:current_user] = User.new(uid)
-			STDOUT << "Welcome #{Thread.current[:mojura][:current_user].to_hash}\n"
 		end
 
 		# Returns the current user.
@@ -98,13 +92,13 @@ module MojuraAPI
 
 		# Prepares the response headers for returning a file instead of text.
 		def send_file(file_path, options = {})
-			filename            = options[:filename] || File.basename(file_path)
+			filename = options[:filename] || File.basename(file_path)
 			options[:mime_type] ||= 'application/octet-stream'
-			style               = options[:style]
+			style = options[:style]
 			style ||= 'inline' if (options[:mime_type][0..5] == 'image/')
-			style                               ||= 'attachement'
-			self.headers['X-Accel-Redirect']    = '/' + file_path
-			self.headers['Content-Type']        = options[:mime_type]
+			style ||= 'attachement'
+			self.headers['X-Accel-Redirect'] = '/' + file_path
+			self.headers['Content-Type'] = options[:mime_type]
 			self.headers['Content-Disposition'] = "#{style}; filename='#{filename}'"
 			return {to_path: file_path, options: options}
 		end
@@ -136,8 +130,8 @@ module MojuraAPI
 
 		# Registers a resource, specifid with the specified module and item(s)_paths
 		def register_resource(object)
-			items_path             = "#{object.module.to_s}/#{object.items_path}".gsub(/(\/*)$/, '')
-			item_path              = "#{object.module.to_s}/#{object.item_path}".gsub(/(\/*)$/, '')
+			items_path = "#{object.module.to_s}/#{object.items_path}".gsub(/(\/*)$/, '')
+			item_path = "#{object.module.to_s}/#{object.item_path}".gsub(/(\/*)$/, '')
 			@resources[items_path] = {type: :items, object: object}
 			@resources[item_path] = {type: :item, object: object} if (items_path != item_path)
 		end
@@ -152,7 +146,7 @@ module MojuraAPI
 				result = Thread.current[:mojura]
 			elsif request_path == ''
 				result = []
-				mods   = modules
+				mods = modules
 				mods.each { |mod|
 					result << {module: mod, url: self.api_url + mod}
 				}
@@ -172,8 +166,8 @@ module MojuraAPI
 
 		# Executes the specified method on a specific resource
 		def call_resource(request_path, params = {}, method = 'get')
-			result      = []
-			resource    = nil
+			result = []
+			resource = nil
 			return_help = request_path.match(/\/help$/)
 			request_path = request_path[0..-6] if return_help
 
@@ -182,10 +176,10 @@ module MojuraAPI
 					'(' + obj[:object].uri_id_to_regexp(match[1..-2]) + ')'
 				}
 				request_path.match(/^#{p}$/) { |m|
-					resource              = obj
-					data                  = m.to_a
+					resource = obj
+					data = m.to_a
 					params[:query_string] = data.shift
-					params[:ids]          = data
+					params[:ids] = data
 				}
 			}
 
@@ -246,10 +240,10 @@ module MojuraAPI
 		def authenticate(params)
 			STDOUT << "Starting authentication\n"
 			API.salt(params) # forces a generated salt
-			users   = Users.new({username: params[:username]})
+			users = Users.new({username: params[:username]})
 			session = Thread.current[:mojura][:env]['rack.session']
 			raise InvalidAuthentication.new if (users.count != 1)
-			user       = users.first
+			user = users.first
 			iterations = 500 + (user.username + Settings.get(:realm)).length
 			STDOUT << "Given digest: c161a3d0f97dfde3189d776d4fcda963\nStored digest: #{user.digest}\n"
 			crypted = PBKDF2.new(:password => user.digest, :salt => API.session[:salt], :iterations => iterations, :key_length => 64, :hash_function => 'SHA1').hex_string
@@ -277,24 +271,24 @@ module MojuraAPI
 		# API information of the core.
 		def core_conditions
 			{
-				name:        'Core',
-				resourceid:  'core',
+				name: 'Core',
+				resourceid: 'core',
 				description: 'The Mojura API is mainly <a href=\'http://en.wikipedia.org/wiki/Representational_state_transfer\'>REST</a>-based. The following functions, however, are not RESTful. They are needed for authentication.',
-				methods:     {
+				methods: {
 					authenticate: {
-						uri:         API.api_url + 'authenticate',
+						uri: API.api_url + 'authenticate',
 						description: 'Authenticates a user. To encrypt the password, the client-side needs the following steps:<ol><li>Request a salt (see Salt). It will also return a realm.</li><li>Make a digest using MD5([username]:[realm]:[password]).</li><li>Encrypted the digest with PBKDF2 using the given salt and a number of iterations. This number is the calculation of 500 + the length of the username + the length of the realm. PBKDF2 should be using SHA256 as hasher.</li></ol>',
-						attributes:  {
+						attributes: {
 							username: {required: true, type: String, description: 'The username'},
 							password: {required: true, type: String, description: 'The encrypted digest'},
 						}
 					},
-					salt:         {
-						uri:         API.api_url + 'salt',
+					salt: {
+						uri: API.api_url + 'salt',
 						description: 'Returns the salt and the realm, which are needed on the client-side to. Also check the authenticate function.',
 					},
-					signoff:      {
-						uri:         API.api_url + 'signoff',
+					signoff: {
+						uri: API.api_url + 'signoff',
 						description: 'Signs off the current authenticated user. After a signoff, a fresh salt should be generated.',
 					}
 				}

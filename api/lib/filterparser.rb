@@ -11,25 +11,25 @@ module MojuraAPI
 		extend self
 
 		@total_string = ''
-		@scanner      = ''
-		@currentkey   = ''
+		@scanner = ''
+		@currentkey = ''
 		@processedkey = false
-		@expected     = {}
+		@expected = {}
 
 		def parse(str, expected = {})\
       # STDOUT << "function: parse \"#{str}\"\n"
 			return nil if (str == '' || str == nil)
 			@total_string = str
-			@expected     = expected
-			@scanner      = StringScanner.new(@total_string)
+			@expected = expected
+			@scanner = StringScanner.new(@total_string)
 			return self.get_exp_list
 		end
 
 		def get_exp_list
 			# STDOUT << "function: get_exp_list\n"
 			and_or_mode = ''
-			result      = []
-			i           = 0
+			result = []
+			i = 0
 			until @scanner.eos?
 				if @scanner.scan(/\(/).nil?
 					result << self.get_exp_list
@@ -67,7 +67,7 @@ module MojuraAPI
 
 		def get_exp
 			# STDOUT << "function: get_exp\n"
-			@currentkey   = @scanner.scan(/\w+/)
+			@currentkey = @scanner.scan(/\w+/)
 			@processedkey = false
 			# STDOUT << "Found key: #{@currentkey}\n"
 			@scanner.scan(/:/)
@@ -115,8 +115,8 @@ module MojuraAPI
 		def get_value_list(allow_and_or_operator = true)
 			# STDOUT << "function: get_value_list\n"
 			and_or_mode = ''
-			values      = []
-			i           = 0
+			values = []
+			i = 0
 			while @scanner.scan(/\)/).nil?
 				values << self.get_value
 				if and_or_mode == ''
@@ -129,7 +129,7 @@ module MojuraAPI
 				i = i.next
 			end
 			if (allow_and_or_operator) && (and_or_mode != '')
-				result        = []
+				result = []
 				@processedkey = true
 				values.each { |v| result.push({@currentkey => v}) }
 				if and_or_mode == '|'
@@ -152,7 +152,7 @@ module MojuraAPI
 
 		def get_operator
 			# STDOUT << "function: get_operator\n"
-			accepts  = %w(lt lte gt gte all ne in nin nor size type)
+			accepts = %w(lt lte gt gte all ne in nin nor size type)
 			operator = @scanner.scan(/\w+/)
 			unless accepts.include? operator
 				raise InvalidFilterException.new(@scanner.pointer(), "Invalid operator #{operator}")

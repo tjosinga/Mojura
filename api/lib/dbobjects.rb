@@ -10,23 +10,23 @@ module MojuraAPI
 		include Enumerable
 
 		@collection = nil
-		@objects    = nil
+		@objects = nil
 		@item_class = nil
 
 		attr_reader :db_col_name, :page, :pagesize, :count, :sort, :options
 
 		def initialize(db_col_name, item_class, where = {}, options = {})
-			@collection  = MongoDb.collection(db_col_name)
-			@objects     = []
+			@collection = MongoDb.collection(db_col_name)
+			@objects = []
 			@db_col_name = db_col_name
-			@item_class  = item_class
-			@options     = options
-			@options     ||= {}
-			@page        = (@options[:page] || 1)
+			@item_class = item_class
+			@options = options
+			@options ||= {}
+			@page = (@options[:page] || 1)
 			@page = 1 if @page < 1
 			@pagesize = (@options[:pagesize] || 50)
 			@pagesize = 100 if @pagesize < 1
-			@sort  = (@options[:sort] || {})
+			@sort = (@options[:sort] || {})
 			@count = -1
 			self.load_from_db(where)
 		end
@@ -49,7 +49,7 @@ module MojuraAPI
 				}
 				cursor.sort(srt)
 			end
-			sk   = (@page - 1) * @pagesize
+			sk = (@page - 1) * @pagesize
 			data = cursor.skip(sk).limit(@pagesize).to_a
 			data.each { |v|
 				object = @item_class.new

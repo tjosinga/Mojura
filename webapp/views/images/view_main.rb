@@ -5,11 +5,11 @@ module MojuraWebApp
 	class ImagesView < BaseView
 
 		def render
-			size               = @options[:parent_col_span] || 1
-			width              = (60 * size) + (20 * (size - 1))
-			ubb                = ''
+			size = @options[:parent_col_span] || 1
+			width = (60 * size) + (20 * (size - 1))
+			ubb = ''
 			@options[:fileids] ||= ''
-			images             = @options[:fileids].split(',')
+			images = @options[:fileids].split(',')
 			if images.count > 1
 				ubb = '[slideshow]'
 				images.each { |id| ubb += "_api__/files/#{id}/download?size=#{width}&type=width\n" }

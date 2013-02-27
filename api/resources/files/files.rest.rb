@@ -69,7 +69,7 @@ module MojuraAPI
 		def all_conditions
 			result = {
 				description: 'Returns files all files regardless of the existing folders. For listing based on a folder structure, please use the \'files/folders\' section',
-				attributes:  page_conditions.merge(filter_conditions)
+				attributes: page_conditions.merge(filter_conditions)
 			}
 			return result
 		end
@@ -77,11 +77,11 @@ module MojuraAPI
 		def put_conditions
 			result = {
 				description: 'Creates a file and returns the object.',
-				attributes:  {
+				attributes: {
 					folderid: {required: false, type: BSON::ObjectId, description: 'The ID of the parent folder. If none is given, it\'s placed in the root of the tree.'},
-					title:    {required: false, type: String, description: 'The title of the file, preferably unique. If none give, it will use the name of the uploaded file.'},
-					file:     {required: true, type: File, description: 'The file itself.'},
-					action:   {required: false, type: String, description: 'An action which is performed on the file. Possible values are: <ul><li><b>extract</b>: Extracts a zipfile.</li><li><b>extract_delete</b>: Extracts a zipfile and deletes it afterwards. NB: In this case the result is the new created folder.</li></ul>'},
+					title: {required: false, type: String, description: 'The title of the file, preferably unique. If none give, it will use the name of the uploaded file.'},
+					file: {required: true, type: File, description: 'The file itself.'},
+					action: {required: false, type: String, description: 'An action which is performed on the file. Possible values are: <ul><li><b>extract</b>: Extracts a zipfile.</li><li><b>extract_delete</b>: Extracts a zipfile and deletes it afterwards. NB: In this case the result is the new created folder.</li></ul>'},
 				}
 			}
 			result[:attributes].merge(self.rights_conditions)
@@ -99,7 +99,7 @@ module MojuraAPI
 			result =
 				{
 					description: 'Updates a file with the given keys.',
-					attributes:  self.put_conditions[:attributes].each { |_, v| v[:required] = false }
+					attributes: self.put_conditions[:attributes].each { |_, v| v[:required] = false }
 				}
 			return result
 		end

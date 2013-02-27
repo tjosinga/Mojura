@@ -15,7 +15,7 @@ module MojuraWebApp
 				WebApp.page.include_script_link('ext/sceditor/jquery.sceditor.min.js')
 				WebApp.page.include_style_link('ext/sceditor/themes/default.min.css')
 			end
-			source_file        = self.method(methods[0]).source_location[0]
+			source_file = self.method(methods[0]).source_location[0]
 			self.template_path = source_file.gsub(/\w*.rb$/, '')
 			self.template_file = source_file.gsub(/\.rb$/, '.mustache')
 			self.on_init if (self.respond_to?(:on_init))
@@ -24,10 +24,10 @@ module MojuraWebApp
 		# noinspection RubyUnusedLocalVariable
 		def method_missing(name, *arguments)
 			result = nil
-			name   = name.to_s
+			name = name.to_s
 			if name.match(/^app_str_/)
 				view, id = name.match(/^app_str_([0-9a-zA-Z]*)_(\w*)$/).captures
-				result   = WebApp.app_str(view, id)
+				result = WebApp.app_str(view, id)
 			elsif @data.has_key?(name.to_s)
 				result = @data[name.to_s]
 			elsif @data.has_key?(name.to_sym)
