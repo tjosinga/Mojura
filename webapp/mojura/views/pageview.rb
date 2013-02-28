@@ -145,7 +145,7 @@ module MojuraWebApp
 		end
 
 		def render
-			#preloading so all views can still affect the page object (i.e. to include css, js, etc.)
+			# preloading so all views can still affect the page object (i.e. to include css, js, etc.)
 			require 'webapp/views/body/view_main'
 			@body_html = WebApp.render_view(:view => 'body', :wrapping => 'simple', :classes => 'container', :add_span => false)
 			super

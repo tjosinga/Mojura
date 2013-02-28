@@ -64,7 +64,6 @@ module Mojura
 		end
 
 		def test_to_vcard
-			# STDOUT << "VCARDS = " + Formatter.new(nil).to_vcard(self.get_sample) + "\n\n"
 		end
 
 	end

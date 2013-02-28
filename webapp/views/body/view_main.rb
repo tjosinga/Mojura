@@ -14,6 +14,7 @@ module MojuraWebApp
 			else
 				@content = ''
 				WebApp.page.data[:views].each { |view_array|
+					view_array[:may_edit_view] = WebApp.page.data[:rights][:allowed][:update] rescue false
 					view_array[:classes] = 'page-content-row'
 					@content += WebApp.render_view(view_array)
 				}
