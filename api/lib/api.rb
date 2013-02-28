@@ -238,16 +238,13 @@ module MojuraAPI
 		# If the credentials are incorrect, an error will be raised.
 		# :category: Core API methods
 		def authenticate(params)
-			STDOUT << "Starting authentication\n"
 			API.salt(params) # forces a generated salt
 			users = Users.new({username: params[:username]})
 			session = Thread.current[:mojura][:env]['rack.session']
 			raise InvalidAuthentication.new if (users.count != 1)
 			user = users.first
 			iterations = 500 + (user.username + Settings.get(:realm)).length
-			STDOUT << "Given digest: c161a3d0f97dfde3189d776d4fcda963\nStored digest: #{user.digest}\n"
 			crypted = PBKDF2.new(:password => user.digest, :salt => API.session[:salt], :iterations => iterations, :key_length => 64, :hash_function => 'SHA1').hex_string
-			STDOUT << "Check passwords\nStored: #{crypted}\nGiven: #{params[:password]}\n"
 			if params[:password] == crypted
 				API.session[:uid] = user.id
 				user.generate_new_cookie_token if (params[:set_cookie] == 'true')

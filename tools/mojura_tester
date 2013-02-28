@@ -3,6 +3,7 @@
 $:.unshift(File.expand_path(File.dirname(__FILE__) + '/../'))
 Dir.chdir(File.expand_path(File.dirname(__FILE__) + '/../'))
 
+require 'json'
 require 'rack'
 require 'api/lib/api'
 require 'webapp/mojura/lib/webapp'
@@ -15,6 +16,8 @@ command ||= ''
 params ||= ''
 params = Rack::Utils.parse_query(params)
 params.symbolize_keys!
+
+STDOUT << "Command: #{command}\nParams: #{params.to_s}\n"
 
 env = {'rack.session' => {}, 'rack.request.cookie_hash' => {}}
 MojuraAPI::API.load

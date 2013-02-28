@@ -91,7 +91,6 @@ module MojuraWebApp
 
 		def render_view(options = {})
 			begin
-				STDOUT << "Rendering #{options[:view]}\n"
 				ViewWrapper.new(options).render
 			rescue Exception => e
 				"Error on rendering: #{e.to_s}"

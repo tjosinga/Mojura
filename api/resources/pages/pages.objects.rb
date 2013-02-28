@@ -58,8 +58,7 @@ module MojuraAPI
 
 		def new_view_from_template(templateid)
 			result = self.new_view
-			self.apply_template(result, Page.get_template(templateid)[:template])
-			STDOUT << "Final view\n\n#{result.to_s}\n\n"
+			self.apply_template(result, PageTemplates.get_template(templateid)[:template])
 			return result
 		end
 
@@ -217,7 +216,7 @@ module MojuraAPI
 					}
 				end
 			}
-			@templates = @templates.sort
+			#@templates = @templates.sort
 		end
 
 		def get_templates(col_count_filter = 0)

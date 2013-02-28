@@ -83,11 +83,9 @@ module MojuraAPI
 			if !subnodes.nil?
 				subnodes.each { |subnode|
 					subnode.symbolize_keys!
-					STDOUT << "parents_of_node: search #{id} in node #{subnode[:title].inspect} (#{subnode[:id].inspect})\n"
 					if result.nil?
 						result = self.parents_of_node(id, subnode) if (subnode[:id] != id)
 						if (!node.nil?) && ((subnode[:id] == id) || (!result.nil?))
-							STDOUT << "Found: #{id.to_s}\n"
 							copy = node.clone
 							copy.delete(:children)
 							if @use_rights

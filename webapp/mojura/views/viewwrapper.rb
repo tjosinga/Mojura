@@ -81,6 +81,7 @@ module MojuraWebApp
 
 		def render_subview
 			options = (data[:subviews][@subview_index] || {})
+			options[:may_edit_view] = @options[:may_edit_view]
 			options[:parent_col_span] = @options[:col_span]
 			result = WebApp.render_view(options)
 			@subview_index += 1

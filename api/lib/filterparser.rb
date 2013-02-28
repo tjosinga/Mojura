@@ -17,7 +17,6 @@ module MojuraAPI
 		@expected = {}
 
 		def parse(str, expected = {})\
-      # STDOUT << "function: parse \"#{str}\"\n"
 			return nil if (str == '' || str == nil)
 			@total_string = str
 			@expected = expected
@@ -26,7 +25,6 @@ module MojuraAPI
 		end
 
 		def get_exp_list
-			# STDOUT << "function: get_exp_list\n"
 			and_or_mode = ''
 			result = []
 			i = 0
@@ -40,8 +38,6 @@ module MojuraAPI
 				else
 					result << nil
 				end
-
-				# STDOUT << "function: get_exp_list => " + result.count.to_s + " - " + result.to_s + "\n"
 
 				if and_or_mode == ''
 					and_or_mode = @scanner.scan(/[,\|]/)
@@ -66,10 +62,8 @@ module MojuraAPI
 		end
 
 		def get_exp
-			# STDOUT << "function: get_exp\n"
 			@currentkey = @scanner.scan(/\w+/)
 			@processedkey = false
-			# STDOUT << "Found key: #{@currentkey}\n"
 			@scanner.scan(/:/)
 			value = self.get_value_or_list
 			if value.is_a?(Array) && (value.count > 1)
@@ -77,9 +71,7 @@ module MojuraAPI
 				value.each { |v| result.push({@currentkey => v}) }
 			elsif !@processedkey
 				result = {@currentkey => value}
-				# STDOUT << "TESTTEST" + result.to_s + "\n"
 			else
-				# STDOUT << "TESTTESTTEST\n"
 				result = value
 			end
 
@@ -87,7 +79,6 @@ module MojuraAPI
 		end
 
 		def get_value_or_list(allow_and_or_operator = true)
-			# STDOUT << "function: get_value_or_list\n"
 			if @scanner.scan(/\(/)
 				result = self.get_value_list(allow_and_or_operator)
 				@scanner.skip(/\)/)
@@ -98,7 +89,6 @@ module MojuraAPI
 		end
 
 		def get_value
-			# STDOUT << "function: get_value\n"
 			if @scanner.scan(/\{/)
 				result = self.get_operation
 				@scanner.skip(/\}/)
@@ -106,14 +96,12 @@ module MojuraAPI
 			else
 				token = @scanner.scan(/((\w+)|('.+')|(".+"))/)
 				token = token.strip_quotes if (!token.nil?)
-				# STDOUT << "Found value: #{token}\n"
-				# type checking should be implemented here.
+				# TODO: type checking should be implemented here.
 				return token
 			end
 		end
 
 		def get_value_list(allow_and_or_operator = true)
-			# STDOUT << "function: get_value_list\n"
 			and_or_mode = ''
 			values = []
 			i = 0
@@ -143,7 +131,6 @@ module MojuraAPI
 		end
 
 		def get_operation
-			# STDOUT << "function: get_operation\n"
 			operator = self.get_operator
 			@scanner.scan(/:/)
 			value = self.get_value_or_list(false)
@@ -151,7 +138,6 @@ module MojuraAPI
 		end
 
 		def get_operator
-			# STDOUT << "function: get_operator\n"
 			accepts = %w(lt lte gt gte all ne in nin nor size type)
 			operator = @scanner.scan(/\w+/)
 			unless accepts.include? operator
