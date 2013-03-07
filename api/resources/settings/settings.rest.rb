@@ -7,7 +7,7 @@ module MojuraAPI
 		end
 
 		def description
-			'Resource of settings, which is a core object in Mojura. Public settings are always visible, protected settings only for administrators.'
+			'Resource of settings, which is a core object in Mojura. Settings can be public (readable for everyone) or protected (readable for administrators). Only administrators may update or delete these settings.'
 		end
 
 		def uri_id_to_regexp(id_name)
@@ -61,7 +61,7 @@ module MojuraAPI
 				description: 'Returns a setting.',
 				attributes: {
 #					key: {required: true, type: String, description: 'The key of the setting'},
-					category: {required: false, type: String, description: 'The category of the setting. Default is \'core\''}
+					category: {required: false, type: String, description: 'The category of the setting. Default is \'core\'.'}
 				}
 			}
 		end
@@ -82,8 +82,8 @@ module MojuraAPI
 		end
 
 		def delete(params)
-			user = User.new(params[:ids][0])
-			user.delete_from_db
+			raise NoRightsException.new if (!API.current_user.administrator?)
+			Settings.unset(params[:key], params[:category])
 			return [:success => true]
 		end
 
