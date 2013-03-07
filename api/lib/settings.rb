@@ -50,9 +50,6 @@ module MojuraAPI
 			load_db_settings
 			result = {}
 			scopes.each { |scope| result[scope.to_sym] = {} if @settings[:file].include?(scope.to_sym) }
-
-			STDOUT << JSON.pretty_generate(@settings) + "\n"
-
 			@settings.each { |source, levels|
 				levels.each { |level, categories|
 					categories.each { |category, keys|
@@ -94,14 +91,32 @@ module MojuraAPI
 		end
 
 		def set(key, value, category = nil, level = nil)
-			category ||= :core
 			level ||= :protected
+			level = level.to_sym
+			category ||= :core
+			category = category.to_sym
+			key = key.to_sym
 			load_file_settings
 			load_db_settings
 			@settings[:db] ||= {}
-			@settings[:db][level.to_sym] ||= {}
-			@settings[:db][level.to_sym][category.to_sym] ||= {}
-			@settings[:db][level.to_sym][category.to_sym][key.to_sym] = value
+			@settings[:db][level] ||= {}
+			@settings[:db][level][category] ||= {}
+			@settings[:db][level][category][key] = value
+			save_db_settings
+		end
+
+		def unset(key, category = nil)
+			category ||= :core
+			category = category.to_sym
+			key = key.to_sym
+			load_file_settings
+			load_db_settings
+			if @settings[:db][:public].include?(category) && @settings[:db][:public][category].include?(key)
+				@settings[:db][:public][category].delete(key)
+			end
+			if @settings[:db][:protected].include?(category) && @settings[:db][:protected][category].include?(key)
+				@settings[:db][:protected][category].delete(key)
+			end
 			save_db_settings
 		end
 
