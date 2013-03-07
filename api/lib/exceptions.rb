@@ -39,6 +39,12 @@ module MojuraAPI
 		end
 	end
 
+	class DataNotFoundException < HTTPException
+		def initialize(fieldname, value)
+			super("Could not find data for #{field}: #{value}", 200)
+		end
+	end
+
 	class InvalidFilterException < HTTPException
 		def initialize(index, msg)
 			super("Filter error at character #{index}: #{msg}", 412)
