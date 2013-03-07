@@ -50,6 +50,9 @@ module MojuraAPI
 			load_db_settings
 			result = {}
 			scopes.each { |scope| result[scope.to_sym] = {} if @settings[:file].include?(scope.to_sym) }
+
+			STDOUT << JSON.pretty_generate(@settings) + "\n"
+
 			@settings.each { |source, levels|
 				levels.each { |level, categories|
 					categories.each { |category, keys|
@@ -90,7 +93,9 @@ module MojuraAPI
 			end
 		end
 
-		def set(key, value, category = :core, level = :protected)
+		def set(key, value, category = nil, level = nil)
+			category ||= :core
+			level ||= :protected
 			load_file_settings
 			load_db_settings
 			@settings[:db] ||= {}

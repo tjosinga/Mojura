@@ -8,25 +8,25 @@ module MojuraAPI
 		# Array, Float, Hash, Integer, Boolean, Date, DateTime, Set
 
 		def self.convert(value, type)
-			return value if (type == String) || (value.nil?) || (!value.is_a?(String))
-			return case type.to_s
-				       when 'Array' then
+			return value if (type == String) || (type == 'String') || (value.nil?) || (!value.is_a?(String))
+			return case type.to_s.downcase
+				       when 'array' then
 					       value.split("\n")
-				       when 'Float' then
+				       when 'float' then
 					       value.to_f rescue 0
-				       when 'Hash' then
+				       when 'hash' then
 					       JSON.parse(value) rescue {}
-				       when 'Integer' then
+				       when 'integer' then
 					       value.to_i rescue 0
-				       when 'Boolean' then
+				       when 'boolean' then
 					       (value.downcase == 'true')
-				       when 'Date' then
+				       when 'date' then
 					       Date.parse(value) rescue Date.today
-				       when 'DateTime' then
+				       when 'datetime' then
 					       DateTime.parse(value) rescue DateTime.now
-				       when 'RichText' then
+				       when 'richtext' then
 					       RichText.new(value)
-				       when 'BSON::ObjectId' then
+				       when 'bson::objectid' then
 					       BSON::ObjectId(value) rescue nil
 				       else
 					       value

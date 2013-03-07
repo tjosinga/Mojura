@@ -17,7 +17,7 @@ module MojuraWebApp
 		end
 
 		def force_old_password
-			!WebApp.current_user.is_admin
+			!WebApp.current_user.administrator?
 		end
 
 		def realm

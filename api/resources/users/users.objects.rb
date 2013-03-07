@@ -24,6 +24,10 @@ module MojuraAPI
 			yield :cookie_tokens, Hash, :default => {}, :hidden => true
 		end
 
+		def administrator?
+			self.is_admin
+		end
+
 		# Returns the decrypted digest of the users password
 		#
 		# @return [String]
@@ -44,7 +48,7 @@ module MojuraAPI
 		end
 
 		def has_object_right(orig_right, object_userid, object_groupid, object_right)
-			if self.is_admin
+			if self.administrator?
 				result = true
 			elsif (self.id.nil?) || (self.id == '')
 				result = ((object_right & orig_right) == orig_right)
@@ -69,7 +73,7 @@ module MojuraAPI
 			@fields.include?(:cookie_tokens) && @fields[:cookie_tokens][:value].has_value?(token)
 		end
 
-		def generate_new_cookie_token
+		def generate_new_cookie_token(token)
 			return if (self.id.nil?) || (self.id == '')
 			timestamp = Time.new.strftime('%Y-%m-%d %H:%M:%S')
 			new_token = SecureRandom.hex(64)
@@ -100,11 +104,17 @@ module MojuraAPI
 				avatar = 'http://www.gravatar.com/avatar/' + Digest::MD5.hexdigest(self.email.to_s) + '?d=mm'
 				#end
 				result[:avatar] = avatar
-				result[:may_update] = (API.current_user.is_admin) || (API.current_user.id == self.id) if (!compact)
+				result[:may_update] = (API.current_user.administrator?) || (API.current_user.id == self.id) if (!compact)
 			else
 				result[:may_update] = false
 			end
 			return result
+		end
+
+		# Resets the password and sends it to the know email address
+		def reset_password
+			#new_password =
+			#new_digest = "#{this.username}:#{new_password}:#{realm}"
 		end
 
 	end

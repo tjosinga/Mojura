@@ -10,9 +10,13 @@ module MojuraAPI
 			'Resource of settings, which is a core object in Mojura. Public settings are always visible, protected settings only for administrators.'
 		end
 
+		def uri_id_to_regexp(id_name)
+			(id_name == 'key') ? '[a-zA-Z0-9_]+' : super
+		end
+
 		def all(params)
 			scopes = [:public]
-			scopes.push(:protected) if (API.current_user.is_administrator)
+			scopes.push(:protected) if (API.current_user.administrator?)
 			return Settings.all(scopes)
 		end
 
@@ -23,35 +27,40 @@ module MojuraAPI
 		end
 
 		def put(params)
-			raise NoRightsException.new if (API.current_user.is_administrator)
+			raise NoRightsException.new if (!API.current_user.administrator?)
+			value = (params.include?(:type)) ? StringConvertor.convert(params[:value], params[:type]) : params[:value]
 			level = (params[:is_public]) ? :public : :protected
-			Settings.set(params[:key].to_sym, params[:value], params[:category], level)
+			Settings.set(params[:key], value, params[:category], level)
+			return [value]
 		end
 
 		def put_conditions
 			{
 				description: 'Adds a new setting.',
 				attributes: {
-					category: {required: false, type: String, description: 'The category of the setting. Default is \'core\''},
-					key: {required: true, type: String, description: 'The key of the setting'},
-					value: {required: true, type: Mixed, description: 'A value of the setting'},
-					type: {required: false, type: String, description: 'The of the setting, which can be integer, float, string, boolean, hash or array'},
-					type: {required: false, type: String, description: 'The value of the setting'},
+					category: {required: false, type: String, description: 'The category of the setting. Default is \'core\'.'},
+					key: {required: true, type: String, description: 'The key of the setting.'},
+					value: {required: true, type: String, description: 'A string representation of the value of the setting.'},
+					type: {required: false, type: String, description: 'The type of the setting, which can be integer, float, string, boolean, hash or array. Default is string.'},
+					level: {required: false, type: String, description: 'The level of the setting, which can be \'public\' (readable\) or \'protected\' (admins-only). Default is \'public\'.' },
 				}
 			}
 		end
 
 		def get(params)
-			user = User.new(params[:ids][0])
-			#TODO: check rights
-			return user.to_a
+			key = params[:ids][0]
+			default = params[:default]
+			category = params[:category] || :core
+			scopes = [:public]
+			scopes.push(:protected) if (API.current_user.administrator?)
+			return [Settings.get(key, default, category, scopes)]
 		end
 
 		def get_conditions
 			{
 				description: 'Returns a setting.',
 				attributes: {
-					key: {required: true, type: String, description: 'The key of the setting'},
+#					key: {required: true, type: String, description: 'The key of the setting'},
 					category: {required: false, type: String, description: 'The category of the setting. Default is \'core\''}
 				}
 			}

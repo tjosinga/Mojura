@@ -62,7 +62,7 @@ module MojuraAPI
 			params.delete(:username); # usernames may not be updated
 			params.delete(:password); # password may not be updated directly, only via new_password
 			if params.include?(:new_password)
-				if !API.current_user.is_admin
+				if !API.current_user.administrator?
 					raise MissingParamsException.new(:old_password) if (!params.include?(:old_password)
 					raise HTTPException.new('Old password is incorrect') if (params[:old_password] == user.digest))
 				end

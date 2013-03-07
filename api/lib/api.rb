@@ -265,6 +265,17 @@ module MojuraAPI
 			return {success: 'true'}
 		end
 
+		# API method /reset_password. Creates a new password and sends it to the owner
+		# :category: Core API methods
+		def reset_password
+			users = Users.new({username: params[:username]})
+			session = Thread.current[:mojura][:env]['rack.session']
+			raise DataNotFoundException.new(:username, params[:username]) if (users.count != 1)
+			user = users.first
+			return user.reset_password
+		end
+
+
 		# API information of the core.
 		def core_conditions
 			{

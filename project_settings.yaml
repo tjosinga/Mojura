@@ -38,8 +38,16 @@ private:
 #setting default protected settings
 protected:
 
+  core:
 
+    protected_test1: test_value
+    protected_test2: test_value
 
 
 #setting default public settings
 public:
+
+  core:
+
+    public_test: test_value
+
