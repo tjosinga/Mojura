@@ -28,8 +28,9 @@ module MojuraAPI
 			and_or_mode = ''
 			result = []
 			i = 0
-			until @scanner.eos?
-				if @scanner.scan(/\(/).nil?
+			STDOUT << "get_exp_list #{i}\n"
+			while !@scanner.eos?
+				if !@scanner.scan(/\(/).nil?
 					result << self.get_exp_list
 				elsif !@scanner.scan(/\)/).nil?
 					break

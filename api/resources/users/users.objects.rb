@@ -21,6 +21,7 @@ module MojuraAPI
 			yield :lastname, String, :required => true
 			yield :is_admin, Boolean, :required => true, :default => false, :extended_only => true
 			yield :groupids, Array, :default => [], :hidden => true
+			yield :state, String, :default => :active
 			yield :cookie_tokens, Hash, :default => {}, :hidden => true
 		end
 
@@ -47,7 +48,7 @@ module MojuraAPI
 			return Groups.new(groupids)
 		end
 
-		def has_object_right(orig_right, object_userid, object_groupid, object_right)
+		def has_object_right?(orig_right, object_userid, object_groupid, object_right)
 			if self.administrator?
 				result = true
 			elsif (self.id.nil?) || (self.id == '')
@@ -65,15 +66,27 @@ module MojuraAPI
 		end
 
 		# noinspection RubyUnusedLocalVariable
-		def has_global_right(mod_name, right_name)
-			raise NotImplementedException.new
+		# TODO: implementation
+		def has_global_right?(mod_name, right_name)
+			return self.administrator?
+		end
+
+		def user_has_right?(right, user = nil)
+			user ||= API.current_user
+			if user.administrator?
+				return true
+			elsif right == RIGHT_READ
+				return (self.id == user.id) || (user.has_global_right?(:users, :show_users))
+			else
+				return (self.id == user.id) || (user.has_global_right?(:users, :maintain_users))
+			end
 		end
 
 		def valid_cookie_token?(token)
 			@fields.include?(:cookie_tokens) && @fields[:cookie_tokens][:value].has_value?(token)
 		end
 
-		def generate_new_cookie_token(token)
+		def generate_new_cookie_token
 			return if (self.id.nil?) || (self.id == '')
 			timestamp = Time.new.strftime('%Y-%m-%d %H:%M:%S')
 			new_token = SecureRandom.hex(64)
@@ -122,8 +135,22 @@ module MojuraAPI
 
 	class Users < DbObjects
 
+		include DbObjectsRights
+
 		def initialize(where = {}, options = {})
 			super('users', User, where, options)
+		end
+
+		def get_rights_where(user = nil)
+			user ||= API.current_user
+			@options[:ignore_rights] = false unless @options.include?(:ignore_rights)
+			if (!@options[:ignore_rights]) && (!user.nil?) && (!user.has_global_right?(:users, :show_users))
+				#TODO: implement state and set active to current users
+				result = {_id: user.id} #{'$and' => [{state: 'active'}, {_id: user.id}]}
+			else
+				result = {} #{state: 'active'}
+			end
+			return result
 		end
 
 	end
