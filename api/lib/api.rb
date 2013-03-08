@@ -58,7 +58,8 @@ module MojuraAPI
 				users = Users.new({username: username}, :ignore_rights => true)
 				if (users.count == 1) && (users.first.valid_cookie_token?(token))
 					user = users.first
-					user.generate_new_cookie_token(token)
+					user.clear_all_cookie_tokens
+					user.generate_new_cookie_token
 					Thread.current[:mojura][:current_user] = user
 				end
 			end
