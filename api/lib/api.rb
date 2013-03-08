@@ -55,7 +55,7 @@ module MojuraAPI
 				(env['rack.request.cookie_hash'].include?('token'))
 				token = env['rack.request.cookie_hash']['token']
 				username = env['rack.request.cookie_hash']['username']
-				users = Users.new({username: username})
+				users = Users.new({username: username}, :ignore_rights => true)
 				if (users.count == 1) && (users.first.valid_cookie_token?(token))
 					user = users.first
 					user.generate_new_cookie_token(token)
@@ -239,7 +239,7 @@ module MojuraAPI
 		# :category: Core API methods
 		def authenticate(params)
 			API.salt(params) # forces a generated salt
-			users = Users.new({username: params[:username]})
+			users = Users.new({username: params[:username]}, :ignore_rights => true)
 			session = Thread.current[:mojura][:env]['rack.session']
 			raise InvalidAuthentication.new if (users.count != 1)
 			user = users.first
@@ -268,7 +268,7 @@ module MojuraAPI
 		# API method /reset_password. Creates a new password and sends it to the owner
 		# :category: Core API methods
 		def reset_password
-			users = Users.new({username: params[:username]})
+			users = Users.new({username: params[:username]}, :ignore_rights => true)
 			session = Thread.current[:mojura][:env]['rack.session']
 			raise DataNotFoundException.new(:username, params[:username]) if (users.count != 1)
 			user = users.first

@@ -24,7 +24,9 @@ module MojuraAPI
 				params[:title] = params[:file][:filename]
 			end
 
-			#TODO: Check rights
+			raise NoRightsException unless API.current_user.has_global_right?(:dbfiles, :maintain)
+			#TODO: Check rights for wanted folder
+
 			file = DbFile.new.load_from_hash(params).save_to_db
 			self.process_upload(file, params)
 			return self.process_action(file, params[:action])

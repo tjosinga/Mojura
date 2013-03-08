@@ -131,7 +131,7 @@ module MojuraAPI
 
 		def user_has_right(orig_right, rights)
 			return false if (!rights.is_a?(Hash))
-			return API.current_user.has_object_right(orig_right, rights[:userid], rights[:groupid], rights[:right])
+			return API.current_user.has_object_right?(orig_right, rights[:userid], rights[:groupid], rights[:right])
 		end
 
 		def allowed_info_of_item(rights)

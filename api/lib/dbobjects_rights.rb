@@ -25,7 +25,7 @@ module MojuraAPI
 			rights_where = get_rights_where(user)
 			if rights_where != {}
 				if (!where.nil?) && (where != {})
-					where = {'$and' => [where, rights_where]}
+					where = {'$and' => [where, rights_where] }
 				else
 					where = rights_where
 				end

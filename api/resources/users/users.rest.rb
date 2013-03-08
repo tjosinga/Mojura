@@ -14,7 +14,7 @@ module MojuraAPI
 		end
 
 		def all(params)
-			return paginate(params) { |options| Users.new(self.filter(params), options) } #self.filter(params), options) }
+			return paginate(params) { |options| Users.new(self.filter(params), options) }
 		end
 
 		def all_conditions
@@ -26,6 +26,7 @@ module MojuraAPI
 
 		def put(params)
 			#TODO: check rights
+			raise NoRightsException.new unless API.current_user.has_global_right?(:users, :add_users)
 			User.new.load_from_hash(params).save_to_db.to_a
 		end
 
@@ -46,7 +47,8 @@ module MojuraAPI
 
 		def get(params)
 			user = User.new(params[:ids][0])
-			#TODO: check rights
+			STDOUT << "Blaat\n"
+			user.user_has_right?(RIGHT_READ)
 			return user.to_a
 		end
 
@@ -58,7 +60,7 @@ module MojuraAPI
 
 		def post(params)
 			user = User.new(params[:ids][0])
-			#TODO: check rights
+			raise NoRightsException.new unless user.user_has_right?(RIGHT_UPDATE)
 			params.delete(:username); # usernames may not be updated
 			params.delete(:password); # password may not be updated directly, only via new_password
 			if params.include?(:new_password)
@@ -86,6 +88,7 @@ module MojuraAPI
 
 		def delete(params)
 			user = User.new(params[:ids][0])
+			raise NoRightsException.new unless user.user_has_right?(RIGHT_DELETE)
 			user.delete_from_db
 			return [:success => true]
 		end
