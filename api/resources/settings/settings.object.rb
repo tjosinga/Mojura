@@ -45,15 +45,15 @@ module MojuraAPI
 
 		public
 
-		def all(scopes = [:private, :protected, :public], include_level = true)
+		def all(scopes = [:private, :protected, :public], include_level = true, filter = nil)
 			load_file_settings
 			load_db_settings
 			result = {}
+			filter = filter.to_sym unless filter.nil?
 			scopes.each { |scope| result[scope.to_sym] = {} if @settings[:file].include?(scope.to_sym) }
 			@settings.each { |source, levels|
 				levels.each { |level, categories|
 					categories.each { |category, keys|
-						result[level][category] ||= {}
 						keys.each { |key, value|
 							if include_level
 								result[level] ||= {}
@@ -63,7 +63,7 @@ module MojuraAPI
 								result[category] ||= {}
 								result[category][key] = value
 							end
-						}
+						} if (filter.nil?) || (category == filter)
 					} if result.include?(level)
 				}
 			}
