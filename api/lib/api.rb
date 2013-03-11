@@ -9,7 +9,8 @@ require 'yaml'
 require 'securerandom'
 require 'api/lib/mongodb'
 require 'api/lib/exceptions'
-require 'api/lib/settings'
+require 'api/resources/settings/settings.object'
+require 'api/resources/locale/locale.object'
 require 'api/resources/users/users.objects'
 
 
@@ -46,6 +47,7 @@ module MojuraAPI
 			Thread.current[:mojura][:env] = env || {}
 			Thread.current[:mojura][:api_headers] = {}
 			Thread.current[:mojura][:api_url] = (env['api_url'] || 'http://localhost/')
+			Thread.current[:mojura][:locale] = env['rack.session']['locale'] || Settings.get('locale', 'en')
 
 			uid = env['rack.session'].include?(:uid) ? env['rack.session'][:uid] : nil
 
@@ -64,6 +66,8 @@ module MojuraAPI
 				end
 			end
 			Thread.current[:mojura][:current_user] = User.new(uid)
+
+			Locale.load_strings
 		end
 
 		# Returns the current user.
@@ -89,6 +93,10 @@ module MojuraAPI
 		# Returns all session variables in a hash.
 		def session
 			Thread.current[:mojura][:env]['rack.session']
+		end
+
+		def locale
+			Thread.current[:mojura][:locale].to_sym
 		end
 
 		# Prepares the response headers for returning a file instead of text.

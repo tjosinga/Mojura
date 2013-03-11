@@ -11,18 +11,21 @@ module MojuraAPI
 		end
 
 		def uri_id_to_regexp(id_name)
-			(id_name == 'key') ? '[a-zA-Z0-9_]+' : super
+			(id_name == 'key') || (id_name == 'category') ? '[a-zA-Z0-9_]+' : super
 		end
 
 		def all(params)
 			scopes = [:public]
 			scopes.push(:protected) if (API.current_user.administrator?)
-			return Settings.all(scopes)
+			return Settings.all(scopes, true, params[:category])
 		end
 
 		def all_conditions
 			{
 				description: 'Returns all settings.',
+				attributes: {
+					category: {required: false, type: String, description: 'Only shows the settings of the given category. If none is given, all settings will be returned.'},
+				}
 			}
 		end
 
@@ -48,9 +51,9 @@ module MojuraAPI
 		end
 
 		def get(params)
-			key = params[:ids][0]
+			key = params[:ids][1]
+			category = params[:ids][0]
 			default = params[:default]
-			category = params[:category] || :core
 			scopes = [:public]
 			scopes.push(:protected) if (API.current_user.administrator?)
 			return [Settings.get(key, default, category, scopes)]
@@ -67,8 +70,8 @@ module MojuraAPI
 		end
 
 		def post(params)
-			params[:ids]
-			return
+			raise NotImplementedException.new
+			return []
 		end
 
 		def post_conditions
@@ -83,7 +86,9 @@ module MojuraAPI
 
 		def delete(params)
 			raise NoRightsException.new if (!API.current_user.administrator?)
-			Settings.unset(params[:key], params[:category])
+			key = params[:ids][1]
+			category = params[:ids][0]
+			Settings.unset(key, category)
 			return [:success => true]
 		end
 
@@ -96,6 +101,6 @@ module MojuraAPI
 
 	end
 
-	API.register_resource(SettingsResource.new('settings', '', '[key]'))
+	API.register_resource(SettingsResource.new('settings', '', '[category]/[key]'))
 
 end
