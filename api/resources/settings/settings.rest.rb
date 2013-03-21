@@ -69,9 +69,9 @@ module MojuraAPI
 			}
 		end
 
+		#noinspection RubyUnusedLocalVariable
 		def post(params)
 			raise NotImplementedException.new
-			return []
 		end
 
 		def post_conditions

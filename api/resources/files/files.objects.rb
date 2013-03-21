@@ -40,14 +40,14 @@ module MojuraAPI
 		end
 
 		def get_real_filename(options = {})
-			filename = "uploads/files/originals/#@id"
+			filename = "uploads/files/originals/#{@id}"
 			if self.is_image?
 				size = (options[:size] || 0)
 				type = (options[:type] || 'auto')
 				auto_create = options[:auto_create]
 				size = 1024 if (size > 1024)
 				if size > 0
-					filename = "uploads/files/image_cache/#@id_#{size}_#{type}"
+					filename = "uploads/files/image_cache/#{@id}_#{size}_#{type}"
 					self.resize_image(size, type, filename) if (auto_create) && (!File.exists?(filename))
 				end
 			end

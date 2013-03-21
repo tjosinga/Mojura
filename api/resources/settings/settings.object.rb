@@ -51,7 +51,7 @@ module MojuraAPI
 			result = {}
 			filter = filter.to_sym unless filter.nil?
 			scopes.each { |scope| result[scope.to_sym] = {} if @settings[:file].include?(scope.to_sym) }
-			@settings.each { |source, levels|
+			@settings.each { | _, levels|
 				levels.each { |level, categories|
 					categories.each { |category, keys|
 						keys.each { |key, value|

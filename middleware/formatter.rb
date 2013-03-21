@@ -1,4 +1,5 @@
-require 'json'
+
+ require 'json'
 require 'xmlsimple'
 require 'csv'
 require 'api/lib/datatypes'
@@ -17,7 +18,7 @@ module Mojura
 
 			status, headers, body = @app.call(env)
 
-			if !headers.include?('Content-Type') || headers['Content-Type'] != ''
+			if !headers.include?('Content-Type') || headers['Content-Type'] == ''
 				return_type = headers['return_type'] if headers.include?('return_type')
 				body = body[0]
 				req = Rack::Request.new(env)

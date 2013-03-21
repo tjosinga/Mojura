@@ -6,6 +6,7 @@ module MojuraAPI
 
 	class FilterParserTester < Test::Unit::TestCase
 
+		#noinspection RubyStringKeysInHashInspection
 		def test_parse
 			assert_equal({'username' => 'osingat'}, FilterParser.parse('username:osingat'))
 			assert_equal({'$and' => [{'username' => 'tjosinga'}, {'username' => 'cosinga'}]}, FilterParser.parse('username:(tjosinga,cosinga)'))

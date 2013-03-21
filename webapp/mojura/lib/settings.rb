@@ -12,7 +12,7 @@ module MojuraWebApp
 
 		def get(key, default = nil, category = :core, scopes = [:protected, :public])
 			scopes.delete(:private)
-			return MojuraAPI::Settings.get(key, default, category, core, scopes)
+			return MojuraAPI::Settings.get(key, default, category, scopes)
 		end
 
 		def set(key, value, category = :core, is_public = false)

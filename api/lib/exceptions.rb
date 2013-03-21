@@ -74,18 +74,18 @@ module MojuraAPI
 	class UnknownObjectException < HTTPException
 		def initialize(id = '')
 			title = 'Unknown object'
-			title += " ('#{id}')" if (id != '')
-			super(title, 404)
+			title += " ('#{id}')" unless id.empty?
+			super(title)
 		end
 	end
 
-	class NotImplementedException < Exception
+	class NotImplementedException < HTTPException
 		def initialize
 			super('This method is not implemented, yet')
 		end
 	end
 
-	class NotOverridenException < Exception
+	class NotOverridenException < HTTPException
 		def initialize
 			super('This method should be overriden')
 		end
