@@ -16,6 +16,7 @@ module MojuraAPI
 			(id_name == 'key') || (id_name == 'mod_name') ? '[a-zA-Z0-9_]+' : super
 		end
 
+		#noinspection RubyUnusedLocalVariable
 		def all(params)
 			return Locale.all
 		end

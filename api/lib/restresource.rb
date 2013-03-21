@@ -156,9 +156,9 @@ module MojuraAPI
 			result[:methods].each { |k, v|
 				if !v.include?(:uri)
 					if k == :all || k == :put
-						v[:uri] = API.api_url + "#@module/#@items_path"
+						v[:uri] = API.api_url + "#{@module}/#{@items_path}"
 					else
-						v[:uri] = API.api_url + "#@module/#@item_path"
+						v[:uri] = API.api_url + "#{@module}/#{@item_path}"
 					end
 				end
 			}

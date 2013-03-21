@@ -12,11 +12,11 @@ module MojuraAPI
 		def load_strings(locale = nil)
 			locale ||= API.locale
 			locale = locale.to_sym
-			if (!@strings.include?(locale))
+			if !@strings.include?(locale)
 				@strings[locale] = {}
 				API.modules.each { | mod_name |
 					filename = "api/resources/#{mod_name}/strings.#{locale}.yaml"
-					if (File.exists?(filename))
+					if File.exists?(filename)
 						@strings[locale][mod_name] = YAML.load_file(filename)
 						@strings[locale][mod_name].symbolize_keys!
 					end

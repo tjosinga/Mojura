@@ -21,7 +21,7 @@ module MojuraWebApp
 			@locale = WebApp.get_setting('locale', 'nl')
 			super({})
 
-			if (WebApp.get_setting(:use_external_js_libs))
+			if WebApp.get_setting(:use_external_js_libs)
 				self.include_script_link('https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js')
 				self.include_script_link('https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.21/jquery-ui.min.js')
 				self.include_script_link('http://malsup.github.com/jquery.form.js')
@@ -42,18 +42,18 @@ module MojuraWebApp
 			@pageid = @request_uri if (@request_uri.match(/^[0-9a-f]{24}$/))
 
 			if !@pageid.nil?
-				@data = WebApp.api_call("pages/#@pageid")
+				@data = WebApp.api_call("pages/#{@pageid}")
 			elsif @request_uri != ''
 				begin
 					pages = WebApp.api_call('pages', {path: CGI.escape(@request_uri)})
 					@pageid = pages.last[:id]
-					@data = WebApp.api_call("pages/#@pageid")
+					@data = WebApp.api_call("pages/#{@pageid}")
 				rescue HTTPException => e
-					if File.exists?("webapp/views/#@request_uri/view_main.rb")
+					if File.exists?("webapp/views/#{@request_uri}/view_main.rb")
 						@data[:title] = WebApp.app_str(@request_uri, :view_title)
 						@data[:view] = @request_uri
 					else
-						@data[:title] = "'#{e.class}' for view #@request_uri" #titel from strings.locale.json
+						@data[:title] = "'#{e.class}' for view #{@request_uri}" #titel from strings.locale.json
 						@data[:view] = nil
 						@data[:error] = e.to_s
 					end
@@ -69,7 +69,7 @@ module MojuraWebApp
 						@pageid = nil
 					end
 				end
-				@data = (@pageid.nil?) ? nil : WebApp.api_call("pages/#@pageid")
+				@data = (@pageid.nil?) ? nil : WebApp.api_call("pages/#{@pageid}")
 			end
 			@data = {view: 'sitemap', title: WebApp.app_str('system', 'no_default_page')} if @data.nil?
 			@data.symbolize_keys!

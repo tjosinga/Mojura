@@ -185,6 +185,7 @@ module MojuraAPI
 					'(' + obj[:object].uri_id_to_regexp(match[1..-2]) + ')'
 				}
 				request_path.match(/^#{p}$/) { |m|
+					#noinspection RubyUnusedLocalVariable
 					resource = obj
 					data = m.to_a
 					params[:query_string] = data.shift
@@ -249,7 +250,6 @@ module MojuraAPI
 		def authenticate(params)
 			API.salt(params) # forces a generated salt
 			users = Users.new({username: params[:username]}, :ignore_rights => true)
-			session = Thread.current[:mojura][:env]['rack.session']
 			raise InvalidAuthentication.new if (users.count != 1)
 			user = users.first
 			iterations = 500 + (user.username + Settings.get(:realm)).length
@@ -278,7 +278,6 @@ module MojuraAPI
 		# :category: Core API methods
 		def reset_password
 			users = Users.new({username: params[:username]}, :ignore_rights => true)
-			session = Thread.current[:mojura][:env]['rack.session']
 			raise DataNotFoundException.new(:username, params[:username]) if (users.count != 1)
 			user = users.first
 			return user.reset_password

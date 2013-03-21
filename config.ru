@@ -10,7 +10,7 @@ require 'middleware/gatekeeper'
 require 'middleware/methodoverride'
 require 'middleware/cookietokens'
 require 'middleware/formatter'
-require 'middleware/multigetter'
+require 'middleware/sendfiles'
 
 use Mojura::StaticFiles
 
@@ -24,6 +24,10 @@ use Rack::ETag
 
 use Mojura::Formatter
 use Mojura::Gatekeeper
+
+# Uncomment if your webserver doesn't support X-Sendfile (also see http://wiki.nginx.org/XSendfile)
+use Mojura::SendFiles
+
 use Mojura::MethodOverride
 use Mojura::CookieTokens
 

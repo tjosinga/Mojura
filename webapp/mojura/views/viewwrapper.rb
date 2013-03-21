@@ -47,13 +47,13 @@ module MojuraWebApp
 		def render_view
 			return nil if (@view.nil?) || (@view.empty?)
 
-			path = "webapp/views/#@view/"
-			WebApp.page.include_style_link("views/#@view/icons.css") if (File.exists?("#{path}/icons.css"))
-			WebApp.page.include_style_link("views/#@view/style.css") if (File.exists?("#{path}/style.css"))
+			path = "webapp/views/#{@view}/"
+			WebApp.page.include_style_link("views/#{@view}/icons.css") if (File.exists?("#{path}/icons.css"))
+			WebApp.page.include_style_link("views/#{@view}/style.css") if (File.exists?("#{path}/style.css"))
 			if File.exists?("#{path}/script.min.js")
-				WebApp.page.include_script_link("views/#@view/script.min.js")
+				WebApp.page.include_script_link("views/#{@view}/script.min.js")
 			elsif File.exists?("#{path}/script.js")
-				WebApp.page.include_script_link("views/#@view/script.js")
+				WebApp.page.include_script_link("views/#{@view}/script.js")
 			end
 
 			begin
