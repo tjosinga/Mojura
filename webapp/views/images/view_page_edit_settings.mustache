@@ -6,26 +6,26 @@
 <style type="text/css">
 
 	#modalEditView .image-thumb	{
-		margin: 0px 5px 5px 0px;		
+		margin: 0px 5px 5px 0px;
 		background-color: #EEEEEE;
 	}
-	
+
 	#modalEditView .image-thumb img	{
 		width: 64px;
 		height: 64px;
 	}
-	
+
 	#modalEditView .image_add_button {
 		width: 64px;
 		height: 64px;
 	}
-	
+
 
 </style>
 
 <script type="text/javascript">
 	ImageView = (function($) {
-		
+
 		function setFileIdsToForm() {
 			fileids = []
 			$(".image-thumb", "#modalEditView").each(function(index) {
@@ -33,7 +33,7 @@
 			});
 			$("[name=setting_fileids]", "#modalEditView").val(fileids.join(","));
 		}
-		
+
 		function getFileIdsFromForm() {
 			ids_str = $("[name=setting_fileids]", "#modalEditView").val()
 			if (ids_str == "")
@@ -41,11 +41,11 @@
 			else
 				return ids_str.split(",");
 		};
-		
+
 		function fileIdToHTML(fileid) {
 			return "<div class='pull-left image-thumb' onclick='ImageView.removeImage(this)' data-fileid='" + fileid + "'><img src='__api__/files/" + fileid + "/download?type=avatar' alt='' /></div>"
-		};		
-	
+		};
+
 		function showImages() {
 			ids = getFileIdsFromForm();
 			html = "";
@@ -54,30 +54,30 @@
 			}
 			$(".current_images", "#modalEditView").html(html);
 		};
-		
+
 		function addImage() {
 			fileid = window.prompt("Geef (tijdelijk) even het fileid van de afbeelding. Standaard al gevuld met een werkende id.", "506dfbf678e7231ef2000009");
 			$(".current_images", "#modalEditView").append(fileIdToHTML(fileid));
 			setFileIdsToForm();
 		};
-		
+
 		function removeImage(obj) {
 			$(obj).remove();
 			setFileIdsToForm();
 		};
-		
+
 		return {
 			showImages: showImages,
 			addImage: addImage,
 			removeImage: removeImage
 		};
-	
+
 	})(jQuery);
-	
+
 	ImageView.showImages();
-	
-	popover_options = { content: "Testing", title: "Title: {{app_str_images_title}}" };
-	
+
+	popover_options = { content: "Testing", title: "Title: {{locale_str_images_title}}" };
+
 	$(".image-add-button", "#modalEditView").popover(popover_options);
 
 </script>

@@ -28,17 +28,6 @@ private:
     # Mojura API uses a MongoDb. The following database is used:
     database :                  osisoft_mojuradev
 
-    # Set to false if you prefer to use local versions of jQuery, CryptoJS, etc.,
-    # otherwise it use the corresponding libraries at Google Fastpage.
-    use_external_js_libs:       true
-
-    # Set true if the website is currently in development.
-    # It will generate more usefull information.
-    developing:                 true
-
-
-
-
 #setting default protected settings
 protected:
 
@@ -53,5 +42,15 @@ public:
 
   core:
 
-    public_test: test_value
+    # Set to false if you prefer to use local versions of jQuery, CryptoJS, etc.,
+    # otherwise it use the corresponding libraries at Google Fastpage.
+    use_external_js_libs:       true
+
+    # Set to true if the website is currently in development.
+    # It will generate more usefull information.
+    developing:                 true
+
+
+    # Set to true if the website should use responsive designs
+    responsive:                 true
 

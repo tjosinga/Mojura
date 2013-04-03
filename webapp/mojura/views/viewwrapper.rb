@@ -39,7 +39,7 @@ module MojuraWebApp
 			if data[:may_edit_view]
 				data[:templates] = WebApp.api_call('pages/templates', {col_count: options[:col_span]})
 				data[:templates].each { |data_item|
-					data_item[:title] = WebApp.app_str(:view_template_names, data_item[:templateid])
+					data_item[:title] = Locale.str(:view_template_names, data_item[:templateid])
 				}
 			end
 		end
@@ -72,7 +72,7 @@ module MojuraWebApp
 			rescue UnknownViewException => e
 				result = e.message
 			rescue Exception => e
-				result = WebApp.app_str('system', 'view_render_error')
+				result = Locale.str('system', 'view_render_error')
 				result += ': ' + e.message + '<br />'
 				result += '<pre>' + JSON.pretty_generate(e.backtrace) + '</pre>'
 			end

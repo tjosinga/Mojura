@@ -26,6 +26,7 @@ module MojuraAPI
 
 		def load_from_db
 			super
+			@fields[:views][:value] ||= []
 			@fields[:views][:value].symbolize_keys! if @fields[:views][:value].is_a?(Array)
 		end
 
@@ -160,7 +161,7 @@ module MojuraAPI
 		end
 
 		def views_to_a(views = nil, indexes = '')
-			views = Marshal.load(Marshal.dump(self.views)) if (views.nil?)
+			return {} if (views.nil?)
 			index = -1
 			views.map! { |view|
 				index += 1

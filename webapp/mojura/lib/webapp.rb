@@ -1,5 +1,7 @@
 require 'webapp/mojura/lib/exceptions'
 require 'webapp/mojura/lib/baseview'
+require 'webapp/mojura/lib/settings'
+require 'webapp/mojura/lib/locale'
 require 'webapp/mojura/views/viewwrapper'
 require 'webapp/mojura/views/pageview'
 
@@ -19,7 +21,6 @@ module MojuraWebApp
 			params.symbolize_keys!
 			Thread.current[:mojura][:page] = PageView.new(uri, params)
 			Thread.current[:mojura][:page].load
-			WebApp.load_settings if (@settings.count == 0)
 			WebApp.load_views
 			result = Thread.current[:mojura][:page].render
 			WebApp.save_settings if (@new_settings.count > 0)
@@ -82,7 +83,7 @@ module MojuraWebApp
 			                          class: view_class,
 			                          in_pages: options[:in_pages],
 			                          min_col_span: options[:min_col_span] || 1,
-			                          title: options[:title] || WebApp.app_str(view_id, 'view_title')}
+			                          title: options[:title] || Locale.str(view_id, 'view_title')}
 		end
 
 		def get_view_class(view_id)
@@ -116,57 +117,9 @@ module MojuraWebApp
 			return result
 		end
 
-		# ----------------------------------------------------- Settings -----------------------------------------------------
-
-		def get_setting(setting, default = '', module_name = 'core')
-			return @settings.has_key?(module_name) ? @settings[module_name][setting] : default
-		end
-
-		def set_setting(setting, value, module_name = 'core')
-			@settings[module_name] = {} if !@settings.has_key?(module_name)
-			@settings[module_name][setting] = value
-
-			@new_settings[module_name] = {} if !@new_settings.has_key?(module_name)
-			@new_settings[module_name][setting] = value
-		end
-
-		def load_settings
-			# load from api
-		end
-
-		def save_settings
-			# Only saves new settings
-			# save to api
-		end
-
 		# ----------------------------------------------------- Strings ------------------------------------------------------
-
-		def load_app_strings(view, locale = nil)
-			view = view.to_sym
-			locale ||= self.page.locale
-			begin
-				strings_file = case view
-					               when :system then
-						               "webapp/mojura/views/strings.#{locale}.json"
-					               when :view_template_names then
-						               "webapp/mojura/views/strings_view_template_names.#{locale}.json"
-					               else
-						               "webapp/views/#{view}/strings.#{locale}.json"
-				               end
-				@strings[self.page.locale] ||= {}
-				@strings[self.page.locale][view] = JSON.parse(File.read(strings_file)) if (File.exists?(strings_file))
-			rescue Exception => e
-				raise CorruptStringsFileException.new(view, e.to_s)
-			end
-		end
-
-		def app_str(view, id, options = {})
-			locale = options[:locale] || self.page.locale
-			view = view.to_sym
-			@strings[locale] ||= {}
-			self.load_app_strings(view) if (!@strings[locale].include?(view))
-			@strings[locale][view] ||= {}
-			return (@strings[locale][view][id.to_s] || options[:default] || "__#{view}_#{id}__")
+		def locale_str(view, id, options = {})
+			Locale.str(view, id, options)
 		end
 
 	end

@@ -1,4 +1,4 @@
-var validator = (function ($) {
+var Validator = (function ($) {
 
 	var errors = {};
 

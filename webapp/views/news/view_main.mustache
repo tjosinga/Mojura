@@ -1,29 +1,29 @@
 {{#items}}
 	<div style="margin-bottom: 40px;">
 		<article style="clear: both">
-			
+
 			<div class="row pull-right" style="margin-bottom: 60px">
 				<div class="btn-group row" style="margin-bottom: 10px">
 				  <button class="btn btn-small"><i class="icon-plus"></i></button>
 				  <button class="btn btn-small"><i class="icon-pencil"></i></button>
 				  <button class="btn btn-small"><i class="icon-trash"></i></button>
-				</div>			
+				</div>
 
 				<div class=" row" style="margin-bottom: 10px">
-				  <a href="{{base_url}}?action=add&amp;newsid={{id}}" rel="tooltip" title="{{app_str_news_add}}"><i class="icon-plus"></i></a>
-				  <a href="{{base_url}}?action=edit&amp;newsid={{id}}" rel="tooltip" title="{{app_str_news_edit}}"><i class="icon-pencil"></i></a>
-				  <a href="{{base_url}}?action=delete&amp;newsid={{id}}" rel="tooltip" title="{{app_str_news_delete}}"><i class="icon-trash"></i></a>
-				</div>			
-				
+				  <a href="{{base_url}}?action=add&amp;newsid={{id}}" rel="tooltip" title="{{locale_str_news_add}}"><i class="icon-plus"></i></a>
+				  <a href="{{base_url}}?action=edit&amp;newsid={{id}}" rel="tooltip" title="{{locale_str_news_edit}}"><i class="icon-pencil"></i></a>
+				  <a href="{{base_url}}?action=delete&amp;newsid={{id}}" rel="tooltip" title="{{locale_str_news_delete}}"><i class="icon-trash"></i></a>
+				</div>
+
 				<div class="btn-group row">
 				  <a class="btn dropdown-toggle btn-small" data-toggle="dropdown" href="#">
 				    <i class="icon-wrench"></i>
 				    <span class="caret"></span>
 				  </a>
 				  <ul class="dropdown-menu">
-				    <a href="{{base_url}}?action=add&amp;newsid={{id}}">{{app_str_news_add}}</a>
-				    <a href="{{base_url}}?action=edit&amp;newsid={{id}}">{{app_str_news_edit}}</a>
-				    <a href="{{base_url}}?action=delete&amp;newsid={{id}}">{{app_str_news_delete}}</a>
+				    <a href="{{base_url}}?action=add&amp;newsid={{id}}">{{locale_str_news_add}}</a>
+				    <a href="{{base_url}}?action=edit&amp;newsid={{id}}">{{locale_str_news_edit}}</a>
+				    <a href="{{base_url}}?action=delete&amp;newsid={{id}}">{{locale_str_news_delete}}</a>
 				  </ul>
 				</div>
 			</div>
@@ -31,7 +31,7 @@
 			<h2>{{title}}</h2>
 			{{{content.html}}}
 			{{#content.readmore}}
-				<a class='readmore' href="{{base_url}}?newsid={{id}}">{{app_str_system_readmore}}</a>
+				<a class='readmore' href="{{base_url}}?newsid={{id}}">{{locale_str_system_readmore}}</a>
 			{{/content.readmore}}
 		</article>
 	</div>

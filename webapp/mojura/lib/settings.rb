@@ -1,4 +1,4 @@
-require 'api/lib/settings'
+require 'api/resources/settings/settings.object'
 
 module MojuraWebApp
 

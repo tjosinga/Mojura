@@ -16,7 +16,7 @@ module MojuraWebApp
 				data[:col_offsets] = (0..11).to_a.map { |i| {index: i, title: i} }
 				data[:row_offsets] = (0..10).to_a.map { |i| {index: i, title: i} }
 				data[:templates] = WebApp.api_call('pages/templates', {col_count: 12})
-				data[:templates].each { |template| template[:title] = WebApp.app_str(:view_template_names, template[:templateid]) }
+				data[:templates].each { |template| template[:title] = Locale.str(:view_template_names, template[:templateid]) }
 				options[:uses_editor] = true
 				WebApp.page.include_script_link('mojura/js/pageeditor.js')
 				WebApp.page.include_script('if (document.location.hash == \'#editing\') jQuery(\'#toggle_edit_page\').click()')

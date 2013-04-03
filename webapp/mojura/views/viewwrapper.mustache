@@ -15,19 +15,19 @@
 				<!-- <button class="btn btn-mini pull-left"><i class="icon-move"></i></button> //-->
 				<button class="btn btn-mini pull-left" onclick="PageEditor.showEditView(this.parentNode.parentNode)" 	 rel="tooltip" data-original-title="test edit"><i class="icon-pencil"></i></button>
 				<button class="btn btn-mini pull-left" onclick="PageEditor.showDeleteView(this.parentNode.parentNode)" rel="tooltip" data-original-title="test delete"><i class="icon-trash"></i></button>
-			  <button class="btn btn-small hide btn-edit-page dropdown-toggle" data-toggle="dropdown">
+			  <button class="btn btn-mini hide btn-edit-page dropdown-toggle" data-toggle="dropdown">
 			  	<i class="icon-plus"></i> <span class="caret"></span>
 		  	</button>
 				<ul class="dropdown-menu">
 					{{#templates}}
-		    		<li><a href="javascript:void(0)" onclick="PageEditor.addSubview('{{pageid}}', '{{templateid}}', '{{viewid}}')">{{title}}</a></li>	
+		    		<li><a href="javascript:void(0)" onclick="PageEditor.addSubview('{{pageid}}', '{{templateid}}', '{{viewid}}')">{{title}}</a></li>
 					{{/templates}}
-		  	</ul>  	
+		  	</ul>
 			</div>
 		{{/may_edit_view}}
 		{{#has_html}}
 			<div class="view-text">
-				{{{html}}}			
+				{{{html}}}
 				<div class="clearfix"></div>
 			</div>
 		{{/has_html}}

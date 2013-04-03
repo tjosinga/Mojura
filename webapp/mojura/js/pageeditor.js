@@ -45,11 +45,12 @@ var PageEditor = (function ($) {
 
 	function setEditViewData(data) {
 		$("input[name=viewid]", "#modalEditView").val(data.viewid);
-		$("textarea[name=content]", "#modalEditView").val(data.content.raw).sceditor({
-			plugin: "ubbcode",
-			style: "ext/sceditor/themes/default.min.css",
-			emoticonsRoot: "ext/sceditor/"
-		});
+		$("textarea[name=content]", "#modalEditView").val(data.content.raw);
+// .sceditor({
+//			plugin: "ubbcode",
+//			style: "ext/sceditor/themes/default.min.css",
+//			emoticonsRoot: "ext/sceditor/"
+//		});
 		$("select[name=view]", "#modalEditView").change(function () {
 			view = $(this).val();
 			if (view == "") {
@@ -60,7 +61,7 @@ var PageEditor = (function ($) {
 			$.getJSON("views/" + view + "/strings.nl.json",function (strings) {
 				$.get("views/" + view + "/view_page_edit_settings.mustache?static_only=true", {cache: false},function (template) {
 					for (key in strings) {
-						data.settings["app_str_" + view + "_" + key] = strings[key]
+						data.settings["locale_str_" + view + "_" + key] = strings[key]
 					}
 					html = Mustache.to_html(template, data.settings);
 					$(".view_settings", "#modalEditView").html(html);
@@ -91,6 +92,7 @@ var PageEditor = (function ($) {
 		viewid = getViewIdFromView(viewObj);
 		pageid = $("input[name=pageid]", "#modalEditView").val();
 		url = "__api__/pages/" + pageid + "/view/" + viewid;
+
 
 		$.getJSON(url, function (data) {
 			setEditViewData(data);

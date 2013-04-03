@@ -18,10 +18,10 @@ module MojuraWebApp
 			@templates = []
 			@data = {}
 			@body_html = ''
-			@locale = WebApp.get_setting('locale', 'nl')
+			@locale = Settings.get(:locale, 'nl')
 			super({})
 
-			if WebApp.get_setting(:use_external_js_libs)
+			if Settings.get(:use_external_js_libs, true)
 				self.include_script_link('https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js')
 				self.include_script_link('https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.21/jquery-ui.min.js')
 				self.include_script_link('http://malsup.github.com/jquery.form.js')
@@ -45,12 +45,12 @@ module MojuraWebApp
 				@data = WebApp.api_call("pages/#{@pageid}")
 			elsif @request_uri != ''
 				begin
-					pages = WebApp.api_call('pages', {path: CGI.escape(@request_uri)})
+					pages = WebApp.api_call('pages', {path: @request_uri})
 					@pageid = pages.last[:id]
 					@data = WebApp.api_call("pages/#{@pageid}")
 				rescue HTTPException => e
 					if File.exists?("webapp/views/#{@request_uri}/view_main.rb")
-						@data[:title] = WebApp.app_str(@request_uri, :view_title)
+						@data[:title] = Locale.str(@request_uri, :view_title)
 						@data[:view] = @request_uri
 					else
 						@data[:title] = "'#{e.class}' for view #{@request_uri}" #titel from strings.locale.json
@@ -71,12 +71,12 @@ module MojuraWebApp
 				end
 				@data = (@pageid.nil?) ? nil : WebApp.api_call("pages/#{@pageid}")
 			end
-			@data = {view: 'sitemap', title: WebApp.app_str('system', 'no_default_page')} if @data.nil?
+			@data = {view: 'sitemap', title: Locale.str('system', 'no_default_page')} if @data.nil?
 			@data.symbolize_keys!
 		end
 
 		def title
-			result = WebApp.get_setting(:title, 'Mojura')
+			result = Settings.get(:title, 'Mojura')
 			result += ' - ' + @data[:title] if (@data.include?(:title)) && (@data[:title] != '')
 			return result
 		end
@@ -90,7 +90,7 @@ module MojuraWebApp
 		end
 
 		def description
-			@data[:description] || WebApp.get_setting('description', 'Mojura is a fine API based Content Management System')
+			@data[:description] || Settings.get('description', 'Mojura is a fine API based Content Management System')
 		end
 
 		def include_metatag(name, content)
@@ -132,9 +132,9 @@ module MojuraWebApp
 
 		def include_template(id, code)
 			self.include_script_link('ext/mustache/mustache.min.js')
-			code.gsub!(/\{\{app_str_([0-9a-zA-Z]+)_(\w+)\}\}/) { |str|
-				view, str_id = str.gsub(/(\{\{app_str_|\}\})/, '').split('_', 2)
-				WebApp.app_str(view.to_sym, str_id.to_sym)
+			code.gsub!(/\{\{locale_str_([0-9a-zA-Z]+)_(\w+)\}\}/) { |str|
+				view, str_id = str.gsub(/(\{\{locale_str_|\}\})/, '').split('_', 2)
+				Locale.str(view.to_sym, str_id.to_sym)
 			}
 			code.gsub!(/\{\{base_url\}\}/, WebApp.page.request_uri)
 			@templates.push({id: id, template: code})
@@ -147,7 +147,7 @@ module MojuraWebApp
 		def render
 			# preloading so all views can still affect the page object (i.e. to include css, js, etc.)
 			require 'webapp/views/body/view_main'
-			@body_html = WebApp.render_view(:view => 'body', :wrapping => 'simple', :classes => 'container', :add_span => false)
+			@body_html = WebApp.render_view(:view => 'body', :wrapping => 'simple', :classes => 'body_container', :add_span => false)
 			super
 		end
 
