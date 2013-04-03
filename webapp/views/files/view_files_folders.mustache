@@ -31,12 +31,14 @@
 
 	{{#subfolders}}
 		<li class='hover-glow' style='padding: 5px 0px;'>
-			{{#rights.allowed.delete}}
-			  <a class="pull-right" href="#" rel="tooltip" title="{{locale_str_action_delete_folder}}" data-toggle="modal" data-target="#modalDeleteFolder" onclick="FilesView.loadForm('#modalDeleteFolder', '#template-delete-folder', '__api__/files/folder/{{id}}', 'delete'); return false"><i class="icon-fug-files-folder-delete"></i></a>
-			{{/rights.allowed.delete}}
-			{{#rights.allowed.update}}
-			  <a class="pull-right" href="#" rel="tooltip" title="{{locale_str_action_edit_folder}}" data-toggle="modal" data-target="#modalEditFolder" onclick="FilesView.loadForm('#modalEditFolder', '#template-add-edit-folder', '__api__/files/folder/{{id}}', 'post'); return false"><i class="icon-fug-files-folder-edit"></i></a>
-			{{/rights.allowed.update}}
+			<div class="btn-group pull-right">
+				{{#rights.allowed.update}}
+			    <a class="btn btn-mini" href="#" rel="tooltip" title="{{locale_str_action_edit_folder}}" data-toggle="modal" data-target="#modalEditFolder" onclick="FilesView.loadForm('#modalEditFolder', '#template-add-edit-folder', '__api__/files/folder/{{id}}', 'post'); return false"><i class="icon-fug-files-folder-edit"></i></a>
+				{{/rights.allowed.update}}
+				{{#rights.allowed.delete}}
+				  <a class="btn btn-mini" href="#" rel="tooltip" title="{{locale_str_action_delete_folder}}" data-toggle="modal" data-target="#modalDeleteFolder" onclick="FilesView.loadForm('#modalDeleteFolder', '#template-delete-folder', '__api__/files/folder/{{id}}', 'delete'); return false"><i class="icon-fug-files-folder-delete"></i></a>
+				{{/rights.allowed.delete}}
+			</div>
 			<i class='icon-fug-files-folder'></i> <a href="{{base_url}}?folderid={{id}}" onclick="FilesView.setCurrentFolderId('{{id}}'); return false;">{{title}}</a>
 		</li>
 	{{/subfolders}}
@@ -45,16 +47,17 @@
 <ul class="unstyled">
 	{{#files}}
 		<li class='hover-glow' style='padding: 5px 0px;'>
-			{{#rights.allowed.delete}}
-			  <a class="pull-right" href="#" rel="tooltip" title="{{locale_str_action_delete_file}}" data-toggle="modal" data-target="#modalDeleteFile" onclick="FilesView.loadForm('#modalDeleteFile', '#template-delete-file', '__api__/files/{{id}}', 'delete'); return false"><i class="icon-fug-files-file-delete"></i></a>
-			{{/rights.allowed.delete}}
-			{{#rights.allowed.update}}
-			  <a class="pull-right" href="#" rel="tooltip" title="{{locale_str_action_edit_file}}" data-toggle="modal" data-target="#modalEditFile" onclick="FilesView.loadForm('#modalEditFile', '#template-add-edit-file', '__api__/files/{{id}}', 'post'); return false"><i class="icon-fug-files-file-edit"></i></a>
-			{{/rights.allowed.update}}
-
-			{{#is_archive}}
-			  <a class="pull-right" href="#" rel="tooltip" title="{{locale_str_action_extract_file}}" data-toggle="modal" data-target="#modalExtractFile" onclick="FilesView.loadForm('#modalExtractFile', '#template-extract-file', '__api__/files/{{id}}?action=extract', 'post'); return false"><i class="icon-fug-files-file-extract"></i></a>
-			{{/is_archive}}
+			<div class="btn-group pull-right">
+				{{#is_archive}}
+			    <a class="btn btn-mini" href="#" rel="tooltip" title="{{locale_str_action_extract_file}}" data-toggle="modal" data-target="#modalExtractFile" onclick="FilesView.loadForm('#modalExtractFile', '#template-extract-file', '__api__/files/{{id}}?action=extract', 'post'); return false"><i class="icon-fug-files-file-extract"></i></a>
+				{{/is_archive}}
+				{{#rights.allowed.update}}
+			    <a class="btn btn-mini" href="#" rel="tooltip" title="{{locale_str_action_edit_file}}" data-toggle="modal" data-target="#modalEditFile" onclick="FilesView.loadForm('#modalEditFile', '#template-add-edit-file', '__api__/files/{{id}}', 'post'); return false"><i class="icon-fug-files-file-edit"></i></a>
+				{{/rights.allowed.update}}
+				{{#rights.allowed.delete}}
+			    <a class="btn btn-mini" href="#" rel="tooltip" title="{{locale_str_action_delete_file}}" data-toggle="modal" data-target="#modalDeleteFile" onclick="FilesView.loadForm('#modalDeleteFile', '#template-delete-file', '__api__/files/{{id}}', 'delete'); return false"><i class="icon-fug-files-file-delete"></i></a>
+				{{/rights.allowed.delete}}
+			</div>
 
 			<i class='icon-fug-files-file'></i>
 			{{#is_image}}
