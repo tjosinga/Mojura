@@ -1,0 +1,31 @@
+#!/usr/bin/env ruby
+
+require 'json'
+
+$:.unshift(File.expand_path(File.dirname(__FILE__) + '/../'))
+Dir.chdir(File.expand_path(File.dirname(__FILE__) + '/../'))
+
+files = %w(webapp/mojura/views/strings.nl.json webapp/mojura/views/strings_view_template_names.nl.json)
+
+
+path = 'webapp/views/'
+Dir.foreach(path) { |name|
+	if (name != '.') && (name != '..') && (File.directory?(path + name))
+		filename = path + name + '/strings.nl.json'
+		files.push(filename) if File.exists?(filename)
+	end
+}
+
+files.each { | filename |
+	data = JSON.parse(File.read(filename))
+	s = ''
+	data.each { | k, v |
+		s += "#{k} = #{v.to_s}\n"
+	}
+	File.delete(filename)
+	filename.gsub!('.json', '.kv')
+	File.write(filename, s)
+	STDOUT << "#{filename}\n"
+
+}
+

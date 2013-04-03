@@ -19,8 +19,12 @@ use Rack::ContentLength
 use Rack::ShowExceptions
 use Rack::Runtime
 use Rack::CommonLogger
-use Rack::Session::Memcache
 use Rack::ETag
+
+# Uncomment the prefered way for storing cookies.
+#use Rack::Session::Memcache
+use Rack::Session::Cookie, :secret => 'my_secret_cookie_string'
+
 
 use Mojura::Formatter
 use Mojura::Gatekeeper

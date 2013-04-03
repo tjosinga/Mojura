@@ -30,5 +30,5 @@ else
 end
 
 
-STDOUT << "#{result}"
+#STDOUT << "#{result}"
 STDOUT << "\n"

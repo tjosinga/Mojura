@@ -6,7 +6,7 @@ module MojuraWebApp
 
 		def render
 			size = @options[:parent_col_span] || 1
-			width = (60 * size) + (20 * (size - 1))
+			width = (70 * size) + (30 * (size - 1))
 			ubb = ''
 			@options[:fileids] ||= ''
 			images = @options[:fileids].split(',')
@@ -14,8 +14,11 @@ module MojuraWebApp
 				ubb = '[slideshow]'
 				images.each { |id| ubb += "_api__/files/#{id}/download?size=#{width}&type=width\n" }
 				ubb += '[/slideshow]'
+			elsif images.count == 1
+				id = images[0]
+				ubb = "[img]__api__/files/#{id}/download?size=#{width}&type=width[/img]"
 			else
-				ubb += "[img]__api__/files/#{id}/download?size=#{width}&type=width[/img]"
+				ubb = 'No image id specified'
 			end
 			return WebApp.parse_text(ubb)
 		end

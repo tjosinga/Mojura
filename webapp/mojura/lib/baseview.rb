@@ -12,8 +12,8 @@ module MojuraWebApp
 			@data = {} if (!data.is_a?(Hash))
 			@options = options
 			if @options[:uses_editor]
-				WebApp.page.include_script_link('ext/sceditor/jquery.sceditor.min.js')
-				WebApp.page.include_style_link('ext/sceditor/themes/default.min.css')
+				#WebApp.page.include_script_link('ext/sceditor/jquery.sceditor.min.js')
+				#WebApp.page.include_style_link('ext/sceditor/themes/default.min.css')
 			end
 			source_file = self.method(methods[0]).source_location[0]
 			self.template_path = source_file.gsub(/\w*.rb$/, '')
@@ -25,9 +25,9 @@ module MojuraWebApp
 		def method_missing(name, *arguments)
 			result = nil
 			name = name.to_s
-			if name.match(/^app_str_/)
-				view, id = name.match(/^app_str_([0-9a-zA-Z]*)_(\w*)$/).captures
-				result = WebApp.app_str(view, id)
+			if name.match(/^locale_str_/)
+				view, id = name.match(/^locale_str_([0-9a-zA-Z]*)_(\w*)$/).captures
+				result = Locale.str(view, id)
 			elsif @data.has_key?(name.to_s)
 				result = @data[name.to_s]
 			elsif @data.has_key?(name.to_sym)
@@ -41,7 +41,7 @@ module MojuraWebApp
 		end
 
 		def respond_to?(method)
-			super || method.match(/^app_str_/) || @data.has_key?(method.to_sym) || @data.has_key?(method.to_s)
+			super || method.match(/^locale_str_/) || @data.has_key?(method.to_sym) || @data.has_key?(method.to_s)
 		end
 
 		def partial(name)

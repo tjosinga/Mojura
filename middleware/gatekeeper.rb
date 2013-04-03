@@ -12,6 +12,10 @@ module Mojura
 		def call(env)
 			req = Rack::Request.new(env)
 
+			# Static files should already be dealt with.
+			# If the request reaches this gatekeeper, it should get a 404 immediately
+			return [404, {}, []] if (req.params.include?('static_only')) && (req.params['static_only'].downcase == 'true')
+
 			port = env['SERVER_PORT'].to_i
 			port_str = ((port != 80) && (port != 443)) ? ':' + port.to_s : ''
 
