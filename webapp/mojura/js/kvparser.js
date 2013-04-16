@@ -1,5 +1,7 @@
 var KeyValueParser = (function ($) {
 
+	lastResult = undefined;
+
 	function parse(str, options) {
 		if (options == undefined) options = {};
 		if (options["sep_char"] == undefined) options["sep_char"] = "=";
@@ -22,9 +24,18 @@ var KeyValueParser = (function ($) {
 				}
 			}
 		}
+		lastResult = result;
 		return result;
 	}
 
-	return { parse: parse };
+	function toString() {
+		result = "";
+		if (lastResult != undefined)
+			for (var key in lastResult)
+				result += key + ": " + lastResult[key] + "\n";
+		return result;
+	}
+
+	return { parse: parse, toString: toString };
 
 })(jQuery);

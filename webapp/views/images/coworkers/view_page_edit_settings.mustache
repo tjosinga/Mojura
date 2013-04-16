@@ -1,6 +1,9 @@
 <input type="text" name="setting_fileids" value="{{fileids}}" />
 <div class="current_images"></div>
-<a href="javascript:void(0)" class="btn" onclick="ImageView.addImage();"><i class="icon-plus"></i></a>
+<a href="javascript:void(0)" class="btn" onclick="ImageEditView.addImage();">
+	<i class="icon-plus"></i>
+</a>
+<div class="select_file_container"></div>
 
 
 <style type="text/css">
@@ -19,12 +22,12 @@
 		width: 64px;
 		height: 64px;
 	}
-
-
 </style>
 
+
 <script type="text/javascript">
-	ImageView = (function($) {
+    var ImageEditView;
+    ImageEditView = (function($) {
 
 		function setFileIdsToForm() {
 			fileids = []
@@ -43,7 +46,7 @@
 		};
 
 		function fileIdToHTML(fileid) {
-			return "<div class='pull-left image-thumb' onclick='ImageView.removeImage(this)' data-fileid='" + fileid + "'><img src='__api__/files/" + fileid + "/download?type=avatar' alt='' /></div>"
+			return "<div class='pull-left image-thumb' onclick='ImageEditView.removeImage(this)' data-fileid='" + fileid + "'><img src='__api__/files/" + fileid + "/download?type=avatar' alt='' /></div>"
 		};
 
 		function showImages() {
@@ -56,15 +59,37 @@
 		};
 
 		function addImage() {
-			fileid = window.prompt("Geef (tijdelijk) even het fileid van de afbeelding. Standaard al gevuld met een werkende id.", "506dfbf678e7231ef2000009");
-			$(".current_images", "#modalEditView").append(fileIdToHTML(fileid));
-			setFileIdsToForm();
+			Locale.ensureLoaded('files', {loaded: function () {
+				url = "views/files/coworkers/select_file.mustache?static_only=true";
+				$.get(url, {cache: false}, function (template) {
+					strings = Locale.rawStrings(["system", "files"]);
+					html = Mustache.to_html(template, strings);
+					$("#modalEditView .select_file_container").html(html);
+					SelectFile.show({multi: true, parentModalId: "modalEditView",
+						confirmed: function (ids) {
+							for (i in ids) {
+								if ($("#modalEditView .current_images div[data-fileid=" + ids[i] + "]").length == 0)
+									$(".current_images", "#modalEditView").append(fileIdToHTML(ids[i]));
+							}
+							setFileIdsToForm();
+						},
+						hidden: function () {
+						}
+					});
+				});
+			}});
 		};
 
 		function removeImage(obj) {
 			$(obj).remove();
 			setFileIdsToForm();
 		};
+
+	  function loadImages() {
+
+	  }
+
+		showImages();
 
 		return {
 			showImages: showImages,
@@ -73,12 +98,6 @@
 		};
 
 	})(jQuery);
-
-	ImageView.showImages();
-
-	popover_options = { content: "Testing", title: "Title: {{locale_str_images_title}}" };
-
-	$(".image-add-button", "#modalEditView").popover(popover_options);
 
 </script>
 

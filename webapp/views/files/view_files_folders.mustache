@@ -12,10 +12,10 @@
 
 {{#rights.allowed.update}}
 	<div class="btn-group">
-	  <button class="btn" data-toggle="modal" data-target="#modalAddFile" onclick="FilesView.loadForm('#modalAddFile', '#template-add-edit-file', '__api__/files', 'put'); return false">
+	  <button class="btn" data-toggle="modal" data-target="#modalAddFile" onclick="FilesView.loadForm('#modalAddFile', '#template-add-edit-file', '__api__/files/0', 'put'); return false">
 	  	<i class='icon-fug-files-file-add'></i> {{locale_str_files_action_add_file}}
 	  </button>
-	  <button class="btn" data-toggle="modal" data-target="#modalAddFolder" onclick="FilesView.loadForm('#modalAddFolder', '#template-add-edit-folder', '__api__/files/folders', 'put'); return false">
+	  <button class="btn" data-toggle="modal" data-target="#modalAddFolder" onclick="FilesView.loadForm('#modalAddFolder', '#template-add-edit-folder', '__api__/files/folders/0', 'put'); return false">
 	  	<i class='icon-fug-files-folder-add'></i> {{locale_str_files_action_add_folder}}
 	  </button>
 	</div>
@@ -48,10 +48,10 @@
 	{{#files}}
 		<li class='hover-glow' style='padding: 5px 0px;'>
 			<div class="btn-group pull-right">
-				{{#is_archive}}
-			    <a class="btn btn-mini" href="#" rel="tooltip" title="{{locale_str_action_extract_file}}" data-toggle="modal" data-target="#modalExtractFile" onclick="FilesView.loadForm('#modalExtractFile', '#template-extract-file', '__api__/files/{{id}}?action=extract', 'post'); return false"><i class="icon-fug-files-file-extract"></i></a>
-				{{/is_archive}}
 				{{#rights.allowed.update}}
+					{{#is_archive}}
+				    <a class="btn btn-mini" href="#" rel="tooltip" title="{{locale_str_action_extract_file}}" data-toggle="modal" data-target="#modalExtractFile" onclick="FilesView.loadForm('#modalExtractFile', '#template-extract-file', '__api__/files/{{id}}?action=extract', 'post'); return false"><i class="icon-fug-files-file-extract"></i></a>
+					{{/is_archive}}
 			    <a class="btn btn-mini" href="#" rel="tooltip" title="{{locale_str_action_edit_file}}" data-toggle="modal" data-target="#modalEditFile" onclick="FilesView.loadForm('#modalEditFile', '#template-add-edit-file', '__api__/files/{{id}}', 'post'); return false"><i class="icon-fug-files-file-edit"></i></a>
 				{{/rights.allowed.update}}
 				{{#rights.allowed.delete}}

@@ -1,9 +1,9 @@
 <form action="__api__/files/folder/" method="post">
 	<input type="hidden" name="_method" value="{{method}}" />
 	<input type="hidden" name="parentid" value="{{folderid}}" />
-	<label for="title">{{locale_str_system_name}}</label>
+	<label >{{locale_str_system_name}}</label>
 	<input type="text" name="title" value="{{title}}" />
 
-	<label for="description">{{locale_str_system_description}}</label>
+	<label >{{locale_str_system_description}}</label>
 	<textarea name='description'>{{description.raw}}</textarea>
 <form>

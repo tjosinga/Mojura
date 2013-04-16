@@ -5,7 +5,8 @@ module MojuraWebApp
 
 	class PageView < BaseView
 
-		attr_reader :request_uri, :request_params, :metatags, :links, :scripts, :script_links, :styles, :templates, :locale, :pageid
+		attr_reader :request_uri, :request_params, :metatags, :links, :scripts, :script_links, :styles,
+		            :templates, :locales, :locale, :pageid
 
 		def initialize(uri = '', params = {})
 			@request_uri = uri
@@ -16,6 +17,7 @@ module MojuraWebApp
 			@script_links = []
 			@styles = []
 			@templates = []
+			@locales = []
 			@data = {}
 			@body_html = ''
 			@locale = Settings.get(:locale, 'nl')
@@ -33,8 +35,13 @@ module MojuraWebApp
 			self.include_script_link('ext/bootstrap/js/bootstrap.min.js')
 			self.include_style_link('ext/bootstrap/css/bootstrap.min.css')
 
+			self.include_script_link('ext/mustache/mustache.min.js')
+
 			self.include_script_link('mojura/js/validator.js')
+			self.include_script_link('mojura/js/kvparser.js')
+			self.include_script_link('mojura/js/locale.js')
 			self.include_style_link('mojura/css/style.css')
+
 		end
 
 		def load
@@ -142,6 +149,12 @@ module MojuraWebApp
 
 		def include_template_file(id, filename)
 			self.include_template(id, File.read(filename))
+		end
+
+		def include_locale(view)
+			Locale.strings(view).each{ | id, val |
+				@locales.push({view: view, id: id, str: val})
+			}
 		end
 
 		def render

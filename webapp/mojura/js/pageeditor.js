@@ -58,19 +58,18 @@ var PageEditor = (function ($) {
 				return;
 			}
 			$(".view_settings", "#modalEditView").html("<div class='loading'></div>");
-			$.getJSON("views/" + view + "/strings.nl.json",function (strings) {
-				$.get("views/" + view + "/view_page_edit_settings.mustache?static_only=true", {cache: false},function (template) {
-					for (key in strings) {
-						data.settings["locale_str_" + view + "_" + key] = strings[key]
-					}
+			Locale.load(view, { loaded: function() {
+				url = "views/" + view + "/coworkers/view_page_edit_settings.mustache?static_only=true"
+				$.get(url, {cache: false},function (template) {
+					strings = Locale.rawStrings(["system", view])
+					for (id in strings)
+						data.settings[id] = strings[id];
 					html = Mustache.to_html(template, data.settings);
 					$(".view_settings", "#modalEditView").html(html);
 				}).error(function () {
-						$(".view_settings", "#modalEditView").html("");
-					});
-			}).error(function () {
-					alert("Couldn't load strings for " + view);
+					$(".view_settings", "#modalEditView").html("");
 				});
+			}});
 		}).val(data.view).trigger("change");
 		$("select[name=col_span]", "#modalEditView").val(data.col_span);
 		$("select[name=col_offset]", "#modalEditView").val(data.col_offset);
@@ -92,8 +91,6 @@ var PageEditor = (function ($) {
 		viewid = getViewIdFromView(viewObj);
 		pageid = $("input[name=pageid]", "#modalEditView").val();
 		url = "__api__/pages/" + pageid + "/view/" + viewid;
-
-
 		$.getJSON(url, function (data) {
 			setEditViewData(data);
 			$(".loading", "#modalEditView").hide();

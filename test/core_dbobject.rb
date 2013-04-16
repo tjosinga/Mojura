@@ -54,11 +54,11 @@ module MojuraAPI
 			assert_nil(user.id)
 			user.save_to_db
 			assert_not_nil(user.id)
-			assert(!user.is_changed?)
+			assert(!user.changed?)
 			user.username = 'osingat'
-			assert(user.is_changed?)
+			assert(user.changed?)
 			user.save_to_db
-			assert(!user.is_changed?)
+			assert(!user.changed?)
 			user.delete_from_db
 			assert_nil(user.id)
 		end

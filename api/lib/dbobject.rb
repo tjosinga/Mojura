@@ -26,6 +26,7 @@ module MojuraAPI
 		# Initializes the API. It calls the get_fields of its
 		def initialize(db_col_name, id = nil, options = {})
 			raise Exception.new 'DbObject may only be inherited' if (self.instance_of?(DbObject))
+			id = nil if (id == '0') || (id == 'new')
 			@loaded = false
 			@options = options || {}
 			@id = id
@@ -46,7 +47,7 @@ module MojuraAPI
 				v.delete(:default)
 				v[:changed] = false
 			}
-			self.load_from_db if !id.nil?
+			self.load_from_db if (!id.nil?)
 		end
 
 		def load_fields
@@ -77,11 +78,13 @@ module MojuraAPI
 		end
 
 		def set_field_value(key, value, validate_value = true, set_changed_flag = true)
-			return if @fields[key.to_sym].nil?
-			value = StringConvertor.convert(value, @fields[key.to_sym][:type])
-			if (@fields[key.to_sym][:value] != value) && ((!validate_value) || (self.validate_field_value(key, value)))
-				@fields[key.to_sym][:changed] = true if (set_changed_flag)
-				@fields[key.to_sym][:value] = value
+			key = key.to_sym
+			return if @fields[key].nil?
+			value = StringConvertor.convert(value, @fields[key][:type])
+			if (@fields[key][:value] != value) && ((!validate_value) || (self.validate_field_value(key, value)))
+				@fields[key][:orig_value] = @fields[key][:value] unless @fields[key][:changed]
+				@fields[key][:changed] = true if (set_changed_flag)
+				@fields[key][:value] = value
 			end
 		end
 
@@ -229,6 +232,16 @@ module MojuraAPI
 			return self
 		end
 
+		# Sets all the values to the original state
+		def revert
+			@fields.each { | _, options|
+				if options[:changed]
+					options[:value] = options[:orig_value]
+					options[:changed] = false
+				end
+			}
+		end
+
 		# A dummy method which could be used to alter the data that is stored in the database.
 		def on_save_data(data)
 		end
@@ -244,7 +257,7 @@ module MojuraAPI
 
 		# Returns true if any of the values is changed since the last load from the database.
 		# :category: Database methods
-		def is_changed?
+		def changed?
 			@fields.each do |_, options|
 				if options[:changed]
 					return true

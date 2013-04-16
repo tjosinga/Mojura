@@ -1,55 +1,60 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>{{title}}</title>
-    <base href="{{base_url}}" />
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta name="author" content="Taco Jan Osinga, Osinga Software" />
-    <meta name="description" content="{{description}}" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>{{title}}</title>
+	<base href="{{base_url}}" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="author" content="Taco Jan Osinga, Osinga Software" />
+	<meta name="description" content="{{description}}" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    {{#metatags}}
-      <meta name="{{name}}" content="{{content}}" />
-    {{/metatags}}
-    {{#links}}
-      <link rel="{{rel}}" type="{{type}}" title="{{title}}" href="{{href}}" />
-    {{/links}}
-    {{#script_links}}
-      <script type="text/javascript" src="{{script}}"></script>
-    {{/script_links}}
+	{{#metatags}}
+	  <meta name="{{name}}" content="{{content}}" />
+	{{/metatags}}
+	{{#links}}
+	  <link rel="{{rel}}" type="{{type}}" title="{{title}}" href="{{href}}" />
+	{{/links}}
+	{{#script_links}}
+	  <script type="text/javascript" src="{{script}}"></script>
+	{{/script_links}}
 
-    {{#styles}}
-      <style type="text/css">
-      	{{{style}}}
-      </style>
-    {{/styles}}
+	{{#styles}}
+	  <style type="text/css">
+		{{{style}}}
+	  </style>
+	{{/styles}}
   </head>
 
   <body>
-    {{{body}}}
+	{{{body}}}
 
-    {{#templates}}
-      <script id="{{id}}" type="text/template">
-        {{{template}}}
-      </script>
-    {{/templates}}
+	{{#templates}}
+		<script id="{{id}}" type="text/template">
+			{{{template}}}
+		</script>
+	{{/templates}}
 
-    <script type="text/javascript">
-      {{#scripts}}
-        {{{code}}}
-      {{/scripts}}
-      
-      {{#analyticsid}}
-				var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-				document.write(unescape("%3Cscript src="" + gaJsHost + "google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E"));
+	<script type="text/javascript">
+	  {{#scripts}}
+		{{{code}}}
+	  {{/scripts}}
 
-				try{ 
-					var pageTracker = _gat._getTracker("{{{analyticsid}}}");
-					pageTracker._trackPageview();
-				} catch(err) {}        
-      {{/analyticsid}}
-    </script>
-    
+		Locale.init("{{locale}}");
+		{{#locales}}
+		Locale.add("{{view}}", "{{id}}", "{{str}}");
+		{{/locales}}
+
+	  {{#analyticsid}}
+		var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+		document.write(unescape("%3Cscript src="" + gaJsHost + "google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E"));
+
+		try{
+			var pageTracker = _gat._getTracker("{{{analyticsid}}}");
+			pageTracker._trackPageview();
+		} catch(err) {}
+	  {{/analyticsid}}
+	</script>
+
   </body>
 
 </html>
