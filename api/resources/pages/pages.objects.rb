@@ -30,6 +30,11 @@ module MojuraAPI
 			@fields[:views][:value].symbolize_keys! if @fields[:views][:value].is_a?(Array)
 		end
 
+		def save_to_db
+			self.reorder_before_save({parent: self.parentid}) if @fields[:orderid][:changed]
+			super
+		end
+
 		def new_view(options = {})
 			{
 				view: (options[:view] || ''),
@@ -176,7 +181,7 @@ module MojuraAPI
 	class Pages < DbObjects
 
 		def initialize(where = {}, options = {})
-			options[:sort] = {orderid: 1} if (!options.include?(:sort))
+			options[:sort] = {orderid: :asc} if (!options.include?(:sort))
 			super('pages', Page, where, options)
 		end
 
@@ -189,7 +194,7 @@ module MojuraAPI
 
 		def initialize(menu_only = false)
 			@menu_only = menu_only
-			super('pages', true, [:title, :in_menu], 'pages')
+			super('pages', true, [:title, :in_menu, :orderid], 'pages')
 		end
 
 		def on_compact(src_info)

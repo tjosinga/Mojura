@@ -20,7 +20,7 @@ module MojuraWebApp
 				options[:uses_editor] = true
 				WebApp.page.include_script_link('mojura/js/pageeditor.js')
 				WebApp.page.include_script('if (document.location.hash == \'#editing\') jQuery(\'#toggle_edit_page\').click()')
-				WebApp.page.include_script_link('ext/mustache/mustache.min.js')
+				WebApp.page.include_locale(:system)
 			end
 			super(options, data)
 		end

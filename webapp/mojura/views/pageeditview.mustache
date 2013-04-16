@@ -4,10 +4,10 @@
 	  <button class="btn btn-small hide btn-edit-page dropdown-toggle" data-toggle="dropdown">
 	  	<i class="icon-plus"></i> <span class="caret"></span>
   	</button>
-		<ul class="dropdown-menu pull-right">
-			{{#templates}}
-    		<li><a href="javascript:void(0)" onclick="PageEditor.addSubview('{{pageid}}', '{{templateid}}')">{{title}}</a></li>
-			{{/templates}}
+	<ul class="dropdown-menu pull-right">
+		{{#templates}}
+       		<li><a href="javascript:void(0)" onclick="PageEditor.addSubview('{{pageid}}', '{{templateid}}')">{{title}}</a></li>
+		{{/templates}}
   	</ul>
   </div>
   <button class="btn btn-small pull-left" onclick="PageEditor.togglePageAdmins()" id="toggle_edit_page"><i class='icon-pencil'></i></button>
@@ -20,8 +20,8 @@
   </div>
   <div class="modal-body">
 		<form action="__api__/pages/{{pageid}}" method="post" onsubmit="return false">
-			<label for="content">{{locale_str_system_title}}</label>
-			<input type="text" name="title" value="{{title}}" />
+			<label for="modalEditPageTitle">{{locale_str_system_title}}</label>
+			<input id="modalEditPageTitle" type="text" name="title" value="{{title}}" />
 		</form>
   </div>
   <div class="modal-footer">

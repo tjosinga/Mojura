@@ -40,10 +40,10 @@ module MojuraAPI
 			if !@sort.empty?
 				srt = []
 				@sort.each { |k, v|
-					if (v == 'desc') || (v == -1)
-						v = 'descending'
+					if (v == 'desc') || (v == -1) || (v == :desc)
+						v = :desc
 					else
-						v = 'ascending'
+						v = :asc
 					end
 					srt << [k, v]
 				}

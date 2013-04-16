@@ -27,6 +27,7 @@ module MojuraAPI
 			@data_collection = MongoDb.collection(db_col_name.to_s)
 			@db_col_name = db_col_name
 			@parent_field = parent_field
+			@order_field = order_field
 			@cache_fields = cache_fields
 			@cache_fields.push(:api_url)
 			@use_rights = use_rights

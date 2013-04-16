@@ -16,6 +16,7 @@ module MojuraAPI
 		end
 
 		def all(params)
+			PageTree.new.refresh
 			path = (params.has_key?(:path)) ? params[:path] : ''
 			if path != ''
 #	    	full = (params.has_key?(:path)) ? params[:path] : ''
@@ -34,6 +35,7 @@ module MojuraAPI
 		end
 
 		def get(params)
+			PageTree.new.refresh
 			page = Page.new(params[:ids][0])
 			#TODO: Check rights
 			return page.to_a

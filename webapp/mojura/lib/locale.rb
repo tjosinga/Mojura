@@ -35,8 +35,13 @@ module MojuraWebApp
 
 		public
 
-		def all
-			@strings
+		def strings(view, options = {})
+			locale = options[:locale] || WebApp.page.locale
+			view = view.to_sym
+			@strings[locale] ||= {}
+			self.load_strings(view) unless (@strings[locale].include?(view))
+			@strings[locale][view] ||= {}
+			return (@strings[locale][view] || {})
 		end
 
 		def str(view, id, options = {})

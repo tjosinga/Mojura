@@ -24,7 +24,7 @@ module MojuraAPI
 		end
 
 		def uri_id_to_regexp(id_name)
-			'[0-9a-f]{24}'
+			'[0-9a-f]{24}|0|new'
 		end
 
 		# Initializes the REST resouce

@@ -50,6 +50,7 @@ module MojuraAPI
 			ids = params[:ids][1].split(',')
 			index = ids.pop
 			path = ids.join(',')
+			STDOUT << JSON.pretty_generate(params) + "\n"
 			return page.view_to_a(page.get_view(params[:ids][1]), index, path)
 		end
 

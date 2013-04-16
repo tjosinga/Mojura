@@ -1,0 +1,153 @@
+<style type="text/css">
+	#file-popup .modal-body li {
+		width: 150px;
+		height: 20px;
+		padding-top: 100px;
+		display: inline-block;
+		text-overflow: ellipsis;
+		overflow: hidden;
+		white-space: nowrap;
+		text-align: center;
+		margin: 0px 5px 5px 0px;
+	}
+
+	#file-popup .modal-body ul .selected {
+		background-color: silver;
+	}
+</style>
+
+<template id="file-popup-template">
+	<div class="file-popup-modal modal fade hide">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<h3>{{locale_str_files_action_select}}</h3>
+		</div>
+		<div class="modal-body">
+			<div class="loading"></div>
+		</div>
+		<div class="modal-footer">
+			<a href="#" class="btn" data-dismiss="modal">{{locale_str_system_cancel}}</a>
+			<a href="#" class="btn btn-primary">{{locale_str_system_confirm}}</a>
+		</div>
+	</div>
+</template>
+
+<template id="file-popup-content-template" type="text/plain">
+	<ul class="unstyled">
+		{{=<% %>=}}
+		<!-- The following template codes are processed in second phase //-->
+		{{^is_base_folder}}
+		<li class='thumbnail' onclick="SelectFile.setCurrentFolderId('{{parentid}}')">
+			<%locale_str_files_parent_folder%>
+		</li>
+		{{/is_base_folder}}
+
+		{{#subfolders}}
+		<li class='thumbnail' onclick="SelectFile.setCurrentFolderId('{{id}}')">
+			{{title}}
+		</li>
+		{{/subfolders}}
+
+		{{#files}}
+		<li class='thumbnail' onclick="SelectFile.selectFile('{{id}}', this)">
+			{{title}}
+		</li>
+		{{/files}}
+		<%={{ }}=%>
+	</ul>
+</template>
+
+<script type='text/javascript'>
+	var SelectFile = (function () {
+
+		this.currentFolderId = "root";
+		this.selectedFiles = [];
+		this.template = $("#file-popup-content-template").html();
+		this.multiSelect = true;
+		this.parentModalId = "";
+
+		function show(options) {
+			if (!options) options = {}
+			multiSelect = (options.multi === true);
+			if (options.parentModalId !== undefined)
+				parentModalId = options.parentModalId;
+			else
+				parentModalId = "";
+
+			selectedFiles = [];
+			$("body").append($("#file-popup-template").html());
+
+			jModal = $("body > .file-popup-modal");
+			jModal.attr("id", "file-popup")
+				.one("shown", function() {
+					$("#file-popup .btn-primary").click(function() {
+						if (options.confirmed)
+							options.confirmed(selectedFiles);
+						$("#file-popup").modal("hide");
+						return false;
+					});
+					refresh();
+				})
+				.one("hidden", function () {
+						if (parentModalId != "") {
+							$("#" + parentModalId).one("shown",function () {
+								$(".modal-backdrop").addClass("fade");
+								$("#" + parentModalId).addClass("fade").one("hidden", function(){});
+							}).modal("show");
+						}
+						jModal.remove();
+				});
+
+			if (parentModalId == "") {
+				jModal.addClass("fade").modal("show");
+			}
+			else {
+				$("#" + parentModalId).removeClass("fade").one("hidden",function () {
+					jModal.removeClass("fade").modal("show");
+				}).modal("hide");
+			}
+
+		}
+
+		function refresh() {
+			$("#filePopup .modal-body").html("<div class='loading'></div>");
+			id = currentFolderId;
+			selectedFiles = [];
+			if ((id == "") || (id === undefined)) id = "root";
+			url = "__api__/files/folder/" + id;
+			$.getJSON(url, function (data) {
+				data.may_maintain = (data.rights.allowed.update);
+				data.is_base_folder = (id == "root");
+				data.has_subfolders = (data.subfolders.length > 0);
+				data.has_files = (data.files.length > 0);
+				html = Mustache.to_html(template, data);
+				$("#file-popup .modal-body").html(html);
+			});
+		}
+
+		function setCurrentFolderId(id) {
+			currentFolderId = id;
+			refresh();
+		}
+
+		function selectFile(id, elem) {
+			jElem = $(elem)
+			if (!jElem.hasClass("selected")) {
+				if (!multiSelect) {
+					$("#file-popup .modal-body ul .selected").removeClass("selected");
+					selectedFiles = [];
+				}
+				selectedFiles.push(id);
+				jElem.addClass("selected");
+			}
+			else {
+				jElem.removeClass("selected");
+				selectedFiles.splice(selectedFiles.indexOf(id), 1);
+			}
+		}
+
+		return {show: show,
+						setCurrentFolderId: setCurrentFolderId,
+						selectFile: selectFile};
+	})(jQuery);
+</script>
