@@ -5,7 +5,7 @@ module MojuraWebApp
 
 	class BaseView < Mustache
 
-		attr_reader :options, :data
+		attr_reader :options, :data, :source_file
 
 		def initialize(options = {}, data = {})
 			@data = data
@@ -15,7 +15,14 @@ module MojuraWebApp
 				#WebApp.page.include_script_link('ext/sceditor/jquery.sceditor.min.js')
 				#WebApp.page.include_style_link('ext/sceditor/themes/default.min.css')
 			end
-			source_file = self.method(methods[0]).source_location[0]
+			if (private_methods(false).include?(:initialize))
+				source_file = method(:initialize).source_location[0];
+			elsif (public_methods(false).include?(:render))
+				source_file = method(:initialize).source_location[0];
+			else
+				source_file = caller.first.split(':')[0]
+			end
+
 			self.template_path = source_file.gsub(/\w*.rb$/, '')
 			self.template_file = source_file.gsub(/\.rb$/, '.mustache')
 			self.on_init if (self.respond_to?(:on_init))

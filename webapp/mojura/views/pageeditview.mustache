@@ -13,7 +13,7 @@
   <button class="btn btn-small pull-left" onclick="PageEditor.togglePageAdmins()" id="toggle_edit_page"><i class='icon-pencil'></i></button>
 </div>
 
-<div class="modal fade hide" id="modalEditPage">
+<div class="modal modal-large fade hide" id="modalEditPage">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal">×</button>
     <h3>{{locale_str_system_edit_page}}</h3>
@@ -26,11 +26,11 @@
   </div>
   <div class="modal-footer">
     <button class="btn" data-dismiss="modal">{{locale_str_system_cancel}}</button>
-    <button id="submitEditPage" class="btn btn-primary" data-loading-text='{{locale_str_system_action_edit}}...' onclick="$(this).button('loading'); $('form','#modalEditPage').submit();">{{locale_str_system_action_edit}}</button>
+    <button id="submitEditPage" class="btn btn-primary" data-loading-text='{{locale_str_system_action_edit}}...' onclick="PageEditor.submit(this)">{{locale_str_system_action_edit}}</button>
   </div>
 </div>
 
-<div class="modal fade hide" id="modalEditView">
+<div class="modal modal-large fade hide" id="modalEditView">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal">×</button>
     <h3>{{locale_str_system_edit_view}}</h3>
@@ -42,49 +42,51 @@
 			<input type="hidden" name="viewid" value="test" />
 
 			<ul class="nav nav-tabs">
-			  <li class="active"><a href="#form_view_content" data-toggle="tab">{{locale_str_system_view_content}}</a></li>
-			  <li><a href="#form_view_webview" data-toggle="tab">{{locale_str_system_view_webview}}</a></li>
+				<li class="active"><a href="#form_view_webview" data-toggle="tab">{{locale_str_system_view_webview}}</a></li>
+				<li><a href="#form_view_content" data-toggle="tab">{{locale_str_system_view_content}}</a></li>
 			  <li><a href="#form_view_advanced" data-toggle="tab">{{locale_str_system_view_advanced}}</a></li>
 			</ul>
 
 			<div class="tab-content">
-				<div class="tab-pane active" id="form_view_content">
-					<div>{{locale_str_system_view_content}}</div>
-					<textarea class="span6" name="content" rows="6"></textarea>
-				</div>
 
-				<div class="tab-pane" id="form_view_webview">
-					<label for="view">{{locale_str_system_view_webview}}</label>
+				<div class="tab-pane active" id="form_view_webview">
+					<label>{{locale_str_system_view_webview}}</label>
 					<select name="view">
 						<option value="">{{locale_str_system_view_no_webview}}</option>
 						{{#views}}
-							<option class="min-col-span{{min_col_span}}" value="{{view_id}}">{{title}}</option>
+						<option class="min-col-span{{min_col_span}}" value="{{view_id}}">{{title}}</option>
 						{{/views}}
 					</select>
+
 					<div class="view_settings">
 					</div>
 				</div>
 
+				<div class="tab-pane" id="form_view_content">
+					<div>{{locale_str_system_view_content}}</div>
+					<textarea style="width: 98%" name="content" rows="6"></textarea>
+				</div>
+
 				<div class="tab-pane" id="form_view_advanced">
-					<label for="col_span">{{locale_str_system_view_col_span}}</label>
+					<label>{{locale_str_system_view_col_span}}</label>
 					<select name="col_span">
 						{{#col_spans}}
 							<option value="{{index}}">{{title}}</option>
 						{{/col_spans}}
 					</select>
-					<label for="col_offset">{{locale_str_system_view_col_offset}}</label>
+					<label>{{locale_str_system_view_col_offset}}</label>
 					<select name="col_offset">
 						{{#col_offsets}}
 							<option value="{{index}}">{{title}}</option>
 						{{/col_offsets}}
 					</select>
-					<label for="row_offset">{{locale_str_system_view_row_offset}}</label>
+					<label>{{locale_str_system_view_row_offset}}</label>
 					<select name="row_offset">
 						{{#row_offsets}}
 							<option value="{{index}}">{{title}}</option>
 						{{/row_offsets}}
 					</select>
-					<label for="classes">{{locale_str_system_view_classes}}</label>
+					<label>{{locale_str_system_view_classes}}</label>
 					<input type="text" name="setting_classes" value="" />
 				</div>
 			</div>
@@ -93,7 +95,7 @@
   </div>
   <div class="modal-footer">
     <button class="btn" data-dismiss="modal">{{locale_str_system_cancel}}</button>
-    <button id="submitEditView" class="btn btn-primary" data-loading-text='{{locale_str_system_action_edit}}...' onclick="$(this).button('loading'); $('form','#modalEditView').submit();">{{locale_str_system_action_edit}}</button>
+    <button id="submitEditView" class="btn btn-primary" data-loading-text='{{locale_str_system_action_edit}}...' onclick="PageEditor.submit(this)">{{locale_str_system_action_edit}}</button>
   </div>
 </div>
 
@@ -106,11 +108,11 @@
 		<form action="javascript:void(0)" method="post" onsubmit="return false">
 			<input type="hidden" name="pageid" value="{{pageid}}" />
 			<input type="hidden" name="viewid" value="" />
-			<label for="content">{{locale_str_system_delete_view_warning}}</label>
+			{{locale_str_system_delete_view_warning}}
 		</form>
   </div>
   <div class="modal-footer">
     <button class="btn" data-dismiss="modal">{{locale_str_system_cancel}}</button>
-    <button id="submitDeleteView" class="btn btn-danger" data-loading-text='{{locale_str_system_action_delete}}...' onclick="$(this).button('loading'); $('form','#modalDeleteView').submit();">{{locale_str_system_action_delete}}</button>
+    <button id="submitDeleteView" class="btn btn-danger" data-loading-text='{{locale_str_system_action_delete}}...' onclick="PageEditor.submit(this)">{{locale_str_system_action_delete}}</button>
   </div>
 </div>

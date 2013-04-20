@@ -9,14 +9,14 @@ module MojuraWebApp
 			width = (70 * size) + (30 * (size - 1))
 			ubb = ''
 			@options[:fileids] ||= ''
+			@options[:slideshow] ||= false
 			images = @options[:fileids].split(',')
-			if images.count > 1
-				ubb = '[slideshow]'
-				images.each { |id| ubb += "_api__/files/#{id}/download?size=#{width}&type=width\n" }
+			if (images.count > 1) && (@options[:slideshow])
+				ubb = "[slideshow width=#{width}]"
+				images.each { |id| ubb += "__api__/files/#{id}/download?size=#{width}&type=width\n" }
 				ubb += '[/slideshow]'
 			elsif images.count == 1
-				id = images[0]
-				ubb = "[img]__api__/files/#{id}/download?size=#{width}&type=width[/img]"
+				images.each { |id| ubb += "[img]__api__/files/#{id}/download?size=#{width}&type=width[/img]" }
 			else
 				ubb = 'No image id specified'
 			end

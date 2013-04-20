@@ -58,12 +58,12 @@ var PageEditor = (function ($) {
 				return;
 			}
 			$(".view_settings", "#modalEditView").html("<div class='loading'></div>");
-			Locale.load(view, { loaded: function() {
-				url = "views/" + view + "/coworkers/view_page_edit_settings.mustache?static_only=true"
+			Locale.ensureLoaded(view, { loaded: function() {
+				url = "views/" + view + "/coworkers/view_edit_settings.mustache?static_only=true"
 				$.get(url, {cache: false},function (template) {
-					strings = Locale.rawStrings(["system", view])
-					for (id in strings)
-						data.settings[id] = strings[id];
+					strs = Locale.rawStrings(["system", view]);
+					for (id in strs)
+						data.settings[id] = strs[id];
 					html = Mustache.to_html(template, data.settings);
 					$(".view_settings", "#modalEditView").html(html);
 				}).error(function () {
@@ -131,13 +131,23 @@ var PageEditor = (function ($) {
 		});
 	};
 
+	function submit(btn) {
+		$(btn).button('loading')
+		jModal = $(btn).parent().parent();
+		jModal.on("hidden", function() {
+			$('form', jModal).submit();
+		}).modal("hide");
+	}
+
+
 
 	return {
 		togglePageAdmins: togglePageAdmins,
 		showEditPage: showEditPage,
 		showEditView: showEditView,
 		showDeleteView: showDeleteView,
-		addSubview: addSubview
+		addSubview: addSubview,
+		submit: submit
 	};
 
 

@@ -9,10 +9,10 @@ require 'yaml'
 require 'securerandom'
 require 'api/lib/mongodb'
 require 'api/lib/exceptions'
+require 'api/lib/ubbparser_additions'
 require 'api/resources/settings/settings.object'
 require 'api/resources/locale/locale.object'
 require 'api/resources/users/users.objects'
-
 
 module MojuraAPI
 

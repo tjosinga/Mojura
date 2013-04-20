@@ -1,10 +1,15 @@
-<input type="text" name="setting_fileids" value="{{fileids}}" />
+<input type="hidden" name="setting_fileids" value="{{fileids}}" />
+
 <div class="current_images"></div>
-<a href="javascript:void(0)" class="btn" onclick="ImageEditView.addImage();">
+<a href="javascript:void(0)" class="btn image_add_button" onclick="ImageEditView.addImage();">
 	<i class="icon-plus"></i>
 </a>
-<div class="select_file_container"></div>
+<div class="select_file_container clearfix"></div>
 
+<label class="checkbox slideshow-checkbox">
+	<input type="checkbox" name="setting_slideshow" value="true" {{#slideshow}}checked="checked"{{/slideshow}} />
+	{{locale_str_images_slideshow}}
+</label>
 
 <style type="text/css">
 
@@ -19,8 +24,8 @@
 	}
 
 	#modalEditView .image_add_button {
-		width: 64px;
-		height: 64px;
+		display: inline-block;
+		margin: 17px 12px;
 	}
 </style>
 
@@ -35,6 +40,11 @@
 				fileids.push($(this).attr("data-fileid"));
 			});
 			$("[name=setting_fileids]", "#modalEditView").val(fileids.join(","));
+			if (fileids.length > 1)
+				$(".slideshow-checkbox", "#modalEditView").show();
+			else
+				$(".slideshow-checkbox", "#modalEditView").hide();
+
 		}
 
 		function getFileIdsFromForm() {
@@ -62,8 +72,7 @@
 			Locale.ensureLoaded('files', {loaded: function () {
 				url = "views/files/coworkers/select_file.mustache?static_only=true";
 				$.get(url, {cache: false}, function (template) {
-					strings = Locale.rawStrings(["system", "files"]);
-					html = Mustache.to_html(template, strings);
+					html = Mustache.to_html(template, Locale.rawStrings(["system", "files"]));
 					$("#modalEditView .select_file_container").html(html);
 					SelectFile.show({multi: true, parentModalId: "modalEditView",
 						confirmed: function (ids) {
@@ -84,10 +93,6 @@
 			$(obj).remove();
 			setFileIdsToForm();
 		};
-
-	  function loadImages() {
-
-	  }
 
 		showImages();
 
