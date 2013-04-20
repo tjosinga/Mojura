@@ -1,22 +1,27 @@
+require 'webapp/views/news/view_list'
+require 'webapp/views/news/view_article'
+require 'webapp/views/news/view_overview'
+
 module MojuraWebApp
 
 	class NewsView < BaseView
 
-		attr_reader :newsid
-
-		def initialize(options = {})
-			@newsid = WebApp.page.request_params[:newsid]
-			if newsid.nil?
-				data = WebApp.api_call('news')
+		def render
+			type = @options[:type]
+			newsid = WebApp.page.request_params[:newsid]
+			if type == 'list'
+				view = NewsListView.new(@options)
+			elsif (type == 'overview') || (newsid.nil?)
+				view = NewsOverviewView.new(@options)
 			else
-				data = WebApp.api_call("news/#{@newsid}")
-				WebApp.page.data[:title] = data[:title].to_s
+				view = NewsArticleView.new(@options)
 			end
-			super(options, data)
+			return view.render
 		end
+
+		WebApp.register_view('news', NewsView)
 
 	end
 
-	WebApp.register_view('news', NewsView)
 
 end

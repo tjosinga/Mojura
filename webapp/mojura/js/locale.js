@@ -5,11 +5,10 @@ var Locale = (function($) {
 
 	function init(lc) {
 		locale = lc;
-		strings = {};
 	}
 
 	function ensureLoaded(view, options) {
-		if ((strings !== undefined) || (strings[view] !== undefined))
+		if ((strings === undefined) || (strings[view] === undefined))
 			load(view, options);
 		else if ((options !== undefined) && (options.loaded !== undefined))
 			options.loaded();
@@ -56,7 +55,10 @@ var Locale = (function($) {
 	}
 
 	function rawStrings(views) {
-		result = {};
+		console.log("--- in rawStrings --- ");
+		console.log(strings);
+		console.log("--- END in rawStrings --- ");
+		result = {}
 		for (i in views) {
 			view = views[i];
 			for (id in strings[view])
@@ -67,7 +69,6 @@ var Locale = (function($) {
 
 	return {
 		init: init,
-		load: load,
 		ensureLoaded: ensureLoaded,
 		add: add,
 		str: str,

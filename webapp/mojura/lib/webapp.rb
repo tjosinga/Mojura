@@ -78,6 +78,7 @@ module MojuraWebApp
 		# ------------------------------------------------------ Views -------------------------------------------------------
 
 		def register_view(view_id, view_class, options = {})
+			# STDOUT << "Registering view #{view_id}\n"
 			options[:in_pages] = true if (options[:in_pages].nil?)
 			@view_classes[view_id] = {view_id: view_id,
 			                          class: view_class,

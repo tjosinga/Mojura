@@ -1,4 +1,4 @@
-@media (min-width: 980px) {
+  @media (min-width: 980px) {
   body {
     padding-top: 65px;
   }
@@ -67,6 +67,21 @@
   padding: 2px 5px 5px 5px;
 }
 
+@media (min-width: 768px) {
+  .modal-large, .modal-extra-large {
+    margin-left: -400px;
+    width: 800px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .modal-extra-large {
+    margin-left: -525px;
+    width: 1050px;
+    max-height: 700px;
+  }
+}
+
 .editable {
   margin-top: 40px;
   min-height: 40px;
@@ -86,5 +101,10 @@
   text-align: center;
   overflow: hidden;
   white-space: nowrap;
+  text-overflow: ellipsis;
   font-size: 0.9em;
+}
+
+.ubb-carousel {
+  line-height: inherit;
 }

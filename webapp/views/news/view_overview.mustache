@@ -1,0 +1,12 @@
+{{#items}}
+	<div class="news-article clearfix">
+		<article>
+
+			<h2>{{title}}</h2>
+			{{{content.html}}}
+			{{#content.readmore}}
+				<a class='readmore' href="{{base_url}}?newsid={{id}}">{{locale_str_system_readmore}}</a>
+			{{/content.readmore}}
+		</article>
+	</div>
+{{/items}}
