@@ -5,9 +5,6 @@ module MojuraAPI
 
 	class Group < DbObject
 
-		include DbObjectRights
-		include DbObjectTags
-
 		def initialize(id = nil)
 			super('groups', id)
 		end
@@ -21,8 +18,6 @@ module MojuraAPI
 
 
 	class Groups < DbObjects
-
-		include DbObjectsRights
 
 		def initialize(where = {}, options = {})
 			options[:sort] = {name: 1} if (options[:sort].nil?)

@@ -35,6 +35,7 @@ module MojuraAPI
 			# sk = @page * @pagesize
 			where = self.update_where_with_rights(where) if self.respond_to?(:update_where_with_rights)
 			where.stringify_keys! if (where.is_a?(Hash))
+			STDOUT << "Loading set form db: #{where.to_s}\n"
 			cursor = @collection.find(where)
 			@count = cursor.count
 			if !@sort.empty?

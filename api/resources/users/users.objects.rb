@@ -44,8 +44,23 @@ module MojuraAPI
 		end
 
 		def groups
-			groupids = @fields[:groupids]
-			return Groups.new(groupids)
+			groupids = []
+			@fields[:groupids][:value].each { | id | groupids.push(BSON::ObjectId(id)) }
+			return Groups.new({'_id' => {'$in' => groupids}})
+		end
+
+		def subscribe_to_group(groupid)
+			unless @fields[:groupids][:value].include?(groupid)
+				@fields[:groupids][:value].push(groupid)
+				@fields[:groupids][:changed] = true
+			end
+		end
+
+		def unsubscribe_from_group(groupid)
+			if @fields[:groupids][:value].include?(groupid)
+				@fields[:groupids][:value].delete_if { | id | id == groupid }
+				@fields[:groupids][:changed] = true
+			end
 		end
 
 		def has_object_right?(orig_right, object_userid, object_groupid, object_right)
@@ -121,6 +136,7 @@ module MojuraAPI
 			else
 				result[:may_update] = false
 			end
+			result[:groups_url] = API.api_url + "users/#{self.id}/groups"
 			return result
 		end
 
