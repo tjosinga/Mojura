@@ -10,6 +10,13 @@ module MojuraAPI
 
 		attr_reader :module, :items_path, :item_path
 
+		# Initializes the REST resouce
+		def initialize(mod, items_path, item_path)
+			@module = mod
+			@items_path = items_path
+			@item_path = item_path
+		end
+
 		def module_name
 			return @module.capitalize
 		end
@@ -25,13 +32,6 @@ module MojuraAPI
 
 		def uri_id_to_regexp(id_name)
 			'[0-9a-f]{24}|0|new'
-		end
-
-		# Initializes the REST resouce
-		def initialize(mod, items_path, item_path)
-			@module = mod
-			@items_path = items_path
-			@item_path = item_path
 		end
 
 		# Returns a set of objects
