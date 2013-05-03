@@ -32,7 +32,7 @@ module MojuraWebApp
 			WebApp.render_view(:view => 'sitemap', :wrapping => 'simple', :add_span => false,
 			                   :settings => {
 				                   menu_only: true,
-				                   depth: Settings.get(:menu_depth, 1),
+				                   depth: Settings.get_i(:menu_depth, 1),
 				                   show_admin: false})
 		end
 

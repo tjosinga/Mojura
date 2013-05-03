@@ -48,7 +48,6 @@ module MojuraAPI
 
 		def get(params)
 			user = User.new(params[:ids][0])
-			STDOUT << "Blaat\n"
 			user.user_has_right?(RIGHT_READ)
 			return user.to_a
 		end

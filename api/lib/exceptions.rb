@@ -5,6 +5,7 @@ module MojuraAPI
 
 		def initialize(error_string, error_code = 500)
 			@code = error_code
+			API.log.error(error_string)
 			super(error_string)
 		end
 	end
@@ -88,6 +89,18 @@ module MojuraAPI
 	class NotOverridenException < HTTPException
 		def initialize
 			super('This method should be overriden')
+		end
+	end
+
+	class DependencyException < HTTPException
+		def initialize(mod, needed_mod)
+			super("Module #{mod} needs #{needed_mod}")
+		end
+	end
+
+	class DependencyVersionException < HTTPException
+		def initialize(mod, needed_mod, needed_version, real_version)
+			super("Module #{mod} needs version #{needed_version} of #{needed_mod}, but found version #{real_version}")
 		end
 	end
 

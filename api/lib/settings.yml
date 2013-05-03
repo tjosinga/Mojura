@@ -1,0 +1,9 @@
+dependencies:
+  users: 0.0
+  groups: 0.0
+  locale: 0.0
+  settings: 0.0
+
+public:
+  locale: en
+

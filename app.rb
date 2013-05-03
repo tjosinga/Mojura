@@ -21,8 +21,8 @@ module Mojura
 					return [200, MojuraAPI::API.headers, [result]]
 				rescue Exception => e
 					error = {message: e, type: e.class}
-					error[:modules] = MojuraAPI::API.modules if (MojuraAPI::Settings.get(:developing, false))
-					error[:backtrace] = [e.backtrace] if (MojuraAPI::Settings.get(:developing, false))
+					error[:modules] = MojuraAPI::API.modules if (MojuraAPI::Settings.get_b(:developing))
+					error[:backtrace] = [e.backtrace] if (MojuraAPI::Settings.get_b(:developing))
 					code = (e.is_a?(MojuraAPI::HTTPException)) ? e.code : 500
 					return [code, {}, [{error: error}]]
 				end

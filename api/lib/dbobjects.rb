@@ -16,6 +16,7 @@ module MojuraAPI
 		attr_reader :db_col_name, :page, :pagesize, :count, :sort, :options
 
 		def initialize(db_col_name, item_class, where = {}, options = {})
+			self.class.send(:include, DbObjectsRights) if item_class.ancestors.include?(MojuraAPI::DbObjectRights)
 			@collection = MongoDb.collection(db_col_name)
 			@objects = []
 			@db_col_name = db_col_name
@@ -35,7 +36,6 @@ module MojuraAPI
 			# sk = @page * @pagesize
 			where = self.update_where_with_rights(where) if self.respond_to?(:update_where_with_rights)
 			where.stringify_keys! if (where.is_a?(Hash))
-			STDOUT << "Loading set form db: #{where.to_s}\n"
 			cursor = @collection.find(where)
 			@count = cursor.count
 			if !@sort.empty?

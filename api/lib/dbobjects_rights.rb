@@ -1,6 +1,7 @@
 module MojuraAPI
 
 	# DbObjectsRight is a mixin module for DbObjects and automatically gives it rights support when added.
+	# DbObjects will include this module automatically based on the class of a single item
 	# :category: DbObject
 	module DbObjectsRights
 
@@ -10,9 +11,9 @@ module MojuraAPI
 			elsif !user.administrator?
 				groupids = user.groupids
 				users_rights_where = {'$where' => '(this.right & 0x0040) == 0x0040'}
-				owner_rights_where = {'$and' => [{ownerid: user.id}, {'$where' => '(this.right & 0x4000) = 0x4000'}]}
+				owner_rights_where = {'$and' => [{userids: user.id}, {'$where' => '(this.right & 0x4000) = 0x4000'}]}
 				result = {'$or' => [users_rights_where, owner_rights_where]}
-				result['$or'] << {'$and' => [{'$in' => groupids}, {'$where' => '(this.right & 0x0400) = 0x0400'}]} if (groupids.count > 0)
+				result['$or'] << {'$and' => [{groupids: {'$in' => groupids}}, {'$where' => '(this.right & 0x0400) = 0x0400'}]} if (groupids.count > 0)
 			else
 				result = {}
 			end

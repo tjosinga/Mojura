@@ -20,10 +20,10 @@ module MojuraWebApp
 			@locales = []
 			@data = {}
 			@body_html = ''
-			@locale = Settings.get(:locale, 'nl')
+			@locale = Settings.get_s(:locale)
 			super({})
 
-			if Settings.get(:use_external_js_libs, true)
+			if Settings.get_b(:use_external_js_libs)
 				self.include_script_link('https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js')
 				self.include_script_link('https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.21/jquery-ui.min.js')
 				self.include_script_link('http://malsup.github.com/jquery.form.js')
@@ -83,7 +83,7 @@ module MojuraWebApp
 		end
 
 		def title
-			result = Settings.get(:title, 'Mojura')
+			result = Settings.get_s(:title)
 			result += ' - ' + @data[:title] if (@data.include?(:title)) && (@data[:title] != '')
 			return result
 		end
@@ -97,7 +97,7 @@ module MojuraWebApp
 		end
 
 		def description
-			@data[:description] || Settings.get('description', 'Mojura is a fine API based Content Management System')
+			@data[:description] || Settings.get_s('description', 'Mojura is a fine API based Content Management System')
 		end
 
 		def include_metatag(name, content)
@@ -169,11 +169,11 @@ module MojuraWebApp
 		end
 
 		def has_analytics
-			!Settings(:analyticsid).nil?
+			Settings.get_s(:analyticsid).empty?
 		end
 
 		def analyticsid
-			Settings(:analyticsid)
+			Settings.get_s(:analyticsid)
 		end
 
 	end
