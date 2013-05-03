@@ -1,17 +1,18 @@
 $:.unshift File.join(File.dirname(__FILE__), '..')
+
 require 'test/unit'
-require 'api/lib/ubbparser'
+require 'ubbparser'
+require 'api/lib/ubbparser_additions'
 
 module MojuraAPI
 
 	class UBBParserTester < Test::Unit::TestCase
 
 		def test_in_array
-			assert_equal('This is a <strong>test</strong>.', UBBParser.parse('This is www.moda.nl a [b]test[/b].'))
 			assert_equal('This is a <strong>test</strong>', UBBParser.parse('This is a [b]test[/b]'))
 			assert_equal('<strong>test</strong>', UBBParser.parse('[b]test[/b]'))
 			assert_equal('This is a <strong><em>test</em></strong>', UBBParser.parse('This is a [b][i]test[/i][/b]'))
-			assert_equal('This is a <strong><em>test</em></strong>[/i]', UBBParser.parse('This is a [b][i]test[/b][/i]'))
+			assert_equal('This is <a href=\'http://www.moda.nl\'>www.moda.nl</a> a <strong>test</strong>.', UBBParser.parse('This is a [b][i]test[/b][/i]'))
 			assert_equal('just [something] unknown', UBBParser.parse('just [something] unknown'))
 			assert_equal('<a href=\'http://www.mojura.nl\'>http://www.mojura.nl</a>', UBBParser.parse('[url]http://www.mojura.nl[/url]'))
 			assert_equal('<a href=\'http://www.mojura.nl\'>Mojura</a>', UBBParser.parse('[url=http://www.mojura.nl]Mojura[/url]'))

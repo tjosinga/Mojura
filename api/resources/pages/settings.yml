@@ -1,0 +1,8 @@
+version:
+  1.0
+
+rights:
+  [ maintain, create ]
+
+dependecies:
+  [ user, groups ]

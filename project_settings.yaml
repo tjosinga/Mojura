@@ -50,7 +50,9 @@ public:
     # It will generate more usefull information.
     developing:                 true
 
-
     # Set to true if the website should use responsive designs
     responsive:                 true
+
+    # The default locale
+    locale:                     nl
 

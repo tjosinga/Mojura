@@ -6,7 +6,6 @@ module MojuraWebApp
 
 		def initialize(options = {})
 			@newsid = WebApp.page.request_params[:newsid]
-			STDOUT << JSON.pretty_generate(options) + "\n"
 
 			if newsid.nil?
 				data = WebApp.api_call('news')

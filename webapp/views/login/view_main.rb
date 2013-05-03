@@ -3,7 +3,7 @@ module MojuraWebApp
 	class LoginView < BaseView
 
 		def initialize(options = {})
-			if Settings.get(:use_external_js_libs, true)
+			if Settings.get_b(:use_external_js_libs)
 				WebApp.page.include_script_link('http://crypto-js.googlecode.com/svn/tags/3.0.2/build/rollups/md5.js')
 				WebApp.page.include_script_link('http://crypto-js.googlecode.com/svn/tags/3.0.2/build/rollups/pbkdf2.js')
 			else

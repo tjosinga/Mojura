@@ -1,5 +1,7 @@
 require 'api/lib/restresource'
 require 'api/lib/restresource_tags'
+require 'api/resources/groups/group_rights.rest'
+require 'api/resources/groups/group_members.rest'
 
 module MojuraAPI
 

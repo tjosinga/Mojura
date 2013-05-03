@@ -7,33 +7,43 @@ module MojuraAPI
 		end
 
 		def description
-			'Resource of the groups of a user. It\'a core object in Mojura.'
+			'Resource of the groups of a user. It\'s a core object in Mojura.'
 		end
 
 		def uri_id_to_regexp(id_name)
-			return (id_name == 'userid') ? "[0-9a-f]{24}|currentuser" : "[0-9a-f]{24}"
+			return '[0-9a-f]{24}'
 		end
 
 		def all(params = {})
 			userid = params[:ids][0]
 			user = User.new(userid)
+			raise NoRightsException.new unless user.user_has_right(RIGHT_READ)
 			return user.groups.to_a
 		end
 
 		def put(params = {})
 			userid = params[:ids][0]
-			groupid = params[:groupid].to_s
 			user = User.new(userid)
+			raise NoRightsException.new unless user.user_has_right(RIGHT_UPDATE)
 			user.subscribe_to_group(groupid)
+
+			groupid = params[:groupid].to_s
+			group = Group.new(groupid)
+			raise NoRightsException.new unless group.user_has_right(RIGHT_SUBSCRIBE)
+
 			user.save_to_db
 			return user.groups.to_a
 		end
 
 		def delete(params = {})
 			userid = params[:ids][0]
-			groupid = params[:ids][1].to_s
-			STDOUT << "Groupid #{groupid}\n"
 			user = User.new(userid)
+			raise NoRightsException.new unless user.user_has_right(RIGHT_UPDATE)
+
+			groupid = params[:ids][1].to_s
+			group = Group.new(groupid)
+			raise NoRightsException.new unless group.user_has_right(RIGHT_SUBSCRIBE)
+
 			user.unsubscribe_from_group(groupid)
 			user.save_to_db
 			return user.groups.to_a
@@ -63,6 +73,5 @@ module MojuraAPI
 	end
 
 	API.register_resource(UserGroupsResource.new('users', '[userid]/groups', '[userid]/group/[groupid]'))
-
 
 end

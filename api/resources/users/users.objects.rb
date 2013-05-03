@@ -10,6 +10,7 @@ module MojuraAPI
 
 		def initialize(id = nil)
 			super('users', id)
+			@loaded_groups = nil
 		end
 
 		def load_fields
@@ -43,10 +44,13 @@ module MojuraAPI
 			end
 		end
 
-		def groups
-			groupids = []
-			@fields[:groupids][:value].each { | id | groupids.push(BSON::ObjectId(id)) }
-			return Groups.new({'_id' => {'$in' => groupids}})
+		def groups(force_reload = false)
+			if @loaded_groups.nil? || force_reload
+				groupids = []
+				@fields[:groupids][:value].each { |id| groupids.push(BSON::ObjectId(id)) }
+				@loaded_groups = Groups.new({_id: {'$in' => groupids}})
+			end
+			return @loaded_groups
 		end
 
 		def subscribe_to_group(groupid)
@@ -63,7 +67,7 @@ module MojuraAPI
 			end
 		end
 
-		def has_object_right?(orig_right, object_userid, object_groupid, object_right)
+		def has_object_right?(orig_right, object_userids, object_groupids, object_right)
 			if self.administrator?
 				result = true
 			elsif (self.id.nil?) || (self.id == '')
@@ -73,9 +77,9 @@ module MojuraAPI
 				users_right = (orig_right << 4)
 				group_right = (orig_right << 8)
 				owner_right = (orig_right << 12)
-				result = ((object_right & users_right) == users_right) if !result
-				result = ((self.userid == object_userid) && ((object_right & owner_right) == owner_right)) if !result
-				result = ((self.groupids.include?(object_groupid)) && ((object_right & group_right) == group_right)) if !result
+				result = ((object_right & users_right) == users_right) unless result
+				result = (((self.userids & object_userids).length > 0) && ((object_right & owner_right) == owner_right)) unless result
+				result = (((self.groupids & object_groupids).length > 0) && ((object_right & group_right) == group_right)) unless result
 			end
 			return result
 		end
@@ -150,8 +154,6 @@ module MojuraAPI
 
 
 	class Users < DbObjects
-
-		include DbObjectsRights
 
 		def initialize(where = {}, options = {})
 			super('users', User, where, options)

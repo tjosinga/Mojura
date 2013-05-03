@@ -12,8 +12,7 @@ module MojuraWebApp
 			@data = {} if (!data.is_a?(Hash))
 			@options = options
 			if @options[:uses_editor]
-				#WebApp.page.include_script_link('ext/sceditor/jquery.sceditor.min.js')
-				#WebApp.page.include_style_link('ext/sceditor/themes/default.min.css')
+				WebApp.page.include_script_link('ext/wysiwyg/bootstrap-wysiwyg.js')
 			end
 			if (private_methods(false).include?(:initialize))
 				source_file = method(:initialize).source_location[0];
