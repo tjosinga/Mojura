@@ -292,7 +292,7 @@ module MojuraAPI
 				user.firstname = 'Administrator'
 				user.lastname = 'Administrator'
 				user.email = 'admin@127.0.0.1'
-				user.digest = Digest::MD5.hexdigest("admin:#{realm}:admin")
+				user.password = Digest::MD5.hexdigest("admin:#{realm}:admin").to_s
 				user.is_admin = true
 				user.state = :active
 				user.save_to_db
