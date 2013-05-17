@@ -39,20 +39,20 @@
 		{{{code}}}
 	  {{/scripts}}
 
-		Locale.init("{{locale}}");
-		{{#locales}}
+	  Locale.init("{{locale}}");
+	  {{#locales}}
 		Locale.add("{{view}}", "{{id}}", "{{str}}");
 		{{/locales}}
 
-	  {{#analyticsid}}
-		var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-		document.write(unescape("%3Cscript src="" + gaJsHost + "google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E"));
+		{{#has_analyticsid}}
+			var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+			document.write(unescape("%3Cscript src="" + gaJsHost + "google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E"));
 
-		try{
-			var pageTracker = _gat._getTracker("{{{analyticsid}}}");
-			pageTracker._trackPageview();
+			try{
+				var pageTracker = _gat._getTracker("{{{analyticsid}}}");
+				pageTracker._trackPageview();
 		} catch(err) {}
-	  {{/analyticsid}}
+	  {{/has_analyticsid}}
 	</script>
 
   </body>

@@ -29,7 +29,5 @@ else
 	result = MojuraWebApp::WebApp.render(command, params)
 end
 
-
-# STDOUT << "#{result}"
-# STDOUT << "#{result}"
+STDOUT << "#{result}"
 STDOUT << "\n"

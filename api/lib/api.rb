@@ -41,6 +41,7 @@ module MojuraAPI
 			MongoDb.connect(Settings.get_s(:database))
 			self.load_resources
 			@log.info('----- The API is loaded -----')
+
 			@loaded = true
 		end
 
@@ -57,21 +58,21 @@ module MojuraAPI
 			uid = env['rack.session'].include?(:uid) ? env['rack.session'][:uid] : nil
 
 			Thread.current[:mojura][:current_user] = nil # make sure the current is nil
-			if (uid.nil?) &&
-				(env['rack.request.cookie_hash'].include?('username')) &&
-				(env['rack.request.cookie_hash'].include?('token'))
-				token = env['rack.request.cookie_hash']['token']
-				username = env['rack.request.cookie_hash']['username']
+			cookies = env['rack.request.cookie_hash']
+			if (uid.nil?) && (cookies.include?('username')) && (cookies.include?('token'))
+				token = cookies['token']
+				username = cookies['username']
 				users = Users.new({username: username}, :ignore_rights => true)
 				if (users.count == 1) && (users.first.valid_cookie_token?(token))
+					API.log.info("Authenticated #{username} using a cookie token")
 					user = users.first
-					user.clear_all_cookie_tokens
 					user.generate_new_cookie_token
 					Thread.current[:mojura][:current_user] = user
+				else
+					API.log.debug("Cookie found for #{username}, but couldn't authenticate")
 				end
 			end
-			Thread.current[:mojura][:current_user] = User.new(uid)
-
+			Thread.current[:mojura][:current_user] ||= User.new(uid)
 			Locale.load_strings
 		end
 
@@ -126,8 +127,8 @@ module MojuraAPI
 			yaml = YAML.load_file(filename) rescue {}
 			yaml.symbolize_keys!
 			options = {ignore_if_exists: true, type: :file}
-			Settings.set(:version, (yaml[:version] || '0.0.0'), mod, :private, options)
-			Settings.set(:global_rights, yaml[:global_rights], mod, :public, options) if yaml[:global_rights].is_a?(Array)
+			Settings.set(:version, (yaml[:version] || '0.0.0'), mod, :protected, options)
+			Settings.set(:global_rights, yaml[:global_rights], mod, :protected, options) if yaml[:global_rights].is_a?(Array)
 			Settings.set(:object_rights, yaml[:object_rights], mod, :protected, options) if yaml[:object_rights].is_a?(Hash)
 			yaml[:private].each { |k, v| Settings.set(k, v, mod, :private, options) } if yaml[:private].is_a?(Hash)
 			yaml[:protected].each { |k, v| Settings.set(k, v, mod, :protected, options) } if yaml[:protected].is_a?(Hash)
@@ -153,8 +154,8 @@ module MojuraAPI
 					unless dependencies.empty?
 						API.log.info("Checking dependencies for module #{mod}:")
 						dependencies.each { |needed_mod, needed_version|
-							real_version = Settings.get_s(:version, needed_mod, [:private])
-							API.log.info("   #{needed_mod} #{needed_version}: found '#{real_version}'")
+							real_version = Settings.get_s(:version, needed_mod)
+							API.log.info("   #{needed_mod} #{needed_version}: found #{real_version}")
 							raise DependencyException.new(mod, needed_mod) if real_version.empty?
 							if real_version.to_s < needed_version.to_s
 								raise DependencyVersionException.new(mod, needed_mod, needed_version, real_version)
@@ -204,6 +205,8 @@ module MojuraAPI
 				}
 			elsif request_path == 'help'
 				result = help(params)
+			elsif request_path == 'setup'
+				result = setup(params)
 			elsif request_path == 'salt'
 				result = salt(params)
 			elsif request_path == 'authenticate'
@@ -279,6 +282,26 @@ module MojuraAPI
 			return result
 		end
 
+		# API method /setup. Creates an admin account if there are no users.
+		def setup(params)
+			users = Users.new({'$or' => [{is_admin: true}, {username: 'admin'}]}, {ignore_rights: true})
+			if users.count == 0
+				user = User.new()
+				realm = Settings.get_s(:realm)
+				user.username = 'admin'
+				user.firstname = 'Administrator'
+				user.lastname = 'Administrator'
+				user.email = 'admin@127.0.0.1'
+				user.digest = "admin:#{realm}:admin"
+				user.is_admin = true
+				user.state = :active
+				user.save_to_db
+				return ['Created an administrator with the default credentials']
+			else
+				return ['An administrator or user admin already exists']
+			end
+		end
+
 		# API method /salt. Returns a salt which is needed for authentication
 		# :category: Core API methods
 		# noinspection RubyUnusedLocalVariable
@@ -300,9 +323,11 @@ module MojuraAPI
 			if params[:password] == crypted
 				API.session[:uid] = user.id
 				user.generate_new_cookie_token if (params[:set_cookie] == 'true')
+				API.log.info("Authentication for #{:username} succeeded")
 				return user.to_a
 			else
 				API.session[:uid] = nil
+				API.log.warn("Authentication for #{:username} failed")
 				raise InvalidAuthentication.new
 			end
 		end
@@ -325,7 +350,6 @@ module MojuraAPI
 			user = users.first
 			return user.reset_password
 		end
-
 
 		# API information of the core.
 		def core_conditions

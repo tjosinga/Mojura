@@ -107,23 +107,27 @@ module MojuraAPI
 
 		def generate_new_cookie_token
 			return if (self.id.nil?) || (self.id == '')
-			timestamp = Time.new.strftime('%Y-%m-%d %H:%M:%S')
+			timestamp = Time.now.strftime('%Y-%m-%d %H:%M:%S')
 			new_token = SecureRandom.hex(64)
 
-			@fields[:cookie_tokens][:value]
+			@fields[:cookie_tokens][:value] ||= {}
 			@fields[:cookie_tokens][:value][timestamp] = new_token
 			@fields[:cookie_tokens][:changed] = true
-			API.headers['X-test'] = @fields[:cookie_tokens][:value].to_s
 			API.headers['X-persist-username'] = self.username
 			API.headers['X-persist-token'] = new_token
+
+			# Delete all stored tokens older than two weeks
+			old_timestamp = (Time.now - (60*60*24*14)).strftime('%Y-%m-%d %H:%M:%S')
+			@fields[:cookie_tokens][:value].delete_if { | ts, _ | ts < old_timestamp }
+
+			# Purge oldest as long as the set contains more than 50 tokens
+			purge_count = @fields[:cookie_tokens][:value].length - 50
+			while purge_count > 0
+				@fields[:cookie_tokens][:value].shift
+				purge_count -= 1
+			end
 			self.save_to_db
 			return new_token
-		end
-
-		def clear_all_cookie_tokens
-			@fields[:cookie_tokens][:value] = {}
-			@fields[:cookie_tokens][:changed] = true
-			self.save_to_db
 		end
 
 		def to_a(compact = false)

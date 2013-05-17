@@ -15,10 +15,10 @@ module MojuraWebApp
 				ubb = "[slideshow width=#{width}]"
 				images.each { |id| ubb += "__api__/files/#{id}/download?size=#{width}&type=width\n" }
 				ubb += '[/slideshow]'
-			elsif images.count == 1
+			elsif images.count > 0
 				images.each { |id| ubb += "[img]__api__/files/#{id}/download?size=#{width}&type=width[/img]" }
 			else
-				ubb = 'No image id specified'
+				ubb = 'No image id specified ' + images.to_s
 			end
 			return WebApp.parse_text(ubb)
 		end
