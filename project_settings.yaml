@@ -22,11 +22,11 @@ private:
     # The realm is used in the digest of the stored passwords of users.
     # Therefor changing the realm will make all accounts inaccessible.
     # Users must use the function to request a new password.
-    realm :                     mojuradev
+    realm :                     mojura
 
 
     # Mojura API uses a MongoDb. The following database is used:
-    database :                  osisoft_mojuradev
+    database :                  mojura
 
 #setting default protected settings
 protected:
