@@ -107,7 +107,7 @@ module MojuraAPI
 		end
 
 		def get_h(key, category = :core, scopes = [:private, :protected, :public])
-			get(key, category, scopes).to_h rescue {}
+			get(key, category, scopes) || {}
 		end
 
 		def get_a(key, category = :core, scopes = [:private, :protected, :public])

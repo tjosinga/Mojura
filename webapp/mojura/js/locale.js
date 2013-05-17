@@ -16,7 +16,7 @@ var Locale = (function($) {
 
 	function load(view, options) {
 		if (locale == "") {
-			alert("You should initialize the locale object with Locale.init(\"en\")");
+			alert("You should initialize the locale object with Locale.init(\"en\"), where \"en\" is the used locale.");
 			return;
 		}
 		if (view === undefined)

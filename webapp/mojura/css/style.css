@@ -1,4 +1,4 @@
-  @media (min-width: 980px) {
+@media (min-width: 980px) {
   body {
     padding-top: 65px;
   }
@@ -107,4 +107,22 @@
 
 .ubb-carousel {
   line-height: inherit;
+}
+
+@media (min-height: 600px) {
+  .modal-body {
+    max-height: 400px;
+  }
+}
+
+@media (min-height: 820px) {
+  .modal-body {
+    max-height: 600px;
+  }
+}
+
+@media (min-height: 1020px) {
+  .modal-extra-large {
+    max-height: 800px;
+  }
 }

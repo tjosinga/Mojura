@@ -2,12 +2,15 @@ module MojuraAPI
 
 	module DbObjectRights
 
-		@rights_default = 0x7044
+		def rights_default
+			class_name = self.class.name[11..-1].to_sym
+			Settings.get_h(:object_rights, @object_module)[class_name] || 0x7044
+		end
 
 		def load_rights_fields
 			yield :userids, Array, :required => true, :group => :rights, :default => [ API.current_user.id ]
 			yield :groupids, Array, :required => false, :group => :rights, :default => []
-			yield :right, Integer, :required => true, :group => :rights, :default => @rights_default
+			yield :right, Integer, :required => true, :group => :rights, :default => rights_default
 		end
 
 		def user_has_right?(right, user = nil)

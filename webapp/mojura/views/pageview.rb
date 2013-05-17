@@ -168,8 +168,8 @@ module MojuraWebApp
 			@body_html
 		end
 
-		def has_analytics
-			Settings.get_s(:analyticsid).empty?
+		def has_analyticsid
+			!Settings.get_s(:analyticsid).empty?
 		end
 
 		def analyticsid

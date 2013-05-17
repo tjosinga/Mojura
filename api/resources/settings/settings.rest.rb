@@ -15,7 +15,7 @@ module MojuraAPI
 		end
 
 		def all(params)
-			scopes = [:public, :private]
+			scopes = [:public]
 			scopes.push(:protected) if (API.current_user.administrator?)
 			return Settings.all(scopes, true, params[:category])
 		end
@@ -53,7 +53,6 @@ module MojuraAPI
 		def get(params)
 			key = params[:ids][1]
 			category = params[:ids][0]
-			default = params[:default]
 			scopes = [:public]
 			scopes.push(:protected) if (API.current_user.administrator?)
 			return [Settings.getString(key, category, scopes)]

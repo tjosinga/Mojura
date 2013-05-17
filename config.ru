@@ -1,6 +1,6 @@
 $:.unshift(File.expand_path(File.dirname(__FILE__)))
 
-require 'memcache'
+#require 'memcache'
 require 'rack'
 require 'app'
 require 'json'
@@ -22,7 +22,7 @@ use Rack::CommonLogger
 use Rack::ETag
 
 # Uncomment the prefered way for storing cookies.
-#use Rack::Session::Memcache
+# use Rack::Session::Memcache
 use Rack::Session::Cookie, :secret => 'my_secret_cookie_string'
 
 

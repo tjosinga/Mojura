@@ -1,3 +1,4 @@
+require 'log4r'
 require 'webapp/mojura/lib/exceptions'
 require 'webapp/mojura/lib/baseview'
 require 'webapp/mojura/lib/settings'
@@ -17,19 +18,46 @@ module MojuraWebApp
 		@view_classes = {}
 		@strings = {}
 
+		attr_reader :log, :loaded
+
 		def render(uri = '', params = {})
+			load
 			params.symbolize_keys!
+			WebApp.log.debug("New page call: '#{uri}' with params #{params}")
 			Thread.current[:mojura][:page] = PageView.new(uri, params)
 			Thread.current[:mojura][:page].load
-			WebApp.load_views
 			result = Thread.current[:mojura][:page].render
 			WebApp.save_settings if (@new_settings.count > 0)
 			return result
 		end
 
-		# ------------------------------------------------ Thread Shortcuts --------------------------------------------------
+		# ------------------------------------------------- Initialization -------------------------------------------------
+
+		def load
+			return if @loaded
+			@loaded = true
+			@log = Log4r::Logger.new('WebApp')
+			@log.add(Log4r::Outputter.stdout)
+			@log.info('----- Loading the WebApp -----')
+			WebApp.load_views
+			@log.info('----- The WebApp is loaded -----')
+		end
+
+		def load_views
+			path = 'webapp/views/'
+			Dir.foreach(path) { |name|
+				if (name != '.') && (name != '..') && (File.directory?(path + name))
+					WebApp.log.info("Loading view #{name}")
+					filename = path + name + '/view_main.rb'
+					require filename if File.exists?(filename)
+				end
+			}
+		end
+
+		# ------------------------------------------------ Thread Shortcuts ------------------------------------------------
 
 		def init_thread(env = [])
+			load
 			port = env['SERVER_PORT'].to_i
 			port_str = ((port != 80) && (port != 443)) ? ':' + port.to_s : ''
 			Thread.current[:mojura] ||= {}
@@ -53,7 +81,7 @@ module MojuraWebApp
 			Thread.current[:mojura][:webapp_headers] = hdrs
 		end
 
-		# ------------------------------------------------------- API --------------------------------------------------------
+		# ------------------------------------------------------- API ------------------------------------------------------
 
 		def api_call(command, params = {}, method = 'get')
 			begin
@@ -75,15 +103,15 @@ module MojuraWebApp
 			MojuraAPI::Settings.get_s(:realm)
 		end
 
-		# ------------------------------------------------------ Views -------------------------------------------------------
+		# ------------------------------------------------------ Views -----------------------------------------------------
 
 		def register_view(view_id, view_class, options = {})
+			WebApp.log.info("Registering view #{view_id}")
 			options[:in_pages] = true if (options[:in_pages].nil?)
 			@view_classes[view_id] = {view_id: view_id,
 			                          class: view_class,
 			                          in_pages: options[:in_pages],
-			                          min_col_span: options[:min_col_span] || 1,
-			                          title: options[:title] || Locale.str(view_id, 'view_title')}
+			                          min_col_span: options[:min_col_span] || 1 }
 		end
 
 		def get_view_class(view_id)
@@ -98,16 +126,6 @@ module MojuraWebApp
 			end
 		end
 
-		def load_views
-			path = 'webapp/views/'
-			Dir.foreach(path) { |name|
-				if (name != '.') && (name != '..') && (File.directory?(path + name))
-					filename = path + name + '/view_main.rb'
-					require filename if File.exists?(filename)
-				end
-			}
-		end
-
 		def get_views(only_in_pages = true)
 			result = []
 			@view_classes.each { |_, data|
@@ -117,7 +135,8 @@ module MojuraWebApp
 			return result
 		end
 
-		# ----------------------------------------------------- Strings ------------------------------------------------------
+		# ----------------------------------------------------- Strings ----------------------------------------------------
+
 		def locale_str(view, id, options = {})
 			Locale.str(view, id, options)
 		end

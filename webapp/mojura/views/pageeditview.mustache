@@ -42,14 +42,18 @@
 			<input type="hidden" name="viewid" value="test" />
 
 			<ul class="nav nav-tabs">
-				<li class="active"><a href="#form_view_webview" data-toggle="tab">{{locale_str_system_view_webview}}</a></li>
-				<li><a href="#form_view_content" data-toggle="tab">{{locale_str_system_view_content}}</a></li>
+				<li class="active"><a href="#form_view_content" data-toggle="tab">{{locale_str_system_view_content}}</a></li>
 			  <li><a href="#form_view_advanced" data-toggle="tab">{{locale_str_system_view_advanced}}</a></li>
 			</ul>
 
 			<div class="tab-content">
 
-				<div class="tab-pane active" id="form_view_webview">
+				<div class="tab-pane active" id="form_view_content">
+
+					<label>{{locale_str_system_view_text}}</label>
+					<textarea style="width: 96%; max-width: 96%" name="content" rows="6"></textarea>
+					$('#modalEditView textarea').wysiwyg();
+
 					<label>{{locale_str_system_view_webview}}</label>
 					<select name="view">
 						<option value="">{{locale_str_system_view_no_webview}}</option>
@@ -60,11 +64,6 @@
 
 					<div class="view_settings">
 					</div>
-				</div>
-
-				<div class="tab-pane" id="form_view_content">
-					<div>{{locale_str_system_view_content}}</div>
-					<textarea style="width: 98%" name="content" rows="6"></textarea>
 				</div>
 
 				<div class="tab-pane" id="form_view_advanced">
