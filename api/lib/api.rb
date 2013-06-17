@@ -231,7 +231,6 @@ module MojuraAPI
 					'(' + obj[:object].uri_id_to_regexp(match[1..-2]) + ')'
 				}
 				request_path.match(/^#{p}$/) { |m|
-					#noinspection RubyUnusedLocalVariable
 					resource = obj
 					data = m.to_a
 					params[:query_string] = data.shift
@@ -253,7 +252,7 @@ module MojuraAPI
 				result = resource[:object].post(params) if resource[:object].required_params_present?(:post, params)
 			elsif method == 'delete'
 				# No idea why RubyMine sees result as unused
-				# noinspection RubyUnusedLocalVariable
+				#noinspection RubyUnusedLocalVariable
 				result = resource[:object].delete(params) if resource[:object].required_params_present?(:delete, params)
 			else
 				raise UnknownModuleException.new(request_path)
@@ -328,6 +327,7 @@ module MojuraAPI
 			else
 				API.session[:uid] = nil
 				API.log.warn("Authentication for #{:username} failed")
+				API.log.debug("Digest: #{usder.digest}\nSent password: #{params[:password]}\nStored password: #{crypted}")
 				raise InvalidAuthentication.new
 			end
 		end

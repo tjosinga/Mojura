@@ -30,17 +30,19 @@ module MojuraWebApp
 			else
 				self.include_script_link('ext/jquery/jquery.min.js')
 				self.include_script_link('ext/jquery/jquery-ui.min.js')
-				self.include_script_link('ext/jquery/jquery.form.js')
+				self.include_script_link('ext/jquery/jquery.form.min.js')
 			end
-			self.include_script_link('ext/bootstrap/js/bootstrap.min.js')
-			self.include_style_link('ext/bootstrap/css/bootstrap.min.css')
+
+			self.include_style_link('//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css')
+			self.include_style_link('//netdna.bootstrapcdn.com/font-awesome/3.2.0/css/font-awesome.css')
+			self.include_script_link('//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js')
 
 			self.include_script_link('ext/mustache/mustache.min.js')
 
-			self.include_script_link('mojura/js/validator.js')
-			self.include_script_link('mojura/js/kvparser.js')
-			self.include_script_link('mojura/js/locale.js')
-			self.include_style_link('mojura/css/style.css')
+			self.include_script_link('mojura/js/validator.min.js')
+			self.include_script_link('mojura/js/kvparser.min.js')
+			self.include_script_link('mojura/js/locale.min.js')
+			self.include_style_link('mojura/css/style.min.css')
 
 		end
 
@@ -100,6 +102,19 @@ module MojuraWebApp
 			@data[:description] || Settings.get_s('description', 'Mojura is a fine API based Content Management System')
 		end
 
+		def get_minified_or_original(filename)
+			return filename if filename.include?('://')
+			if filename.end_with?('.min.js') || filename.end_with?('.min.css')
+				return filename if File.exists?("webapp/#{filename}")
+				normal_filename = filename.gsub(/\.min\.js$/, '.js').gsub(/\.min\.css$/, '.css')
+				return normal_filename if File.exists?("webapp/#{normal_filename}")
+			else
+				minified_filename = filename.gsub(/\.js$/, '.min.js').gsub(/\.css$/, '.min.css')
+				return minified_filename if File.exists?("webapp/#{minified_filename}")
+			end
+			return filename
+		end
+
 		def include_metatag(name, content)
 			in_dict = false
 			@scripts.each { |v|
@@ -122,6 +137,7 @@ module MojuraWebApp
 		end
 
 		def include_script_link(script_url)
+			script_url = get_minified_or_original(script_url)
 			in_dict = false
 			@script_links.each { |v| in_dict = true if v[:script] == script_url }
 			@script_links.push({script: script_url}) if !in_dict
@@ -134,6 +150,7 @@ module MojuraWebApp
 		end
 
 		def include_style_link(style_url)
+			style_url = get_minified_or_original(style_url)
 			self.include_link('stylesheet', 'text/css', style_url)
 		end
 

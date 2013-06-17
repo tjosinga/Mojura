@@ -1,5 +1,6 @@
 <style type="text/css">
 	#file-popup .modal-body li {
+		cursor: pointer;
 		width: 150px;
 		height: 20px;
 		padding-top: 148px;
@@ -12,18 +13,20 @@
 		background-size: 128px;
 		background-repeat: no-repeat;
 		background-position: center 10px;
+		position: relative;
 	}
 
-	#file-popup .modal-body .thumbnail_folder {
-		background-image: url("views/files/icons/folder-large.png");
-		background-position: center 50px;
-		background-size: auto;
-	}
-
-	#file-popup .modal-body .thumbnail_file {
-		background-image: url("views/files/icons/file-large.png");
-		background-position: center 50px;
-		background-size: auto;
+	#file-popup .modal-body li i[class^="icon-"],
+	#file-popup .modal-body li i[class*=" icon-"] {
+		display: block;
+		position: absolute;
+		top: 10px;
+		color: silver;
+		font-size: 40px;
+		width: 150px;
+		line-height: 128px;
+		text-align: center;
+		vertical-align: middle;
 	}
 
 	#file-popup .modal-body ul .selected {
@@ -60,7 +63,8 @@
 				<input type="file" name="file" class="file-input" onchange="if (this.value != '') SelectFile.uploadFile();" />
 			</form>
 
-			<button class="btn pull-left btn-upload" data-loading-text="{{locale_str_files_action_quick_upload}}...">
+			<button class="btn pull-left btn-upload btn-warning" data-loading-text="{{locale_str_files_action_quick_upload}}...">
+				<i class="icon-upload"></i>
 				{{locale_str_files_action_quick_upload}}
 			</button>
 			<button class="btn" data-dismiss="modal">{{locale_str_system_cancel}}</button>
@@ -74,26 +78,26 @@
 		{{=<% %>=}}
 		<!-- The following template codes are processed in second phase //-->
 		{{^is_base_folder}}
-		<li class='thumbnail thumbnail_folder' onclick="SelectFile.setCurrentFolderId('{{parentid}}')">
-			<%locale_str_files_parent_folder%>
+		<li class='thumbnail' onclick="SelectFile.setCurrentFolderId('{{parentid}}')">
+			<i class='icon-folder-open'></i><%locale_str_files_parent_folder%>
 		</li>
 		{{/is_base_folder}}
 
 		{{#subfolders}}
-		<li class='thumbnail thumbnail_folder' onclick="SelectFile.setCurrentFolderId('{{id}}')">
-			{{title}}
+		<li class='thumbnail' onclick="SelectFile.setCurrentFolderId('{{id}}')">
+			<i class='icon-folder-close'></i>{{title}}
 		</li>
 		{{/subfolders}}
 
 		{{#files}}
 			{{#is_image}}
-			<li class='thumbnail' onclick="SelectFile.selectFile('{{id}}', this)" style="background-image: url('__api__/files/{{id}}/download?type=avatar')">
+			<li class='thumbnail thumbnail_{{id}}' onclick="SelectFile.selectFile('{{id}}', this)" style="background-image: url('__api__/files/{{id}}/download?type=avatar')">
 				{{title}}
 			</li>
 			{{/is_image}}
 			{{^is_image}}
-			<li class='thumbnail thumbnail_file' onclick="SelectFile.selectFile('{{id}}', this);">
-				{{title}}
+			<li class='thumbnail thumbnail_{{id}}' onclick="SelectFile.selectFile('{{id}}', this);">
+				<i class='icon-file'></i>{{title}}
 			</li>
 		{{/is_image}}
 		{{/files}}
@@ -136,8 +140,7 @@
 				.one("hidden", function () {
 						if (parentModalId != "") {
 							$("#" + parentModalId).one("shown",function () {
-								$(".modal-backdrop").addClass("fade");
-								$("#" + parentModalId).addClass("fade").one("hidden", function(){});
+								$("#" + parentModalId + ", .modal-backdrop").addClass("fade");
 							}).modal("show");
 						}
 						jModal.remove();
@@ -151,7 +154,6 @@
 					jModal.removeClass("fade").modal("show");
 				}).modal("hide");
 			}
-
 		}
 
 		function refresh() {
@@ -208,10 +210,17 @@
 			}).submit();
 		}
 
+		function getCachedFilename(fileId) {
+			return $.trim($("#file-popup .modal-body .thumbnail_" + fileId).html());
+		}
+
 		return {show: show,
-						setCurrentFolderId: setCurrentFolderId,
-						selectFile: selectFile,
-						uploadFile: uploadFile};
+			setCurrentFolderId: setCurrentFolderId,
+			selectFile: selectFile,
+			uploadFile: uploadFile,
+			getCachedFilename: getCachedFilename
+		};
+
 	})(jQuery);
 
 </script>

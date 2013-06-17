@@ -36,6 +36,9 @@ var Validator = (function ($) {
 			case "email":
 				return isEmail(elem, params);
 				break;
+			case "url":
+				return isEmail(elem, params);
+				break;
 			default:
 				return true;
 		}
@@ -60,10 +63,16 @@ var Validator = (function ($) {
 		return filter.test(elem.value);
 	};
 
+	function isUrl(elem, params) {
+		var filter = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
+		return filter.test(elem.value);
+	};
+
 	return {validateForm: validateForm,
 		isRequired: isRequired,
 		isNumberic: isNumeric,
-		isEmail: isEmail
+		isEmail: isEmail,
+		isUrl: isUrl
 	};
 
 })(jQuery);

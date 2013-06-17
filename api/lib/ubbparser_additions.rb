@@ -1,8 +1,17 @@
 require 'ubbparser'
 require 'securerandom'
 
+def ubbparser_convert_file_url(url)
+	STDOUT << "Converting #{url}\n"
+	url.gsub!(/\A([0-9a-f]{24})\z/, MojuraAPI::API.api_url + "files/\\1/download")
+	STDOUT << "to #{url}\n"
+	return url
+end
+
 #noinspection RubyUnusedLocalVariable
 module UBBParser
+
+	self.set_file_url_convert_method(method(:ubbparser_convert_file_url))
 
 	def self.render_carousel(inner_text, attributes = {}, parse_options = {})
 		id = 'ubb-carousel-' + SecureRandom.hex(16)

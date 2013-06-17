@@ -21,6 +21,7 @@ gem 'pbkdf2'
 gem 'prawn'
 gem 'rack'
 gem 'xml-simple'
+gem 'yui-compressor'
 gem 'zipruby'
 
 # Published gems created by Taco Jan Osinga

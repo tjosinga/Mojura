@@ -5,7 +5,7 @@ module MojuraWebApp
 	class TestView < BaseView
 
 		def render
-			return render_selectfile
+			return render_spinner
 		end
 
 		def render_thread
@@ -15,20 +15,6 @@ module MojuraWebApp
 		def render_carousel
 			text = "Dit is een [carousel height=300 width=400][img]http://twitter.github.com/bootstrap/assets/img/bootstrap-mdo-sfmoma-03.jpg[/img]\n[img]http://twitter.github.com/bootstrap/assets/img/bootstrap-mdo-sfmoma-02.jpg[/img][/carousel]"
 			return UBBParser.parse(text) + '<br /><br />'
-		end
-
-		def render_sceditor
-			WebApp.page.include_script_link('ext/sceditor/jquery.sceditor.min.js')
-			WebApp.page.include_style_link('ext/sceditor/themes/default.min.css')
-
-
-			html = "<script type='text/javascript' >
-
-			$(document).ready(function() {
- 				$(\"textarea\").sceditor({plugins: 'bbcode', width: '100%', height: '200px'});
-			});
-      </script><textarea id='myeditor' style='height: 600px width: 500px'></textarea>"
-			return html
 		end
 
 		def render_selectfile
@@ -52,6 +38,10 @@ module MojuraWebApp
 
       </script><a class='btn' onclick='TestSelectFile(); return false'>Test</a><div class='test_container'></div>"
 			return html
+		end
+
+		def render_spinner
+			return "<i class='loading icon-spinner icon-spin icon-large'></i> Spinner test"
 		end
 
 		WebApp.register_view('test', TestView)

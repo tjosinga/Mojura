@@ -21,7 +21,7 @@ var PageEditor = (function ($) {
 				new_title = $("input[name=title]", "#modalEditPage").val();
 				if (new_title != old_title) {
 					pattern_old_title = encodeURIComponent(old_title).replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
-					reg = new RegExp(pattern_old_title + "\#", "g");
+					reg = new RegExp(pattern_old_title + "#", "g");
 					url = document.location.toString().replace(reg, encodeURIComponent(new_title) + "#");
 					history.pushState({}, document.title, url);
 				}
@@ -30,10 +30,43 @@ var PageEditor = (function ($) {
 			}, error: function (request, errordata, errorObject) {
 				alert(errorObject.toString());
 			}});
-
 		});
-
 	};
+
+	function showDeletePage() {
+		pageid = $("input[name=pageid]", "#modalDeletePage").val();
+		url = "__api__/pages/" + pageid;
+		$("form", "#modalDeletePage").submit(function (form) {
+			$.getJSON(url + "?_method=delete", function (data) {
+				url = document.location.toString();
+				document.location = url.slice(0, url.lastIndexOf("/"));
+				$("#modalDeletePage").modal("hide");
+			});
+			return false;
+		});
+		$("#modalDeletePage").modal("show");
+	};
+
+	function showAddSubpage() {
+		pageid = $("input[name=pageid]", "#modalDeletePage").val();
+		html = $("#modalEditPage form").html();
+		$("#modalAddSubpage form .elements").html(html);
+		$("#modalAddSubpage form input[name=title]").val("");
+		$("#modalAddSubpage").modal("show");
+		$("form", "#modalAddSubpage").on("submit", function () {
+			$(this).ajaxSubmit({success: function () {
+				title = $("input[name=title]", "#modalAddSubpage").val();
+				url = document.location.toString();
+				url = url.slice(0, url.indexOf("#"));
+				url += "/" + encodeURIComponent(title) + "#editing";
+				$("#modalAddSubpage").modal("hide");
+				document.location = url;
+			}, error: function (request, errordata, errorObject) {
+				alert(errorObject.toString());
+			}});
+		});
+	};
+
 
 	function getViewIdFromView(viewObj) {
 		result = "";
@@ -57,7 +90,7 @@ var PageEditor = (function ($) {
 				$(".view_settings", "#modalEditView").html("");
 				return;
 			}
-			$(".view_settings", "#modalEditView").html("<div class='loading'></div>");
+			$(".view_settings", "#modalEditView").html("<i class='loading icon-refresh icon-spin'></i>");
 			Locale.ensureLoaded(view, { loaded: function() {
 				url = "views/" + view + "/coworkers/view_edit_settings.mustache?static_only=true"
 				$.get(url, {cache: false},function (template) {
@@ -93,6 +126,9 @@ var PageEditor = (function ($) {
 		url = "__api__/pages/" + pageid + "/view/" + viewid;
 		$.getJSON(url, function (data) {
 			setEditViewData(data);
+			$("#form_view_content .view_include_text input").prop("checked", (data.content.raw != ""));
+			$("#form_view_content .view_include_text").toggle(data.view != "");
+			$("#form_view_content .view_texteditor").toggle(data.content.raw != "");
 			$(".loading", "#modalEditView").hide();
 			$("form", "#modalEditView").show();
 		});
@@ -122,6 +158,13 @@ var PageEditor = (function ($) {
 		$("#modalDeleteView").modal("show");
 	};
 
+	function checkVisibilityTextEditor() {
+		view = $("#form_view_content select").val();
+		checked = $("#form_view_content .view_include_text input").prop("checked");
+		$("#form_view_content .view_include_text").toggle(view != "");
+//		$("#form_view_content .view_texteditor").toggle((view == "") || (checked));
+	};
+
 	function addSubview(pageid, templateid, path) {
 		url = "__api__/pages/" + pageid + "/views/?_method=put&template=" + templateid;
 		if ((path !== undefined) && (path != ""))
@@ -132,8 +175,15 @@ var PageEditor = (function ($) {
 	};
 
 	function submit(btn) {
-		$(btn).button('loading')
+		$(btn).button('loading');
 		jModal = $(btn).parent().parent();
+		if (jModal.attr("id") == "modalEditView") {
+			view = $("#form_view_content select[name=view]").val();
+			checked = $("#form_view_content .view_include_text input").prop("checked");
+			if ((view != "") && (!checked)) {
+				$("#form_view_content .view_texteditor textarea").val ("");
+			}
+		}
 		jModal.on("hidden", function() {
 			$('form', jModal).submit();
 		}).modal("hide");
@@ -144,8 +194,11 @@ var PageEditor = (function ($) {
 	return {
 		togglePageAdmins: togglePageAdmins,
 		showEditPage: showEditPage,
+		showDeletePage: showDeletePage,
+		showAddSubpage: showAddSubpage,
 		showEditView: showEditView,
 		showDeleteView: showDeleteView,
+		checkVisibilityTextEditor: checkVisibilityTextEditor,
 		addSubview: addSubview,
 		submit: submit
 	};
