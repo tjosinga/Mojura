@@ -1,0 +1,36 @@
+#!/usr/bin/env ruby
+
+## Minifies JS and CSS files
+
+require "json"
+require "yui/compressor"
+
+$:.unshift(File.expand_path(File.dirname(__FILE__) + '/../'))
+Dir.chdir(File.expand_path(File.dirname(__FILE__) + '/../'))
+
+@js_files = []
+@css_files = []
+
+def find_files(path)
+	Dir.foreach("#{path}") { |name|
+		@js_files.push("#{path}/#{name}") if (name.end_with?('.js')) && (!name.end_with?('.min.js'))
+		@css_files.push("#{path}/#{name}") if (name.end_with?('.css')) && (!name.end_with?('.min.css'))
+		find_files("#{path}/#{name}") if (File.directory?("#{path}/#{name}")) && (name != '.') && (name != '..')
+	}
+end
+
+find_files("webapp")
+
+compressor = YUI::JavaScriptCompressor.new
+@js_files.each { |original|
+	minified = original.gsub(/\.js$/, '.min.js')
+	File.write(minified, compressor.compress(File.read(original)))
+	STDOUT << "Created file #{minified}\n"
+}
+
+compressor = YUI::CssCompressor.new
+@css_files.each { |original|
+	minified = original.gsub(/\.css$/, '.min.css')
+	File.write(minified, compressor.compress(File.read(original)))
+	STDOUT << "Created file #{minified}\n"
+}

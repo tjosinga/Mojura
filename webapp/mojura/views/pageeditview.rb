@@ -29,12 +29,9 @@ module MojuraWebApp
 				data[:row_offsets] = (0..10).to_a.map { |i| {index: i, title: i} }
 				data[:templates] = WebApp.api_call('pages/templates', {col_count: 12})
 				data[:templates].each { |template| template[:title] = Locale.str(:view_template_names, template[:templateid]) }
+
 				options[:uses_editor] = true
 				WebApp.page.include_script_link('mojura/js/pageeditor.js')
-
-				WebApp.page.include_script_link('https://raw.github.com/xing/wysihtml5/master/dist/wysihtml5-0.2.0.min.js')
-				WebApp.page.include_script_link('https://raw.github.com/jhollingworth/bootstrap-wysihtml5/master/src/bootstrap-wysihtml5.js')
-				WebApp.page.include_style_link('https://raw.github.com/jhollingworth/bootstrap-wysihtml5/master/src/bootstrap-wysihtml5.css')
 
 				WebApp.page.include_script('if (document.location.hash == \'#editing\') jQuery(\'#toggle_edit_page\').click()')
 				WebApp.page.include_locale(:system)

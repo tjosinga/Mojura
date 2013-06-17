@@ -8,11 +8,11 @@
 			<input type='hidden' name='redirect' value='{{redirect}}' />
 		{{/redirect}}
 
-		<label for='username'>{{locale_str_login_username}}:</label>
+		<label>{{locale_str_login_username}}:</label>
 		<input type='text' name='username' value='' data-validation='required email numeric' />
-		<label for='password'>{{locale_str_login_password}}:</label>
+		<label>{{locale_str_login_password}}:</label>
 		<input type='password' name='password' value='' data-validation='required' />
-		<label for='set_cookie'>
+		<label>
 			<input type='checkbox' name='set_cookie' value='' />
 			{{locale_str_login_set_cookie}}
 		</label>
@@ -23,7 +23,7 @@
 {{/is_logged_in}}
 {{#is_logged_in}}
 	<form id='signoff_form' class='well' action='javascript:void(0)' method='get' onsubmit='LoginView.signOffWithForm(this)'>
-		<label for=''>{{locale_str_login_signoff_info}}</label>
+		<label>{{locale_str_login_signoff_info}}</label>
 		<input type='submit' name='submit' class='btn btn-primary' data-validation='required'
 						data-loading-text='{{locale_str_login_signoff}}'
 						data-complete-text='{{locale_str_login_success}}' value='{{locale_str_login_signoff}}'  />

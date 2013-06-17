@@ -1,3 +1,19 @@
+iframe {
+  border: 0px;
+}
+
+[class^="icon-"],
+[class*=" icon-"] {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  font-size: 14px;
+  *margin-right: .3em;
+  line-height: 14px;
+  vertical-align: text-top;
+  margin-top: 1px;
+}
+
 @media (min-width: 980px) {
   body {
     padding-top: 65px;
@@ -6,11 +22,6 @@
 
 .hover-glow:hover {
   background-color: #F6F6F6;
-}
-
-.loading {
-  background: no-repeat center center url("../images/loading.gif");
-  height: 40px;
 }
 
 .row-offset1 {

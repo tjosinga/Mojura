@@ -74,7 +74,7 @@
 				$.get(url, {cache: false}, function (template) {
 					html = Mustache.to_html(template, Locale.rawStrings(["system", "files"]));
 					$("#modalEditView .select_file_container").html(html);
-					SelectFile.show({multi: true, parentModalId: "modalEditView",
+					SelectFile.show({multi: true, parentModalId: "modalEditView", filter: [".png", ".jpeg", ".jpg", "gif"],
 						confirmed: function (ids) {
 							for (i in ids) {
 								if ($("#modalEditView .current_images div[data-fileid=" + ids[i] + "]").length == 0)
