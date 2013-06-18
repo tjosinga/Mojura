@@ -120,6 +120,21 @@ iframe {
   line-height: inherit;
 }
 
+.label-horizontal
+{
+  display: inline-block;
+  clear: both;
+  float: left;
+  width: 45%;
+  margin-right: 5%;
+}
+
+.control-horizontal {
+  display: inline-block;
+  float: left;
+  width: 45%;
+}
+
 @media (min-height: 600px) {
   .modal-body {
     max-height: 400px;
