@@ -1,0 +1,24 @@
+#!/usr/bin/env ruby
+
+require "fileutils"
+
+## TODO Document
+
+$:.unshift(File.expand_path(File.dirname(__FILE__) + '/../'))
+Dir.chdir(File.expand_path(File.dirname(__FILE__) + '/../'))
+
+@resource = ARGV[0] || ''
+@resource_path = "api/resources/#{@resource}"
+
+unless File.exists?(@resource_path)
+	STDOUT << "The resource #{@resource_path} does not exist.\n"
+	exit(1)
+end
+
+unless File.symlink?(@resource_path)
+	STDOUT << "The resource is a custom resource which can not be removed. Only symlinked resources van be disabled.\n"
+	exit(2)
+end
+
+File.delete(@resource_path)
+STDOUT << "Resource #{@resource} is disabled.\n"

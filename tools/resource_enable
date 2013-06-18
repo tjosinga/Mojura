@@ -1,0 +1,31 @@
+#!/usr/bin/env ruby
+
+## Enables a resource
+
+$:.unshift(File.expand_path(File.dirname(__FILE__) + '/../'))
+Dir.chdir(File.expand_path(File.dirname(__FILE__) + '/../'))
+
+@mojura_source = File.dirname(File.readlink('app.rb')) + "/"
+@resource = ARGV[0] || ''
+@resource_path = "api/resources/#{@resource}"
+@resource_source = @mojura_source + @resource_path
+
+if @resource.empty?
+	STDOUT << "Usage #{$0} resource\n\n"
+	exit(1)
+end
+
+unless File.exists?(@mojura_source)
+	STDOUT << "The resource #{@resource_source} does not exist.\n"
+	exit(2)
+end
+
+if File.exists?(@resource_path)
+	STDOUT << "The resource '#{@resource}' is already enabled.\n"
+	exit(3)
+end
+
+File.symlink(@resource_source, @resource_path)
+STDOUT << "Resource #{@resource} enabled.\n"
+
+## TODO also check dependencies and add them
