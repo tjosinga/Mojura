@@ -1,0 +1,31 @@
+#!/usr/bin/env ruby
+
+## Enables a view
+
+$:.unshift(File.expand_path(File.dirname(__FILE__) + '/../'))
+Dir.chdir(File.expand_path(File.dirname(__FILE__) + '/../'))
+
+@mojura_source = File.dirname(File.readlink('app.rb')) + "/"
+@view = ARGV[0] || ''
+@view_path = "webapp/views/#{@view}"
+@view_source = @mojura_source + @view_path
+
+if @view.empty?
+	STDOUT << "Usage #{$0} view\n\n"
+	exit(1)
+end
+
+unless File.exists?(@mojura_source)
+	STDOUT << "The view #{@view_source} does not exist.\n"
+	exit(2)
+end
+
+if File.exists?(@view_path)
+	STDOUT << "The view '#{@view}' is already enabled.\n"
+	exit(3)
+end
+
+File.symlink(@view_source, @view_path)
+STDOUT << "View #{@view} enabled.\n"
+
+## TODO also check dependencies and add them
