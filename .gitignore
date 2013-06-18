@@ -15,6 +15,11 @@ uploads/*
 logs/*
 .idea
 
+webapp/views/*/*.min.js
+webapp/views/*/*.min.css
+webapp/mojura/js/*.min.js
+webapp/mojura/css/*.min.css
+
 # YARD artifacts
 .yardoc
 _yardoc

@@ -32,8 +32,8 @@
   </div>
   <div class="modal-body">
 		<form action="__api__/pages/{{pageid}}" method="post" onsubmit="return false">
-			<label>{{locale_str_system_title}}</label>
-			<input type="text" name="title" value="{{title}}" />
+			<label class="label-horizontal">{{locale_str_system_title}}</label>
+			<input class="control-horizontal" type="text" name="title" value="{{title}}" />
 		</form>
   </div>
   <div class="modal-footer">
@@ -104,8 +104,8 @@
 
 				<div class="tab-pane active" id="form_view_content">
 
-					<label>{{locale_str_system_view_webview}}</label>
-					<select name="view" onchange="PageEditor.checkVisibilityTextEditor()">
+					<label class="label-horizontal control-horizontal">{{locale_str_system_view_webview}}</label>
+					<select class="control-horizontal" name="view" onchange="PageEditor.checkVisibilityTextEditor()">
 						<option value="">{{locale_str_system_view_no_webview}}</option>
 						{{#views}}
 						<option class="min-col-span{{min_col_span}}" value="{{view_id}}">{{title}}</option>
@@ -113,13 +113,13 @@
 					</select>
 
 					<div class='view_include_text'>
-						<label>
-							<input type='checkbox' onchange="$('#form_view_content .view_texteditor').toggle(this.checked)"/>
+						<label class="label-horizontal checkbox pull-right">
+							<input class="control-horizontal" type='checkbox' onchange="$('#form_view_content .view_texteditor').toggle(this.checked)"/>
 							{{locale_str_system_view_include_text}}
 						</label>
 					</div>
 
-					<div class='view_texteditor'>
+					<div class="view_texteditor" style="clear: both; display: block">
 						<label>{{locale_str_system_view_text}}</label>
 						<textarea style="width: 96%; max-width: 96%" name="content" rows="6"></textarea>
 						<script type='text/javascript'>
@@ -127,31 +127,31 @@
 						</script>
 					</div>
 
-					<div class="view_settings">
+					<div class="view_settings" style="clear: both; display: block">
 					</div>
 				</div>
 
 				<div class="tab-pane" id="form_view_advanced">
-					<label>{{locale_str_system_view_col_span}}</label>
-					<select name="col_span">
+					<label class="label-horizontal">{{locale_str_system_view_col_span}}</label>
+					<select class="control-horizontal" name="col_span">
 						{{#col_spans}}
 							<option value="{{index}}">{{title}}</option>
 						{{/col_spans}}
 					</select>
-					<label>{{locale_str_system_view_col_offset}}</label>
-					<select name="col_offset">
+					<label class="label-horizontal">{{locale_str_system_view_col_offset}}</label>
+					<select class="control-horizontal" name="col_offset">
 						{{#col_offsets}}
 							<option value="{{index}}">{{title}}</option>
 						{{/col_offsets}}
 					</select>
-					<label>{{locale_str_system_view_row_offset}}</label>
-					<select name="row_offset">
+					<label class="label-horizontal">{{locale_str_system_view_row_offset}}</label>
+					<select class="control-horizontal" name="row_offset">
 						{{#row_offsets}}
 							<option value="{{index}}">{{title}}</option>
 						{{/row_offsets}}
 					</select>
-					<label>{{locale_str_system_view_classes}}</label>
-					<input type="text" name="setting_classes" value="" />
+					<label class="label-horizontal">{{locale_str_system_view_classes}}</label>
+					<input class="control-horizontal" type="text" name="setting_classes" value="" />
 				</div>
 			</div>
 
