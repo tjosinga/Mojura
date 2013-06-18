@@ -24,13 +24,13 @@
 
 <ul class="unstyled">
 	{{^is_base_folder}}
-		<li class='hover-glow' style='padding: 5px 0px;'>
+		<li class='hover-glow' style='padding: 5px 0;'>
 			<i class='icon-folder-open'></i> <a href="{{base_url}}?folderid={{parentid}}" onclick="FilesView.setCurrentFolderId('{{parentid}}'); return false;">{{locale_str_files_parent_folder}}</a>
 		</li>
 	{{/is_base_folder}}
 
 	{{#subfolders}}
-		<li class='hover-glow' style='padding: 5px 0px;'>
+		<li class='hover-glow' style='padding: 5px 0;'>
 			<div class="btn-group pull-right">
 				{{#rights.allowed.update}}
 			    <a class="btn btn-mini" href="#" rel="tooltip" title="{{locale_str_action_edit_folder}}" data-toggle="modal" data-target="#modalEditFolder" onclick="FilesView.loadForm('#modalEditFolder', '#template-add-edit-folder', '__api__/files/folder/{{id}}', 'post'); return false"><i class="icon-pencil"></i></a>
@@ -46,7 +46,7 @@
 
 <ul class="unstyled">
 	{{#files}}
-		<li class='hover-glow' style='padding: 5px 0px;'>
+		<li class='hover-glow' style='padding: 5px 0;'>
 			<div class="btn-group pull-right">
 				{{#rights.allowed.update}}
 					{{#is_archive}}

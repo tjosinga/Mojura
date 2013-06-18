@@ -17,7 +17,7 @@ module MongoTestDb
 		@database = @connection.db(@db_name)
 		Dir.foreach('../test/testset/') { |name|
 			if name.end_with?('.json')
-				coll_name = name[0..-6]
+				#coll_name = name[0..-6]
 #				begin
 #					text = File.read("../test/testset/#{name}")
 #					raise Exception("File #{name} is empty") if text.empty?

@@ -28,14 +28,14 @@ FilesView = (function ($) {
 			data.has_subfolders = (data.subfolders.length > 0);
 			data.has_files = (data.files.length > 0);
 			for (i = 0; i < data.files.length; i++) {
-				data.files[i].is_image = (data.files[i].mime_type != undefined) && (data.files[i].mime_type.slice(0, 5) == "image");
-				data.files[i].is_archive = (data.files[i].mime_type != undefined) && (data.files[i].mime_type == "application/zip")
+				data.files[i].is_image = (data.files[i].mime_type !== undefined) && (data.files[i].mime_type.slice(0, 5) == "image");
+				data.files[i].is_archive = (data.files[i].mime_type !== undefined) && (data.files[i].mime_type == "application/zip")
 			}
 			html = Mustache.to_html(template, data);
 			if (history.pushState) {
 				new_location = window.location.toString();
 				new_location = new_location.replace(/\?folderid=\w+/, "");
-				if ((data.id != undefined) && (data.id != null))
+				if ((data.id !== undefined) && (data.id !== null))
 					new_location += "?folderid=" + data.id;
 				history.pushState({}, document.title, new_location);
 			}
@@ -49,7 +49,7 @@ FilesView = (function ($) {
 		$(".btn-primary, .btn-danger", modalId).button("reset");
 		$(".modal-body", modalId).html("<div class='loading'></div>");
 		$.getJSON(url, function (data) {
-			if (data.id == null) data.id = "";
+			if (data.id === null) data.id = "";
 			template = $(templateId).html();
 			html = Mustache.to_html(template, data);
 			$(".modal-body", modalId).html(html);

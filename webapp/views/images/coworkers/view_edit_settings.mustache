@@ -14,7 +14,7 @@
 <style type="text/css">
 
 	#modalEditView .image-thumb	{
-		margin: 0px 5px 5px 0px;
+		margin: 0 5px 5px 0;
 		background-color: #EEEEEE;
 	}
 
@@ -31,11 +31,12 @@
 
 
 <script type="text/javascript">
+    //noinspection LocalVariableNamingConventionJS
     var ImageEditView;
     ImageEditView = (function($) {
 
 		function setFileIdsToForm() {
-			fileids = []
+			fileids = [];
 			$(".image-thumb", "#modalEditView").each(function(index) {
 				fileids.push($(this).attr("data-fileid"));
 			});
@@ -48,9 +49,9 @@
 		}
 
 		function getFileIdsFromForm() {
-			ids_str = $("[name=setting_fileids]", "#modalEditView").val()
+			ids_str = $("[name=setting_fileids]", "#modalEditView").val();
 			if (ids_str == "")
-				return []
+				return [];
 			else
 				return ids_str.split(",");
 		};
@@ -62,7 +63,7 @@
 		function showImages() {
 			ids = getFileIdsFromForm();
 			html = "";
-			for (var i in ids) {
+			for (i in ids) {
 				html += fileIdToHTML(ids[i]);
 			}
 			$(".current_images", "#modalEditView").html(html);
@@ -77,7 +78,7 @@
 					SelectFile.show({multi: true, parentModalId: "modalEditView", filter: [".png", ".jpeg", ".jpg", "gif"],
 						confirmed: function (ids) {
 							for (i in ids) {
-								if ($("#modalEditView .current_images div[data-fileid=" + ids[i] + "]").length == 0)
+								if ($("#modalEditView .current_images div[data-fileid=" + ids[i] + "]").length === 0)
 									$(".current_images", "#modalEditView").append(fileIdToHTML(ids[i]));
 							}
 							setFileIdsToForm();

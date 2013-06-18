@@ -4,7 +4,7 @@ var TextEditor = (function($) {
 		addToolbar(textareaSelector);
 	}
 
-	var newVar = {
+	newVar = {
 		"bold": {"icon": "icon-bold", "method": function (text, os) { return executeActionSimple("b", text, os) }},
 		//"underline": {"icon": "icon-underlined", "method": function (text) { return executeActionSimple("u", text, os) }},
 		"italic": {"icon": "icon-italic", "method": function (text, os) { return executeActionSimple("i", text, os) }},
@@ -19,13 +19,13 @@ var TextEditor = (function($) {
 		"img": {"icon": "icon-picture", "method": function (text, os) { return executeActionImage(text, os) }},
 		"file": {"icon": "icon-file", "method": function (text, os) { return executeActionFile(text, os) }},
 	};
-	var buttons = newVar
+	buttons = newVar;
 
 	function addToolbar(textareaSelector) {
 		loadModals();
 
-		html = "<div class='texteditor_toolbar' data-selector='" + textareaSelector + "' style='padding-bottom: 10px;'>"
-		html += "<div class='btn-group'>"
+		html = "<div class='texteditor_toolbar' data-selector='" + textareaSelector + "' style='padding-bottom: 10px;'>";
+		html += "<div class='btn-group'>";
 		$.each(buttons, function (index, object) {
 			if (object == "divider")
 				html += "</div><div class='btn-group'>";
@@ -37,7 +37,7 @@ var TextEditor = (function($) {
 		html += "</div></div>"; //btn-group and texteditor_toolbar
 
 		$(html).insertBefore(textareaSelector).find(".btn").on("click", function () {
-			textareaSelector = $(this).parents(".texteditor_toolbar").attr("data-selector");
+//			textareaSelector = $(this).parents(".texteditor_toolbar").attr("data-selector");
 			action = $(this).attr("data-action");
 			TextEditor.executeAction(textareaSelector, action);
 		});
@@ -46,7 +46,7 @@ var TextEditor = (function($) {
 	}
 
 	function loadModals() {
-		if ($("#texteditor_modals").length == 0) {
+		if ($("#texteditor_modals").length === 0) {
 			url = "mojura/views/texteditor_modals.mustache?static_only=true";
 			$.get(url, {cache: false}, function (template) {
 				html = Mustache.to_html(template, Locale.rawStrings(["system"]));
@@ -98,7 +98,7 @@ var TextEditor = (function($) {
 	}
 
 	function executeActionSimple(tag, text, onSuccess, options) {
-		if (options == undefined) options = {};
+		if (options === undefined) options = {};
 		if (options.addNewlines) text = "\n" + text;
 		text = "[" + tag + "]" + text + "[/" + tag + "]";
 		if (options.addNewlines) text += "\n";

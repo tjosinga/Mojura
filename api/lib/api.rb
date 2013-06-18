@@ -140,8 +140,8 @@ module MojuraAPI
 		def modules
 			if @modules.nil?
 				@modules = []
-				API.log.info("Loading the API core")
-				mod_dependencies = {:core => load_module(:core)}
+				API.log.info('Loading the API core')
+				mod_dependencies = {core: load_module(:core)}
 				Dir.foreach('api/resources/') { |name|
 					if (name[0] != '.') && (File.directory?('./api/resources/' + name))
 						mod = name.to_sym
@@ -282,6 +282,7 @@ module MojuraAPI
 		end
 
 		# API method /setup. Creates an admin account if there are no users.
+		#noinspection RubyUnusedLocalVariable
 		def setup(params)
 			users = Users.new({'$or' => [{is_admin: true}, {username: 'admin'}]}, {ignore_rights: true})
 			if users.count == 0

@@ -2,7 +2,7 @@
 
 ## Deletes all minified files if an original file exists
 
-require "json"
+require 'json'
 
 $:.unshift(File.expand_path(File.dirname(__FILE__) + '/../'))
 Dir.chdir(File.expand_path(File.dirname(__FILE__) + '/../'))
@@ -20,11 +20,11 @@ def find_files(path)
 	}
 end
 
-find_files("webapp")
+find_files('webapp')
 
 @js_files.each { | minified |
 	original = minified.gsub(/\.min\.js$/, '.js')
-	if (File.exist?(original))
+	if File.exist?(original)
 		File.delete(minified) if (File.exist?(original))
 		STDOUT << "Deleted #{minified}\n"
 	end

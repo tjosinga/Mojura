@@ -120,6 +120,7 @@ module MojuraAPI
 			image.destroy!
 		end
 
+		#noinspection RubyUnusedLocalVariable
 		def to_a(compact = false)
 			result = super
 			result[:file_url] = API.api_url + "files/#{self.id}/download"
@@ -241,6 +242,7 @@ module MojuraAPI
 			super('files_folders', true, [:title], 'files/folder')
 		end
 
+		#noinspection RubyUnusedLocalVariable
 		def on_object_to_tree!(object, info)
 			info[:api_url] = 'files/?folderid=' + info[:id]
 		end

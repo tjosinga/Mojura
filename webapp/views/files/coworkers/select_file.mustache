@@ -9,10 +9,9 @@
 		overflow: hidden;
 		white-space: nowrap;
 		text-align: center;
-		margin: 0px 5px 10px 0px;
+		margin: 0 5px 10px 0;
 		background-size: 128px;
-		background-repeat: no-repeat;
-		background-position: center 10px;
+		background: no-repeat center 10px;
 		position: relative;
 	}
 
@@ -50,7 +49,7 @@
 <template id="file-popup-template">
 	<div class="file-popup-modal modal modal-extra-large fade hide">
 		<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<button type="button" class="close" data-dismiss="modal">&times;</button>
 			<h3>{{locale_str_files_action_select}}</h3>
 		</div>
 		<div class="modal-body">
@@ -60,7 +59,7 @@
 			<form enctype="multipart/form-data" action="__api__/files/" method="post" class="file-upload-form pull-left">
 				<input type="hidden" name="_method" value="put"/>
 				<input type="hidden" name="folderid" value="{{folderid}}"/>
-				<input type="file" name="file" class="file-input" onchange="if (this.value != '') SelectFile.uploadFile();" />
+				<input type="file" name="file" class="file-input" onchange="if (this.value !== '') SelectFile.uploadFile();" />
 			</form>
 
 			<button class="btn pull-left btn-upload btn-warning" data-loading-text="{{locale_str_files_action_quick_upload}}...">
@@ -106,6 +105,7 @@
 </template>
 
 <script type='text/javascript'>
+	//noinspection LocalVariableNamingConventionJS
 	var SelectFile = (function () {
 
 		this.currentFolderId = "root";
@@ -115,12 +115,14 @@
 		this.parentModalId = "";
 
 		function show(options) {
-			if (!options) options = {}
+			if (!options) { //noinspection AssignmentToFunctionParameterJS
+				options = {}
+			}
 			multiSelect = (options.multi === true);
-			if (options.parentModalId !== undefined)
-				parentModalId = options.parentModalId;
-			else
-				parentModalId = "";
+
+			if (options.parentModalId === undefined)
+				options.parentModalId = "";
+			parentModalId = options.parentModalId;
 
 			selectedFiles = [];
 			$("body").append($("#file-popup-template").html());
@@ -168,7 +170,7 @@
 				data.has_subfolders = (data.subfolders.length > 0);
 				data.has_files = (data.files.length > 0);
 				for (i = 0; i < data.files.length; i++)
-					data.files[i].is_image = (data.files[i].mime_type != undefined) && (data.files[i].mime_type.slice(0, 5) == "image");
+					data.files[i].is_image = (data.files[i].mime_type !== undefined) && (data.files[i].mime_type.slice(0, 5) == "image");
 
 				html = Mustache.to_html(template, data);
 				$("#file-popup .modal-body").html(html);
@@ -181,8 +183,13 @@
 		}
 
 		function selectFile(id, elem) {
-			jElem = $(elem)
-			if (!jElem.hasClass("selected")) {
+			jElem = $(elem);
+			if (jElem.hasClass("selected")) {
+				jElem.removeClass("selected");
+				selectedFiles.splice(selectedFiles.indexOf(id), 1);
+				if (selectedFiles.length === 0)
+					$("#file-popup .btn-primary").addClass("disabled");
+			} else {
 				if (!multiSelect) {
 					$("#file-popup .modal-body ul .selected").removeClass("selected");
 					selectedFiles = [];
@@ -190,12 +197,6 @@
 				$("#file-popup .btn-primary").removeClass("disabled");
 				selectedFiles.push(id);
 				jElem.addClass("selected");
-			}
-			else {
-				jElem.removeClass("selected");
-				selectedFiles.splice(selectedFiles.indexOf(id), 1);
-				if (selectedFiles.length == 0)
-					$("#file-popup .btn-primary").addClass("disabled");
 			}
 		}
 

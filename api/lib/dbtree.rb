@@ -126,6 +126,7 @@ module MojuraAPI
 			return result
 		end
 
+		#noinspection RubyUnusedLocalVariable,RubyUnusedLocalVariable
 		def on_object_to_tree!(object, info)
 			#dummy method. Called before stored in the tree. Override to change the info
 		end
@@ -169,6 +170,7 @@ module MojuraAPI
 			return result
 		end
 
+		#noinspection RubyUnusedLocalVariable
 		def on_compact(src_info)
 			return true
 		end

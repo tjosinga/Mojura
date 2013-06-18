@@ -34,8 +34,8 @@ var Locale = (function($) {
 					if ((options !== undefined) && (options.loaded !== undefined))
 						options.loaded();
 				}
-				catch (error){
-					console.log("Error on parsing " + url);
+				catch (error) {
+					console.log("Error on parsing " + url + ": " + error.message);
 					strings[view] = {};
 					if (options.error !== undefined) options.error();
 				}
@@ -58,7 +58,7 @@ var Locale = (function($) {
 		console.log("--- in rawStrings --- ");
 		console.log(strings);
 		console.log("--- END in rawStrings --- ");
-		result = {}
+		result = {};
 		for (i in views) {
 			view = views[i];
 			for (id in strings[view])

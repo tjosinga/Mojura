@@ -5,7 +5,7 @@
 $:.unshift(File.expand_path(File.dirname(__FILE__) + '/../'))
 Dir.chdir(File.expand_path(File.dirname(__FILE__) + '/../'))
 
-@mojura_source = File.dirname(File.readlink('app.rb')) + "/"
+@mojura_source = File.dirname(File.readlink('app.rb')) + '/'
 @view = ARGV[0] || ''
 @view_path = "webapp/views/#{@view}"
 @view_source = @mojura_source + @view_path

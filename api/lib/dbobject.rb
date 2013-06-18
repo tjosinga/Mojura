@@ -243,6 +243,7 @@ module MojuraAPI
 		end
 
 		# A dummy method which could be used to alter the data that is stored in the database.
+		#noinspection RubyUnusedLocalVariable
 		def on_save_data(data)
 		end
 

@@ -26,7 +26,7 @@ module UBBParser
 		items = inner_text.split(/\n/)
 		active = ' active'
 		items.each { |v|
-			if (!v.empty?)
+			if !v.empty?
 				result += "<div class='item#{active}'>" + self.parse(v, parse_options) + '</div>'
 				active = ''
 			end

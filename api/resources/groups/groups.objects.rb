@@ -17,6 +17,7 @@ module MojuraAPI
 			yield :description, String, :extended_only => true
 		end
 
+		#noinspection RubyUnusedLocalVariable,RubyUnusedLocalVariable
 		def to_a(compact = false)
 			result = super
 			result[:groups_url] = API.api_url + "groups/#{self.id}/members"

@@ -1,58 +1,60 @@
-<div class="tabbable tabs-left"> 
-  <ul class="nav nav-tabs">
-		{{#modules}}	
-	    <li {{#is_active}}class='active'{{/is_active}}><a href='{{base_url}}#tab_{{module}}' data-toggle="tab">{{title}}</a></li>
+<div class="tabbable tabs-left">
+	<ul class="nav nav-tabs">
+		{{#modules}}
+			<li {{#is_active}}class='active'{{/is_active}}><a href='{{base_url}}#tab_{{module}}' data-toggle="tab">{{title}}</a></li>
 		{{/modules}}
-  </ul>
-  <div class="tab-content">
-	  {{#set_active}}{{/set_active}}
-		{{#modules}}	
-	    <div class="tab-pane {{#is_active}}active{{/is_active}}" id="tab_{{module}}">
-	      {{#resources}}
-	      	<h2 style='margin-top: 40px;'>{{name}}</h2>
-	      	<p>{{{description}}}</p>
-					<div class="tabbable tabs-top"> 
-					  <ul class="nav nav-tabs">
-	      			{{#set_sub_active}}{{/set_sub_active}}
-		      		{{#methods}}
-					    	<li class='{{#is_sub_active}}active{{/is_sub_active}}'><a href='{{base_url}}#tab_{{resourceid}}_{{name}}' data-toggle="tab">{{title}}</a></li>
-		      		{{/methods}}
-					  </ul>
-					  <div class="tab-content">
-	      			{{#set_sub_active}}{{/set_sub_active}}
-		      		{{#methods}}
-		      			<div class='tab-pane {{#is_sub_active}}active{{/is_sub_active}}' id='tab_{{resourceid}}_{{name}}'>
-			      			<p>{{{description}}}</p>
-			      			<dl class="dl-horizontal">
-			      				<dt style='text-align: left'>URI</dt><dd>{{uri}}</dd>
-			      				<dt style='text-align: left'>HTTP method</dt><dd>{{http}}</dd>
-			      			</dl>
-			      			{{#has_attributes}}
-						      	<table class='table table-striped table-bordered table-condensed'>
-						      		<thead>
-						      			<th>Variable</th>
-						      			<th>Type</th>
-						      			<th>Required</th>
-						      			<th>Description</th>
-						      		</thead>
-						      		<tbody>
-							      		{{#attributes}}
-							      			<tr>
-								      			<td>{{name}}</td>
-								      			<td>{{type}}</td>
-								      			<td>{{#required}}True{{/required}}{{^required}}False{{/required}}</td>
-								      			<td>{{{description}}}</td>
-								      		</tr>
-							      		{{/attributes}}
-						      		</tbody>
-						      	</table>	
-			      			{{/has_attributes}}
-					      </div>		
-		      		{{/methods}}
-		      	</div>
-		      </div>
-	      {{/resources}}	      
-	    </div>
+	</ul>
+	<div class="tab-content">
+		{{#set_active}}{{/set_active}}
+		{{#modules}}
+			<div class="tab-pane {{#is_active}}active{{/is_active}}" id="tab_{{module}}">
+				{{#resources}}
+					<h2 style='margin-top: 40px;'>{{name}}</h2>
+					<p>{{{description}}}</p>
+					<div class="tabbable tabs-top">
+						<ul class="nav nav-tabs">
+							{{#set_sub_active}}{{/set_sub_active}}
+							{{#methods}}
+								<li class='{{#is_sub_active}}active{{/is_sub_active}}'><a href='{{base_url}}#tab_{{resourceid}}_{{name}}' data-toggle="tab">{{title}}</a></li>
+							{{/methods}}
+						</ul>
+						<div class="tab-content">
+							{{#set_sub_active}}{{/set_sub_active}}
+							{{#methods}}
+								<div class='tab-pane {{#is_sub_active}}active{{/is_sub_active}}' id='tab_{{resourceid}}_{{name}}'>
+									<p>{{{description}}}</p>
+									<dl class="dl-horizontal">
+										<dt style='text-align: left'>URI</dt><dd>{{uri}}</dd>
+										<dt style='text-align: left'>HTTP method</dt><dd>{{http}}</dd>
+									</dl>
+									{{#has_attributes}}
+										<table class='table table-striped table-bordered table-condensed'>
+											<thead>
+												<tr>
+													<th>Variable</th>
+													<th>Type</th>
+													<th>Required</th>
+													<th>Description</th>
+												</tr>
+											</thead>
+											<tbody>
+												{{#attributes}}
+													<tr>
+														<td>{{name}}</td>
+														<td>{{type}}</td>
+														<td>{{#required}}True{{/required}}{{^required}}False{{/required}}</td>
+														<td>{{{description}}}</td>
+													</tr>
+												{{/attributes}}
+											</tbody>
+										</table>
+									{{/has_attributes}}
+								</div>
+							{{/methods}}
+						</div>
+					</div>
+				{{/resources}}
+			</div>
 		{{/modules}}
-  </div>
+	</div>
 </div>
