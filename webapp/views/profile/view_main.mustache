@@ -4,7 +4,7 @@
   </li>
 </ul>
 <div class="pull-left" style="display: inline">
-	<h3 style="margin-top: 0px; line-height: auto" data-key="fullname">
+	<h3 style="margin-top: 0" data-key="fullname">
 		<span data-key="fullname">{{fullname}}</span>
 		{{#may_update}}
 			<a href="#modal-edit-profile" class="btn btn-mini" data-toggle="modal"><i class="icon-cog"></i></a>
@@ -34,18 +34,18 @@
 	  </div>
 	  <div class="modal-body">
 	  	<form action="__api__/users/{{id}}" method="post">
-	  		<label for="firstname">{{locale_str_profile_name}}</label>
+	  		<label>{{locale_str_profile_name}}</label>
 				<input type="text" name="firstname" placeholder="{{locale_str_profile_firstname}}" value="{{firstname}}" style="width: 140px" />
 				<input type="text" name="infix" placeholder="{{locale_str_profile_infix}}" value="{{infix}}" style="width: 100px" />
 				<input type="text" name="lastname" placeholder="{{locale_str_profile_lastname}}" value="{{lastname}}" style="width: 220px" />
 
-	  		<label for="email">{{locale_str_profile_email}}</label>
+	  		<label>{{locale_str_profile_email}}</label>
 	  		<input type="text" name="email" value="{{email}}" />
 	  	</form>
 	  </div>
 	  <div class="modal-footer">
 	    <a href="#" class="btn" data-dismiss="modal">{{locale_str_system_cancel}}</a>
-	    <a href="#" class="btn btn-primary" data-loading-text='{{locale_str_system_save}}...' onclick="try { ProfileView.editProfile() } finally { return false }">{{locale_str_system_save}}</a>
+	    <a href="#" class="btn btn-primary" data-loading-text='{{locale_str_system_save}}...' onclick="try { ProfileView.editProfile() } finally { result = false } return result">{{locale_str_system_save}}</a>
 	  </div>
 	</div>
 
@@ -59,20 +59,20 @@
 	  		<input type="hidden" name="realm" value="{{realm}}" />
 
 	  		{{#force_old_password}}
-		  		<label for="password_old">{{locale_str_profile_password_old}}</label>
+		  		<label>{{locale_str_profile_password_old}}</label>
 		  		<input type="password" name="password_old" value="" />
 		  	{{/force_old_password}}
 
-	  		<label for="password_new">{{locale_str_profile_password_new}}</label>
+	  		<label>{{locale_str_profile_password_new}}</label>
 	  		<input type="password" name="password_new" value="" />
 
-	  		<label for="password_check">{{locale_str_profile_password_check}}</label>
+	  		<label>{{locale_str_profile_password_check}}</label>
 	  		<input type="password" name="password_check" value="" />
 	  	</form>
 	  </div>
 	  <div class="modal-footer">
 	    <a href="#" class="btn" data-dismiss="modal">{{locale_str_system_cancel}}</a>
-	    <a href="#" class="btn btn-primary" data-loading-text='{{locale_str_system_save}}...' onclick="try { ProfileView.editPassword() } finally { return false }">{{locale_str_system_save}}</a>
+	    <a href="#" class="btn btn-primary" data-loading-text='{{locale_str_system_save}}...' onclick="try { ProfileView.editPassword() } finally { result = false } return result">{{locale_str_system_save}}</a>
 	  </div>
 	</div>
 {{/may_update}}

@@ -3,10 +3,10 @@ var KeyValueParser = (function ($) {
 	lastResult = undefined;
 
 	function parse(str, options) {
-		if (options == undefined) options = {};
-		if (options["sep_char"] == undefined) options["sep_char"] = "=";
-		if (options["trim_values"] == undefined) options["trim_values"] = true;
-		if (options["comment_char"] == undefined) options["comment_char"] = "#";
+		if (options === undefined) options = {};
+		if (options["sep_char"] === undefined) options["sep_char"] = "=";
+		if (options["trim_values"] === undefined) options["trim_values"] = true;
+		if (options["comment_char"] === undefined) options["comment_char"] = "#";
 
 		result = {};
 		lines = str.match(/[^\r\n]+/g);
@@ -30,8 +30,8 @@ var KeyValueParser = (function ($) {
 
 	function toString() {
 		result = "";
-		if (lastResult != undefined)
-			for (var key in lastResult)
+		if (lastResult !== undefined)
+			for (key in lastResult)
 				result += key + ": " + lastResult[key] + "\n";
 		return result;
 	}

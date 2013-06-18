@@ -12,6 +12,7 @@ module MojuraAPI
 			'Show all members of a group'
 		end
 
+		#noinspection RubyUnusedLocalVariable
 		def uri_id_to_regexp(id_name)
 			return '[0-9a-f]{24}'
 		end

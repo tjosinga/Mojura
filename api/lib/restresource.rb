@@ -30,11 +30,13 @@ module MojuraAPI
 			raise NotImplementedException.new
 		end
 
+		#noinspection RubyUnusedLocalVariable,RubyUnusedLocalVariable
 		def uri_id_to_regexp(id_name)
 			'[0-9a-f]{24}|0|new'
 		end
 
 		# Returns a set of objects
+		#noinspection RubyUnusedLocalVariable
 		def all(params)
 			raise UnsupportedMethodException(:all)
 		end
@@ -75,21 +77,25 @@ module MojuraAPI
 		end
 
 		# Creates a new object
+		#noinspection RubyUnusedLocalVariable
 		def put(params)
 			raise UnsupportedMethodException(:put)
 		end
 
 		# Returns an object
+		#noinspection RubyUnusedLocalVariable
 		def get(params)
 			raise UnsupportedMethodException(:get)
 		end
 
 		# Updates an object
+		#noinspection RubyUnusedLocalVariable
 		def post(params)
 			raise UnsupportedMethodException(:post)
 		end
 
 		# Removes an object
+		#noinspection RubyUnusedLocalVariable
 		def delete(params)
 			raise UnsupportedMethodException(:delete)
 		end

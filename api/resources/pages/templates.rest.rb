@@ -1,3 +1,4 @@
+require 'api/resources/pages/pages.objects'
 require 'api/lib/restresource'
 
 module MojuraAPI

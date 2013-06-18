@@ -2,8 +2,8 @@
 
 ## Minifies JS and CSS files
 
-require "json"
-require "yui/compressor"
+require 'json'
+require 'yui/compressor'
 
 $:.unshift(File.expand_path(File.dirname(__FILE__) + '/../'))
 Dir.chdir(File.expand_path(File.dirname(__FILE__) + '/../'))
@@ -19,7 +19,7 @@ def find_files(path)
 	}
 end
 
-find_files("webapp")
+find_files('webapp')
 
 compressor = YUI::JavaScriptCompressor.new
 @js_files.each { |original|

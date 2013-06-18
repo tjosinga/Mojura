@@ -29,6 +29,7 @@ module MojuraAPI
 			#TODO: Check rights
 		end
 
+		#noinspection RubyUnusedLocalVariable,RubyUnusedLocalVariable
 		def post(params)
 			return 'post group'
 			#TODO: Check rights

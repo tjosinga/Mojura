@@ -92,7 +92,7 @@ var PageEditor = (function ($) {
 			}
 			$(".view_settings", "#modalEditView").html("<i class='loading icon-refresh icon-spin'></i>");
 			Locale.ensureLoaded(view, { loaded: function() {
-				url = "views/" + view + "/coworkers/view_edit_settings.mustache?static_only=true"
+				url = "views/" + view + "/coworkers/view_edit_settings.mustache?static_only=true";
 				$.get(url, {cache: false},function (template) {
 					strs = Locale.rawStrings(["system", view]);
 					for (id in strs)

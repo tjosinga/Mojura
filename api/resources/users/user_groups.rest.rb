@@ -10,6 +10,7 @@ module MojuraAPI
 			'Resource of the groups of a user. It\'s a core object in Mojura.'
 		end
 
+		#noinspection RubyUnusedLocalVariable
 		def uri_id_to_regexp(id_name)
 			return '[0-9a-f]{24}'
 		end

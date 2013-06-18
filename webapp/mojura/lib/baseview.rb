@@ -15,10 +15,10 @@ module MojuraWebApp
 				WebApp.page.include_script_link('ext/jquery/jquery-textrange.min.js')
 				WebApp.page.include_script_link('mojura/js/texteditor.js')
 			end
-			if (private_methods(false).include?(:initialize))
-				source_file = method(:initialize).source_location[0];
-			elsif (public_methods(false).include?(:render))
-				source_file = method(:initialize).source_location[0];
+			if private_methods(false).include?(:initialize)
+				source_file = method(:initialize).source_location[0]
+			elsif public_methods(false).include?(:render)
+				source_file = method(:initialize).source_location[0]
 			else
 				source_file = caller.first.split(':')[0]
 			end

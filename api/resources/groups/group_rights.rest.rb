@@ -13,6 +13,7 @@ module MojuraAPI
 			'Global rights are mainly used for fetching creation rights.'
 		end
 
+		#noinspection RubyUnusedLocalVariable
 		def uri_id_to_regexp(id_name)
 			return '[0-9a-f]{24}'
 		end

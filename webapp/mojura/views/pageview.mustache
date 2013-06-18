@@ -42,18 +42,20 @@
 
 	  Locale.init("{{locale}}");
 	  {{#locales}}
-		Locale.add("{{view}}", "{{id}}", "{{str}}");
+			Locale.add("{{view}}", "{{id}}", "{{str}}");
 		{{/locales}}
 
 		{{#has_analyticsid}}
-			var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-			document.write(unescape("%3Cscript src="" + gaJsHost + "google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E"));
+			var gaJsHost = ((document.location.protocol == "https:") ? "https://ssl." : "http://www.");
+			//noinspection DocumentWriteJS,DocumentWriteJS
+			document.write(unescape("%3Cscript src=\"" + gaJsHost + "google-analytics.com/ga.js\" type=\"text/javascript\"%3E%3C/script%3E"));
 
+			//noinspection EmptyCatchBlockJS,UnusedCatchParameterJS
 			try{
 				var pageTracker = _gat._getTracker("{{{analyticsid}}}");
 				pageTracker._trackPageview();
-		} catch(err) {}
-	  {{/has_analyticsid}}
+			} catch(err) {}
+		{{/has_analyticsid}}
 	</script>
 
   </body>
