@@ -121,9 +121,11 @@ copy_file('webapp/views/favicon.ico')
 
 
 ## Update the project settings
-
-
-
+filename = @destination + "project_settings.yaml"
+data = File.read(filename)
+data.gsub!(/^(\s*database\s*:\s*)(\w*)(\s*)$/, "\\1#{@realm}\\3")
+data.gsub!(/^(\s*realm\s*:\s*)(\w*)(\s*)$/, "\\1#{@realm}\\3")
+File.write(filename, data)
 
 
 
