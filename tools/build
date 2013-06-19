@@ -8,16 +8,21 @@ require 'yui/compressor'
 $:.unshift(File.expand_path(File.dirname(__FILE__) + '/../'))
 Dir.chdir(File.expand_path(File.dirname(__FILE__) + '/../'))
 
-@js_files = []
-@css_files = []
-
 def find_files(path)
 	Dir.foreach("#{path}") { |name|
 		@js_files.push("#{path}/#{name}") if (name.end_with?('.js')) && (!name.end_with?('.min.js'))
 		@css_files.push("#{path}/#{name}") if (name.end_with?('.css')) && (!name.end_with?('.min.css'))
-		find_files("#{path}/#{name}") if (File.directory?("#{path}/#{name}")) && (name != '.') && (name != '..')
+		find_files("#{path}/#{name}") if ((File.directory?("#{path}/#{name}")) &&
+			(name != '.') && (name != '..') &&
+			(!File.symlink?("#{path}/#{name}")) &&
+			("#{path}/#{name}" != 'webapp/mojura/js/sources'))
 	}
 end
+
+
+## Find all files in views and ext and create a minified file for each of them
+@js_files = []
+@css_files = []
 
 find_files('webapp')
 
@@ -34,3 +39,4 @@ compressor = YUI::CssCompressor.new
 	File.write(minified, compressor.compress(File.read(original)))
 	STDOUT << "Created file #{minified}\n"
 }
+

@@ -16,7 +16,8 @@ def find_files(path)
 		@css_files.push("#{path}/#{name}") if (name.end_with?('.min.css'))
 		find_files("#{path}/#{name}") if ((File.directory?("#{path}/#{name}")) &&
 			(name != '.') && (name != '..') &&
-			(!File.symlink?("#{path}/#{name}")))
+			(!File.symlink?("#{path}/#{name}")) &&
+			("#{path}/#{name}" != 'webapp/mojura/js/sources'))
 	}
 end
 
@@ -30,3 +31,7 @@ find_files('webapp')
 	end
 }
 
+## Delete combined files
+
+File.delete('webapp/mojura/js/mojura.min.js') rescue ''
+File.delete('webapp/mojura/js/mojura.min.css') rescue ''

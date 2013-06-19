@@ -31,8 +31,6 @@ module MojuraWebApp
 				data[:templates].each { |template| template[:title] = Locale.str(:view_template_names, template[:templateid]) }
 
 				options[:uses_editor] = true
-				WebApp.page.include_script_link('mojura/js/pageeditor.js')
-
 				WebApp.page.include_script('if (document.location.hash == \'#editing\') jQuery(\'#toggle_edit_page\').click()')
 				WebApp.page.include_locale(:system)
 			end

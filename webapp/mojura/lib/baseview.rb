@@ -13,7 +13,6 @@ module MojuraWebApp
 			@options = options
 			if @options[:uses_editor]
 				WebApp.page.include_script_link('ext/jquery/jquery-textrange.min.js')
-				WebApp.page.include_script_link('mojura/js/texteditor.js')
 			end
 			if private_methods(false).include?(:initialize)
 				source_file = method(:initialize).source_location[0]
