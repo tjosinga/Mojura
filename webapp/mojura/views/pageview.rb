@@ -23,25 +23,25 @@ module MojuraWebApp
 			@locale = Settings.get_s(:locale)
 			super({})
 
-			if Settings.get_b(:use_external_js_libs)
-				self.include_script_link('https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js')
-				self.include_script_link('https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.21/jquery-ui.min.js')
-				self.include_script_link('http://malsup.github.com/jquery.form.js')
-			else
-				self.include_script_link('ext/jquery/jquery.min.js')
-				self.include_script_link('ext/jquery/jquery-ui.min.js')
-				self.include_script_link('ext/jquery/jquery.form.min.js')
-			end
+			self.include_script_link('ext/jquery/jquery.min.js')
+			self.include_script_link('ext/jquery/jquery-ui.min.js')
+			self.include_script_link('ext/jquery/jquery.form.min.js')
 
-			self.include_style_link('//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css')
-			self.include_style_link('//netdna.bootstrapcdn.com/font-awesome/3.2.0/css/font-awesome.css')
-			self.include_script_link('//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js')
+			self.include_script_link('ext/bootstrap/bootstrap.min.js')
+			self.include_style_link('ext/bootstrap/bootstrap.no-icons.min.css')
+			self.include_style_link('ext/font-awesome/font-awesome.css')
 
 			self.include_script_link('ext/mustache/mustache.min.js')
 
-			self.include_script_link('mojura/js/validator.min.js')
-			self.include_script_link('mojura/js/kvparser.min.js')
-			self.include_script_link('mojura/js/locale.min.js')
+			# Check for the generated Mojura JS file. Otherwise add each source
+			mojura_js = 'webapp/mojura/js/mojura.min.js'
+			if File.exist?(mojura_js)
+				self.include_script_link('mojura/js/mojura.min.js')
+			else
+				Dir.foreach('webapp/mojura/js/sources/') { |name|
+					self.include_script_link("mojura/js/sources/#{name}") if name.end_with?('.js')
+				}
+			end
 			self.include_style_link('mojura/css/style.min.css')
 
 		end
@@ -102,8 +102,13 @@ module MojuraWebApp
 			@data[:description] || Settings.get_s('description', 'Mojura is a fine API based Content Management System')
 		end
 
-		def get_minified_or_original(filename)
+		def get_best_url(filename)
 			return filename if filename.include?('://')
+			if Settings.get_b(:use_external_hosted_files)
+				external = ExternalLibraries.get_external_equivalent(filename)
+				return external unless external.empty?
+			end
+
 			if filename.end_with?('.min.js') || filename.end_with?('.min.css')
 				return filename if File.exists?("webapp/#{filename}")
 				normal_filename = filename.gsub(/\.min\.js$/, '.js').gsub(/\.min\.css$/, '.css')
@@ -137,7 +142,7 @@ module MojuraWebApp
 		end
 
 		def include_script_link(script_url)
-			script_url = get_minified_or_original(script_url)
+			script_url = get_best_url(script_url)
 			in_dict = false
 			@script_links.each { |v| in_dict = true if v[:script] == script_url }
 			@script_links.push({script: script_url}) if !in_dict
@@ -150,7 +155,7 @@ module MojuraWebApp
 		end
 
 		def include_style_link(style_url)
-			style_url = get_minified_or_original(style_url)
+			style_url = get_best_url(style_url)
 			self.include_link('stylesheet', 'text/css', style_url)
 		end
 

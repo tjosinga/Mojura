@@ -3,6 +3,7 @@ require 'webapp/mojura/lib/exceptions'
 require 'webapp/mojura/lib/baseview'
 require 'webapp/mojura/lib/settings'
 require 'webapp/mojura/lib/locale'
+require 'webapp/mojura/lib/external_libraries'
 require 'webapp/mojura/views/viewwrapper'
 require 'webapp/mojura/views/pageview'
 
@@ -40,6 +41,7 @@ module MojuraWebApp
 			@log.add(Log4r::Outputter.stdout)
 			@log.info('----- Loading the WebApp -----')
 			WebApp.load_views
+			ExternalLibraries.load
 			@log.info('----- The WebApp is loaded -----')
 		end
 
@@ -52,6 +54,10 @@ module MojuraWebApp
 					require filename if File.exists?(filename)
 				end
 			}
+		end
+
+		def load_cdns
+
 		end
 
 		# ------------------------------------------------ Thread Shortcuts ------------------------------------------------
