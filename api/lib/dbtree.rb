@@ -9,7 +9,7 @@ module MojuraAPI
 		extend self
 
 		def collection
-			@collection ||= MongoDb.collection('db_trees')
+			@collection ||= MongoDb.collection('single_hashes')
 		end
 	end
 
@@ -176,10 +176,10 @@ module MojuraAPI
 		end
 
 		def load_from_db
-			data = @tree_collection.find_one({collection_name: @db_col_name.to_s})
+			data = @tree_collection.find_one({identifier: @db_col_name.to_s})
 			if !data.nil?
 				@id = data['_id']
-				@tree = data['tree']
+				@tree = data['hash']
 				@tree.symbolize_keys!
 			else
 				@id = nil
@@ -190,8 +190,8 @@ module MojuraAPI
 		def save_to_db
 			data = @tree
 			data.stringify_keys!
-			@tree_collection.remove({collection_name: @db_col_name.to_s})
-			@tree_collection.insert({collection_name: @db_col_name.to_s, tree: data})
+			@tree_collection.remove({identifier: @db_col_name.to_s})
+			@tree_collection.insert({identifier: @db_col_name.to_s, type: 'db_tree', hash: data})
 		end
 
 	end
