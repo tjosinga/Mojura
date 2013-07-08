@@ -44,7 +44,7 @@ public:
     # Set to false if you prefer to use local versions of jQuery, CryptoJS, etc.,
     # otherwise it use the corresponding libraries at Google Fastpage, CloudFlare or
     # other CDNs.
-    use_external_hosted_files:       true
+    use_external_hosted_files:       false
 
     # Set to true if the website is currently in development.
     # It will generate more usefull information.

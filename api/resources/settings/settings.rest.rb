@@ -15,8 +15,7 @@ module MojuraAPI
 		end
 
 		def all(params)
-			scopes = [:public]
-			scopes.push(:protected) if (API.current_user.administrator?)
+			scopes = API.current_user.administrator? ? [:private, :protected, :public] : [:public]
 			return Settings.all(scopes, true, params[:category])
 		end
 
@@ -30,9 +29,9 @@ module MojuraAPI
 		end
 
 		def put(params)
-			raise NoRightsException.new if (!API.current_user.administrator?)
+			raise NoRightsException.new unless API.current_user.administrator?
 			value = (params.include?(:type)) ? StringConvertor.convert(params[:value], params[:type]) : params[:value]
-			level = (params[:is_public]) ? :public : :protected
+			level = (params[:level].to_s == 'public') ? :public : :protected
 			Settings.set(params[:key], value, params[:category], level)
 			return [value]
 		end
@@ -43,9 +42,9 @@ module MojuraAPI
 				attributes: {
 					category: {required: false, type: String, description: 'The category of the setting. Default is \'core\'.'},
 					key: {required: true, type: String, description: 'The key of the setting.'},
-					value: {required: true, type: String, description: 'A string representation of the value of the setting.'},
 					type: {required: false, type: String, description: 'The type of the setting, which can be integer, float, string, boolean, hash or array. Default is string.'},
-					level: {required: false, type: String, description: 'The level of the setting, which can be \'public\' (readable\) or \'protected\' (admins-only). Default is \'public\'.' },
+					level: {required: false, type: String, description: 'Set the level to protected or public. Default is protected.' },
+					value: {required: false, type: String, description: 'A string representation of the value of the setting.'}
 				}
 			}
 		end
@@ -53,33 +52,31 @@ module MojuraAPI
 		def get(params)
 			key = params[:ids][1]
 			category = params[:ids][0]
-			scopes = [:public]
-			scopes.push(:protected) if (API.current_user.administrator?)
-			return [Settings.getString(key, category, scopes)]
+			scopes = API.current_user.administrator? ? [:private, :protected, :public] : [:public]
+			return scopes #[Settings.getString(key, category, scopes)]
 		end
 
 		def get_conditions
 			{
 				description: 'Returns a setting.',
-				attributes: {
-#					key: {required: true, type: String, description: 'The key of the setting'},
-					category: {required: false, type: String, description: 'The category of the setting. Default is \'core\'.'}
-				}
+				attributes: {	}
 			}
 		end
 
 		#noinspection RubyUnusedLocalVariable
 		def post(params)
-			raise NotImplementedException.new
+			key = params[:ids][1]
+			category = params[:ids][0]
+			value = params[:value]
+			Settings.set(key, value, category)
+			return [value]
 		end
 
 		def post_conditions
-			result =
-				{
-					description: 'Updates an setting with a specific value.',
-					attributes: self.put_conditions[:attributes].each { |_, v| v[:required] = false }
-				}
-			result[:attributes].delete(:type)
+			result = {
+				description: 'Updates an setting with a specific value. It\'s not possible to update a private setting.',
+				attributes: self.put_conditions[:attributes].keep_if { |k, v| v[:required] = false; k == :value }
+			}
 			return result
 		end
 
@@ -93,8 +90,8 @@ module MojuraAPI
 
 		def delete_conditions
 			{
-				description: 'Deletes a setting.',
-				attributes: self.put_conditions[:attributes].each { |_, v| v[:required] = false }
+				description: 'Deletes a setting. It\'s not possible to delete a private setting.',
+				attributes: {}
 			}
 		end
 

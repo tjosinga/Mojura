@@ -104,4 +104,10 @@ module MojuraAPI
 		end
 	end
 
+	class NotAllowedSettingException < HTTPException
+		def initialize(setting, category = :core)
+			super("You're not allowed to set the setting #{category}::#{setting}", 403)
+		end
+	end
+
 end

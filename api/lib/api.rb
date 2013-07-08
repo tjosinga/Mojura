@@ -26,7 +26,6 @@ module MojuraAPI
 		extend self
 
 		# Module instances used for internal use. Some variables are accesible via identical named methods
-		@settings = {}
 		@modules = nil
 		@resources = {}
 		@loaded = false
@@ -127,8 +126,8 @@ module MojuraAPI
 			yaml = YAML.load_file(filename) rescue {}
 			yaml.symbolize_keys!
 			options = {ignore_if_exists: true, type: :file}
-			Settings.set(:version, (yaml[:version] || '0.0.0'), mod, :protected, options)
-			Settings.set(:global_rights, yaml[:global_rights], mod, :protected, options) if yaml[:global_rights].is_a?(Array)
+			Settings.set(:version, (yaml[:version] || '0.0.0'), mod, :private, options)
+			Settings.set(:global_rights, yaml[:global_rights], mod, :private, options) if yaml[:global_rights].is_a?(Array)
 			Settings.set(:object_rights, yaml[:object_rights], mod, :protected, options) if yaml[:object_rights].is_a?(Hash)
 			yaml[:private].each { |k, v| Settings.set(k, v, mod, :private, options) } if yaml[:private].is_a?(Hash)
 			yaml[:protected].each { |k, v| Settings.set(k, v, mod, :protected, options) } if yaml[:protected].is_a?(Hash)
@@ -370,6 +369,10 @@ module MojuraAPI
 					salt: {
 						uri: API.api_url + 'salt',
 						description: 'Returns the salt and the realm, which are needed on the client-side to. Also check the authenticate function.',
+					},
+					setup: {
+						uri: API.api_url + 'setup',
+						description: "Creates a default administrator account if there aren't any admin users in the system.",
 					},
 					signoff: {
 						uri: API.api_url + 'signoff',
