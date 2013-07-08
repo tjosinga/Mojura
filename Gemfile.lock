@@ -20,7 +20,7 @@ GEM
       therubyracer (~> 0.11.1)
     hashery (2.1.0)
     json (1.8.0)
-    kramdown (1.0.2)
+    kramdown (1.1.0)
     kvparser (0.0.1)
     libv8 (3.11.8.17)
     log4r (1.1.10)
@@ -57,7 +57,7 @@ GEM
       polyglot
       polyglot (>= 0.3.1)
     ttfunk (1.0.3)
-    ubbparser (0.0.8)
+    ubbparser (0.1.0)
     xml-simple (1.1.2)
     yui-compressor (0.9.6)
       POpen4 (>= 0.1.4)

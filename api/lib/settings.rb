@@ -8,6 +8,7 @@ module MojuraAPI
 		private
 
 		@settings = nil
+		@collection = nil
 
 		def load_file_settings
 			return if !@settings.nil? && @settings.include?(:file)
@@ -21,15 +22,18 @@ module MojuraAPI
 
 		def load_db_settings
 			return if !@settings.nil? && (@settings.include?(:db) || !MongoDb.connected?)
+			@collection ||= MongoDb.collection('single_hashes')
 			@settings ||= {}
-			@settings[:db] = MongoDb.collection('settings').find.to_a[0].to_hash rescue {protected: {}, public: {}}
+			@settings[:db] = @collection.find({identifier: 'system_settings'}).to_a[0]['hash'] rescue {protected: {}, public: {}}
+			#STDOUT << @collection.find({identifier: 'system_settings'}).to_a[0]['hash']
 			@settings[:db].symbolize_keys!
 			@settings[:db][:protected] ||= {}
 			@settings[:db][:public] ||= {}
 		end
 
 		def save_db_settings
-			MongoDb.collection('settings').update({}, {'$set' => @settings})
+			data = {identifier: 'system_settings', type: 'settings', hash: @settings[:db]}
+			@collection.update({identifier: 'system_settings'}, data, {upsert: true})
 		end
 
 		def exists?(source, level, category, key)
@@ -61,6 +65,15 @@ module MojuraAPI
 			else
 				return nil
 			end
+		end
+
+		def locate_setting(key, category = :core)
+			return {type: :file, level: :private} if exists?(:file, :private, category, key)
+			return {type: :file, level: :protected} if exists?(:file, :protected, category, key)
+			return {type: :file, level: :public} if exists?(:file, :public, category, key)
+			return {type: :db, level: :protected} if exists?(:db, :protected, category, key)
+			return {type: :db, level: :public} if exists?(:db, :public, category, key)
+			return nil
 		end
 
 		public
@@ -115,20 +128,28 @@ module MojuraAPI
 		end
 
 		def set(key, value, category = nil, level = nil, options = {})
-			level = level.to_sym rescue :protected
 			category = category.to_sym rescue :core
 			key = key.to_sym
-			type = options[:type] || :db
 			load_file_settings
 			load_db_settings
+
+			location = locate_setting(key, category)
+			if !location.nil?
+				return if options[:ignore_if_exists].is_a?(TrueClass)
+				level = location[:level]
+				return NotAllowedSettingException if (level == :private)
+				type = location[:type]
+				old_value = @settings[type][level][category][key]
+				value = StringConvertor.convert(value, old_value.class) if value.is_a?(String) && !old_value.is_a?(String)
+				type = :db
+			else
+				level ||= :protected
+				type = options[:type] || :db
+			end
 			@settings[type] ||= {}
 			@settings[type][level] ||= {}
 			@settings[type][level][category] ||= {}
-			if options[:ignore_if_exists].is_a?(TrueClass)
-				@settings[type][level][category][key] ||= value
-			else
-				@settings[type][level][category][key] = value
-			end
+			@settings[type][level][category][key] = value
 			save_db_settings if (type == :db)
 		end
 
