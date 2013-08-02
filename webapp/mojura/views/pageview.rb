@@ -1,4 +1,5 @@
 require 'webapp/mojura/lib/baseview'
+require 'webapp/mojura/views/base_body'
 require 'webapp/mojura/views/pageeditview'
 
 module MojuraWebApp
@@ -181,8 +182,12 @@ module MojuraWebApp
 
 		def render
 			# preloading so all views can still affect the page object (i.e. to include css, js, etc.)
-			require 'webapp/views/body/view_main'
-			@body_html = WebApp.render_view(:view => 'body', :wrapping => 'simple', :classes => 'body_container', :add_span => false)
+			if File.exists?('webapp/views/body/view_main.rb')
+				require 'webapp/views/body/view_main'
+				@body_html = WebApp.render_view(:view => 'body', :wrapping => 'simple', :classes => 'body_container', :add_span => false)
+			else
+				@body_html = BaseBodyView.new({}).render
+			end
 			super
 		end
 
