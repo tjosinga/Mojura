@@ -1,9 +1,12 @@
 module MojuraWebApp
 
-	class BodyView < BaseView
+	class BaseBodyView < BaseView
 
 		def initialize(options = {})
-			super(options)
+			data = [show_navbar: Settings.get_b(:show_navbar),
+					    show_content_title: (Settings.get_b(:show_content_title))]
+
+			super(options, data)
 			#pre render the content part, which allow setting of the title, etc.
 			if WebApp.page.data[:views].nil?
 				if (!WebApp.page.data[:view].nil?) && (WebApp.page.data[:view] != 'body')
@@ -52,20 +55,6 @@ module MojuraWebApp
 			@content
 		end
 
-		def plugins
-			return 'plugins'
-		end
-
-		def footer
-			return 'footer'
-		end
-
-		def breadcrumbs
-			return 'breadcrumbs'
-		end
-
 	end
-
-	WebApp.register_view('body', BodyView, :in_pages => false)
 
 end
