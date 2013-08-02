@@ -1,28 +1,34 @@
 <div class="navbar navbar-fixed-top navbar-inverse">
   <div class="navbar-inner">
     <div class="container">
-    
+
 			<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </a>
-          
+
     	{{#brand_name}}
     		<a class="brand" href="#">
   				{{brand_name}}
 				</a>
     	{{/brand_name}}
-    
+
 			{{#has_pages}}
 				<div class="nav-collapse">
 					<ul class="nav">
 						{{#pages}}
 							<li class=""><a href="{{page_url}}">{{title}}</a></li>{{inc_index}}
-						{{/pages}}		
+						{{/pages}}
 					</ul>
+
+					{{#show_page_editor}}
+						{{{page_editor}}}
+					{{/show_page_editor}}
 				</div>
 			{{/has_pages}}
+
+
 
     </div>
   </div>

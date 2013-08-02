@@ -8,10 +8,12 @@ module MojuraWebApp
 
 		def initialize(options = {})
 			@index = 0
-			@brand_name = (options[:brand_name] || 'Mojura Development')
+			@brand_name = (options[:brand_name] || Settings.get_s(:brand_name))
+			@brand_name = 'Mojura Development' if @brand_name.empty?
 			options[:show_admin] |= (options.include?(:show_admin) && options[:show_admin])
 			options[:root_url] ||= ''
 			options[:root_url] += '/' if (options[:root_url] != '')
+			options[:show_page_editor] = Settings.get_b(:navbar_show_page_editor)
 			if !options[:items].nil?
 				@pages = options[:items]
 			else
@@ -46,6 +48,10 @@ module MojuraWebApp
 
 		def page_url
 			@options[:root_url] + CGI.escape(@pages[@index][:title])
+		end
+
+		def page_editor
+			PageEditView.new({}).render
 		end
 
 		def inc_index
