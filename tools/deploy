@@ -107,7 +107,6 @@ create_folder('webapp')
 create_symlink('webapp/mojura')
 create_symlink('webapp/ext')
 create_folder('webapp/views')
-create_symlink('webapp/views/body')
 create_symlink('webapp/views/files')
 create_symlink('webapp/views/images')
 create_symlink('webapp/views/login')
@@ -126,9 +125,3 @@ data = File.read(filename)
 data.gsub!(/^(\s*database\s*:\s*)(\w*)(\s*)$/, "\\1#{@realm}\\3")
 data.gsub!(/^(\s*realm\s*:\s*)(\w*)(\s*)$/, "\\1#{@realm}\\3")
 File.write(filename, data)
-
-
-
-
-
-
