@@ -14,12 +14,6 @@ iframe {
   margin-top: 1px;
 }
 
-@media (min-width: 980px) {
-  body {
-    padding-top: 65px;
-  }
-}
-
 .hover-glow:hover {
   background-color: #F6F6F6;
 }
