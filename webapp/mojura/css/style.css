@@ -79,6 +79,12 @@ iframe {
   }
 }
 
+@media (max-width: 768px) {
+  .row > .view {
+    margin-bottom: 20px;
+  }
+}
+
 @media (min-width: 1200px) {
   .modal-extra-large {
     margin-left: -525px;
