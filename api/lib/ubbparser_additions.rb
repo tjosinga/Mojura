@@ -62,6 +62,12 @@ module UBBParser
 	#end
 
 	# :category: Render methods
+	def self.render_icon(inner_text, attributes = {}, parse_options = {})
+		icon_type = (inner_text.match(/^[\w\-]*$/).nil?) ? 'question' : inner_text
+		return "<i class='icon icon-#{icon_type}'></i>"
+	end
+
+		# :category: Render methods
 	def self.render_quote(inner_text, attributes = {}, parse_options = {})
 		source = attributes[:original_attrib_str] || ''
 		result = '<blockquote>'
