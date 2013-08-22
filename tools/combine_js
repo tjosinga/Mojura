@@ -7,7 +7,7 @@ $:.unshift(File.expand_path(File.dirname(__FILE__) + '/../'))
 Dir.chdir(File.expand_path(File.dirname(__FILE__) + '/../'))
 
 data = "/* This file is generated with Mojura's tool 'combine_js'.\n   "
-data << "It combines all JavaScript files which are stored in "
+data << 'It combines all JavaScript files which are stored in '
 data << "webapp/mojura/js/sources/.*/\n\n"
 
 Dir.foreach('webapp/mojura/js/sources/') { |name|

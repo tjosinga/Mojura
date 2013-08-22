@@ -26,12 +26,20 @@ find_files('webapp')
 @js_files.each { | minified |
 	original = minified.gsub(/\.min\.js$/, '.js')
 	if File.exist?(original)
-		File.delete(minified) if (File.exist?(original))
-		STDOUT << "Deleted #{minified}\n"
+		File.delete(minified)
+		STDOUT << "Deleted JS: #{minified}\n"
+	end
+}
+
+@css_files.each { |minified|
+	css_original = minified.gsub(/\.min\.css$/, '.css')
+	scss_original = minified.gsub(/\.min\.css$/, '.scss')
+	if File.exist?(css_original) || File.exists?(scss_original)
+		File.delete(minified)
+		STDOUT << "Deleted CSS: #{minified}\n"
 	end
 }
 
 ## Delete combined files
-
 File.delete('webapp/mojura/js/mojura.min.js') rescue ''
 File.delete('webapp/mojura/js/mojura.min.css') rescue ''
