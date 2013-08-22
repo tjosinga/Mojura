@@ -71,6 +71,7 @@ module MojuraWebApp
 			Thread.current[:mojura][:web_url] = env['rack.url_scheme'].to_s + '://' + env['SERVER_NAME'] + port_str + '/'
 		end
 
+		# @return [PageView]
 		def page
 			Thread.current[:mojura][:page]
 		end
