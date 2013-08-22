@@ -1,0 +1,43 @@
+<label>
+	{{locale_str_twitter_widget_id}}
+	<span class="small_title">{{locale_str_twitter_widget_id_info}}</span>
+	<input type="text" onblur="this.value = this.value.match(/\d{18,}/)" name="setting_widget_id" value="{{widget_id}}" />
+</label>
+
+<label>{{locale_str_twitter_max_tweets}}
+	<select name="setting_max_tweets">
+		<option value="1">1</option>
+		<option value="2">2</option>
+		<option value="3">3</option>
+		<option value="4">4</option>
+		<option value="5">5</option>
+		<option value="6">6</option>
+		<option value="7">7</option>
+		<option value="8">8</option>
+		<option value="9">9</option>
+		<option value="10">10</option>
+		<option value="15">15</option>
+		<option value="20">20</option>
+	</select>
+</label>
+
+<label class="checkbox">
+	<input type="checkbox" name="setting_show_avatars" value="true" {{#show_avatars}}checked="checked"{{/show_avatars}} />
+	{{locale_str_twitter_show_avatars}}
+</label>
+
+<label class="checkbox">
+	<input type="checkbox" name="setting_show_time" value="true" {{#show_time}}checked="checked"{{/show_time}} />
+	{{locale_str_twitter_show_time}}
+</label>
+
+<label class="checkbox">
+	<input type="checkbox" name="setting_show_actions" value="true" {{#show_actions}}checked="checked"{{/show_actions}} />
+	{{locale_str_twitter_show_actions}}
+</label>
+
+<script type="text/javascript">
+	max = '{{max_tweets}}';
+	if (max == '') max = '5';
+	$("select[name=setting_max_tweets] option[value=" + max + "]", "#modalEditView").prop("selected", "selected");
+</script>
