@@ -19,7 +19,7 @@ FilesView = (function ($) {
 		$("#files_folders_container").html("<div class='loading'></div>");
 		id = this.currentFolderId;
 		if ((id == "") || (id === undefined)) id = "root";
-		url = "__api__/files/folders/" + id;
+		url = "__api__/files/folder/" + id;
 
 		$.getJSON(url, function (data) {
 			template = $("#template_files_folders_container").html();
