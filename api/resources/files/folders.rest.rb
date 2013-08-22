@@ -30,8 +30,8 @@ module MojuraAPI
 
 		def get(params)
 			id = (params[:ids][0] == 'root') ? nil : params[:ids][0]
-			oid = (!id.nil?) ? BSON::ObjectId(id) : nil
 			result = DbFolder.new(id).to_a
+			oid = BSON::ObjectId(id) rescue nil
 			#TODO: Check rights
 			result[:parents] = DbFolderTree.new.parents_of_node(id)
 			result[:subfolders] = DbFolders.new({parentid: oid}).to_a

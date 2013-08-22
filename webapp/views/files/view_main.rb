@@ -14,7 +14,7 @@ module MojuraWebApp
 			params = {}
 			params[:folderid] = @folderid if (!@folderid.nil?)
 			begin
-				data = WebApp.api_call("files/folders/#{@folderid}", params)
+				data = WebApp.api_call("files/folder/#{@folderid}", params)
 			rescue APIException => _
 				data = {}
 			end

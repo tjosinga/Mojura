@@ -12,10 +12,10 @@
 
 {{#rights.allowed.update}}
 	<div class="btn-group">
-	  <button class="btn" data-toggle="modal" data-target="#modalAddFile" onclick="FilesView.loadForm('#modalAddFile', '#template-add-edit-file', '__api__/files/0', 'put'); return false">
+	  <button class="btn" data-toggle="modal" data-target="#modalAddFile" onclick="FilesView.loadForm('#modalAddFile', '#template-add-edit-file', '__api__/files/new', 'put'); return false">
 	  	<i class='icon-plus'></i> {{locale_str_files_action_add_file}}
 	  </button>
-	  <button class="btn" data-toggle="modal" data-target="#modalAddFolder" onclick="FilesView.loadForm('#modalAddFolder', '#template-add-edit-folder', '__api__/files/folders/0', 'put'); return false">
+	  <button class="btn" data-toggle="modal" data-target="#modalAddFolder" onclick="FilesView.loadForm('#modalAddFolder', '#template-add-edit-folder', '__api__/files/folder/new', 'put'); return false">
 	  	<i class='icon-plus'></i> {{locale_str_files_action_add_folder}}
 	  </button>
 	</div>
@@ -33,10 +33,10 @@
 		<li class='hover-glow' style='padding: 5px 0;'>
 			<div class="btn-group pull-right">
 				{{#rights.allowed.update}}
-			    <a class="btn btn-mini" href="#" rel="tooltip" title="{{locale_str_action_edit_folder}}" data-toggle="modal" data-target="#modalEditFolder" onclick="FilesView.loadForm('#modalEditFolder', '#template-add-edit-folder', '__api__/files/folders/{{id}}', 'post'); return false"><i class="icon-pencil"></i></a>
+			    <a class="btn btn-mini" href="#" rel="tooltip" title="{{locale_str_action_edit_folder}}" data-toggle="modal" data-target="#modalEditFolder" onclick="FilesView.loadForm('#modalEditFolder', '#template-add-edit-folder', '__api__/files/folder/{{id}}', 'post'); return false"><i class="icon-pencil"></i></a>
 				{{/rights.allowed.update}}
 				{{#rights.allowed.delete}}
-				  <a class="btn btn-mini" href="#" rel="tooltip" title="{{locale_str_action_delete_folder}}" data-toggle="modal" data-target="#modalDeleteFolder" onclick="FilesView.loadForm('#modalDeleteFolder', '#template-delete-folder', '__api__/files/folders/{{id}}', 'delete'); return false"><i class="icon-trash"></i></a>
+				  <a class="btn btn-mini" href="#" rel="tooltip" title="{{locale_str_action_delete_folder}}" data-toggle="modal" data-target="#modalDeleteFolder" onclick="FilesView.loadForm('#modalDeleteFolder', '#template-delete-folder', '__api__/files/folder/{{id}}', 'delete'); return false"><i class="icon-trash"></i></a>
 				{{/rights.allowed.delete}}
 			</div>
 			<i class='icon-folder-close'></i> <a href="{{base_url}}?folderid={{id}}" onclick="FilesView.setCurrentFolderId('{{id}}'); return false;">{{title}}</a>

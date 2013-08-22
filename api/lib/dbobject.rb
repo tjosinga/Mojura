@@ -26,7 +26,7 @@ module MojuraAPI
 		# Initializes the API. It calls the get_fields of its
 		def initialize(db_col_name, id = nil, options = {})
 			raise Exception.new 'DbObject may only be inherited' if (self.instance_of?(DbObject))
-			id = nil if (id == '0') || (id == 'new')
+			id = nil if %w(0 new root empty nil null).include?(id)
 			@loaded = false
 			@options = options || {}
 			@id = id
