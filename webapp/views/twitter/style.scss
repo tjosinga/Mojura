@@ -1,0 +1,110 @@
+$light: gray;
+$lightest: #E8E8E8;
+$padding: 15px;
+
+.twitter-tweets {
+
+  ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    border: 1px solid $lightest;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
+  }
+
+  li {
+    padding: $padding $padding 0px ((2 * $padding) + 48);
+    position: relative;
+    border: 0px solid $lightest;
+    border-top-width: 1px;
+    font-size: 0.95em;
+    line-height: 120%;
+    overflow: hidden;
+    min-height: ($padding + 48px);
+  }
+
+  li:first-child {
+    border-top-width: 0;
+  }
+
+  .user {
+
+    margin-bottom: 5px;
+
+    img {
+      position: absolute;
+      top: $padding;
+      left: $padding;
+      -moz-border-radius: 5px;
+      -webkit-border-radius: 5px;
+      border-radius: 5px;
+    }
+
+    span {
+      text-decoration: none;
+      color: $light;
+    }
+
+    span:first-child {
+      font-size: 1.0em;
+      font-weight: bold;
+      color: black;
+    }
+
+  }
+
+  .timePosted {
+    color: $light;
+    font-size: 0.8em;
+    float: left;
+    margin-right: 5px;
+  }
+
+  .interact {
+    float: right;
+    visibility: hidden;
+
+    a {
+      margin-left: 10px;
+      font-size: 0;
+      color: $light;
+    }
+
+    a:hover {
+      text-decoration: none;
+    }
+
+    @mixin twitter-icon-font {
+      font-family: "FontAwesome";
+      font-size: 18px;
+    }
+
+    .twitter_reply_icon:before {
+      @include twitter-icon-font;
+      content: "\f112";
+    }
+    .twitter_retweet_icon:before {
+      @include twitter-icon-font;
+      content: "\f079";
+    }
+    .twitter_fav_icon:before {
+      @include twitter-icon-font;
+      content: "\f005";
+    }
+
+  }
+
+  li:hover .interact {
+    visibility: visible;
+  }
+
+}
+
+.twitter-tweets-hidden-avatars {
+  li {
+    padding-left: $padding;
+    min-height: $padding;
+  }
+}

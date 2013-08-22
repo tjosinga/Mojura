@@ -1,0 +1,58 @@
+{{^widget_id}}
+	{{locale_str_twitter_no_widget_id}}
+{{/widget_id}}
+{{#widget_id}}
+	<div class='twitter-tweets {{^show_avatars}}twitter-tweets-hidden-avatars{{/show_avatars}}' id='twitter_{{render_id}}'></div>
+
+	<script type='text/javascript'>
+		/*********************************************************************
+		 *  #### Twitter Post Fetcher v10.0 ####
+		 *  Coded by Jason Mayes 2013. A present to all the developers out there.
+		 *  www.jasonmayes.com
+		 *  Please keep this disclaimer with my code if you use it. Thanks. :-)
+		 *  Got feedback or questions, ask here:
+		 *  http://www.jasonmayes.com/projects/twitterApi/
+		 *  Updates will be posted to this site.
+		 *********************************************************************/
+			{{!
+			/**
+			 *
+			 * How to use fetch function:
+			 * @param {string} Your Twitter widget ID.
+			 * @param {string} The ID of the DOM element you want to write results to.
+			 * @param {int} Optional - the maximum number of tweets you want returned. Must
+			 *     be a number between 1 and 20.
+			 * @param {boolean} Optional - set true if you want urls and hash
+			 tags to be hyperlinked!
+			 * @param {boolean} Optional - Set false if you dont want user photo /
+			 *     name for tweet to show.
+			 * @param {boolean} Optional - Set false if you dont want time of tweet
+			 *     to show.
+			 * @param {function/string} Optional - A function you can specify to format
+			 *     tweet date/time however you like. This function takes a JavaScript date
+			 *     as a parameter and returns a String representation of that date.
+			 *     Alternatively you may specify the string 'default' to leave it with
+			 *     Twitter's default renderings.
+			 * @param {boolean} Optional - Show retweets or not. Set false to not show.
+			 * @param {function/string} Optional - A function to call when data is ready. It
+			 *     also passes the data to this function should you wish to manipulate it
+			 *     yourself before outputting. If you specify this parameter you  must
+			 *     output data yourself!
+			 * @param {boolean} Optional - Show links for reply, retweet, favourite. Set false to not show.
+			 */
+			 }}
+
+		twitterFetcher.fetch('{{widget_id}}',
+			'twitter_{{render_id}}',
+			{{max_tweets}},
+			true,
+			{{show_avatars}},
+			{{show_time}},
+			undefined,
+			true,
+			undefined,
+			{{show_actions}})
+		;
+
+	</script>
+{{/widget_id}}
