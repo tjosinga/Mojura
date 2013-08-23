@@ -1,13 +1,13 @@
 <ul class="thumbnails pull-left" style="margin-right: 10px">
-  <li class="span2 thumbnail">
-    <a><img src="{{avatar}}&s=170" alt=""></a>
+  <li class="thumbnail">
+    <a><img src="{{avatar}}&s=170" style="width: 170px; height: 170px" alt=""></a>
   </li>
 </ul>
 <div class="pull-left" style="display: inline">
 	<h3 style="margin-top: 0" data-key="fullname">
 		<span data-key="fullname">{{fullname}}</span>
 		{{#may_update}}
-			<a href="#modal-edit-profile" class="btn btn-mini" data-toggle="modal"><i class="icon-cog"></i></a>
+			<a href="#modal-edit-profile" class="btn btn-default btn-xs" data-toggle="modal"><span class="glyphicon glyphicon-cog"></span></a>
 		{{/may_update}}
 	</h3>
 	<div class="key-value-container">
@@ -27,52 +27,60 @@
 </div>
 
 {{#may_update}}
-	<div class="modal fade hide" id="modal-edit-profile">
-	  <div class="modal-header">
-	    <button type="button" class="close" data-dismiss="modal">×</button>
-	    <h3 class="action_add">{{locale_str_profile_edit_profile_title}}</h3>
-	  </div>
-	  <div class="modal-body">
-	  	<form action="__api__/users/{{id}}" method="post">
-	  		<label>{{locale_str_profile_name}}</label>
-				<input type="text" name="firstname" placeholder="{{locale_str_profile_firstname}}" value="{{firstname}}" style="width: 140px" />
-				<input type="text" name="infix" placeholder="{{locale_str_profile_infix}}" value="{{infix}}" style="width: 100px" />
-				<input type="text" name="lastname" placeholder="{{locale_str_profile_lastname}}" value="{{lastname}}" style="width: 220px" />
+	<div class="modal fade" id="modal-edit-profile">
+		<div class="modal-dialog">
+			<div class="modal-content">
+			  <div class="modal-header">
+			    <button type="button" class="close" data-dismiss="modal">×</button>
+			    <h3 class="action_add">{{locale_str_profile_edit_profile_title}}</h3>
+			  </div>
+			  <div class="modal-body">
+			    <form action="__api__/users/{{id}}" method="post">
+			      <label>{{locale_str_profile_name}}</label>
+						<input type="text" name="firstname" placeholder="{{locale_str_profile_firstname}}" value="{{firstname}}" style="width: 140px" />
+						<input type="text" name="infix" placeholder="{{locale_str_profile_infix}}" value="{{infix}}" style="width: 100px" />
+						<input type="text" name="lastname" placeholder="{{locale_str_profile_lastname}}" value="{{lastname}}" style="width: 220px" />
 
-	  		<label>{{locale_str_profile_email}}</label>
-	  		<input type="text" name="email" value="{{email}}" />
-	  	</form>
-	  </div>
-	  <div class="modal-footer">
-	    <a href="#" class="btn" data-dismiss="modal">{{locale_str_system_cancel}}</a>
-	    <a href="#" class="btn btn-primary" data-loading-text='{{locale_str_system_save}}...' onclick="try { ProfileView.editProfile() } finally { result = false } return result">{{locale_str_system_save}}</a>
-	  </div>
+			      <label>{{locale_str_profile_email}}</label>
+			      <input type="text" name="email" value="{{email}}" />
+			    </form>
+			  </div>
+			  <div class="modal-footer">
+			    <a href="#" class="btn" data-dismiss="modal">{{locale_str_system_cancel}}</a>
+			    <a href="#" class="btn btn-default btn-primary" data-loading-text='{{locale_str_system_save}}...' onclick="try { ProfileView.editProfile() } finally { result = false } return result">{{locale_str_system_save}}</a>
+			  </div>
+			</div>
+		</div>
 	</div>
 
-	<div class="modal fade hide" id="modal-edit-password">
-	  <div class="modal-header">
-	    <button type="button" class="close" data-dismiss="modal">×</button>
-	    <h3 class="action_add">{{locale_str_profile_edit_password_title}}</h3>
-	  </div>
-	  <div class="modal-body">
-	  	<form action="__api__/users/{{id}}" method="post">
-	  		<input type="hidden" name="realm" value="{{realm}}" />
+	<div class="modal fade" id="modal-edit-password">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+			    <button type="button" class="close" data-dismiss="modal">×</button>
+			    <h3 class="action_add">{{locale_str_profile_edit_password_title}}</h3>
+			  </div>
+			  <div class="modal-body">
+			    <form action="__api__/users/{{id}}" method="post">
+			      <input type="hidden" name="realm" value="{{realm}}" />
 
-	  		{{#force_old_password}}
-		  		<label>{{locale_str_profile_password_old}}</label>
-		  		<input type="password" name="password_old" value="" />
-		  	{{/force_old_password}}
+			      {{#force_old_password}}
+				      <label>{{locale_str_profile_password_old}}</label>
+				      <input type="password" name="password_old" value="" />
+				    {{/force_old_password}}
 
-	  		<label>{{locale_str_profile_password_new}}</label>
-	  		<input type="password" name="password_new" value="" />
+			      <label>{{locale_str_profile_password_new}}</label>
+			      <input type="password" name="password_new" value="" />
 
-	  		<label>{{locale_str_profile_password_check}}</label>
-	  		<input type="password" name="password_check" value="" />
-	  	</form>
-	  </div>
-	  <div class="modal-footer">
-	    <a href="#" class="btn" data-dismiss="modal">{{locale_str_system_cancel}}</a>
-	    <a href="#" class="btn btn-primary" data-loading-text='{{locale_str_system_save}}...' onclick="try { ProfileView.editPassword() } finally { result = false } return result">{{locale_str_system_save}}</a>
-	  </div>
-	</div>
+			      <label>{{locale_str_profile_password_check}}</label>
+			      <input type="password" name="password_check" value="" />
+			    </form>
+			  </div>
+			  <div class="modal-footer">
+			    <a href="#" class="btn" data-dismiss="modal">{{locale_str_system_cancel}}</a>
+			    <a href="#" class="btn btn-default btn-primary" data-loading-text='{{locale_str_system_save}}...' onclick="try { ProfileView.editPassword() } finally { result = false } return result">{{locale_str_system_save}}</a>
+			  </div>
+			</div>
+		</div>
+</div>
 {{/may_update}}

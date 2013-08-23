@@ -10,8 +10,14 @@ module MojuraWebApp
 			api_options = {}
 			data = WebApp.api_call(api_call, api_options)
 
-			data[:span] = "span#{options[:col_span]}"
-			data[:size] = ((options[:col_span] * 70) + ((options[:col_span] - 1) * 30)).to_i
+			options[:parent_col_span] ||= 12
+			options[:col_span] ||= options[:parent_col_span]
+			options[:col_devices] ||= 'md'
+			options[:col_rec] = ((12 / options[:parent_col_span]) * options[:col_span]).floor
+
+			data[:span] = "col-#{options[:col_devices]}-#{options[:col_rec]}"
+			data[:size] = 170
+#			data[:size] = ((options[:col_span] * 70) + ((options[:col_span] - 1) * 30)).to_i
 
 			profile_url = (options[:profile_url] || 'profile/?userid=[userid]')
 			data[:items].each { |item|

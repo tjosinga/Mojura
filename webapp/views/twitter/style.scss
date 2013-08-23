@@ -77,21 +77,28 @@ $padding: 15px;
     }
 
     @mixin twitter-icon-font {
-      font-family: "FontAwesome";
+      font-family: "Glyphicons Halflings";
       font-size: 18px;
     }
 
     .twitter_reply_icon:before {
       @include twitter-icon-font;
-      content: "\f112";
+      content: "\e095";
+      display: inline-block;
+      -webkit-transform: scale(-1, 1);
+      -moz-transform: scale(-1, 1);
+      -ms-transform: scale(-1, 1);
+      -o-transform: scale(-1, 1);
+      transform: scale(-1, 1);
     }
+
     .twitter_retweet_icon:before {
       @include twitter-icon-font;
-      content: "\f079";
+      content: "\e115";
     }
     .twitter_fav_icon:before {
       @include twitter-icon-font;
-      content: "\f005";
+      content: "\e006";
     }
 
   }

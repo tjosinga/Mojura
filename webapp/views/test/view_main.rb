@@ -41,7 +41,7 @@ module MojuraWebApp
 		end
 
 		def render_spinner
-			return "<i class='loading icon-spinner icon-spin icon-large'></i> Spinner test"
+			return "<span class='loading icon-spinner icon-spin icon-large'></span> Spinner test"
 		end
 
 		WebApp.register_view('test', TestView)

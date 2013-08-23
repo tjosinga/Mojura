@@ -1,5 +1,4 @@
 require 'mustache'
-require 'webapp/mojura/lib/editor'
 
 module MojuraWebApp
 

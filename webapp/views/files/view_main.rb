@@ -4,8 +4,6 @@ module MojuraWebApp
 
 	class FilesView < BaseView
 
-		include Editor
-
 		attr_reader :folderid, :modals
 
 		def initialize(options = {})

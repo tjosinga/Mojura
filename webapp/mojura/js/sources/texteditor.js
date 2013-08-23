@@ -5,19 +5,19 @@ var TextEditor = (function($) {
 	}
 
 	newVar = {
-		"bold": {"icon": "icon-bold", "method": function (text, os) { return executeActionSimple("b", text, os) }},
+		"bold": {"icon": "glyphicon-bold", "method": function (text, os) { return executeActionSimple("b", text, os) }},
 		//"underline": {"icon": "icon-underlined", "method": function (text) { return executeActionSimple("u", text, os) }},
-		"italic": {"icon": "icon-italic", "method": function (text, os) { return executeActionSimple("i", text, os) }},
+		"italic": {"icon": "glyphicon-italic", "method": function (text, os) { return executeActionSimple("i", text, os) }},
 		"divider 1": "divider",
-		"ol": {"icon": "icon-list-ol", "method": function (text, os) { return executeActionSimple("list", text, os, {addNewlines: true}) }},
-		"ul": {"icon": "icon-list-ul", "method": function (text, os) { return executeActionSimple("bullets", text, os, {addNewlines: true}) }},
+		"ol": {"icon": "glyphicon-list-ol", "method": function (text, os) { return executeActionSimple("list", text, os, {addNewlines: true}) }},
+		"ul": {"icon": "glyphicon-list-ul", "method": function (text, os) { return executeActionSimple("bullets", text, os, {addNewlines: true}) }},
 		"divider 2": "divider",
-		"email": {"icon": "icon-envelope", "method": function (text, os) { return executeActionEmail(text, os) }},
-		"url": {"icon": "icon-link", "method": function (text, os) { return executeActionUrl(text, os) }},
-		"video": {"icon": "icon-film", "method": function (text, os) { return executeActionVideo(text, os) }},
+		"email": {"icon": "glyphicon-envelope", "method": function (text, os) { return executeActionEmail(text, os) }},
+		"url": {"icon": "glyphicon-link", "method": function (text, os) { return executeActionUrl(text, os) }},
+		"video": {"icon": "glyphicon-film", "method": function (text, os) { return executeActionVideo(text, os) }},
 		"divider 3": "divider",
-		"img": {"icon": "icon-picture", "method": function (text, os) { return executeActionImage(text, os) }},
-		"file": {"icon": "icon-file", "method": function (text, os) { return executeActionFile(text, os) }},
+		"img": {"icon": "glyphicon-picture", "method": function (text, os) { return executeActionImage(text, os) }},
+		"file": {"icon": "glyphicon-file", "method": function (text, os) { return executeActionFile(text, os) }},
 	};
 	buttons = newVar;
 
@@ -30,8 +30,8 @@ var TextEditor = (function($) {
 			if (object == "divider")
 				html += "</div><div class='btn-group'>";
 			else {
-				icon = "<i class='" + object["icon"] + "'></i>";
-				html += "<div class='btn' data-action='" + index + "'>" + icon + "</div>";
+				icon = "<span class='glyphicon " + object["icon"] + "'></span>";
+				html += "<div class='btn btn-default' data-action='" + index + "'>" + icon + "</div>";
 			}
 		});
 		html += "</div></div>"; //btn-group and texteditor_toolbar
@@ -70,29 +70,15 @@ var TextEditor = (function($) {
 	}
 
 	function showModal(popupClass, onSuccess) {
-		$("#modalEditView").removeClass("fade").one("hidden",function () {
-			$("#texteditor_modals ." + popupClass).one("hidden",function () {
+		$("#modalEditView").removeClass("fade").one("hidden.bs.modal",function () {
+			$("#texteditor_modals ." + popupClass).one("hidden.bs.modal",function () {
 				$("#modalEditView").modal("show");
-			}).one("shown",function () {
+			}).one("shown.bs.modal",function () {
 					$("#texteditor_modals ." + popupClass + " .btn-primary").one("click", function () {
 						onSuccess();
 					});
 				}).modal("show");
-		}).one("shown",function () {
-				$("#modalEditView, .modal-backdrop").addClass("fade");
-			}).modal("hide");
-	}
-
-	function showModal(popupClass, onSuccess) {
-		$("#modalEditView").removeClass("fade").one("hidden",function () {
-			$("#texteditor_modals ." + popupClass).one("hidden",function () {
-				$("#modalEditView").modal("show");
-			}).one("shown",function () {
-					$("#texteditor_modals ." + popupClass + " .btn-primary").one("click", function () {
-						onSuccess();
-					});
-				}).modal("show");
-		}).one("shown",function () {
+		}).one("shown.bs.modal",function () {
 				$("#modalEditView, .modal-backdrop").addClass("fade");
 			}).modal("hide");
 	}
