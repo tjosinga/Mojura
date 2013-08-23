@@ -1,15 +1,17 @@
 <p>{{{locale_str_advancedsettings_info}}}</p>
 
-<div class="accordion" id="settings_accordion">
+<div class="panel-group" id="accordion">
 	{{#settings}}
-		<div class="accordion-group">
-			<div class="accordion-heading">
-				<div class="accordion-toggle" data-toggle="collapse" data-parent="#settings_accordion" href="#settings_body_{{resource}}">
-					<strong>{{resource}}</strong>
-				</div>
-			</div>
-			<div id="settings_body_{{resource}}" class="accordion-body collapse">
-				<div class="accordion-inner">
+	  <div class="panel panel-default">
+	    <div class="panel-heading">
+	      <h4 class="panel-title">
+	        <a class="accordion-toggle" data-toggle="collapse" data-parent="#settings_panel" href="#settings_body_{{resource}}">
+	          {{resource}}
+	        </a>
+	      </h4>
+	    </div>
+			<div id="settings_body_{{resource}}" class="panel-collapse collapse">
+				<div class="panel-body">
 					<p>
 						<table class='table-striped settings-table-{{resource}}' width='100%'>
 							{{#keyvalues}}
@@ -17,8 +19,8 @@
 							{{/keyvalues}}
 						</table>
 					</p>
-					<button class="btn btn-small" onclick="AdvancedSettings.showAdd('{{resource}}')">
-						<i class="icon-plus"></i> {{locale_str_advancedsettings_action_add}}
+					<button class="btn btn-default btn-sm" onclick="AdvancedSettings.showAdd('{{resource}}')">
+						<span class="glyphicon glyphicon-plus"></span> {{locale_str_advancedsettings_action_add}}
 					</button>
 				</div>
 			</div>
@@ -26,50 +28,58 @@
 	{{/settings}}
 </div>
 
-<div class="modal hide" id="settings_add_modal">
-	<div class="modal-header">
-		<button type="button" class="close" data-dismiss="modal">&times;</button>
-		<h3>{{locale_str_advancedsettings_action_add}}</h3>
-	</div>
-	<div class="modal-body">
-		<form action="__api__/settings/" method="post">
-			<input type="hidden" name="_method" value="put">
-			<input type="hidden" name="resource" value="">
-			<label>{{locale_str_advancedsettings_type}}</label>
-			<select name="type">
-				{{#datatypes}}
-					<option value="{{.}}">{{.}}</option>
-				{{/datatypes}}
-			</select>
-			<label>{{locale_str_advancedsettings_level}}</label>
-			<select name="level">
-				<option value="protected" selected="selected">{{locale_str_advancedsettings_level_protected}}</option>
-				<option value="public">{{locale_str_advancedsettings_level_public}}</option>
-			</select>
-			<label>{{locale_str_advancedsettings_key}}</label>
-			<input type="text" name="key"/>
-			<label>{{locale_str_advancedsettings_value}}</label>
-			<input type="text" name="value"/>
-		</form>
-	</div>
-	<div class="modal-footer">
-		<button class="btn" data-dismiss="modal">{{locale_str_system_cancel}}</button>
-		<button class="btn btn-primary save-btn">{{locale_str_system_save}}</button>
+<div class="modal fade" id="settings_add_modal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h3>{{locale_str_advancedsettings_action_add}}</h3>
+			</div>
+			<div class="modal-body">
+				<form action="__api__/settings/" method="post">
+					<input type="hidden" name="_method" value="put">
+					<input type="hidden" name="resource" value="">
+					<label>{{locale_str_advancedsettings_type}}</label>
+					<select name="type">
+						{{#datatypes}}
+							<option value="{{.}}">{{.}}</option>
+						{{/datatypes}}
+					</select>
+					<label>{{locale_str_advancedsettings_level}}</label>
+					<select name="level">
+						<option value="protected" selected="selected">{{locale_str_advancedsettings_level_protected}}</option>
+						<option value="public">{{locale_str_advancedsettings_level_public}}</option>
+					</select>
+					<label>{{locale_str_advancedsettings_key}}</label>
+					<input type="text" name="key"/>
+					<label>{{locale_str_advancedsettings_value}}</label>
+					<input type="text" name="value"/>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button class="btn" data-dismiss="modal">{{locale_str_system_cancel}}</button>
+				<button class="btn btn-default btn-primary save-btn">{{locale_str_system_save}}</button>
+			</div>
+		</div>
 	</div>
 </div>
 
-<div class="modal hide" id="settings_delete_modal">
-	<div class="modal-header">
-		<button type="button" class="close" data-dismiss="modal">&times;</button>
-		<h3>{{locale_str_advancedsettings_action_delete}}</h3>
-	</div>
-	<div class="modal-body">
-		{{locale_str_advancedsettings_delete_warning}}
-	</div>
-	<div class="modal-footer">
-		<button class="btn" data-dismiss="modal">{{locale_str_system_cancel}}</button>
-		<button class="btn btn-danger delete-btn">
-			<i class="icon-trash"></i> {{locale_str_system_delete}}
-		</button>
+<div class="modal fade" id="settings_delete_modal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h3>{{locale_str_advancedsettings_action_delete}}</h3>
+			</div>
+			<div class="modal-body">
+				{{locale_str_advancedsettings_delete_warning}}
+			</div>
+			<div class="modal-footer">
+				<button class="btn" data-dismiss="modal">{{locale_str_system_cancel}}</button>
+				<button class="btn btn-default btn-danger delete-btn">
+					<span class="glyphicon glyphicon-trash"></span> {{locale_str_system_delete}}
+				</button>
+			</div>
+		</div>
 	</div>
 </div>

@@ -1,5 +1,5 @@
 {{#is_list_view}}
-	<ul>
+	<ul class="users-list">
 		{{#items}}
 			<li><a href="{{web_url}}">{{fullname}}</a></li>
 		{{/items}}
@@ -7,9 +7,9 @@
 {{/is_list_view}}
 
 {{#is_thumbs_view}}
-	<ul class="thumbnails">
+	<ul class="users-thumb-list list-unstyled">
 		{{#items}}
-		  <li class="{{span}}">
+		  <li class="pull-left">
 		    <a class="thumbnail" href="{{web_url}}">
 		      <img src="{{avatar}}&s={{size}}" alt="">
 		      <p class="small_title">{{thumb_name}}</p>

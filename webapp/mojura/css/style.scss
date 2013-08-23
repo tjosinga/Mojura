@@ -2,17 +2,11 @@ iframe {
   border: 0;
 }
 
-[class^="icon-"],
-[class*=" icon-"] {
-  display: inline-block;
-  width: 14px;
-  height: 14px;
-  font-size: 14px;
-  *margin-right: .3em;
-  line-height: 14px;
-  vertical-align: text-top;
-  margin-top: 1px;
+.loading {
+  background: center center no-repeat url("mojura/images/loading.gif");
+  height: 50px;
 }
+
 
 .hover-glow:hover {
   background-color: #F6F6F6;
@@ -68,13 +62,12 @@ iframe {
   margin-top: -30px;
 }
 
-.view-admin .btn-mini {
-  padding: 2px 5px 5px 5px;
+.view-admin .btn-xs {
+  padding: 5px;
 }
 
 @media (min-width: 768px) {
-  .modal-large, .modal-extra-large {
-    margin-left: -400px;
+  .modal-large .modal-dialog, .modal-extra-large  .modal-dialog{
     width: 800px;
   }
 }
@@ -86,8 +79,7 @@ iframe {
 }
 
 @media (min-width: 1200px) {
-  .modal-extra-large {
-    margin-left: -525px;
+  .modal-extra-large  .modal-dialog{
     width: 1050px;
     max-height: 700px;
   }
@@ -135,20 +127,10 @@ iframe {
   width: 45%;
 }
 
-@media (min-height: 600px) {
-  .modal-body {
-    max-height: 400px;
-  }
+.nav-bottom-space {
+  margin-bottom: 15px;
 }
 
-@media (min-height: 820px) {
-  .modal-body {
-    max-height: 600px;
-  }
-}
-
-@media (min-height: 1020px) {
-  .modal-extra-large {
-    max-height: 800px;
-  }
+.soft-hide {
+  display: none;
 }

@@ -1,13 +1,13 @@
 <tr {{^is_private}}id="settings_row_{{id}}" data-resource="{{resource}}" data-key="{{key}}" data-level="{{level}}"{{/is_private}}>
 	<td>
 		{{#is_private}}
-			<i class="icon-lock text-error"></i>
+			<span class="glyphicon glyphicon-lock text-error"></span>
 		{{/is_private}}
 		{{#is_protected}}
-			<i class="icon-unlock-alt icon-flip-horizontal text-warning"></i>
+			<span class="glyphicon glyphicon-unlock-alt icon-flip-horizontal text-warning"></span>
 		{{/is_protected}}
 		{{#is_public}}
-			<i class="icon-unlock text-success"></i>
+			<span class="glyphicon glyphicon-unlock text-success"></span>
 		{{/is_public}}
 		{{key}}
 	</td>
@@ -15,40 +15,40 @@
 	<td>
 		<div class="advanced_setting_value">{{value}}</div>
 		{{^is_private}}
-			<div class="advanced_setting_input hide">
+			<div class="advanced_setting_input soft-hide">
 				{{#as_boolean}}
-					<select class="input-block-level inline">
+					<select class="form-control input-block-level inline">
 						<option value="true">true</option>
 						<option value="false" selected="true">false</option>
 					</select>
 				{{/as_boolean}}
 				{{#as_integer}}
-					<input type="text" value="" class="input-block-level inline">
+					<input type="text" value="" class="form-control input-block-level inline">
 				{{/as_integer}}
 				{{#as_float}}
-					<input type="text" value="" class="input-block-level inline">
+					<input type="text" value="" class="form-control input-block-level inline">
 				{{/as_float}}
 				{{#as_string}}
-					<input type="text" value="" class="input-block-level inline">
+					<input type="text" value="" class="form-control input-block-level inline">
 				{{/as_string}}
 			</div>
 			{{/is_private}}
 		</td>
 	<td style="text-align: right">
 		{{^is_private}}
-			<button class="btn btn-mini btn-success settings_save_btn hide" onclick="AdvancedSettings.edit('{{id}}')">
-				<i class='icon-ok'></i>
+			<button class="btn btn-default btn-xs btn-success settings_save_btn soft-hide" onclick="AdvancedSettings.edit('{{id}}')">
+				<span class='glyphicon glyphicon-ok'></span>
 			</button>
-			<button class="btn btn-mini btn-danger settings_cancel_btn hide" onclick="AdvancedSettings.hideEdit('{{id}}')">
-				<i class='icon-remove'></i>
-			</button>
-
-			<button class="btn btn-mini settings_edit_btn" onclick="AdvancedSettings.showEdit('{{id}}')">
-				<i class='icon-pencil'></i>
+			<button class="btn btn-default btn-xs btn-danger settings_cancel_btn soft-hide" onclick="AdvancedSettings.hideEdit('{{id}}')">
+				<span class='glyphicon glyphicon-remove'></span>
 			</button>
 
-			<button class="btn btn-mini settings_delete_btn" onclick="AdvancedSettings.showDelete('{{id}}')">
-				<i class='icon-trash'></i>
+			<button class="btn btn-default btn-xs settings_edit_btn" onclick="AdvancedSettings.showEdit('{{id}}')">
+				<span class='glyphicon glyphicon-pencil'></span>
+			</button>
+
+			<button class="btn btn-default btn-xs settings_delete_btn" onclick="AdvancedSettings.showDelete('{{id}}')">
+				<span class='glyphicon glyphicon-trash'></span>
 			</button>
 		{{/is_private}}
 

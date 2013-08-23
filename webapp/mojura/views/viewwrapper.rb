@@ -13,9 +13,14 @@ module MojuraWebApp
 			@subview_index = 0
 
 			options[:add_span] = true if !options.include?(:add_span)
-			options[:col_span] = (options[:col_span] || options[:parent_col_span] || 12)
-			options[:col_span] = (options[:col_span] || options[:parent_col_span] || 12)
+			options[:parent_col_span] ||= 12
+			options[:col_span] ||= options[:parent_col_span]
 			options[:col_offset] ||= 0
+
+			# Conversion from the original 12-col grid to the recursive 12-col grid
+			options[:col_devices] ||= 'md'
+			options[:col_rec] = ((12 / options[:parent_col_span]) * options[:col_span]).floor
+			options[:col_rec_offset] = ((12 / options[:parent_col_span]) * options[:col_offset]).floor
 
 			data = {}
 			data[:viewid] = (options[:viewid] || '')
@@ -25,8 +30,8 @@ module MojuraWebApp
 			data[:may_edit_view] = (options.include?(:may_edit_view) && options[:may_edit_view])
 			data[:classes] = options[:classes] || 'view'
 			data[:classes] += " #{data[:settings][:classes]}" if (data[:settings].include?(:classes))
-			data[:classes] += " span#{options[:col_span]}" if (options[:add_span])
-			data[:classes] += " offset#{options[:col_offset]}" if (options[:col_offset].to_i > 0)
+			data[:classes] += " col-#{options[:col_devices]}-#{options[:col_rec]}" if (options[:add_span])
+			data[:classes] += " col-#{options[:col_devices]}-offset-#{options[:col_rec_offset]}" if (options[:col_rec_offset].to_i > 0)
 			data[:classes] += " row-offset#{options[:row_offset]}" if (options[:row_offset].to_i > 0)
 			data[:classes].strip!
 			options[:wrapping] = (options[:wrapping].nil?) ? 'normal' : options[:wrapping].to_s

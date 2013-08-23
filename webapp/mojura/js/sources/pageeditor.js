@@ -1,8 +1,8 @@
 var PageEditor = (function ($) {
 
 	function togglePageAdmins() {
-		$(".btn-edit-page").toggle();
-		$(".view-admin").toggle().parent().toggleClass("editable");
+		$(".btn-edit-page").toggleClass("hide");
+		$(".view-admin").toggleClass("hide").parent().toggleClass("editable");
 
 		url = window.location.toString().replace(/#editing/, "");
 		if ($(".btn-edit-page").is(":visible"))
@@ -79,18 +79,13 @@ var PageEditor = (function ($) {
 	function setEditViewData(data) {
 		$("input[name=viewid]", "#modalEditView").val(data.viewid);
 		$("textarea[name=content]", "#modalEditView").val(data.content.raw);
-// .sceditor({
-//			plugin: "ubbcode",
-//			style: "ext/sceditor/themes/default.min.css",
-//			emoticonsRoot: "ext/sceditor/"
-//		});
 		$("select[name=view]", "#modalEditView").change(function () {
 			view = $(this).val();
 			if (view == "") {
 				$(".view_settings", "#modalEditView").html("");
 				return;
 			}
-			$(".view_settings", "#modalEditView").html("<i class='loading icon-refresh icon-spin'></i>");
+			$(".view_settings", "#modalEditView").html("<span class='loading .glyphicon .glyphicon-cog'></span>");
 			Locale.ensureLoaded(view, { loaded: function() {
 				url = "views/" + view + "/coworkers/view_edit_settings.mustache?static_only=true";
 				$.get(url, {cache: false},function (template) {
@@ -176,17 +171,18 @@ var PageEditor = (function ($) {
 
 	function submit(btn) {
 		$(btn).button('loading');
-		jModal = $(btn).parent().parent();
+		jModal = $(btn).closest(".modal");
 		if (jModal.attr("id") == "modalEditView") {
 			view = $("#form_view_content select[name=view]").val();
 			checked = $("#form_view_content .view_include_text input").prop("checked");
 			if ((view != "") && (!checked)) {
-				$("#form_view_content .view_texteditor textarea").val ("");
+				$("#form_view_content .view_texteditor textarea").val("");
 			}
 		}
-		jModal.on("hidden", function() {
+		jModal.one("hidden.bs.modal", function() {
 			$('form', jModal).submit();
-		}).modal("hide");
+		});
+		jModal.modal("hide");
 	}
 
 

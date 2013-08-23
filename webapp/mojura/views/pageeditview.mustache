@@ -1,186 +1,208 @@
 <div class="btn-toolbar pull-right">
-  <div class="btn-group btn-edit-page hide pull-left">
-	  <button class="btn btn-small" onclick="PageEditor.showEditPage()">
-		  <i class='icon-cog'></i>
-	  </button>
-	  <button class="btn btn-small" onclick="PageEditor.showDeletePage()" id="btn_delete_page">
-		  <i class='icon-trash'></i>
-	  </button>
-	  <button class="btn btn-small dropdown-toggle" data-toggle="dropdown">
-	  	<i class="icon-plus"></i> <span class="caret"></span>
-  	</button>
+	<div class="btn-group btn-edit-page hide pull-left">
+		<button class="btn btn-default btn-sm" onclick="PageEditor.showEditPage()">
+			<span class='glyphicon glyphicon-cog'></span>
+		</button>
+		<button class="btn btn-default btn-sm" onclick="PageEditor.showDeletePage()" id="btn_delete_page">
+			<span class='glyphicon glyphicon-trash'></span>
+		</button>
+		<button class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
+			<span class="glyphicon glyphicon-plus"></span> <span class="caret"></span>
+		</button>
 		<ul class="dropdown-menu">
 			{{#templates}}
 				<li><a href="javascript:void(0)" onclick="PageEditor.addSubview('{{pageid}}', '{{templateid}}')">{{title}}</a></li>
 			{{/templates}}
-  	</ul>
-  </div>
+		</ul>
+	</div>
 	<div class="btn-group btn-edit-page hide pull-left">
-		<button class="btn btn-small" onclick="PageEditor.showAddSubpage()" id="btn_add_subpage">
-			<i class='icon-plus'></i>
+		<button class="btn btn-default btn-sm" onclick="PageEditor.showAddSubpage()" id="btn_add_subpage">
+			<span class='glyphicon glyphicon-plus'></span>
 		</button>
 	</div>
-	<button class="btn btn-small pull-left" data-toggle="button" onclick="PageEditor.togglePageAdmins()" id="toggle_edit_page">
-		<i class='icon-pencil'></i>
+	<button class="btn btn-default btn-sm pull-left" data-toggle="button" onclick="PageEditor.togglePageAdmins()" id="toggle_edit_page">
+		<span class='glyphicon glyphicon-pencil'></span>
 	</button>
 </div>
 
-<div class="modal modal-large fade hide" id="modalEditPage" data-backdrop="static">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal">×</button>
-    <h3>{{locale_str_system_edit_page}}</h3>
-  </div>
-  <div class="modal-body">
-		<form action="__api__/pages/{{pageid}}" method="post" onsubmit="return false">
-			<label class="label-horizontal">{{locale_str_system_title}}</label>
-			<input class="control-horizontal" type="text" name="title" value="{{title}}" />
-		</form>
-  </div>
-  <div class="modal-footer">
-    <button class="btn" data-dismiss="modal">{{locale_str_system_cancel}}</button>
-    <button id="submitEditPage" class="btn btn-primary" data-loading-text='{{locale_str_system_action_edit}}...' onclick="PageEditor.submit(this)">
-	    <i class='icon-pencil'></i> {{locale_str_system_action_edit}}
-    </button>
-  </div>
-</div>
-
-
-<div class="modal modal-large fade hide" id="modalAddSubpage" data-backdrop="static">
-	<div class="modal-header">
-		<button type="button" class="close" data-dismiss="modal">×</button>
-		<h3>{{locale_str_system_add_subpage}}</h3>
-	</div>
-	<div class="modal-body">
-		<form action="__api__/pages" method="post" onsubmit="return false">
-			<input type="hidden" name="_method" value="put"/>
-			<input type="hidden" name="parentid" value="{{pageid}}"/>
-			<div class="elements"><!-- All elements of the form in modalEditPage are inserted here dynamically //--></div>
-		</form>
-	</div>
-	<div class="modal-footer">
-		<button class="btn" data-dismiss="modal">{{locale_str_system_cancel}}</button>
-		<button id="submitAddSubpage" class="btn btn-primary" data-loading-text='{{locale_str_system_action_add}}...' onclick="PageEditor.submit(this)">
-			<i class='icon-plus'></i> {{locale_str_system_action_edit}}
-		</button>
-	</div>
-</div>
-
-<div class="modal fade hide" id="modalDeletePage" data-backdrop="static">
-	<div class="modal-header">
-		<button type="button" class="close" data-dismiss="modal">×</button>
-		<h3>{{locale_str_system_delete_page}}</h3>
-	</div>
-	<div class="modal-body">
-		<form action="javascript:void(0)" method="post" onsubmit="return false">
-			<input type="hidden" name="pageid" value="{{pageid}}"/>
-			{{locale_str_system_delete_page_warning}}
-		</form>
-	</div>
-	<div class="modal-footer">
-		<button class="btn" data-dismiss="modal">{{locale_str_system_cancel}}</button>
-		<button id="submitDeletePage" class="btn btn-danger" data-loading-text='{{locale_str_system_action_delete}}...' onclick="PageEditor.submit(this)">
-			<i class='icon-trash'></i> {{locale_str_system_action_delete}}
-		</button>
-	</div>
-</div>
-
-<div class="modal modal-large fade hide" id="modalEditView" data-backdrop="static">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal">×</button>
-    <h3>{{locale_str_system_edit_view}}</h3>
-  </div>
-  <div class="modal-body">
-  	<div class="loading"></div>
-		<form class="hide" action="javascript:void(0)" method="post" onsubmit="">
-			<input type="hidden" name="pageid" value="{{pageid}}" />
-			<input type="hidden" name="viewid" value="test" />
-
-			<ul class="nav nav-tabs">
-				<li class="active"><a href="#form_view_content" data-toggle="tab">{{locale_str_system_view_content}}</a></li>
-			  <li><a href="#form_view_advanced" data-toggle="tab">{{locale_str_system_view_advanced}}</a></li>
-			</ul>
-
-			<div class="tab-content">
-
-				<div class="tab-pane active" id="form_view_content">
-
-					<label class="label-horizontal control-horizontal">{{locale_str_system_view_webview}}</label>
-					<select class="control-horizontal" name="view" onchange="PageEditor.checkVisibilityTextEditor()">
-						<option value="">{{locale_str_system_view_no_webview}}</option>
-						{{#views}}
-						<option class="min-col-span{{min_col_span}}" value="{{view_id}}">{{title}}</option>
-						{{/views}}
-					</select>
-
-					<div class='view_include_text'>
-						<label class="label-horizontal checkbox pull-right">
-							<input class="control-horizontal" type='checkbox' onchange="$('#form_view_content .view_texteditor').toggle(this.checked)"/>
-							{{locale_str_system_view_include_text}}
-						</label>
-					</div>
-
-					<div class="view_texteditor" style="clear: both; display: block">
-						<label>{{locale_str_system_view_text}}</label>
-						<textarea style="width: 96%; max-width: 96%" name="content" rows="6"></textarea>
-						<script type='text/javascript'>
-							TextEditor.init("#form_view_content textarea")
-						</script>
-					</div>
-
-					<div class="view_settings" style="padding-top: 40px; clear: both; display: block">
-					</div>
-				</div>
-
-				<div class="tab-pane" id="form_view_advanced">
-					<label class="label-horizontal">{{locale_str_system_view_col_span}}</label>
-					<select class="control-horizontal" name="col_span">
-						{{#col_spans}}
-							<option value="{{index}}">{{title}}</option>
-						{{/col_spans}}
-					</select>
-					<label class="label-horizontal">{{locale_str_system_view_col_offset}}</label>
-					<select class="control-horizontal" name="col_offset">
-						{{#col_offsets}}
-							<option value="{{index}}">{{title}}</option>
-						{{/col_offsets}}
-					</select>
-					<label class="label-horizontal">{{locale_str_system_view_row_offset}}</label>
-					<select class="control-horizontal" name="row_offset">
-						{{#row_offsets}}
-							<option value="{{index}}">{{title}}</option>
-						{{/row_offsets}}
-					</select>
-					<label class="label-horizontal">{{locale_str_system_view_classes}}</label>
-					<input class="control-horizontal" type="text" name="setting_classes" value="" />
-				</div>
+<div class="modal modal-large fade" id="modalEditPage" aria-hidden="true" role="dialog" data-backdrop="static">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">×</button>
+				<h4>{{locale_str_system_edit_page}}</h4>
 			</div>
-
-		</form>
-  </div>
-  <div class="modal-footer">
-    <button class="btn" data-dismiss="modal">{{locale_str_system_cancel}}</button>
-    <button id="submitEditView" class="btn btn-primary" data-loading-text='{{locale_str_system_action_edit}}...' onclick="PageEditor.submit(this)">
-	    <i class='icon-pencil'></i> {{locale_str_system_action_edit}}
-    </button>
-  </div>
+			<div class="modal-body">
+				<form action="__api__/pages/{{pageid}}" method="post" onsubmit="return false">
+					<label class="label-horizontal">{{locale_str_system_title}}</label>
+					<input class="control-horizontal" type="text" name="title" value="{{title}}" />
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button class="btn" data-dismiss="modal">{{locale_str_system_cancel}}</button>
+				<button id="submitEditPage" class="btn btn-default btn-primary" data-loading-text='{{locale_str_system_action_edit}}...' onclick="PageEditor.submit(this)">
+					<span class='glyphicon glyphicon-pencil'></span> {{locale_str_system_action_edit}}
+				</button>
+			</div>
+		</div>
+	</div>
 </div>
 
-<div class="modal fade hide" id="modalDeleteView" data-backdrop="static">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal">×</button>
-    <h3>{{locale_str_system_edit_view}}</h3>
-  </div>
-  <div class="modal-body">
-		<form action="javascript:void(0)" method="post" onsubmit="return false">
-			<input type="hidden" name="pageid" value="{{pageid}}" />
-			<input type="hidden" name="viewid" value="" />
-			{{locale_str_system_delete_view_warning}}
-		</form>
-  </div>
-  <div class="modal-footer">
-    <button class="btn" data-dismiss="modal">{{locale_str_system_cancel}}</button>
-    <button id="submitDeleteView" class="btn btn-danger" data-loading-text='{{locale_str_system_action_delete}}...' onclick="PageEditor.submit(this)">
-	    <i class='icon-trash'></i> {{locale_str_system_action_delete}}
-    </button>
-  </div>
+
+<div class="modal modal-large fade" id="modalAddSubpage" aria-hidden="true" role="dialog" data-backdrop="static">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">×</button>
+				<h4>{{locale_str_system_add_subpage}}</h4>
+			</div>
+			<div class="modal-body">
+				<form action="__api__/pages" method="post" onsubmit="return false">
+					<input type="hidden" name="_method" value="put"/>
+					<input type="hidden" name="parentid" value="{{pageid}}"/>
+					<div class="elements"><!-- All elements of the form in modalEditPage are inserted here dynamically //--></div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button class="btn" data-dismiss="modal">{{locale_str_system_cancel}}</button>
+				<button id="submitAddSubpage" class="btn btn-default btn-primary" data-loading-text='{{locale_str_system_action_add}}...' onclick="PageEditor.submit(this)">
+					<span class='glyphicon glyphicon-plus'></span> {{locale_str_system_action_edit}}
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="modalDeletePage" aria-hidden="true" role="dialog" data-backdrop="static">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">×</button>
+				<h4>{{locale_str_system_delete_page}}</h4>
+			</div>
+			<div class="modal-body">
+				<form action="javascript:void(0)" method="post" onsubmit="return false">
+					<input type="hidden" name="pageid" value="{{pageid}}"/>
+					{{locale_str_system_delete_page_warning}}
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button class="btn" data-dismiss="modal">{{locale_str_system_cancel}}</button>
+				<button id="submitDeletePage" class="btn btn-default btn-danger" data-loading-text='{{locale_str_system_action_delete}}...' onclick="PageEditor.submit(this)">
+					<span class='glyphicon glyphicon-trash'></span> {{locale_str_system_action_delete}}
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal modal-large fade" id="modalEditView" aria-hidden="true" role="dialog" data-backdrop="static">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">×</button>
+				<h4>{{locale_str_system_edit_view}}</h4>
+			</div>
+			<div class="modal-body">
+				<div class="loading"></div>
+				<form action="javascript:void(0)" method="post" onsubmit="">
+					<input type="hidden" name="pageid" value="{{pageid}}" />
+					<input type="hidden" name="viewid" value="test" />
+
+					<ul class="nav nav-tabs nav-bottom-space">
+						<li class="active"><a href="#form_view_content" data-toggle="tab">{{locale_str_system_view_content}}</a></li>
+						<li><a href="#form_view_advanced" data-toggle="tab">{{locale_str_system_view_advanced}}</a></li>
+					</ul>
+
+					<div class="tab-content">
+
+						<div class="tab-pane active" id="form_view_content">
+
+							<label class="label-horizontal control-horizontal">{{locale_str_system_view_webview}}</label>
+							<select class="form-control control-horizontal" name="view" onchange="PageEditor.checkVisibilityTextEditor()">
+								<option value="">{{locale_str_system_view_no_webview}}</option>
+								{{#views}}
+								<option class="min-col-span{{min_col_span}}" value="{{view_id}}">{{title}}</option>
+								{{/views}}
+							</select>
+
+							<div class='view_include_text'>
+								<label class="label-horizontal checkbox pull-right">
+									<input class="form-control control-horizontal" type='checkbox' onchange="$('#form_view_content .view_texteditor').toggle(this.checked)"/>
+									{{locale_str_system_view_include_text}}
+								</label>
+							</div>
+
+							<div class="view_texteditor" style="clear: both; display: block">
+								<label>{{locale_str_system_view_text}}</label>
+								<textarea class="form-control" name="content" rows="6"></textarea>
+								<script type='text/javascript'>
+									TextEditor.init("#form_view_content textarea")
+								</script>
+							</div>
+
+							<div class="view_settings" style="padding-top: 40px; clear: both; display: block">
+							</div>
+						</div>
+
+						<div class="tab-pane" id="form_view_advanced">
+							<label class="label-horizontal">{{locale_str_system_view_col_span}}</label>
+							<select class="form-control control-horizontal" name="col_span">
+								{{#col_spans}}
+									<option value="{{index}}">{{title}}</option>
+								{{/col_spans}}
+							</select>
+							<label class="label-horizontal">{{locale_str_system_view_col_offset}}</label>
+							<select class="form-control control-horizontal" name="col_offset">
+								{{#col_offsets}}
+									<option value="{{index}}">{{title}}</option>
+								{{/col_offsets}}
+							</select>
+							<label class="label-horizontal">{{locale_str_system_view_row_offset}}</label>
+							<select class="form-control control-horizontal" name="row_offset">
+								{{#row_offsets}}
+									<option value="{{index}}">{{title}}</option>
+								{{/row_offsets}}
+							</select>
+							<label class="label-horizontal">{{locale_str_system_view_classes}}</label>
+							<input class="form-control control-horizontal" type="text" name="setting_classes" value="" />
+							<div class="clearfix"></div>
+						</div>
+
+
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button class="btn" data-dismiss="modal">{{locale_str_system_cancel}}</button>
+				<button id="submitEditView" class="btn btn-default btn-primary" data-loading-text='{{locale_str_system_action_edit}}...' onclick="PageEditor.submit(this)">
+					<span class='glyphicon glyphicon-pencil'></span> {{locale_str_system_action_edit}}
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="modalDeleteView" aria-hidden="true" role="dialog" data-backdrop="static">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">×</button>
+				<h4>{{locale_str_system_edit_view}}</h4>
+			</div>
+			<div class="modal-body">
+				<form action="javascript:void(0)" method="post" onsubmit="return false">
+					<input type="hidden" name="pageid" value="{{pageid}}" />
+					<input type="hidden" name="viewid" value="" />
+					{{locale_str_system_delete_view_warning}}
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button class="btn" data-dismiss="modal">{{locale_str_system_cancel}}</button>
+				<button id="submitDeleteView" class="btn btn-default btn-danger" data-loading-text='{{locale_str_system_action_delete}}...' onclick="PageEditor.submit(this)">
+					<span class='glyphicon glyphicon-trash'></span> {{locale_str_system_action_delete}}
+				</button>
+			</div>
+		</div>
+	</div>
 </div>

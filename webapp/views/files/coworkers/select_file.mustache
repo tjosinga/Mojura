@@ -15,8 +15,7 @@
 		position: relative;
 	}
 
-	#file-popup .modal-body li i[class^="icon-"],
-	#file-popup .modal-body li i[class*=" icon-"] {
+	#file-popup .modal-body li .glyphicon {
 		display: block;
 		position: absolute;
 		top: 10px;
@@ -47,27 +46,31 @@
 </style>
 
 <template id="file-popup-template">
-	<div class="file-popup-modal modal modal-extra-large fade hide">
-		<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal">&times;</button>
-			<h3>{{locale_str_files_action_select}}</h3>
-		</div>
-		<div class="modal-body">
-			<div class="loading"></div>
-		</div>
-		<div class="modal-footer">
-			<form enctype="multipart/form-data" action="__api__/files/" method="post" class="file-upload-form pull-left">
-				<input type="hidden" name="_method" value="put"/>
-				<input type="hidden" name="folderid" value="{{folderid}}"/>
-				<input type="file" name="file" class="file-input" onchange="if (this.value !== '') SelectFile.uploadFile();" />
-			</form>
+	<div class="file-popup-modal modal modal-extra-large fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h3>{{locale_str_files_action_select}}</h3>
+				</div>
+				<div class="modal-body">
+					<div class="loading"></div>
+				</div>
+				<div class="modal-footer">
+					<form enctype="multipart/form-data" action="__api__/files/" method="post" class="file-upload-form pull-left">
+						<input type="hidden" name="_method" value="put"/>
+						<input type="hidden" name="folderid" value="{{folderid}}"/>
+						<input type="file" name="file" class="file-input" onchange="if (this.value !== '') SelectFile.uploadFile();" />
+					</form>
 
-			<button class="btn pull-left btn-upload btn-warning" data-loading-text="{{locale_str_files_action_quick_upload}}...">
-				<i class="icon-upload"></i>
-				{{locale_str_files_action_quick_upload}}
-			</button>
-			<button class="btn" data-dismiss="modal">{{locale_str_system_cancel}}</button>
-			<button class="btn btn-primary disabled">{{locale_str_system_confirm}}</button>
+					<button class="btn btn-default pull-left btn-upload btn-warning" data-loading-text="{{locale_str_files_action_quick_upload}}...">
+						<span class="glyphicon glyphicon-upload"></span>
+						{{locale_str_files_action_quick_upload}}
+					</button>
+					<button class="btn" data-dismiss="modal">{{locale_str_system_cancel}}</button>
+					<button class="btn btn-default btn-primary disabled">{{locale_str_system_confirm}}</button>
+				</div>
+			</div>
 		</div>
 	</div>
 </template>
@@ -78,13 +81,13 @@
 		<!-- The following template codes are processed in second phase //-->
 		{{^is_base_folder}}
 		<li class='thumbnail' onclick="SelectFile.setCurrentFolderId('{{parentid}}')">
-			<i class='icon-folder-open'></i><%locale_str_files_parent_folder%>
+			<span class='glyphicon glyphicon-folder-open'></span> <%locale_str_files_parent_folder%>
 		</li>
 		{{/is_base_folder}}
 
 		{{#subfolders}}
 		<li class='thumbnail' onclick="SelectFile.setCurrentFolderId('{{id}}')">
-			<i class='icon-folder-close'></i>{{title}}
+			<span class='glyphicon glyphicon-folder-close'></span> {{title}}
 		</li>
 		{{/subfolders}}
 
@@ -96,7 +99,7 @@
 			{{/is_image}}
 			{{^is_image}}
 			<li class='thumbnail thumbnail_{{id}}' onclick="SelectFile.selectFile('{{id}}', this);">
-				<i class='icon-file'></i>{{title}}
+				<span class='glyphicon glyphicon-file'></span> {{title}}
 			</li>
 		{{/is_image}}
 		{{/files}}
@@ -129,7 +132,7 @@
 
 			jModal = $("body > .file-popup-modal");
 			jModal.attr("id", "file-popup")
-				.one("shown", function() {
+				.one("shown.bs.modal", function() {
 					$("#file-popup .btn-primary").click(function() {
 						if (!$("#file-popup .btn-primary").hasClass("disabled")) {
 							if (options.confirmed)
@@ -139,9 +142,9 @@
 					});
 					refresh();
 				})
-				.one("hidden", function () {
+				.one("hidden.bs.modal", function () {
 						if (parentModalId != "") {
-							$("#" + parentModalId).one("shown",function () {
+							$("#" + parentModalId).one("shown.bs.modal",function () {
 								$("#" + parentModalId + ", .modal-backdrop").addClass("fade");
 							}).modal("show");
 						}
@@ -152,7 +155,7 @@
 				jModal.addClass("fade").modal("show");
 			}
 			else {
-				$("#" + parentModalId).removeClass("fade").one("hidden",function () {
+				$("#" + parentModalId).removeClass("fade").one("hidden.bs.modal",function () {
 					jModal.removeClass("fade").modal("show");
 				}).modal("hide");
 			}

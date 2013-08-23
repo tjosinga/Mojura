@@ -64,7 +64,7 @@ module UBBParser
 	# :category: Render methods
 	def self.render_icon(inner_text, attributes = {}, parse_options = {})
 		icon_type = (inner_text.match(/^[\w\-]*$/).nil?) ? 'question' : inner_text
-		return "<i class='icon icon-#{icon_type}'></i>"
+		return "<span class='glyphicon glyphicon-#{icon_type}'></span>"
 	end
 
 		# :category: Render methods
