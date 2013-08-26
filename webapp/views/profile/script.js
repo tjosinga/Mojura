@@ -1,6 +1,17 @@
 var ProfileView = (function ($) {
 
+    function resetForms() {
+        $("form", "#modal-edit-profile")[0].reset();
+        $(".has-error", "#modal-edit-profile").removeClass("has-error");
+        $("form", "#modal-edit-password")[0].reset();
+        $(".has-error", "#modal-edit-password").removeClass("has-error");
+    }
+
 	function editProfile() {
+        if (!Validator.validateForm($("form", "#modal-edit-profile").get())) {
+            return false;
+        }
+
 		$(".btn-primary", "#modal-edit-profile").button("loading");
 		values = {};
 		$.each($("form", "#modal-edit-profile").serializeArray(), function (index, data) {
@@ -38,6 +49,7 @@ var ProfileView = (function ($) {
 	};
 
 	return {
+        resetForms: resetForms,
 		editProfile: editProfile,
 		editPassword: editPassword
 	};
