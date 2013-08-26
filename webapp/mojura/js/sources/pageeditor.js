@@ -82,10 +82,10 @@ var PageEditor = (function ($) {
 		$("select[name=view]", "#modalEditView").change(function () {
 			view = $(this).val();
 			if (view == "") {
-				$(".view_settings", "#modalEditView").html("");
+				$(".view-settings", "#modalEditView").html("");
 				return;
 			}
-			$(".view_settings", "#modalEditView").html("<span class='loading .glyphicon .glyphicon-cog'></span>");
+			$(".view-settings", "#modalEditView").html("<span class='loading .glyphicon .glyphicon-cog'></span>");
 			Locale.ensureLoaded(view, { loaded: function() {
 				url = "views/" + view + "/coworkers/view_edit_settings.mustache?static_only=true";
 				$.get(url, {cache: false},function (template) {
@@ -93,9 +93,9 @@ var PageEditor = (function ($) {
 					for (id in strs)
 						data.settings[id] = strs[id];
 					html = Mustache.to_html(template, data.settings);
-					$(".view_settings", "#modalEditView").html(html);
+					$(".view-settings", "#modalEditView").html(html);
 				}).error(function () {
-					$(".view_settings", "#modalEditView").html("");
+					$(".view-settings", "#modalEditView").html("");
 				});
 			}});
 		}).val(data.view).trigger("change");

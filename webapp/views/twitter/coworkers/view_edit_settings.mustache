@@ -1,11 +1,12 @@
-<label>
-	{{locale_str_twitter_widget_id}}
-	<div class="small_title">{{locale_str_twitter_widget_id_info}}</div>
-	<input type="text" onblur="this.value = this.value.match(/\d{18,}/)" name="setting_widget_id" value="{{widget_id}}" />
-</label>
+<div class="form-group">
+	<label>{{locale_str_twitter_widget_id}}</label>
+	<p class="help-block">{{locale_str_twitter_widget_id_info}}</p>
+	<input class="form-control" type="text" onblur="this.value = this.value.match(/\d{18,}/)" name="setting_widget_id" value="{{widget_id}}" />
+</div>
 
-<label>{{locale_str_twitter_max_tweets}}
-	<select name="setting_max_tweets">
+<div class="form-group">
+	<label>{{locale_str_twitter_max_tweets}}</label>
+	<select class="form-control" name="setting_max_tweets">
 		<option value="1">1</option>
 		<option value="2">2</option>
 		<option value="3">3</option>
@@ -19,22 +20,25 @@
 		<option value="15">15</option>
 		<option value="20">20</option>
 	</select>
-</label>
+</div>
 
-<label class="checkbox">
-	<input type="checkbox" name="setting_show_avatars" value="true" {{#show_avatars}}checked="checked"{{/show_avatars}} />
-	{{locale_str_twitter_show_avatars}}
-</label>
+<div class="form-group">
+	<label class="checkbox">
+		<input type="checkbox" name="setting_show_avatars" value="true" {{#show_avatars}}checked="checked"{{/show_avatars}} />
+		{{locale_str_twitter_show_avatars}}
+	</label>
 
-<label class="checkbox">
-	<input type="checkbox" name="setting_show_time" value="true" {{#show_time}}checked="checked"{{/show_time}} />
-	{{locale_str_twitter_show_time}}
-</label>
+	<label class="checkbox">
+		<input type="checkbox" name="setting_show_time" value="true" {{#show_time}}checked="checked"{{/show_time}} />
+		{{locale_str_twitter_show_time}}
+	</label>
 
-<label class="checkbox">
-	<input type="checkbox" name="setting_show_actions" value="true" {{#show_actions}}checked="checked"{{/show_actions}} />
-	{{locale_str_twitter_show_actions}}
-</label>
+	<label class="checkbox">
+		<input type="checkbox" name="setting_show_actions" value="true" {{#show_actions}}checked="checked"{{/show_actions}} />
+		{{locale_str_twitter_show_actions}}
+	</label>
+</div>
+
 
 <script type="text/javascript">
 	max = '{{max_tweets}}';

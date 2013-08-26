@@ -3,26 +3,33 @@ var Validator = (function ($) {
 	var errors = {};
 
 	function validateForm(form) {
-
 		//select all visible inputs which need validation
-		errors = {};
-		$("[data-validation]:visible").each(function (index) {
-			validateInput(this);
-		});
-		alert(JSON.stringify(errors));
+        errors = {};
+        try {
+            $("[data-validation]:visible").each(function (index) {
+                validateInput(this);
+            });
+        }
+        catch (err) {
+            return false;
+        }
+        return (errors.length == 0);
 	};
 
 	function validateInput(elem) {
 		validations = $(elem).attr("data-validation").split(" ");
+        result = true;
 		$.each(validations, function (index, validation) {
 			params = {};
+            $(elem).parent().removeClass("has-error");
 			if (!validateByString(validation, elem, params)) {
 				if (errors[elem.name] === undefined) errors[elem.name] = [];
 				errors[elem.name].push(validation);
-				return false;
+                $(elem).parent().addClass("has-error");
+				result = false;
 			}
 		});
-		return true;
+		return result;
 	};
 
 	function validateByString(validation, elem, params) {
