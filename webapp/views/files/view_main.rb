@@ -15,7 +15,11 @@ module MojuraWebApp
 				data = WebApp.api_call("files/folder/#{@folderid}", params)
 			rescue APIException => _
 				data = {}
-			end
+      end
+      data[:hide_admin] = options[:hide_admin] || false
+      data[:hide_folders] = options[:hide_folders] || false
+      data[:has_description] = (!data[:description][:html].empty?) rescue false
+      STDOUT << JSON.pretty_generate(data) + "\n"
 			super(options, data)
 			data[:files] ||= []
 			@data[:files].map! { |item|
@@ -50,6 +54,6 @@ module MojuraWebApp
 
 	end
 
-	WebApp.register_view('files', FilesView, :min_col_span => 6)
+	WebApp.register_view('files', FilesView, :min_col_span => 2)
 
 end
