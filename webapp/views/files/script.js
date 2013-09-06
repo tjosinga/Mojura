@@ -28,8 +28,8 @@ FilesView = (function ($) {
 			data.has_subfolders = (data.subfolders.length > 0);
 			data.has_files = (data.files.length > 0);
 			for (i = 0; i < data.files.length; i++) {
-				data.files[i].is_image = (data.files[i].mime_type !== undefined) && (data.files[i].mime_type.slice(0, 5) == "image");
-				data.files[i].is_archive = (data.files[i].mime_type !== undefined) && (data.files[i].mime_type == "application/zip")
+				data.files[i].is_image = (data.files[i].mime_type != undefined) && (data.files[i].mime_type.slice(0, 5) == "image");
+				data.files[i].is_archive = (data.files[i].mime_type != undefined) && (data.files[i].mime_type == "application/zip")
 			}
 			html = Mustache.to_html(template, data);
 			if (history.pushState) {
