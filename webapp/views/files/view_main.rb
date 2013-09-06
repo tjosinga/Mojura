@@ -7,8 +7,9 @@ module MojuraWebApp
 		attr_reader :folderid, :modals
 
 		def initialize(options = {})
-      @folderid = options[:folderid]
-      @folderid ||= WebApp.page.request_params[:folderid].to_s
+      STDOUT << "FilesView: initialize\n"
+      @folderid = options[:folderid].to_s
+      @folderid = WebApp.page.request_params[:folderid].to_s if (@folderid == '')
 			@folderid = 'root' if (@folderid == '')
 			params = {}
 			params[:folderid] = @folderid if (!@folderid.nil?)
@@ -19,6 +20,7 @@ module MojuraWebApp
       end
       data[:hide_admin] = options[:hide_admin] || false
       data[:hide_folders] = options[:hide_folders] || false
+      data[:hide_breadcrumbs] = options[:hide_breadcrumbs] || false
       data[:has_description] = (!data[:description][:html].empty?) rescue false
       STDOUT << JSON.pretty_generate(data) + "\n"
 			super(options, data)

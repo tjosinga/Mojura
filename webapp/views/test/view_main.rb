@@ -5,7 +5,7 @@ module MojuraWebApp
 	class TestView < BaseView
 
 		def render
-			return render_spinner
+			return render_files
 		end
 
 		def render_thread
@@ -42,7 +42,13 @@ module MojuraWebApp
 
 		def render_spinner
 			return "<span class='loading icon-spinner icon-spin icon-large'></span> Spinner test"
-		end
+    end
+
+    def render_files
+      STDOUT << "render_files\n"
+      options = { view: 'files', wrapping: 'nowrap', folderid: '5229a9b85861f1ba7b000046' }
+      return WebApp.render_view(options)
+    end
 
 		WebApp.register_view('test', TestView)
 
