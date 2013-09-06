@@ -126,10 +126,14 @@ module MojuraWebApp
 		end
 
 		def render_view(options = {})
-			begin
-				ViewWrapper.new(options).render
+      STDOUT << "WebApp:render_view\n"
+
+      begin
+				return ViewWrapper.new(options).render
 			rescue Exception => e
-				"Error on rendering: #{e.to_s}"
+				result = "Error on rendering: #{e.to_s}\n"
+        result += '<pre>' + JSON.pretty_generate(e.backtrace) + '</pre>' if Settings.get_b('developing')
+        return result
 			end
 		end
 

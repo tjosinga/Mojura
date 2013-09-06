@@ -102,7 +102,7 @@ module MojuraWebApp
 		end
 
 		def has_data
-			(!@view.empty?)
+			(!@view.nil? && !@view.empty?)
 		end
 
 		def has_subviews
