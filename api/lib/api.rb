@@ -327,7 +327,7 @@ module MojuraAPI
 			else
 				API.session[:uid] = nil
 				API.log.warn("Authentication for #{:username} failed")
-				API.log.debug("Digest: #{usder.digest}\nSent password: #{params[:password]}\nStored password: #{crypted}")
+				API.log.debug("Digest: #{user.digest}\nSent password: #{params[:password]}\nStored password: #{crypted}")
 				raise InvalidAuthentication.new
 			end
 		end
