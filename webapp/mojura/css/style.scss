@@ -136,5 +136,19 @@ iframe {
 }
 
 .view-settings {
-  padding: 20px;
+  padding-top: 20px;
+}
+
+.panel-heading {
+  cursor: pointer
+
+  h4 a {
+    font-weight: bold;
+  }
+
+  h4 a:hover {
+    text-decoration: none;
+    color: gray;
+  }
+
 }

@@ -3,9 +3,9 @@
 <div class="panel-group" id="accordion">
 	{{#settings}}
 	  <div class="panel panel-default">
-	    <div class="panel-heading">
+	    <div class="panel-heading" data-toggle="collapse" data-parent="#settings_panel" href="#settings_body_{{resource}}">
 	      <h4 class="panel-title">
-	        <a class="accordion-toggle" data-toggle="collapse" data-parent="#settings_panel" href="#settings_body_{{resource}}">
+	        <a class="accordion-toggle">
 	          {{resource}}
 	        </a>
 	      </h4>
