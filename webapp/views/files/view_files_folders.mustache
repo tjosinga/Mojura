@@ -1,4 +1,4 @@
-{{^hide_breadcrumb}}
+{{^hide_breadcrumbs}}
 	{{#id}}
 		<ul class="breadcrumb">
 			<li><a href="{{base_url}}" onclick="FilesView.setCurrentFolderId(''); return false;"><span class="glyphicon glyphicon-files-home"></span></a> <span class="divider">/<span></li>
@@ -8,7 +8,7 @@
 			<li class="active">{{title}}</li>
 		</ul>
 	{{/id}}
-{{/hide_breadcrumb}}
+{{/hide_breadcrumbs}}
 
 {{#has_description}}
 	<p>{{{description.html}}}</p>
