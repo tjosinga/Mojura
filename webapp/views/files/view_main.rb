@@ -7,7 +7,8 @@ module MojuraWebApp
 		attr_reader :folderid, :modals
 
 		def initialize(options = {})
-			@folderid = WebApp.page.request_params[:folderid].to_s
+      @folderid = options[:folderid]
+      @folderid ||= WebApp.page.request_params[:folderid].to_s
 			@folderid = 'root' if (@folderid == '')
 			params = {}
 			params[:folderid] = @folderid if (!@folderid.nil?)
