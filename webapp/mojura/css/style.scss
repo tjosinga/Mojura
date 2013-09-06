@@ -3,7 +3,8 @@ iframe {
 }
 
 .loading {
-  background: center center no-repeat url("mojura/images/loading.gif");
+  display: block;
+  background: center center no-repeat url("../../mojura/images/loading.gif");
   height: 50px;
 }
 
