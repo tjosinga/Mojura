@@ -34,8 +34,10 @@
 			</div>
 			<div class="modal-body">
 				<form action="__api__/pages/{{pageid}}" method="post" onsubmit="return false">
-					<label>{{locale_str_system_title}}</label>
-					<input class="control-horizontal" type="text" name="title" value="{{title}}" />
+					<div class="form-group">
+						<label for="{{urid}}_title">{{locale_str_system_title}}</label>
+						<input id="{{urid}}_title" class="form-control" type="text" name="title" value="{{title}}" />
+					</div>
 				</form>
 			</div>
 			<div class="modal-footer">
@@ -119,8 +121,8 @@
 						<div class="tab-pane active" id="form_view_content">
 
 							<div class="form-group">
-								<label>{{locale_str_system_view_webview}}</label>
-								<select class="form-control" name="view" onchange="PageEditor.checkVisibilityTextEditor()">
+								<label for="{{urid}}_title">{{locale_str_system_view_webview}}</label>
+								<select id="{{urid}}_title" class="form-control" name="view" onchange="PageEditor.checkVisibilityTextEditor()">
 									<option value="">{{locale_str_system_view_no_webview}}</option>
 									{{#views}}
 									<option class="min-col-span{{min_col_span}}" value="{{view_id}}">{{title}}</option>
@@ -136,8 +138,8 @@
 							</div>
 
 							<div class="view_texteditor form-group">
-								<label>{{locale_str_system_view_text}}</label>
-								<textarea class="form-control" name="content" rows="6"></textarea>
+								<label for="{{urid}}_content">{{locale_str_system_view_text}}</label>
+								<textarea id="{{urid}}_content" class="form-control" name="content" rows="6"></textarea>
 								<script type='text/javascript'>
 									TextEditor.init("#form_view_content textarea")
 								</script>
@@ -150,8 +152,8 @@
 
 						<div class="tab-pane" id="form_view_advanced">
 							<div class="form-group">
-								<label>{{locale_str_system_view_col_span}}</label>
-								<select class="form-control" name="col_span">
+								<label for="{{urid}}_col_span">{{locale_str_system_view_col_span}}</label>
+								<select id="{{urid}}_col_span" class="form-control" name="col_span">
 									{{#col_spans}}
 										<option value="{{index}}">{{title}}</option>
 									{{/col_spans}}
@@ -159,8 +161,8 @@
 							</div>
 
               <div class="form-group">
-								<label>{{locale_str_system_view_col_offset}}</label>
-								<select class="form-control" name="col_offset">
+								<label for="{{urid}}_col_offset">{{locale_str_system_view_col_offset}}</label>
+								<select id="{{urid}}_col_offset" class="form-control" name="col_offset">
 									{{#col_offsets}}
 										<option value="{{index}}">{{title}}</option>
 									{{/col_offsets}}
@@ -168,16 +170,16 @@
               </div>
 
               <div class="form-group">
-								<label>{{locale_str_system_view_row_offset}}</label>
-								<select class="form-control" name="row_offset">
+								<label for="{{urid}}_row_offset">{{locale_str_system_view_row_offset}}</label>
+								<select id="{{urid}}_row_offset" class="form-control" name="row_offset">
 									{{#row_offsets}}
 										<option value="{{index}}">{{title}}</option>
 									{{/row_offsets}}
 								</select>
               </div>
               <div class="form-group">
-								<label>{{locale_str_system_view_classes}}</label>
-								<input class="form-control" type="text" name="setting_classes" value="" />
+								<label for="{{urid}}_classes">{{locale_str_system_view_classes}}</label>
+								<input id="{{urid}}_classes" class="form-control" type="text" name="setting_classes" value="" />
 	            </div>
 
 							<div class="clearfix"></div>

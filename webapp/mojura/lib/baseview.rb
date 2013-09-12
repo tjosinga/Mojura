@@ -4,12 +4,16 @@ module MojuraWebApp
 
 	class BaseView < Mustache
 
-		attr_reader :options, :data, :source_file
+    @@urid_counter = 12345678
+
+		attr_reader :options, :data, :source_file, :urid
 
 		def initialize(options = {}, data = {})
 			@data = data
 			@data = {} if (!data.is_a?(Hash))
-			@options = options
+      @@urid_counter += 1
+      @urid = @@urid_counter.to_s(16)
+      @options = options
 			if @options[:uses_editor]
 				WebApp.page.include_script_link('ext/jquery/jquery-textrange.min.js')
 			end
@@ -60,7 +64,8 @@ module MojuraWebApp
 
 		def pretty_options
 			'<pre>' + JSON.pretty_generate(@options) + '</pre>'
-		end
+    end
+
 
 	end
 
