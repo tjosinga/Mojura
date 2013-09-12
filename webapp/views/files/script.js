@@ -14,8 +14,15 @@ FilesView = (function ($) {
 		}
 	}
 
+    function getSettings() {
+        jSettings = $(".files-settings", "#files_folders_container");
+        settings = jSettings.data();
+        return settings;
+    }
+
 	function refresh() {
 		//should only refresh the files/folders list!!! Just a workaround.
+        settings = getSettings();
 		$("#files_folders_container").html("<div class='loading'></div>");
 		id = this.currentFolderId;
 		if ((id == "") || (id === undefined)) id = "root";
@@ -23,8 +30,9 @@ FilesView = (function ($) {
 
 		$.getJSON(url, function (data) {
 			template = $("#template_files_folders_container").html();
+            $.extend(data, settings);
 			data.may_maintain = (data.rights.allowed.update);
-			data.is_base_folder = (id == "root");
+			data.is_base_folder = (data.id == undefined) || (data.id == settings.root_folderid);
 			data.has_subfolders = (data.subfolders.length > 0);
 			data.has_files = (data.files.length > 0);
 			for (i = 0; i < data.files.length; i++) {

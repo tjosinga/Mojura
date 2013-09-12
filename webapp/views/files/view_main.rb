@@ -7,25 +7,29 @@ module MojuraWebApp
 		attr_reader :folderid, :modals
 
 		def initialize(options = {})
-      STDOUT << "FilesView: initialize\n"
       @folderid = options[:folderid].to_s
       @folderid = WebApp.page.request_params[:folderid].to_s if (@folderid == '')
+      @folderid = options[:root_folderid].to_s if (@folderid == '')
 			@folderid = 'root' if (@folderid == '')
 			params = {}
-			params[:folderid] = @folderid if (!@folderid.nil?)
+			params[:folderid] = @folderid
 			begin
 				data = WebApp.api_call("files/folder/#{@folderid}", params)
 			rescue APIException => _
 				data = {}
       end
-      data[:hide_admin] = options[:hide_admin] || false
-      data[:hide_folders] = options[:hide_folders] || false
-      data[:hide_breadcrumbs] = options[:hide_breadcrumbs] || false
+      data[:hide_admin] = options[:hide_admin].to_s == 'true'
+      data[:hide_folders] = options[:hide_folders].to_s == 'true'
+      data[:hide_breadcrumbs] = options[:hide_breadcrumbs].to_s == 'true'
+      data[:hide_icons] = options[:hide_icons].to_s == 'true'
+      data[:hide_extensions] = options[:hide_extensions].to_s == 'true'
+      data[:root_folderid] = options[:root_folderid].to_s
       data[:has_description] = (!data[:description][:html].empty?) rescue false
-      STDOUT << JSON.pretty_generate(data) + "\n"
+      data[:is_base_folder] = (@folderid == 'root') || (@folderid == data[:root_folderid])
 			super(options, data)
 			data[:files] ||= []
 			@data[:files].map! { |item|
+        item[:title].chomp!(File.extname(item[:title])) if data[:hide_extensions]
 				item[:api_url].gsub!(/files/, 'files')
 				item[:file_url].gsub!(/files/, 'files')
 				item[:thumb_url].gsub!(/files/, 'files') if (item.include?(:thumb_url))
@@ -49,10 +53,6 @@ module MojuraWebApp
 			WebApp.page.include_template_file('template-delete-folder', File.dirname(__FILE__) + '/view_folder_delete.mustache')
 
 			WebApp.page.include_script("FilesView.setCurrentFolderId('#{folderid}', true);") if (@folderid != 'root')
-		end
-
-		def is_base_folder
-			(@folderid.nil?) || (@folderid == 'root')
 		end
 
 	end
