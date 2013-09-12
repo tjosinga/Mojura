@@ -45,8 +45,8 @@ module MojuraWebApp
     end
 
     def render_files
-      STDOUT << "render_files\n"
-      options = { view: 'files', wrapping: 'nowrap', folderid: '5229a9b85861f1ba7b000046' }
+      settings = { folderid: '5229a9b85861f1ba7b000046', hide_admin: true, hide_icons: false, hide_extensions: false, hide_breadcrumbs: true, hide_folders: true }
+      options = { view: 'files', wrapping: 'normal', settings: settings }
       return WebApp.render_view(options)
     end
 
