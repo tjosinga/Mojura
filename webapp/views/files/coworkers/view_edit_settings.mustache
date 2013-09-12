@@ -1,5 +1,5 @@
 <label class="checkbox">
-  <input type="checkbox" name="setting_hide_admin" value="true" {{#hide_admin}}checked="checked"{{/hide_admin}} />
+    <input type="checkbox" name="setting_hide_admin" value="true" {{#hide_admin}}checked="checked"{{/hide_admin}} />
 	{{locale_str_files_hide_admin}}
 </label>
 
@@ -12,3 +12,22 @@
     <input type="checkbox" name="setting_hide_breadcrumbs" value="true" {{#hide_breadcrumbs}}checked="checked"{{/hide_breadcrumbs}} />
 	{{locale_str_files_hide_breadcrumbs}}
 </label>
+
+<label class="checkbox">
+    <input type="checkbox" name="setting_hide_extensions" value="true" {{#hide_extensions}}checked="checked"{{/hide_extensions}} />
+	{{locale_str_files_hide_extensions}}
+</label>
+
+<label class="checkbox">
+    <input type="checkbox" name="setting_hide_icons" value="true" {{#hide_icons}}checked="checked"{{/hide_icons}} />
+	{{locale_str_files_hide_icons}}
+</label>
+
+<div class="form-group">
+	<label>{{locale_str_files_root_folderid}}</label>
+  <input class="form-control" type="text" name="setting_root_folderid" value="{{root_folderid}}" />
+</div>
+
+<script type='text/javascript'>
+
+</script>

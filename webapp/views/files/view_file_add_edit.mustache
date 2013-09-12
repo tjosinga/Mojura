@@ -1,11 +1,19 @@
 <form enctype="multipart/form-data" action="__api__/files/{{id}}" method="post">
 	<input type="hidden" name="_method" value="{{method}}" />
 	<input type="hidden" name="folderid" value="{{folderid}}" />
-	<label>{{locale_str_files_file}}</label>
-	<input type="file" name="file" />
-	<label>{{locale_str_files_alt_name}}</label>
-	<input type="text" name="title" value="{{title}}" />
 
-	<label>{{locale_str_system_description}}</label>
-	<textarea name='description'>{{description.raw}}</textarea>
+	<div class="form-group">
+		<label for="{{uid}}_file">{{locale_str_files_file}}</label>
+		<input id="{{uid}}_file" class="form-control" type="file" name="file" />
+	</div>
+
+  <div class="form-group">
+		<label for="{{uid}}_title">{{locale_str_files_alt_name}}</label>
+		<input id="{{uid}}_title" class="form-control" type="text" name="title" value="{{title}}" />
+	</div>
+
+  <div class="form-group">
+		<label for="{{uid}}_description">{{locale_str_system_description}}</label>
+		<textarea id="{{uid}}_description" class="form-control" name='description'>{{description.raw}}</textarea>
+	</div>
 </form>

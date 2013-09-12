@@ -90,6 +90,7 @@ var PageEditor = (function ($) {
 				url = "views/" + view + "/coworkers/view_edit_settings.mustache?static_only=true";
 				$.get(url, {cache: false},function (template) {
 					strs = Locale.rawStrings(["system", view]);
+					data.urid = UIDGenerator.get();
 					for (id in strs)
 						data.settings[id] = strs[id];
 					html = Mustache.to_html(template, data.settings);
