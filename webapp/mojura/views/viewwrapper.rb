@@ -18,7 +18,7 @@ module MojuraWebApp
 			options[:col_offset] ||= 0
 
 			# Conversion from the original 12-col grid to the recursive 12-col grid
-			options[:col_devices] ||= 'md'
+			options[:col_devices] ||= 'sm'
 			options[:col_rec] = ((12 / options[:parent_col_span]) * options[:col_span]).floor
 			options[:col_rec_offset] = ((12 / options[:parent_col_span]) * options[:col_offset]).floor
 
