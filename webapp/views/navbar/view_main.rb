@@ -15,7 +15,7 @@ module MojuraWebApp
 			options[:root_url] += '/' if (options[:root_url] != '')
 			options[:show_page_editor] = Settings.get_b(:navbar_show_page_editor)
 			if !options.include?(:adjust_body) || options[:adjust_body]
-				WebApp.page.include_style('@media (min-width: 995px) { body { padding-top: 60px; } }')
+				WebApp.page.include_style('body { padding-top: 60px; }')
 			end
 			if !options[:items].nil?
 				@pages = options[:items]
