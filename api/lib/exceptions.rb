@@ -110,4 +110,22 @@ module MojuraAPI
 		end
 	end
 
+	class SMSDestinationException < HTTPException
+		def initialize(dest)
+			super("The mobile text destination (#{dest}) is invalid")
+		end
+	end
+
+	class SMSInvalidConfiguration < HTTPException
+		def initialize(service)
+			super("The SMS text service #{service} isn't configured correctly")
+		end
+	end
+
+	class SMSSendException < HTTPException
+		def initialize(dest)
+			super("The SMS text message to #{dest} failed")
+		end
+	end
+
 end

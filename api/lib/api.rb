@@ -122,7 +122,7 @@ module MojuraAPI
 		end
 
 		def load_module(mod)
-			filename = (mod == :core) ? 'api/lib/settings.yml' : "api/resources/#{mod}/settings.yml"
+			filename = (mod == :core) ? 'api/lib/sms.yml' : "api/resources/#{mod}/sms.yml"
 			yaml = YAML.load_file(filename) rescue {}
 			yaml.symbolize_keys!
 			options = {ignore_if_exists: true, type: :file}
