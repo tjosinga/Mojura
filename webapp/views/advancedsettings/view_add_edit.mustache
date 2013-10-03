@@ -4,16 +4,16 @@
 
 	<div class="form-group">
 		<label>{{locale_str_files_file}}</label>
-		<input type="file" name="file" />
+		<input class="form-control" type="file" name="file" />
 	</div>
 
   <div class="form-group">
 		<label for="{{urid}}_title">{{locale_str_files_alt_name}}</label>
-		<input id="{{urid}}_title" type="text" name="title" value="{{title}}" />
+		<input class="form-control" id="{{urid}}_title" type="text" name="title" value="{{title}}" />
 	 </div>
 
   <div class="form-group">
 		<label for="{{urid}}_description">{{locale_str_system_description}}</label>
-		<textarea id=="{{urid}}_description" name='description'>{{description.raw}}</textarea>
+		<textarea class="form-control" id="{{urid}}_description" name='description'>{{description.raw}}</textarea>
 	</div>
 </form>
