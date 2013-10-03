@@ -47,7 +47,7 @@ module MojuraAPI
 			@settings[source][level][category][key]
 		end
 
-		def get(key, category = :core, scopes = [:private, :protected, :public])
+		def get(key, category = :core, default = nil, scopes = [:private, :protected, :public])
 			load_file_settings
 			load_db_settings
 			category = category.to_sym rescue :core
@@ -63,7 +63,7 @@ module MojuraAPI
 			elsif scopes.include?(:public) && exists?(:file, :public, category, key)
 				return @settings[:file][:public][category.to_sym][key.to_sym]
 			else
-				return nil
+				return default
 			end
 		end
 
@@ -103,28 +103,28 @@ module MojuraAPI
 			return result
 		end
 
-		def get_s(key, category = :core, scopes = [:private, :protected, :public])
-			get(key, category, scopes).to_s
+		def get_s(key, category = :core, default = nil, scopes = [:private, :protected, :public])
+			get(key, category, default, scopes).to_s
 		end
 
-		def get_i(key, category = :core, scopes = [:private, :protected, :public])
-			get(key, category, scopes).to_i
+		def get_i(key, category = :core, default = nil, scopes = [:private, :protected, :public])
+			get(key, category, default, scopes).to_i
 		end
 
-		def get_f(key, category = :core, scopes = [:private, :protected, :public])
-			get(key, category, scopes).to_f
+		def get_f(key, category = :core, default = nil, scopes = [:private, :protected, :public])
+			get(key, category, default, scopes).to_f
 		end
 
-		def get_b(key, category = :core, scopes = [:private, :protected, :public])
-			%w(true yes 1).include?(get(key, category, scopes).to_s.downcase)
+		def get_b(key, category = :core, default = nil, scopes = [:private, :protected, :public])
+			%w(true yes 1).include?(get(key, category, default, scopes).to_s.downcase)
 		end
 
-		def get_h(key, category = :core, scopes = [:private, :protected, :public])
-			get(key, category, scopes) || {}
+		def get_h(key, category = :core, default = nil, scopes = [:private, :protected, :public])
+			get(key, category, default, scopes) || {}
 		end
 
-		def get_a(key, category = :core, scopes = [:private, :protected, :public])
-			get(key, category, scopes).to_a
+		def get_a(key, category = :core, default = nil, scopes = [:private, :protected, :public])
+			get(key, category, default, scopes).to_a
 		end
 
 		def set(key, value, category = nil, level = nil, options = {})
