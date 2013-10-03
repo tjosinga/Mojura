@@ -12,6 +12,10 @@ require 'middleware/cookietokens'
 require 'middleware/formatter'
 require 'middleware/sendfiles'
 
+# Forcing UTF-8 encoding
+Encoding.default_external = Encoding::UTF_8
+Encoding.default_internal = Encoding::UTF_8
+
 use Mojura::StaticFiles
 
 use Rack::Lint
@@ -25,12 +29,11 @@ use Rack::ETag
 # use Rack::Session::Memcache
 use Rack::Session::Cookie, :secret => 'my_secret_cookie_string'
 
-
 use Mojura::Formatter
 use Mojura::Gatekeeper
 
 # Uncomment if your webserver doesn't support X-Sendfile (also see http://wiki.nginx.org/XSendfile)
-use Mojura::SendFiles
+	use Mojura::SendFiles
 
 use Mojura::MethodOverride
 use Mojura::CookieTokens
