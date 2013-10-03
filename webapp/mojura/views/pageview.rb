@@ -21,6 +21,7 @@ module MojuraWebApp
 			@locales = []
 			@data = {}
 			@body_html = ''
+			@is_home = false
 			@locale = Settings.get_s(:locale)
 			super({})
 
@@ -52,6 +53,7 @@ module MojuraWebApp
 
 			if !@pageid.nil?
 				@data = WebApp.api_call("pages/#{@pageid}")
+				@is_home = (@pageid == Settings.get_s(:default_pageid))
 			elsif @request_uri != ''
 				begin
 					pages = WebApp.api_call('pages', {path: @request_uri})
@@ -68,8 +70,9 @@ module MojuraWebApp
 					end
 				end
 			else
-				@pageid = nil # TODO: Select the default page from Settings
-				if @pageid.nil?
+				@is_home = true
+				@pageid = Settings.get_s(:default_pageid) # TODO: Select the default page from Settings
+				if @pageid.empty?
 					begin
 						@pages = WebApp.api_call('pages')
 						@pageid = @pages.first[:id] unless (@pages.nil? || @pages.first.nil?)
@@ -85,7 +88,7 @@ module MojuraWebApp
 		end
 
 		def title
-			result = Settings.get_s(:title)
+			result = Settings.get_s(:title, :core, 'A Mojura website')
 			result += ' - ' + @data[:title] if (@data.include?(:title)) && (@data[:title] != '')
 			return result
 		end
@@ -99,7 +102,7 @@ module MojuraWebApp
 		end
 
 		def description
-			@data[:description] || Settings.get_s('description', 'Mojura is a fine API based Content Management System')
+			@data[:description] || Settings.get_s('description', :core, 'Mojura is a fine API based Content Management System')
 		end
 
 		def get_best_url(filename)
@@ -200,6 +203,10 @@ module MojuraWebApp
 
 		def analyticsid
 			Settings.get_s(:analyticsid)
+		end
+
+		def is_home
+
 		end
 
 	end
