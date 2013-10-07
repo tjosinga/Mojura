@@ -1,3 +1,5 @@
+require 'google/api_client'
+
 module MojuraWebApp
 
 	#noinspection RubyClassVariableUsageInspection
@@ -52,32 +54,45 @@ module MojuraWebApp
 			)
 			today = Date.today
 			tomorrow = Date.today.next_day - 0.00001
+			show_primary = Settings.get_b(:show_primary, :gcalendar, true)
 
 			batch = Google::APIClient::BatchRequest.new
 			events = []
 			result.data.items.each { | cal_data |
-				command = {
-					api_method: calendar_api.events.list,
-					parameters: {
-						'calendarId' => cal_data['id'],
-						'timeMin' => today.strftime('%FT%TZ'),
-						'timeMax' => tomorrow.strftime('%FT%TZ')
-					}
-				}
-				Google::APIClient::Schema::Calendar::V3::EventDateTime.new
-				batch.add(command) { | result |
-					if result.data.items.size > 0
-						result.data.items.each { | event_data |
-							events.push({
-								calendar: cal_data.summary,
-								time: event_data.start['dateTime'].strftime('%H:%M'),
-							  summary: event_data.summary
-							})
+				if !cal_data.primary || show_primary
+					STDOUT << JSON.pretty_generate(cal_data) + "\n"
+					command = {
+						api_method: calendar_api.events.list,
+						parameters: {
+							'calendarId' => cal_data['id'],
+							'timeMin' => today.strftime('%FT%TZ'),
+							'timeMax' => tomorrow.strftime('%FT%TZ')
 						}
-					end
-				}
+					}
+					Google::APIClient::Schema::Calendar::V3::EventDateTime.new
+					batch.add(command) { | result |
+						if result.data.items.size > 0
+							result.data.items.each { | event_data |
+								events.push({
+									calendar: cal_data.summary,
+									time: event_data.start['dateTime'].strftime('%H:%M'),
+								  summary: event_data.summary
+								})
+							}
+						end
+					}
+				end
 			}
 			@client.execute(batch)
+			events.sort! { | a, b |
+				if a[:time] != b[:time]
+					a[:time] <=> b[:time]
+				elsif a[:calendar] != b[:calendar]
+					a[:calendar] <=> b[:calendar]
+				else
+					a[:summary] <=> b[:summary]
+				end
+			}
 			return events
 		end
 
