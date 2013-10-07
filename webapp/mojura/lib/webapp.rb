@@ -98,6 +98,7 @@ module MojuraWebApp
 			end
 		end
 
+		# @return [MojuraAPI::User]
 		def current_user
 			MojuraAPI::API.current_user
 		end
