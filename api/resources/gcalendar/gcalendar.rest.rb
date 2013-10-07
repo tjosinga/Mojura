@@ -26,7 +26,6 @@ module MojuraAPI
 
 	end
 
-	API.register_resource(
-		Resource.new('gcalendar', '', '[category]/[key]'))
+	API.register_resource(GCalendarResource.new('gcalendar', '', '[category]/[key]'))
 
 end
