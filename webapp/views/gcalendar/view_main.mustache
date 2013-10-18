@@ -18,11 +18,17 @@
 {{/is_authenticated}}
 
 {{#is_authenticated}}
-	{{#todays_events}}
-		<div class='row'>
-			<div class='col-md-3 gcalendar_time'>{{time}}</div>
-			<div class='col-md-6 gcalendar_summary'>{{summary}}</div>
-			<div class='col-md-3 gcalendar_location'>{{calendar}}</div>
-		</div>
-	{{/todays_events}}
+	{{#has_events}}
+		<i>{{locale_str_gcalendar_no_events}}</i>
+	{{/has_events}}
+	{{#has_events}}
+		{{#todays_events}}
+			<div class='row'>
+				<div class='col-md-2 gcalendar_time'>{{time}}</div>
+				<div class='col-md-7 gcalendar_summary'>{{summary}}</div>
+				<div class='col-md-3 gcalendar_location'>{{calendar}}</div>
+			</div>
+		{{/todays_events}}
+	{{/has_events}}
+
 {{/is_authenticated}}
