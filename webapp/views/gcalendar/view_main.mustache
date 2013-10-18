@@ -18,7 +18,7 @@
 {{/is_authenticated}}
 
 {{#is_authenticated}}
-	{{#has_events}}
+	{{^has_events}}
 		<i>{{locale_str_gcalendar_no_events}}</i>
 	{{/has_events}}
 	{{#has_events}}

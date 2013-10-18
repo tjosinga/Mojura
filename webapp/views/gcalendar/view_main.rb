@@ -17,8 +17,12 @@ module MojuraWebApp
 			@client.authorization.scope = 'https://www.googleapis.com/auth/calendar.readonly'
 			@client.authorization.update_token!
 
+			data = {}
+			data[:todays_events] = get_todays_events
+			data[:has_events] = (data[:todays_events].size > 0)
+			STDOUT << JSON.pretty_generate(data) + "\n"
 			process_auth_code if (!WebApp.page.request_params[:code].nil? rescue false)
-			super
+			super(options, data)
 		end
 
 		def has_credentials
@@ -45,7 +49,7 @@ module MojuraWebApp
 			Settings.set(:refresh_token, @client.authorization.refresh_token, :gcalendar)
 		end
 
-		def todays_events
+		def get_todays_events
 			calendar_api = @client.discovered_api('calendar', 'v3')
 
 			result = @client.execute(
@@ -60,7 +64,6 @@ module MojuraWebApp
 			events = []
 			result.data.items.each { | cal_data |
 				if !cal_data.primary || show_primary
-					STDOUT << JSON.pretty_generate(cal_data) + "\n"
 					command = {
 						api_method: calendar_api.events.list,
 						parameters: {
@@ -84,7 +87,7 @@ module MojuraWebApp
 				end
 			}
 			@client.execute(batch)
-			events.sort! { | a, b |
+			events.sort! { |  a, b |
 				if a[:time] != b[:time]
 					a[:time] <=> b[:time]
 				elsif a[:calendar] != b[:calendar]
