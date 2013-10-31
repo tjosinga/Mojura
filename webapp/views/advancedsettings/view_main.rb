@@ -1,4 +1,5 @@
 require 'ubbparser'
+require 'webapp/mojura/lib/locale'
 
 module MojuraWebApp
 
@@ -33,7 +34,14 @@ module MojuraWebApp
 			super(options, data)
 
 			WebApp.page.include_template_file('template_settings_row', 'webapp/views/advancedsettings/view_row.mustache')
+		end
 
+		def render
+			if WebApp.current_user.administrator?
+				return super
+			else
+				return render_no_rights
+			end
 		end
 
 		def level_to_as_hash(level)

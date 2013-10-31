@@ -64,7 +64,13 @@ module MojuraWebApp
 
 		def pretty_options
 			'<pre>' + JSON.pretty_generate(@options) + '</pre>'
-    end
+		end
+
+		def render_no_rights
+			result = Locale.str(:system, :no_rights)
+			result += WebApp.render_view({viewid: :login}) unless (WebApp.current_user.logged_in?)
+			return result
+		end
 
 
 	end

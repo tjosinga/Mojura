@@ -98,6 +98,10 @@ module MojuraWebApp
 			end
 		end
 
+		def logged_in?
+			!self.id.nil?
+		end
+
 		# @return [MojuraAPI::User]
 		def current_user
 			MojuraAPI::API.current_user
@@ -127,8 +131,6 @@ module MojuraWebApp
 		end
 
 		def render_view(options = {})
-      STDOUT << "WebApp:render_view\n"
-
       begin
 				return ViewWrapper.new(options).render
 			rescue Exception => e
