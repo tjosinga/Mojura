@@ -14,7 +14,7 @@ def find_files(path)
 		@css_files.push("#{path}/#{name}") if (name.end_with?('.css')) && (!name.end_with?('.min.css'))
 		@scss_files.push("#{path}/#{name}") if (name.end_with?('.scss'))
 		find_files("#{path}/#{name}") if ((File.directory?("#{path}/#{name}")) &&
-			(name != '.') && (name != '..') &&
+			(name != '.') && (name != '..') && (name != 'ext') &&
 			(!File.symlink?("#{path}/#{name}")) &&
 			("#{path}/#{name}" != 'webapp/mojura/js/sources'))
 	}

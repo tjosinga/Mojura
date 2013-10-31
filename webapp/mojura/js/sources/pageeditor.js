@@ -85,7 +85,7 @@ var PageEditor = (function ($) {
 				$(".view-settings", "#modalEditView").html("");
 				return;
 			}
-			$(".view-settings", "#modalEditView").html("<span class='loading .glyphicon .glyphicon-cog'></span>");
+			$(".view-settings", "#modalEditView").html("<div class='loading'></div>");
 			Locale.ensureLoaded(view, { loaded: function() {
 				url = "views/" + view + "/coworkers/view_edit_settings.mustache?static_only=true";
 				$.get(url, {cache: false},function (template) {

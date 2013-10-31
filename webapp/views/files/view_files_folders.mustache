@@ -11,9 +11,9 @@
 {{^hide_breadcrumbs}}
 	{{#id}}
 		<ul class="breadcrumb">
-			<li><a href="{{base_url}}" onclick="FilesView.setCurrentFolderId(''); return false;"><span class="glyphicon glyphicon-files-home"></span></a> <span class="divider">/<span></li>
+			<li><a href="{{base_url}}" onclick="FilesView.setCurrentFolderId(''); return false;"><span class="fa fa-home"></span></a> <span class="divider"></span></li>
 			{{#parents}}
-				<li><a href="{{base_url}}?folderid={{id}}" onclick="FilesView.setCurrentFolderId('{{id}}'); return false;">{{title}}</a> <span class="divider">/<span></li>
+				<li><a href="{{base_url}}?folderid={{id}}" onclick="FilesView.setCurrentFolderId('{{id}}'); return false;">{{title}}</a> <span class="divider"></span></li>
 			{{/parents}}
 			<li class="active">{{title}}</li>
 		</ul>
@@ -28,10 +28,10 @@
 	{{#rights.allowed.update}}
 		<div class="btn-group">
 		  <button class="btn btn-default" data-toggle="modal" data-target="#modalAddFile" onclick="FilesView.loadForm('#modalAddFile', '#template-add-edit-file', '__api__/files/new', 'put'); return false">
-		    <span class='glyphicon glyphicon-plus'></span> {{locale_str_files_action_add_file}}
+		    <span class='fa fa-plus'></span> {{locale_str_files_action_add_file}}
 		  </button>
 		  <button class="btn btn-default" data-toggle="modal" data-target="#modalAddFolder" onclick="FilesView.loadForm('#modalAddFolder', '#template-add-edit-folder', '__api__/files/folder/new', 'put'); return false">
-		    <span class='glyphicon glyphicon-plus'></span> {{locale_str_files_action_add_folder}}
+		    <span class='fa fa-plus'></span> {{locale_str_files_action_add_folder}}
 		  </button>
 		</div>
 		<div style="clear: both; height: 20px"></div>
@@ -43,7 +43,7 @@
 		{{^is_base_folder}}
 			<li class='hover-glow' style='padding: 5px 0;'>
 				{{^hide_icons}}
-          <span class='glyphicon glyphicon-folder-open'></span>
+          <span class='fa fa-folder-open'></span>
 				{{/hide_icons}}
 		 		<a href="javascript:void()" onclick="FilesView.setCurrentFolderId('{{parentid}}'); return false;">{{locale_str_files_parent_folder}}</a>
 			</li>
@@ -54,15 +54,15 @@
 				{{^hide_admin}}
 					<div class="btn-group pull-right">
 						{{#rights.allowed.update}}
-					    <a class="btn btn-default btn-xs" href="#" rel="tooltip" title="{{locale_str_action_edit_folder}}" data-toggle="modal" data-target="#modalEditFolder" onclick="FilesView.loadForm('#modalEditFolder', '#template-add-edit-folder', '__api__/files/folder/{{id}}', 'post'); return false"><span class="glyphicon glyphicon-pencil"></span></a>
+					    <a class="btn btn-default btn-xs" href="#" rel="tooltip" title="{{locale_str_action_edit_folder}}" data-toggle="modal" data-target="#modalEditFolder" onclick="FilesView.loadForm('#modalEditFolder', '#template-add-edit-folder', '__api__/files/folder/{{id}}', 'post'); return false"><span class="fa fa-pencil"></span></a>
 						{{/rights.allowed.update}}
 						{{#rights.allowed.delete}}
-						  <a class="btn btn-default btn-xs" href="#" rel="tooltip" title="{{locale_str_action_delete_folder}}" data-toggle="modal" data-target="#modalDeleteFolder" onclick="FilesView.loadForm('#modalDeleteFolder', '#template-delete-folder', '__api__/files/folder/{{id}}', 'delete'); return false"><span class="glyphicon glyphicon-trash"></span></a>
+						  <a class="btn btn-default btn-xs" href="#" rel="tooltip" title="{{locale_str_action_delete_folder}}" data-toggle="modal" data-target="#modalDeleteFolder" onclick="FilesView.loadForm('#modalDeleteFolder', '#template-delete-folder', '__api__/files/folder/{{id}}', 'delete'); return false"><span class="fa fa-trash-o"></span></a>
 						{{/rights.allowed.delete}}
 					</div>
 				{{/hide_admin}}
 				{{^hide_icons}}
-					<span class='glyphicon glyphicon-folder-close'></span>
+					<span class='fa fa-folder'></span>
 				{{/hide_icons}}
 				<a href="javascript:void()" onclick="FilesView.setCurrentFolderId('{{id}}'); return false;">{{title}}</a>
 			</li>
@@ -77,18 +77,18 @@
 				<div class="btn-group pull-right">
 					{{#rights.allowed.update}}
 						{{#is_archive}}
-					    <a class="btn btn-default btn-xs" href="#" rel="tooltip" title="{{locale_str_action_extract_file}}" data-toggle="modal" data-target="#modalExtractFile" onclick="FilesView.loadForm('#modalExtractFile', '#template-extract-file', '__api__/files/{{id}}?action=extract', 'post'); return false"><span class="glyphicon glyphicon-compressed"></span></a>
+					    <a class="btn btn-default btn-xs" href="#" rel="tooltip" title="{{locale_str_action_extract_file}}" data-toggle="modal" data-target="#modalExtractFile" onclick="FilesView.loadForm('#modalExtractFile', '#template-extract-file', '__api__/files/{{id}}?action=extract', 'post'); return false"><span class="fa fa-archive"></span></a>
 						{{/is_archive}}
-				    <a class="btn btn-default btn-xs" href="#" rel="tooltip" title="{{locale_str_action_edit_file}}" data-toggle="modal" data-target="#modalEditFile" onclick="FilesView.loadForm('#modalEditFile', '#template-add-edit-file', '__api__/files/{{id}}', 'post'); return false"><span class="glyphicon glyphicon-pencil"></span></a>
+				    <a class="btn btn-default btn-xs" href="#" rel="tooltip" title="{{locale_str_action_edit_file}}" data-toggle="modal" data-target="#modalEditFile" onclick="FilesView.loadForm('#modalEditFile', '#template-add-edit-file', '__api__/files/{{id}}', 'post'); return false"><span class="fa fa-pencil"></span></a>
 					{{/rights.allowed.update}}
 					{{#rights.allowed.delete}}
-				    <a class="btn btn-default btn-xs" href="#" rel="tooltip" title="{{locale_str_action_delete_file}}" data-toggle="modal" data-target="#modalDeleteFile" onclick="FilesView.loadForm('#modalDeleteFile', '#template-delete-file', '__api__/files/{{id}}', 'delete'); return false"><span class="glyphicon glyphicon-trash"></span></a>
+				    <a class="btn btn-default btn-xs" href="#" rel="tooltip" title="{{locale_str_action_delete_file}}" data-toggle="modal" data-target="#modalDeleteFile" onclick="FilesView.loadForm('#modalDeleteFile', '#template-delete-file', '__api__/files/{{id}}', 'delete'); return false"><span class="fa fa-trash-o"></span></a>
 					{{/rights.allowed.delete}}
 				</div>
 			{{/hide_admin}}
 
 			{{^hide_icons}}
-         <span class='glyphicon glyphicon-file'></span>
+         <span class='fa fa-file'></span>
 			{{/hide_icons}}
 			{{#is_image}}
 				<a href="{{file_url}}">{{title}}</a>

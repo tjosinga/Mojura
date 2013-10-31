@@ -5,19 +5,19 @@ var TextEditor = (function($) {
 	}
 
 	newVar = {
-		"bold": {"icon": "glyphicon-bold", "method": function (text, os) { return executeActionSimple("b", text, os) }},
+		"bold": {"icon": "fa-bold", "method": function (text, os) { return executeActionSimple("b", text, os) }},
 		//"underline": {"icon": "icon-underlined", "method": function (text) { return executeActionSimple("u", text, os) }},
-		"italic": {"icon": "glyphicon-italic", "method": function (text, os) { return executeActionSimple("i", text, os) }},
+		"italic": {"icon": "fa-italic", "method": function (text, os) { return executeActionSimple("i", text, os) }},
 		"divider 1": "divider",
-		"ol": {"icon": "glyphicon-list-ol", "method": function (text, os) { return executeActionSimple("list", text, os, {addNewlines: true}) }},
-		"ul": {"icon": "glyphicon-list-ul", "method": function (text, os) { return executeActionSimple("bullets", text, os, {addNewlines: true}) }},
+		"ol": {"icon": "fa-list-ol", "method": function (text, os) { return executeActionSimple("list", text, os, {addNewlines: true}) }},
+		"ul": {"icon": "fa-list-ul", "method": function (text, os) { return executeActionSimple("bullets", text, os, {addNewlines: true}) }},
 		"divider 2": "divider",
-		"email": {"icon": "glyphicon-envelope", "method": function (text, os) { return executeActionEmail(text, os) }},
-		"url": {"icon": "glyphicon-link", "method": function (text, os) { return executeActionUrl(text, os) }},
-		"video": {"icon": "glyphicon-film", "method": function (text, os) { return executeActionVideo(text, os) }},
+		"email": {"icon": "fa-envelope", "method": function (text, os) { return executeActionEmail(text, os) }},
+		"url": {"icon": "fa-link", "method": function (text, os) { return executeActionUrl(text, os) }},
+		"video": {"icon": "fa-film", "method": function (text, os) { return executeActionVideo(text, os) }},
 		"divider 3": "divider",
-		"img": {"icon": "glyphicon-picture", "method": function (text, os) { return executeActionImage(text, os) }},
-		"file": {"icon": "glyphicon-file", "method": function (text, os) { return executeActionFile(text, os) }},
+		"img": {"icon": "fa-picture-o", "method": function (text, os) { return executeActionImage(text, os) }},
+		"file": {"icon": "fa-file", "method": function (text, os) { return executeActionFile(text, os) }},
 	};
 	buttons = newVar;
 
@@ -30,7 +30,7 @@ var TextEditor = (function($) {
 			if (object == "divider")
 				html += "</div><div class='btn-group'>";
 			else {
-				icon = "<span class='glyphicon " + object["icon"] + "'></span>";
+				icon = "<span class='fa " + object["icon"] + "'></span>";
 				html += "<div class='btn btn-default' data-action='" + index + "'>" + icon + "</div>";
 			}
 		});

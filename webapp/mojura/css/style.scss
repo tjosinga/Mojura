@@ -64,7 +64,11 @@ iframe {
 }
 
 .view-admin .btn-xs {
-  padding: 5px;
+  padding: 3px 5px;
+}
+
+.btn-edit-page .fa, .view-admin .fa {
+	vertical-align: text-bottom;
 }
 
 @media (min-width: 768px) {
@@ -151,5 +155,13 @@ iframe {
     text-decoration: none;
     color: gray;
   }
+}
 
+.fa {
+	display: inline-block;
+	font-size: 14px;
+}
+
+.texteditor_toolbar .btn-group {
+	margin-right: 5px;
 }

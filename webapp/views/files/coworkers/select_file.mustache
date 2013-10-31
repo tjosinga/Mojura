@@ -1,33 +1,35 @@
 <style type="text/css">
-	#file-popup .modal-body li {
+	#file-popup .modal-body .thumbnail {
+		width: 100%;
 		cursor: pointer;
-		width: 150px;
-		height: 20px;
 		padding-top: 148px;
 		display: inline-block;
+		background-size: 128px;
+		background: no-repeat center 10px;
+		position: relative;
+		margin: 0 5px 10px 0;
+	}
+
+	#file-popup .modal-body .thumbnail .caption {
 		text-overflow: ellipsis;
 		overflow: hidden;
 		white-space: nowrap;
 		text-align: center;
-		margin: 0 5px 10px 0;
-		background-size: 128px;
-		background: no-repeat center 10px;
-		position: relative;
 	}
 
-	#file-popup .modal-body li .glyphicon {
+	#file-popup .modal-body .thumbnail .fa {
 		display: block;
 		position: absolute;
 		top: 10px;
 		color: silver;
 		font-size: 40px;
-		width: 150px;
+		width: 100%;
 		line-height: 128px;
 		text-align: center;
 		vertical-align: middle;
 	}
 
-	#file-popup .modal-body ul .selected {
+	#file-popup .modal-body .thumbnail .selected {
 		background-color: #e6e6e6;
 		border-color: #08C;
 	}
@@ -64,7 +66,7 @@
 					</form>
 
 					<button class="btn btn-default pull-left btn-upload btn-warning" data-loading-text="{{locale_str_files_action_quick_upload}}...">
-						<span class="glyphicon glyphicon-upload"></span>
+						<span class="fa fa-upload"></span>
 						{{locale_str_files_action_quick_upload}}
 					</button>
 					<button class="btn" data-dismiss="modal">{{locale_str_system_cancel}}</button>
@@ -76,35 +78,49 @@
 </template>
 
 <template id="file-popup-content-template" type="text/plain">
-	<ul class="unstyled">
+
+	<div class="row">
 		{{=<% %>=}}
 		<!-- The following template codes are processed in second phase //-->
 		{{^is_base_folder}}
-		<li class='thumbnail' onclick="SelectFile.setCurrentFolderId('{{parentid}}')">
-			<span class='glyphicon glyphicon-folder-open'></span> <%locale_str_files_parent_folder%>
-		</li>
+		<div class="col-xs-6 col-sm-4 col-md-3">
+			<div class='thumbnail'>
+				<span class='fa fa-folder-open'></span>
+				<div class='caption'>
+					<%locale_str_files_parent_folder%>
+				</div>
+			</div>
+		</div>
 		{{/is_base_folder}}
 
 		{{#subfolders}}
-		<li class='thumbnail' onclick="SelectFile.setCurrentFolderId('{{id}}')">
-			<span class='glyphicon glyphicon-folder-close'></span> {{title}}
-		</li>
+		<div class="col-xs-6 col-sm-4 col-md-3">
+			<div class='thumbnail' onclick="SelectFile.setCurrentFolderId('{{id}}')">
+				<span class='fa fa-folder'></span>
+				<div class='caption'>{{title}}</div>
+			</div>
+		</div>
 		{{/subfolders}}
 
 		{{#files}}
 			{{#is_image}}
-			<li class='thumbnail thumbnail_{{id}}' onclick="SelectFile.selectFile('{{id}}', this)" style="background-image: url('__api__/files/{{id}}/download?type=avatar')">
-				{{title}}
-			</li>
+			<div class="col-xs-6 col-sm-4 col-md-3">
+				<div class='thumbnail thumbnail_{{id}}' onclick="SelectFile.selectFile('{{id}}', this)" style="background-image: url('__api__/files/{{id}}/download?type=avatar')">
+					<div class='caption'>{{title}}</div>
+				</div>
+			</div>
 			{{/is_image}}
 			{{^is_image}}
-			<li class='thumbnail thumbnail_{{id}}' onclick="SelectFile.selectFile('{{id}}', this);">
-				<span class='glyphicon glyphicon-file'></span> {{title}}
-			</li>
+			<div class="col-xs-6 col-sm-4 col-md-3">
+				<div class='thumbnail thumbnail_{{id}}' onclick="SelectFile.selectFile('{{id}}', this);">
+					<span class='fa fa-file'></span>
+					<div class='caption'>{{title}}</div>
+				</div>
+			</div>
 		{{/is_image}}
 		{{/files}}
 		<%={{ }}=%>
-	</ul>
+	</div>
 </template>
 
 <script type='text/javascript'>

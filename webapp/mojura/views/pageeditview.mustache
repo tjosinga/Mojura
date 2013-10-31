@@ -1,13 +1,13 @@
 <div class="btn-toolbar pull-right">
 	<div class="btn-group btn-edit-page hide pull-left">
 		<button class="btn btn-default btn-sm" onclick="PageEditor.showEditPage()">
-			<span class='glyphicon glyphicon-cog'></span>
+			<span class='fa fa-cog'></span>
 		</button>
 		<button class="btn btn-default btn-sm" onclick="PageEditor.showDeletePage()" id="btn_delete_page">
-			<span class='glyphicon glyphicon-trash'></span>
+			<span class='fa fa-trash-o'></span>
 		</button>
 		<button class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
-			<span class="glyphicon glyphicon-plus"></span> <span class="caret"></span>
+			<span class="fa fa-plus"></span> <span class="caret"></span>
 		</button>
 		<ul class="dropdown-menu">
 			{{#templates}}
@@ -17,11 +17,11 @@
 	</div>
 	<div class="btn-group btn-edit-page hide pull-left">
 		<button class="btn btn-default btn-sm" onclick="PageEditor.showAddSubpage()" id="btn_add_subpage">
-			<span class='glyphicon glyphicon-plus'></span>
+			<span class='fa fa-plus'></span>
 		</button>
 	</div>
 	<button class="btn btn-default btn-sm pull-left" data-toggle="button" onclick="PageEditor.togglePageAdmins()" id="toggle_edit_page">
-		<span class='glyphicon glyphicon-pencil'></span>
+		<span class='fa fa-pencil'></span>
 	</button>
 </div>
 
@@ -43,7 +43,7 @@
 			<div class="modal-footer">
 				<button class="btn" data-dismiss="modal">{{locale_str_system_cancel}}</button>
 				<button id="submitEditPage" class="btn btn-default btn-primary" data-loading-text='{{locale_str_system_action_edit}}...' onclick="PageEditor.submit(this)">
-					<span class='glyphicon glyphicon-pencil'></span> {{locale_str_system_action_edit}}
+					<span class='fa fa-pencil'></span> {{locale_str_system_action_edit}}
 				</button>
 			</div>
 		</div>
@@ -68,7 +68,7 @@
 			<div class="modal-footer">
 				<button class="btn" data-dismiss="modal">{{locale_str_system_cancel}}</button>
 				<button id="submitAddSubpage" class="btn btn-default btn-primary" data-loading-text='{{locale_str_system_action_add}}...' onclick="PageEditor.submit(this)">
-					<span class='glyphicon glyphicon-plus'></span> {{locale_str_system_action_edit}}
+					<span class='fa fa-plus'></span> {{locale_str_system_action_edit}}
 				</button>
 			</div>
 		</div>
@@ -91,7 +91,7 @@
 			<div class="modal-footer">
 				<button class="btn" data-dismiss="modal">{{locale_str_system_cancel}}</button>
 				<button id="submitDeletePage" class="btn btn-default btn-danger" data-loading-text='{{locale_str_system_action_delete}}...' onclick="PageEditor.submit(this)">
-					<span class='glyphicon glyphicon-trash'></span> {{locale_str_system_action_delete}}
+					<span class='fa fa-trash'></span> {{locale_str_system_action_delete}}
 				</button>
 			</div>
 		</div>
@@ -192,7 +192,7 @@
 			<div class="modal-footer">
 				<button class="btn" data-dismiss="modal">{{locale_str_system_cancel}}</button>
 				<button id="submitEditView" class="btn btn-default btn-primary" data-loading-text='{{locale_str_system_action_edit}}...' onclick="PageEditor.submit(this)">
-					<span class='glyphicon glyphicon-pencil'></span> {{locale_str_system_action_edit}}
+					<span class='fa fa-pencil'></span> {{locale_str_system_action_edit}}
 				</button>
 			</div>
 		</div>
@@ -216,7 +216,7 @@
 			<div class="modal-footer">
 				<button class="btn" data-dismiss="modal">{{locale_str_system_cancel}}</button>
 				<button id="submitDeleteView" class="btn btn-default btn-danger" data-loading-text='{{locale_str_system_action_delete}}...' onclick="PageEditor.submit(this)">
-					<span class='glyphicon glyphicon-trash'></span> {{locale_str_system_action_delete}}
+					<span class='fa fa-trash'></span> {{locale_str_system_action_delete}}
 				</button>
 			</div>
 		</div>
