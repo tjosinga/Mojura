@@ -1,5 +1,4 @@
-
- require 'json'
+require 'json'
 require 'xmlsimple'
 require 'csv'
 require 'api/lib/datatypes'

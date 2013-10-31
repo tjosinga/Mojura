@@ -1,14 +1,16 @@
 <tr {{^is_private}}id="settings_row_{{id}}" data-resource="{{resource}}" data-key="{{key}}" data-level="{{level}}"{{/is_private}}>
 	<td>
-		{{#is_private}}
-			<span class="glyphicon glyphicon-lock text-error"></span>
-		{{/is_private}}
-		{{#is_protected}}
-			<span class="glyphicon glyphicon-unlock-alt icon-flip-horizontal text-warning"></span>
-		{{/is_protected}}
-		{{#is_public}}
-			<span class="glyphicon glyphicon-unlock text-success"></span>
-		{{/is_public}}
+		<span class='level-icon'>
+			{{#is_private}}
+				<span class="fa fa-lock text-error"></span>
+			{{/is_private}}
+			{{#is_protected}}
+				<span class="fa fa-unlock-o icon-flip-horizontal text-warning"></span>
+			{{/is_protected}}
+			{{#is_public}}
+				<span class="fa fa-unlock text-success"></span>
+			{{/is_public}}
+		<span>
 		{{key}}
 	</td>
 	<td>{{type}}</td>
@@ -37,18 +39,18 @@
 	<td style="text-align: right">
 		{{^is_private}}
 			<button class="btn btn-default btn-xs btn-success settings_save_btn soft-hide" onclick="AdvancedSettings.edit('{{id}}')">
-				<span class='glyphicon glyphicon-ok'></span>
+				<span class='fa fa-check'></span>
 			</button>
 			<button class="btn btn-default btn-xs btn-danger settings_cancel_btn soft-hide" onclick="AdvancedSettings.hideEdit('{{id}}')">
-				<span class='glyphicon glyphicon-remove'></span>
+				<span class='fa fa-times'></span>
 			</button>
 
 			<button class="btn btn-default btn-xs settings_edit_btn" onclick="AdvancedSettings.showEdit('{{id}}')">
-				<span class='glyphicon glyphicon-pencil'></span>
+				<span class='fa fa-pencil'></span>
 			</button>
 
 			<button class="btn btn-default btn-xs settings_delete_btn" onclick="AdvancedSettings.showDelete('{{id}}')">
-				<span class='glyphicon glyphicon-trash'></span>
+				<span class='fa fa-trash-o'></span>
 			</button>
 		{{/is_private}}
 

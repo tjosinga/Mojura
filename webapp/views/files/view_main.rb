@@ -37,13 +37,13 @@ module MojuraWebApp
 				item[:is_archive] = (item[:mime_type] == 'application/zip') if !item[:mime_type].nil?
 				item
 			}
-			@modals = [{id: 'modalAddFile', btn_class: 'btn-primary', btn_title: WebApp.locale_str('system', 'action_add'), title: WebApp.locale_str('files', 'action_add_file')},
-			           {id: 'modalEditFile', btn_class: 'btn-primary', btn_title: WebApp.locale_str('system', 'action_edit'), title: WebApp.locale_str('files', 'action_edit_file')},
-			           {id: 'modalExtractFile', btn_class: 'btn-primary', btn_title: WebApp.locale_str('files', 'action_extract'), title: WebApp.locale_str('files', 'action_extract_file')},
-			           {id: 'modalDeleteFile', btn_class: 'btn-danger', btn_title: WebApp.locale_str('system', 'action_delete'), title: WebApp.locale_str('files', 'action_delete_file')},
-			           {id: 'modalAddFolder', btn_class: 'btn-primary', btn_title: WebApp.locale_str('system', 'action_add'), title: WebApp.locale_str('files', 'action_add_folder')},
-			           {id: 'modalEditFolder', btn_class: 'btn-primary', btn_title: WebApp.locale_str('system', 'action_edit'), title: WebApp.locale_str('files', 'action_edit_folder')},
-			           {id: 'modalDeleteFolder', btn_class: 'btn-danger', btn_title: WebApp.locale_str('system', 'action_delete'), title: WebApp.locale_str('files', 'action_delete_folder')}]
+			@modals = [{id: 'modalAddFile', btn_class: 'btn-primary', btn_title: WebApp.locale_str('system', 'action_add'), title: WebApp.locale_str('files', 'action_add_file'), icon: 'fa-plus'},
+			           {id: 'modalEditFile', btn_class: 'btn-primary', btn_title: WebApp.locale_str('system', 'action_edit'), title: WebApp.locale_str('files', 'action_edit_file'), icon: 'fa-pencil'},
+			           {id: 'modalExtractFile', btn_class: 'btn-primary', btn_title: WebApp.locale_str('files', 'action_extract'), title: WebApp.locale_str('files', 'action_extract_file'), icon: 'fa-archive'},
+			           {id: 'modalDeleteFile', btn_class: 'btn-danger', btn_title: WebApp.locale_str('system', 'action_delete'), title: WebApp.locale_str('files', 'action_delete_file'), icon: 'fa-trash-o'},
+			           {id: 'modalAddFolder', btn_class: 'btn-primary', btn_title: WebApp.locale_str('system', 'action_add'), title: WebApp.locale_str('files', 'action_add_folder'), icon: 'fa-plus'},
+			           {id: 'modalEditFolder', btn_class: 'btn-primary', btn_title: WebApp.locale_str('system', 'action_edit'), title: WebApp.locale_str('files', 'action_edit_folder'), icon: 'fa-pencil'},
+			           {id: 'modalDeleteFolder', btn_class: 'btn-danger', btn_title: WebApp.locale_str('system', 'action_delete'), title: WebApp.locale_str('files', 'action_delete_folder'), icon: 'fa-trash-o'}]
 
 			WebApp.page.include_template_file('template_files_folders_container', 'webapp/views/files/view_files_folders.mustache')
 			WebApp.page.include_template_file('template-add-edit-file', File.dirname(__FILE__) + '/view_file_add_edit.mustache')

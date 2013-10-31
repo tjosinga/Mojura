@@ -31,6 +31,7 @@ module MojuraWebApp
 
 			self.include_script_link('ext/bootstrap/js/bootstrap.min.js')
 			self.include_style_link('ext/bootstrap/css/bootstrap.min.css')
+			self.include_style_link('ext/font-awesome/css/font-awesome.min.css')
 
 			self.include_script_link('ext/mustache/mustache.min.js')
 
