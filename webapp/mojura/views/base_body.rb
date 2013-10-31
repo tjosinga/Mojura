@@ -55,6 +55,10 @@ module MojuraWebApp
 			@content
 		end
 
+		def is_home
+			WebApp.page.is_home
+		end
+
 	end
 
 end

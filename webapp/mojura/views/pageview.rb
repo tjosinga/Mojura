@@ -7,7 +7,7 @@ module MojuraWebApp
 	class PageView < BaseView
 
 		attr_reader :request_uri, :request_params, :metatags, :links, :scripts, :script_links, :styles,
-		            :templates, :locales, :locale, :pageid
+		            :templates, :locales, :locale, :pageid, :is_home
 
 		def initialize(uri = '', params = {})
 			@request_uri = uri
@@ -60,6 +60,7 @@ module MojuraWebApp
 					pages = WebApp.api_call('pages', {path: @request_uri})
 					@pageid = pages.last[:id]
 					@data = WebApp.api_call("pages/#{@pageid}")
+					@is_home = (@pageid == Settings.get_s(:default_pageid))
 				rescue HTTPException => e
 					if File.exists?("webapp/views/#{@request_uri}/view_main.rb")
 						@data[:title] = Locale.str(@request_uri, :view_title)
@@ -204,10 +205,6 @@ module MojuraWebApp
 
 		def analyticsid
 			Settings.get_s(:analyticsid)
-		end
-
-		def is_home
-
 		end
 
 	end
