@@ -16,11 +16,6 @@ logs/*
 .idea
 .sass-cache
 
-webapp/views/*/*.min.js
-webapp/views/*/*.min.css
-webapp/mojura/js/*.min.js
-webapp/mojura/css/*.min.css
-
 # YARD artifacts
 .yardoc
 _yardoc
