@@ -25,7 +25,7 @@ gem 'sass'
 gem 'xml-simple'
 gem 'yui-compressor'
 gem 'zipruby'
-
+cd
 # Published gems created by Taco Jan Osinga
 gem 'kvparser'
 gem 'ubbparser'
