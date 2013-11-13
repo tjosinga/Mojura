@@ -47,8 +47,6 @@ iframe { border: 0; }
 
 .control-horizontal { display: inline-block; float: left; width: 45%; }
 
-.nav-bottom-space { margin-bottom: 15px; }
-
 .soft-hide { display: none; }
 
 .view-settings { padding-top: 20px; }
