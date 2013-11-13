@@ -1,51 +1,64 @@
-var Locale = (function($) {
+/* global KeyValueParser:false */
+/* global jQuery:false */
 
-	this.locale = "";
-	this.strings = {};
+var Locale = (function($) {
+	"use strict";
+
+	var locale = "";
+	var strings = {};
 
 	function init(lc) {
 		locale = lc;
 	}
 
 	function ensureLoaded(view, options) {
-		if ((strings === undefined) || (strings[view] === undefined))
+		if ((typeof strings === 'undefined') || (typeof strings[view] === 'undefined')) {
 			load(view, options);
-		else if ((options !== undefined) && (options.loaded !== undefined))
+		}
+		else if ((typeof options !== 'undefined') && (typeof options.loaded !== 'undefined')) {
 			options.loaded();
+		}
 	}
 
 	function load(view, options) {
-		if (locale == "") {
-			alert("You should initialize the locale object with Locale.init(\"en\"), where \"en\" is the used locale.");
+		if (locale === "") {
+			window.alert("You should initialize the locale object with Locale.init(\"en\"), where \"en\" is the used locale.");
 			return;
 		}
-		if (view === undefined)
+		if (view === undefined) {
 			throw "The view needs to be set calling Locale.load(view, [options = {}])";
-		url = "views/" + view + "/strings." + locale + ".kv";
+		}
+		var url = "views/" + view + "/strings." + locale + ".kv";
 		$.ajax({
 			url: url,
 			fail: function () {
-				console.log("Error fetching " + url);
-				if (options.error !== undefined) options.error();
+				window.console.log("Error fetching " + url);
+				if (typeof options.error !== 'undefined') {
+					options.error();
+				}
 			},
 			success: function (data) {
 				try {
- 					strings[view] = KeyValueParser.parse(data);
-					if ((options !== undefined) && (options.loaded !== undefined))
+					strings[view] = KeyValueParser.parse(data);
+					if ((typeof options !== 'undefined') && (typeof options.loaded !== 'undefined')) {
 						options.loaded();
+					}
 				}
 				catch (error) {
-					console.log("Error on parsing " + url + ": " + error.message);
+					window.console.log("Error on parsing " + url + ": " + error.message);
 					strings[view] = {};
-					if (options.error !== undefined) options.error();
+					if (typeof options.error !== 'undefined') {
+						options.error();
+					}
 				}
 			}
 		});
 	}
 
 	function add(view, id, str) {
-		if (strings[view] === undefined)
+		if (strings[view] === undefined){
 			strings[view] = {};
+		}
 		strings[view][id] = str;
 	}
 
@@ -55,14 +68,19 @@ var Locale = (function($) {
 	}
 
 	function rawStrings(views) {
-		console.log("--- in rawStrings --- ");
-		console.log(strings);
-		console.log("--- END in rawStrings --- ");
-		result = {};
-		for (i in views) {
-			view = views[i];
-			for (id in strings[view])
-				result["locale_str_" + view + "_" + id] = strings[view][id];
+		window.console.log("--- in rawStrings --- ");
+		window.console.log(strings);
+		window.console.log("--- END in rawStrings --- ");
+		var result = {};
+		for (var i in views) {
+			if (views.hasOwnProperty(i)) {
+				var view = views[i];
+				for (var id in strings[view]) {
+					if (strings[view].hasOwnProperty(id)) {
+						result["locale_str_" + view + "_" + id] = strings[view][id];
+					}
+				}
+			}
 		}
 		return result;
 	}
@@ -73,6 +91,6 @@ var Locale = (function($) {
 		add: add,
 		str: str,
 		rawStrings: rawStrings
-	}
+	};
 
 })(jQuery);

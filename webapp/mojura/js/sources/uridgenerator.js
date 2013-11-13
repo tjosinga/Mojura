@@ -5,14 +5,17 @@
 
 	Based on http://dbj.org/dbj/?p=76
 
- */
+*/
 
-var UIDGenerator = (function ($) {
+var UIDGenerator = (function () {
+
+	"use strict";
 
 	function get() {
-		return uid = setTimeout(function() { clearTimeout(uid) } );
+		var uid = setTimeout(function() { clearTimeout(uid); }, 0);
+		return uid;
 	}
 
-	return { get: get }
+	return { get: get };
 
-})(jQuery);
+})();

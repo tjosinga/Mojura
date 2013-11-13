@@ -1,19 +1,28 @@
+/* global jQuery:false */
+/* global CryptoJS:false */
+
 var LoginView = (function ($) {
+	"use strict";
+
 	function authenticate(username, password, setCookie, onsuccess, onerror) {
 		$.getJSON("__api__/salt", function (data) {
-			digest = CryptoJS.MD5(username + ":" + data.realm + ":" + password).toString();
-			iters = 500 + data.realm.length + username.length;
-			encrypted_digest = CryptoJS.PBKDF2(digest, data.salt, { keySize: 16, iterations: iters });
-			url = "__api__/authenticate?username=" + username + "&password=" + encrypted_digest;
-			if (setCookie) url += "&set_cookie=true";
+			var digest = CryptoJS.MD5(username + ":" + data.realm + ":" + password).toString();
+			var iters = 500 + data.realm.length + username.length;
+			var encrypted_digest = CryptoJS.PBKDF2(digest, data.salt, { keySize: 16, iterations: iters });
+			var url = "__api__/authenticate?username=" + username + "&password=" + encrypted_digest;
+			if (setCookie) {
+				url += "&set_cookie=true";
+			}
 			$.getJSON(url,function (data) {
-				if (onsuccess !== undefined)
+				if (onsuccess !== undefined) {
 					onsuccess();
+				}
 			}).error(function () {
-					if (onerror !== undefined)
+					if (onerror !== undefined) {
 						onerror();
+					}
 				});
-		})
+		});
 	}
 
 	function authenticateWithForm(form) {
@@ -26,9 +35,11 @@ var LoginView = (function ($) {
 			function () {
 				$(form).attr("onsubmit", "return false");
 				$("input[name=submit]", form).button("complete").addClass("btn-success disabled").attr("disabled", "disabled");
-				redirect = $("input[name=redirect]", form).val();
-				if (redirect === undefined) redirect = "/";
-				window.location.href = redirect
+				var redirect = $("input[name=redirect]", form).val();
+				if (typeof redirect === "undefined") {
+					redirect = "/";
+				}
+				window.location.href = redirect;
 			},
 			function () {
 				$("input[name=submit]", form).button("reset");
@@ -38,8 +49,10 @@ var LoginView = (function ($) {
 
 	function signOff(onsuccess) {
 		$.getJSON("__api__/signoff", function (data) {
-			if (onsuccess !== undefined) onsuccess();
-		})
+			if (onsuccess !== undefined) {
+				onsuccess();
+			}
+		});
 	}
 
 	function signOffWithForm(form) {
@@ -47,14 +60,16 @@ var LoginView = (function ($) {
 		LoginView.signOff(function () {
 			$(form).attr("onsubmit", "return false");
 			$("#submit", form).button("complete").addClass("btn-success disabled").attr("disabled", "disabled");
-			window.location.href = "/"
+			window.location.href = "/";
 		});
 	}
 
 
-	return {authenticate: authenticate,
+	return {
+		authenticate: authenticate,
 		authenticateWithForm: authenticateWithForm,
 		signOff: signOff,
-		signOffWithForm: signOffWithForm}
+		signOffWithForm: signOffWithForm
+	};
 
 })(jQuery);
