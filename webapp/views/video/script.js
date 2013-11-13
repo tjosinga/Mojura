@@ -1,13 +1,15 @@
-/* The video manager takes care of resizing all videos */
+/* This anonymous script takes care of resizing all videos */
+/* global jQuery:false */
 
-var VideoManager = (function ($) {
+(function ($) {
+	"use strict";
 
 	function init() {
 
 		$(window).resize(function () {
-			allVideos = $("iframe[src^='http://www.youtube.com'], iframe[src^='http://player.vimeo.com'], iframe[src='http://www.zideo.nl']");
+			var allVideos = $("iframe[src^='http://www.youtube.com'], iframe[src^='http://player.vimeo.com'], iframe[src='http://www.zideo.nl']");
 			allVideos.each(function () {
-				el = $(this);
+				var el = $(this);
 				el.height(el.width() * 0.6);
 			});
 		});

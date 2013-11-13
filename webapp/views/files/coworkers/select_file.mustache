@@ -127,11 +127,13 @@
 	//noinspection LocalVariableNamingConventionJS
 	var SelectFile = (function () {
 
-		this.currentFolderId = "root";
-		this.selectedFiles = [];
-		this.template = $("#file-popup-content-template").html();
-		this.multiSelect = true;
-		this.parentModalId = "";
+		"use strict";
+
+		var currentFolderId = "root";
+		var selectedFiles = [];
+		var template = $("#file-popup-content-template").html();
+		var multiSelect = true;
+		var parentModalId = "";
 
 		function show(options) {
 			if (!options) { //noinspection AssignmentToFunctionParameterJS
@@ -146,7 +148,7 @@
 			selectedFiles = [];
 			$("body").append($("#file-popup-template").html());
 
-			jModal = $("body > .file-popup-modal");
+			var jModal = $("body > .file-popup-modal");
 			jModal.attr("id", "file-popup")
 				.one("shown.bs.modal", function() {
 					$("#file-popup .btn-primary").click(function() {
@@ -179,10 +181,10 @@
 
 		function refresh() {
 			$("#filePopup .modal-body").html("<div class='loading'></div>");
-			id = currentFolderId;
-			selectedFiles = [];
+			var id = currentFolderId;
+			var selectedFiles = [];
 			if ((id == "") || (id === undefined)) id = "root";
-			url = "__api__/files/folder/" + id;
+			var url = "__api__/files/folder/" + id;
 			$.getJSON(url, function (data) {
 				data.may_maintain = (data.rights.allowed.update);
 				data.is_base_folder = (id == "root");
@@ -191,7 +193,7 @@
 				for (i = 0; i < data.files.length; i++)
 					data.files[i].is_image = (data.files[i].mime_type !== undefined) && (data.files[i].mime_type.slice(0, 5) == "image");
 
-				html = Mustache.to_html(template, data);
+				var html = Mustache.to_html(template, data);
 				$("#file-popup .modal-body").html(html);
 			});
 		}
@@ -202,7 +204,7 @@
 		}
 
 		function selectFile(id, elem) {
-			jElem = $(elem);
+			var jElem = $(elem);
 			if (jElem.hasClass("selected")) {
 				jElem.removeClass("selected");
 				selectedFiles.splice(selectedFiles.indexOf(id), 1);

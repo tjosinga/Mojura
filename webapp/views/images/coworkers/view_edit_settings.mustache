@@ -31,12 +31,12 @@
 
 
 <script type="text/javascript">
-    //noinspection LocalVariableNamingConventionJS
-    var ImageEditView;
-    ImageEditView = (function($) {
+	var ImageEditView = (function($) {
+
+		"use strict";
 
 		function setFileIdsToForm() {
-			fileids = [];
+			var fileids = [];
 			$(".image-thumb", "#modalEditView").each(function(index) {
 				fileids.push($(this).attr("data-fileid"));
 			});
@@ -49,11 +49,8 @@
 		}
 
 		function getFileIdsFromForm() {
-			ids_str = $("[name=setting_fileids]", "#modalEditView").val();
-			if (ids_str == "")
-				return [];
-			else
-				return ids_str.split(",");
+			var ids_str = $("[name=setting_fileids]", "#modalEditView").val();
+			return (ids_str !== "") ? ids_str.split(",") : [];
 		};
 
 		function fileIdToHTML(fileid) {
@@ -61,8 +58,8 @@
 		};
 
 		function showImages() {
-			ids = getFileIdsFromForm();
-			html = "";
+			var ids = getFileIdsFromForm();
+			var html = "";
 			for (i in ids) {
 				html += fileIdToHTML(ids[i]);
 			}
@@ -71,9 +68,9 @@
 
 		function addImage() {
 			Locale.ensureLoaded('files', {loaded: function () {
-				url = "views/files/coworkers/select_file.mustache?static_only=true";
+				var url = "views/files/coworkers/select_file.mustache?static_only=true";
 				$.get(url, {cache: false}, function (template) {
-					html = Mustache.to_html(template, Locale.rawStrings(["system", "files"]));
+					var html = Mustache.to_html(template, Locale.rawStrings(["system", "files"]));
 					$("#modalEditView .select_file_container").html(html);
 					SelectFile.show({multi: true, parentModalId: "modalEditView", filter: [".png", ".jpeg", ".jpg", "gif"],
 						confirmed: function (ids) {

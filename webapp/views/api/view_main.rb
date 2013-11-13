@@ -7,7 +7,7 @@ module MojuraWebApp
 		def initialize(options = {})
 			super
 			self.load_api_help
-			WebApp.page.include_script('APIGotoHash(location.hash);')
+			WebApp.page.include_script('APIView.gotoHash(location.hash);')
 		end
 
 		def load_api_help
