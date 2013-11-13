@@ -36,7 +36,7 @@ module MojuraWebApp
 			WebApp.page.include_template_file('template_settings_row', 'webapp/views/advancedsettings/view_row.mustache')
 		end
 
-		def render
+		def render(*args)
 			if WebApp.current_user.administrator?
 				return super
 			else
