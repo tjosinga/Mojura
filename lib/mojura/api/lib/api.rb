@@ -38,7 +38,8 @@ module MojuraAPI
 			@log.add(Log4r::Outputter.stdout)
 			@log.info('----- Loading the API -----')
 			MongoDb.connect(Settings.get_s(:database))
-			self.load_resources
+			self.load_resources("#{Mojura::PATH}/api/resources/")
+			self.load_resources('resources/') if (Dir.exist?('resources/'))
 			@log.info('----- The API is loaded -----')
 
 			@loaded = true
@@ -122,7 +123,7 @@ module MojuraAPI
 		end
 
 		def load_module(mod)
-			filename = (mod == :core) ? 'api/lib/sms.yml' : "api/resources/#{mod}/sms.yml"
+			filename = (mod == :core) ? 'api/lib/settings.yml' : "api/resources/#{mod}/settings.yml"
 			yaml = YAML.load_file(filename) rescue {}
 			yaml.symbolize_keys!
 			options = {ignore_if_exists: true, type: :file}
@@ -141,13 +142,18 @@ module MojuraAPI
 				@modules = []
 				API.log.info('Loading the API core')
 				mod_dependencies = {core: load_module(:core)}
-				Dir.foreach('api/resources/') { |name|
-					if (name[0] != '.') && (File.directory?('./api/resources/' + name))
-						mod = name.to_sym
-						API.log.info("Loading module #{mod}")
-						@modules.push(mod)
-						mod_dependencies[mod] = load_module(mod)
-					end
+				paths = ["#{Mojura::PATH}/api/resources/"]
+				paths.push('./resources/') if Dir.exist?('./resources/')
+
+				paths.each { | path |
+					Dir.foreach(path) { | name |
+						if (name[0] != '.') && (File.directory?("#{path}#{name}"))
+							mod = name.to_sym
+							API.log.info("Loading module #{mod}")
+							@modules.push(mod)
+							mod_dependencies[mod] = load_module(mod)
+						end
+					}
 				}
 				mod_dependencies.each { |mod, dependencies|
 					unless dependencies.empty?
@@ -169,11 +175,11 @@ module MojuraAPI
 		# Loads all the REST resources, which are stored in the modules folder.
 		# Each resource should be descendant of the RestResource object and deals with
 		# the GET, PUT, POST and DELETE requests for that specific resource.
-		def load_resources
+		def load_resources(path)
 			mods = modules
 			mods.each { | mod |
-				if File.exists?("api/resources/#{mod}/#{mod}.rest.rb")
-					require "api/resources/#{mod}/#{mod}.rest.rb"
+				if File.exists?("#{path}/#{mod}/#{mod}.rest.rb")
+					require "#{path}/#{mod}/#{mod}.rest.rb"
 				end
 			}
 		end
@@ -287,11 +293,13 @@ module MojuraAPI
 			if users.count == 0
 				user = User.new()
 				realm = Settings.get_s(:realm)
-				user.username = 'admin'
+				username = params[:username] || 'admin'
+				password = params[:password] || 'admin'
+				user.username = username
 				user.firstname = 'Administrator'
 				user.lastname = 'Administrator'
 				user.email = 'admin@127.0.0.1'
-				user.password = Digest::MD5.hexdigest("admin:#{realm}:admin").to_s
+				user.password = Digest::MD5.hexdigest("#{admin}{username}:#{realm}:#{admin}:#{password}").to_s
 				user.is_admin = true
 				user.state = :active
 				user.save_to_db

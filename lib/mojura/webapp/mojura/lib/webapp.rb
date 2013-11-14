@@ -40,13 +40,13 @@ module MojuraWebApp
 			@log = Log4r::Logger.new('WebApp')
 			@log.add(Log4r::Outputter.stdout)
 			@log.info('----- Loading the WebApp -----')
-			WebApp.load_views
+			self.load_views("#{Mojura::PATH}/webapp/views/")
+			self.load_views('./webapp/views/') if (Dir.exist?('./webapp/views/'))
 			ExternalLibraries.load
 			@log.info('----- The WebApp is loaded -----')
 		end
 
-		def load_views
-			path = 'webapp/views/'
+		def load_views(path)
 			Dir.foreach(path) { |name|
 				if (name != '.') && (name != '..') && (File.directory?(path + name))
 					WebApp.log.info("Loading view #{name}")
@@ -54,10 +54,6 @@ module MojuraWebApp
 					require filename if File.exists?(filename)
 				end
 			}
-		end
-
-		def load_cdns
-
 		end
 
 		# ------------------------------------------------ Thread Shortcuts ------------------------------------------------

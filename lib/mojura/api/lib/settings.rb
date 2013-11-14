@@ -13,7 +13,7 @@ module MojuraAPI
 		def load_file_settings
 			return if !@settings.nil? && @settings.include?(:file)
 			@settings ||= {}
-			@settings[:file] = YAML.load_file('project_settings.yaml')
+			@settings[:file] = YAML.load_file('./project_settings.yaml')
 			@settings[:file].symbolize_keys!
 			@settings[:file][:private] ||= {}
 			@settings[:file][:protected] ||= {}

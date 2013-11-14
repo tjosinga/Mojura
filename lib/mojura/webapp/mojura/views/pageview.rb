@@ -36,16 +36,15 @@ module MojuraWebApp
 			self.include_script_link('ext/mustache/mustache.min.js')
 
 			# Check for the generated Mojura JS file. Otherwise add each source
-			mojura_js = 'webapp/mojura/js/mojura.min.js'
+			mojura_js = "#{Mojura::PATH}/webapp/mojura/js/mojura.min.js"
 			if File.exist?(mojura_js)
 				self.include_script_link('mojura/js/mojura.min.js')
 			else
-				Dir.foreach('webapp/mojura/js/sources/') { |name|
+				Dir.foreach("#{Mojura::PATH}/webapp/mojura/js/sources/") { |name|
 					self.include_script_link("mojura/js/sources/#{name}") if name.end_with?('.js')
 				}
 			end
 			self.include_style_link('mojura/css/style.min.css')
-
 		end
 
 		def load
@@ -55,14 +54,16 @@ module MojuraWebApp
 			if !@pageid.nil?
 				@data = WebApp.api_call("pages/#{@pageid}")
 				@is_home = (@pageid == Settings.get_s(:default_pageid))
-			elsif @request_uri != ''
+			elsif !@request_uri.empty?
 				begin
 					pages = WebApp.api_call('pages', {path: @request_uri})
 					@pageid = pages.last[:id]
 					@data = WebApp.api_call("pages/#{@pageid}")
 					@is_home = (@pageid == Settings.get_s(:default_pageid))
 				rescue HTTPException => e
-					if File.exists?("webapp/views/#{@request_uri}/view_main.rb")
+					filename = "webapp/views/#{@request_uri}/view_main.rb"
+					filename = "#{Mojura::PATH}/#{filename}" unless File.exists?(filename)
+					if File.exists?(filename)
 						@data[:title] = Locale.str(@request_uri, :view_title)
 						@data[:view] = @request_uri
 					else
@@ -116,6 +117,7 @@ module MojuraWebApp
 
 			if filename.end_with?('.min.js') || filename.end_with?('.min.css')
 				return filename if File.exists?("webapp/#{filename}")
+				return filename if File.exists?("#{Mojura::PATH}/webapp/#{filename}")
 				normal_filename = filename.gsub(/\.min\.js$/, '.js').gsub(/\.min\.css$/, '.css')
 				return normal_filename if File.exists?("webapp/#{normal_filename}")
 			else
@@ -175,6 +177,7 @@ module MojuraWebApp
 		end
 
 		def include_template_file(id, filename)
+			filename = "#{Mojura::PATH}/#{filename}" unless File.exist?(filename)
 			self.include_template(id, File.read(filename))
 		end
 

@@ -1,6 +1,6 @@
 iframe { border: 0; }
 
-.loading { display: block; background: center center no-repeat url("../../mojura/images/loading.gif"); height: 50px; }
+.loading { display: block; background: center center no-repeat url("../images/loading.gif"); height: 50px; }
 
 .hover-glow:hover { background-color: #F6F6F6; }
 
