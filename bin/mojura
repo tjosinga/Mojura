@@ -1,0 +1,66 @@
+#!/usr/bin/env ruby
+$:.unshift(File.expand_path(File.dirname(__FILE__) + '/../lib/'))
+
+command = ARGV[0]
+
+def usage
+	print "\033[1mUsage: mojura new\033[0m\n"
+	print "\033[1mUsage: mojura run [api|webapp] [request]\033[0m\n\n"
+	print "Author: Taco Jan Osinga\n"
+	print "Date: 2013-11-14\n\n"
+	print "Use one of the following commands:\n"
+	print "  \033[1mnew\033[0m     Creates a new Mojura project in the current folder\n"
+	print "  \033[1mrun\033[0m     Runs Mojura outside a webinterface, ideal for quick testing. Use the following parameters:\n"
+	print "               \033[1mapi\033[0m       Runs the API\n";
+	print "               \033[1mwebapp\033[0m    Runs the Webapp\n";
+	print "          Use the request paramater to run Mojura with a specific request.\n"
+end
+
+def run
+	require 'mojura'
+	type = ARGV[1] || 'web'
+	request = ARGV[2] || ''
+
+	request, params = request.split('?', 2)
+	request ||= ''
+	params ||= ''
+	params = Rack::Utils.parse_query(params)
+	params.symbolize_keys!
+
+	STDOUT << "Request: #{request}\nParams: #{params.to_s}\n"
+
+	env = {'rack.session' => {}, 'rack.request.cookie_hash' => {}}
+	MojuraAPI::API.load
+	MojuraAPI::API.init_thread(env)
+
+	if type == 'api'
+		result = MojuraAPI::API.call(request, params, (params[:_method] || 'get'))
+	else
+		result = MojuraWebApp::WebApp.render(request, params)
+	end
+
+	STDOUT << "#{result}"
+	STDOUT << "\n"
+end
+
+def new
+	Dir.mkdir('tmp')
+	Dir.mkdir('api')
+	Dir.mkdir('api/resources')
+	Dir.mkdir('webapps')
+	Dir.mkdir('webapps/ext')
+	Dir.mkdir('webapps/views')
+
+	files = ['config.ru', 'project_settings.yaml']
+	dir = File.expand_path File.dirname(__FILE__) + '/../lib/defaults'
+	files.each { | file |
+		STDOUT << "#{dir}/#{file}"
+		FileUtils.cp("#{dir}/#{file}", "./#{file}")
+	}
+end
+
+case command
+	when 'new' then new
+	when 'run' then run
+	else usage
+end

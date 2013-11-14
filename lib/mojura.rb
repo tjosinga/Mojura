@@ -3,10 +3,29 @@
 #
 # This file contains the App classes which is the base class for Mojura.
 
+$:.unshift(File.expand_path(File.dirname(__FILE__) + '/mojura/'))
+
+require 'rack'
+require 'json'
+
 require 'api/lib/api'
 require 'webapp/mojura/lib/webapp'
 
+require 'middleware/staticfiles'
+require 'middleware/gatekeeper'
+require 'middleware/methodoverride'
+require 'middleware/cookietokens'
+require 'middleware/formatter'
+require 'middleware/sendfiles'
+
+# Forcing UTF-8 encoding
+Encoding.default_external = Encoding::UTF_8
+Encoding.default_internal = Encoding::UTF_8
+
+
 module Mojura
+
+	PATH = File.dirname(__FILE__) + '/mojura/'
 
 	class App
 
