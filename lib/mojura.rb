@@ -24,8 +24,7 @@ Encoding.default_internal = Encoding::UTF_8
 
 
 module Mojura
-
-	PATH = File.dirname(__FILE__) + '/mojura/'
+	extend self
 
 	class App
 
@@ -57,6 +56,20 @@ module Mojura
 			end
 		end
 
+	end
+
+	PATH = File.dirname(__FILE__) + '/mojura/'
+
+	# Checks wether the given filename is available in the project or the gem and returns the correct filename.
+	# Returns nil if the file does not exists.
+	def filename(filename)
+		if File.exist?(filename)
+			return filename
+		elsif File.exists?("#{PATH}/#{filename}")
+			return "#{PATH}/#{filename}"
+		else
+			return nil
+		end
 	end
 
 end

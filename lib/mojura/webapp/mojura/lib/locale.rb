@@ -24,7 +24,8 @@ module MojuraWebApp
 						               "webapp/views/#{view}/strings.#{locale}.kv"
 				               end
 				@strings[locale] ||= {}
-				if File.exists?(strings_file)
+				strings_file = Mojura.filename(strings_file)
+				unless strings_file.nil?
 					@strings[locale][view] = KeyValueParser.parse(File.read(strings_file))
 					@strings[locale][view].symbolize_keys!
 				end

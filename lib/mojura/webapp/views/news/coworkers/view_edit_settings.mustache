@@ -1,5 +1,5 @@
 <label>{{locale_str_news_type}}
-	<select name="setting_type">
+	<select name="setting_type" onchange="NewsSettingsCoworker.onChangeType(this.value)">
 		<option value="overview">{{locale_str_news_type_overview}}</option>
 		<option value="list">{{locale_str_news_type_list}}</option>
 		<option value="article">{{locale_str_news_type_article}}</option>
@@ -13,4 +13,26 @@
 
 <script type="text/javascript">
 	$("option[value={{type}}]", "#modalEditView").prop("selected", "selected");
+</script>
+
+<script type="text/javascript">
+
+	var NewsSettingsCoworker = (function($) {
+		"use strict";
+
+		function setType(value) {
+
+		}
+
+		function onChangeType (value) {
+			alert("test");
+		}
+
+		return {
+			setType: setType,
+			onChangeType: onChangeType
+		};
+
+	})(jQuery);
+
 </script>

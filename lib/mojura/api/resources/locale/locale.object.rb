@@ -18,8 +18,8 @@ module MojuraAPI
 			if !@strings.include?(locale)
 				@strings[locale] = {}
 				API.modules.each { |mod_name|
-					filename = "api/resources/#{mod_name}/strings.#{locale}.kv"
-					@strings[locale][mod_name] = KeyValueParser.parse(File.binread(filename)) if File.exists?(filename)
+					filename = Mojura.filename("api/resources/#{mod_name}/strings.#{locale}.kv")
+					@strings[locale][mod_name] = KeyValueParser.parse(File.binread(filename)) unless filename.nil?
 				}
 			end
 		end
