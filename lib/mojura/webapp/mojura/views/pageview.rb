@@ -61,9 +61,8 @@ module MojuraWebApp
 					@data = WebApp.api_call("pages/#{@pageid}")
 					@is_home = (@pageid == Settings.get_s(:default_pageid))
 				rescue HTTPException => e
-					filename = "webapp/views/#{@request_uri}/view_main.rb"
-					filename = "#{Mojura::PATH}/#{filename}" unless File.exists?(filename)
-					if File.exists?(filename)
+					filename = Mojura.filename("webapp/views/#{@request_uri}/view_main.rb")
+					unless filename.nil?
 						@data[:title] = Locale.str(@request_uri, :view_title)
 						@data[:view] = @request_uri
 					else
@@ -116,13 +115,12 @@ module MojuraWebApp
 			end
 
 			if filename.end_with?('.min.js') || filename.end_with?('.min.css')
-				return filename if File.exists?("webapp/#{filename}")
-				return filename if File.exists?("#{Mojura::PATH}/webapp/#{filename}")
+				return filename unless Mojura.filename("webapp/#{filename}").nil?
 				normal_filename = filename.gsub(/\.min\.js$/, '.js').gsub(/\.min\.css$/, '.css')
-				return normal_filename if File.exists?("webapp/#{normal_filename}")
+				return normal_filename unless Mojura.filename("webapp/#{normal_filename}").nil?
 			else
 				minified_filename = filename.gsub(/\.js$/, '.min.js').gsub(/\.css$/, '.min.css')
-				return minified_filename if File.exists?("webapp/#{minified_filename}")
+				return minified_filename unless Mojura.filename("webapp/#{minified_filename}").nil?
 			end
 			return filename
 		end

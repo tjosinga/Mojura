@@ -53,15 +53,15 @@ module MojuraWebApp
 			return nil if (@view.nil?) || (@view.empty?)
 
 			path = "webapp/views/#{@view}/"
-			if File.exists?("#{path}/style.min.css")
+			if !Mojura.filename("#{path}/style.min.css").nil?
 				WebApp.page.include_style_link("views/#{@view}/style.min.css")
-			elsif File.exists?("#{path}/style.css")
+			elsif !Mojura.filename("#{path}/style.css").nil?
 				WebApp.page.include_style_link("views/#{@view}/style.css")
 			end
 
-			if File.exists?("#{path}/script.min.js")
+			if !Mojura.filename("#{path}/script.min.js").nil?
 				WebApp.page.include_script_link("views/#{@view}/script.min.js")
-			elsif File.exists?("#{path}/script.js")
+			elsif !Mojura.filename("#{path}/script.js").nil?
 				WebApp.page.include_script_link("views/#{@view}/script.js")
 			end
 

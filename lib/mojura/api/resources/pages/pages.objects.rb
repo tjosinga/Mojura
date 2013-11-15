@@ -210,7 +210,7 @@ module MojuraAPI
 		def load_templates
 			return unless @templates.nil?
 			@templates = {}
-			path = 'api/resources/pages/templates/'
+			path = Mojura.filename('api/resources/pages/templates/')
 			Dir.foreach(path) { |col_count|
 				if (col_count != '.') && (col_count != '..') && (File.directory?(path + col_count))
 					Dir.foreach("#{path}#{col_count}/") { |name|

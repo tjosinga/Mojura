@@ -13,7 +13,7 @@ module Mojura
 		def call(env)
 			status, headers, body = @app.call(env)
 			return [status, headers, body] unless headers.include?('X-Accel-Redirect')
-			filename = body[0][:to_path]
+			filename = Mojura.filename(body[0][:to_path])
 			return [202, {}, {}] unless File.exists?(filename)
 			return [status, headers, [File.binread(filename)]]
 		end
