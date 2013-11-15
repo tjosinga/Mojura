@@ -1,0 +1,47 @@
+# This project settings file works on three levels:
+# - Private:    Can only be declared in this file and can not be changed in the application.
+# - Protected:  These settings can only be read and maintained by administrators.
+# - Public:     These settings can be read by anyone and maintained by administrators.
+#
+# Each setting has the following fields:
+# - Category:   A string containing the name of the corresponding resource, object or view. If none is given, it uses "system".
+# - Key:        A string with the name [a-zA-Z0-9_]+ of the setting
+# - Value:      A mixed value, containing default datatypes, like strings, numbers, boolean and arrays.
+#
+# Declaring protected and public settings in this file overrides those defaults.
+# Protected and public settings can be overriden by the administrator using the Settings resource of the API.
+
+
+# Setting private keys
+private:
+
+  # Setting core keys
+  core:
+
+    # Specify a realm of this project. It's used for authentication.
+    # The realm is used in the digest of the stored passwords of users.
+    # Therefor changing the realm will make all accounts inaccessible.
+    # Users must use the function to request a new password.
+    realm :                     mojuradev
+
+
+    # Mojura API uses a MongoDb. The following database is used:
+    database :                  osisoft_mojuradev
+
+#setting default public settings
+public:
+
+  core:
+
+    # Set to false if you prefer to use local versions of jQuery, CryptoJS, etc.,
+    # otherwise it use the corresponding libraries at Google Fastpage, CloudFlare or
+    # other CDNs.
+    use_external_hosted_files:    false
+
+    # Set to true if the website is currently in development.
+    # It will generate more usefull information.
+    developing:                   true
+
+    # The default locale
+    locale:                       nl
+
