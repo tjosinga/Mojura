@@ -12,10 +12,11 @@ module Mojura
 		end
 
 		def call(env)
-			filename = Mojura.filename('webapp/' + env['REQUEST_PATH'].to_s).to_s
+			filename = Mojura.filename('webapp/' + env['PATH_INFO'].to_s).to_s
 			if File.file?(filename) && (File.extname(filename) != '.rb')
 				headers = {'Content-Type' => Rack::Mime.mime_type(File.extname(filename))}
-				return [200, headers, [File.binread(filename)]]
+				headers['X-Accel-Redirect'] = filename
+				return [200, headers, [{'to_path' => filename}]]
 			end
 			@app.call(env)
 		end

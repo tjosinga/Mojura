@@ -1,5 +1,4 @@
 require 'webapp/mojura/lib/settings'
-require 'SecureRandom'
 
 module MojuraWebApp
 
