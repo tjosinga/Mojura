@@ -77,8 +77,12 @@ module MojuraAPI
 				users_right = (orig_right << 4)
 				group_right = (orig_right << 8)
 				owner_right = (orig_right << 12)
+				self.userids = [] unless self.userids.is_a?(Array)
+				self.groupids = [] unless self.groupids.is_a?(Array)
+				object_userids = [] unless object_userids.is_a?(Array)
+				object_groupids = [] unless object_groupids.is_a?(Array)
 				result = ((object_right & users_right) == users_right) unless result
-				result = (((self.userids & object_userids).length > 0) && ((object_right & owner_right) == owner_right)) unless result
+				result = (((self.userids.to_a & object_userids).length > 0) && ((object_right & owner_right) == owner_right)) unless result
 				result = (((self.groupids & object_groupids).length > 0) && ((object_right & group_right) == group_right)) unless result
 			end
 			return result
@@ -130,9 +134,13 @@ module MojuraAPI
 			return new_token
 		end
 
+		def fullname
+			(firstname.to_s + ' ' + infix.to_s).strip + ' ' + lastname.to_s
+		end
+
 		def to_a(compact = false)
 			result = super
-			result[:fullname] = (result[:firstname].to_s + ' ' + result[:infix].to_s).strip + ' ' + result[:lastname].to_s
+			result[:fullname] = fullname
 			if !self.id.nil?
 				#TODO: create avatar support. If ready implement:
 				#if (has_avatar)
