@@ -1,0 +1,13 @@
+{{#items}}
+	{{> message}}
+{{/items}}
+
+{{#has_more}}
+	<div class="posts_load_more btn btn-default btn-block" onclick="PostsView.load('{{viewid}}', {{next_page}})">
+		{{locale_str_posts_load_more}}
+	</div>
+{{/has_more}}
+
+<script type="text/javascript">
+	$(".posts_add_reply_form").ajaxForm();
+</script>
