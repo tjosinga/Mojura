@@ -1,38 +1,62 @@
-<label>{{locale_str_news_type}}
-	<select name="setting_type" onchange="NewsSettingsCoworker.onChangeType(this.value)">
-		<option value="overview">{{locale_str_news_type_overview}}</option>
-		<option value="list">{{locale_str_news_type_list}}</option>
-		<option value="article">{{locale_str_news_type_article}}</option>
-	</select>
-</label>
-
-<label class="checkbox">
-	<input type="checkbox" name="setting_inline" value="true" {{#inline}}checked="checked"{{/inline}} />
-	{{locale_str_news_inline}}
-</label>
-
-<script type="text/javascript">
-	$("option[value={{type}}]", "#modalEditView").prop("selected", "selected");
-</script>
-
 <script type="text/javascript">
 
-	var NewsSettingsCoworker = (function($) {
+	NewsSettingsCoworker = (function($) {
 		"use strict";
 
 		function setType(value) {
-
+			$("option[value=" + value + "]", "#modalEditView").prop("selected", "selected");
+			onChangeType(value);
 		}
 
 		function onChangeType (value) {
-			alert("test");
+			$("#{{urid}}_readmore").parent().toggle(value !== "list")
+			$("#{{urid}}_article_type").parent().toggle(value === "article")
+		}
+
+		function onArticleTypeChange(value) {
 		}
 
 		return {
 			setType: setType,
-			onChangeType: onChangeType
+			onChangeType: onChangeType,
+			onArticleTypeChange: onArticleTypeChange
 		};
 
 	})(jQuery);
+</script>
 
+<div class="form-group">
+	<label for="{{urid}}_type">{{locale_str_news_type}}</label>
+	<select id="{{urid}}_type" class="form-control" name="setting_type" onchange="NewsSettingsCoworker.onChangeType(this.value)">
+		<option value="overview">{{locale_str_news_type_overview}}</option>
+		<option value="list">{{locale_str_news_type_list}}</option>
+		<option value="article">{{locale_str_news_type_article}}</option>
+	</select>
+</div>
+
+<div class="form-group">
+	<label for="{{urid}}_article_type">{{locale_str_news_article_type}}</label>
+	<select id="{{urid}}_article_type" class="form-control" name="setting_article_type" onchange="NewsSettingsCoworker.onArticleTypeChange(this.value)">
+		<option value="0">{{locale_str_news_article_type_0}}</option>
+		<option value="1">{{locale_str_news_article_type_1}}</option>
+		<option value="2">{{locale_str_news_article_type_2}}</option>
+		<option value="3">{{locale_str_news_article_type_3}}</option>
+		<option value="4">{{locale_str_news_article_type_4}}</option>
+		<option value="5">{{locale_str_news_article_type_5}}</option>
+	</select>
+</div>
+
+
+<div class="form-group">
+	<label for="{{urid}}_readmore">{{locale_str_news_readmore}}</label>
+	<select id="{{urid}}_readmore" class="form-control" name="setting_readmore" onchange="NewsSettingsCoworker.onReadmoreChange(this.value)">
+		<option value="disabled">{{locale_str_news_readmore_disabled}}</option>
+		<option value="inline">{{locale_str_news_readmore_inline}}</option>
+		<option value="new_page">{{locale_str_news_readmore_new_page}}</option>
+	</select>
+</div>
+
+
+<script type="text/javascript">
+	NewsSettingsCoworker.setType("{{type}}");
 </script>
