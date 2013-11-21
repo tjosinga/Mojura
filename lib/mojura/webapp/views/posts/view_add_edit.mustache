@@ -1,0 +1,17 @@
+{{^id}}
+	<form class="posts_add_post_form" action="__api__/posts" method="post">
+{{/id}}
+{{^id}}
+	<form class="posts_add_reply_form" action="__api__/post/{{id}}/replies" method="post">
+{{/id}}
+
+	<input type="hidden" name="_method" value="{{method}}" />
+
+	<div class="form-group">
+		<label>{{locale_str_posts_message}}</label>
+
+		<textarea class="form-control" name='description'>{{description.raw}}</textarea>
+	</div>
+
+	<div class="btn btn-primary" onclick="PostsView.post($('textarea', $(this).parent()).val(), true{{#id}}, '{{id}}'{{/id}})">Post</div>
+</form>
