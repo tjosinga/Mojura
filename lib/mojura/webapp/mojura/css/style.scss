@@ -1,3 +1,7 @@
+body {
+	padding-bottom: 20px;
+}
+
 iframe {
   border: 0;
 }
@@ -51,6 +55,19 @@ iframe {
 
 .row-offset10 {
   margin-top: 100px
+}
+
+.row-offset1:first-child,
+.row-offset2:first-child,
+.row-offset3:first-child,
+.row-offset4:first-child,
+.row-offset5:first-child,
+.row-offset6:first-child,
+.row-offset7:first-child,
+.row-offset8:first-child,
+.row-offset9:first-child,
+.row-offset10:first-child {
+	margin-top: 0px;
 }
 
 .view {
@@ -130,10 +147,6 @@ iframe {
   display: inline-block;
   float: left;
   width: 45%;
-}
-
-.soft-hide {
-  display: none;
 }
 
 .view-settings {
