@@ -51,9 +51,9 @@ def new
 	Dir.mkdir('tmp')
 	Dir.mkdir('api')
 	Dir.mkdir('api/resources')
-	Dir.mkdir('webapps')
-	Dir.mkdir('webapps/ext')
-	Dir.mkdir('webapps/views')
+	Dir.mkdir('webapp')
+	Dir.mkdir('webapp/ext')
+	Dir.mkdir('webapp/views')
 
 	files = ['config.ru', 'project_settings.yaml']
 	dir = File.expand_path File.dirname(__FILE__) + '/../lib/defaults'

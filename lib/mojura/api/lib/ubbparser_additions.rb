@@ -1,5 +1,4 @@
 require 'ubbparser'
-require 'securerandom'
 
 def ubbparser_convert_file_url(url)
 	STDOUT << "Converting #{url}\n"

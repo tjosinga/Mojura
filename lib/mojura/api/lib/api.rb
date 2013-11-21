@@ -7,7 +7,6 @@ require 'pbkdf2'
 require 'digest/md5'
 require 'yaml'
 require 'log4r'
-require 'securerandom'
 require 'api/lib/mongodb'
 require 'api/lib/exceptions'
 require 'api/lib/ubbparser_additions'
@@ -77,6 +76,7 @@ module MojuraAPI
 		end
 
 		# Returns the current user.
+		# @return [User]
 		def current_user
 			Thread.current[:mojura][:current_user]
 		end
