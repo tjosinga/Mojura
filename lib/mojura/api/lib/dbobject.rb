@@ -129,7 +129,7 @@ module MojuraAPI
 					end
 					if options[:type] == RichText
 						markup = @fields[(field.to_s + '_markup').to_sym][:value] rescue ''
-						value = RichText.new(value, markup).to_parsed_a
+						value = RichText.new(value, markup).to_parsed_a(compact)
 					elsif options[:type] == BSON::ObjectId
 						value = value.to_s if !value.nil?
 					end

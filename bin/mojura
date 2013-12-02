@@ -31,7 +31,7 @@ def run
 	params = Rack::Utils.parse_query(params)
 	params.symbolize_keys!
 
-	STDOUT << "Request: #{request}\nParams: #{params.to_s}\n"
+	STDOUT << "Request: #{request}\nParams: #{params. to_s}\n"
 
 	env = {'rack.session' => {}, 'rack.request.cookie_hash' => {}}
 	MojuraAPI::API.load
