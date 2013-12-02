@@ -38,14 +38,16 @@ module MojuraAPI
 			result = {}
 			if compact
 				str, idle = self.to_s.split('[readmore]', 2)
+				str = str.to_s.rstrip
+				idle = idle.to_s.lstrip
 			else
 				str = self.to_s
-				idle = nil
+				idle = ''
 			end
 			result[:raw] = str.to_s
-			result[:readmore] = (!idle.nil?)
 			result[:markup] = @markup
 			result[:html] = RichText.new(result[:raw]).to_html
+ 			result[:readmore] = !idle.empty?
 			return result
 		end
 

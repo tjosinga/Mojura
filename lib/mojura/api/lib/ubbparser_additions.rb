@@ -78,7 +78,7 @@ module UBBParser
 
 	# :category: Render methods
 	def self.render_readmore(inner_text, attributes = {}, parse_options = {})
-		"<span class='readmore'>#{self.parse(inner_text, parse_options)}</span>"
+		"<span class='readmore'>#{self.parse(inner_text.lstrip, parse_options)}</span>"
 	end
 
 	# Renders the inner_text in a <div> block with inline CSS styles, i.e.:
