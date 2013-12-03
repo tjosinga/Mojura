@@ -1,0 +1,19 @@
+				<form action="__api__/news/{{id}}" method="post">
+					<input type="hidden" name="_method" value="{{method}}" />
+					<input type="hidden" name="newsid" value="{{newsid}}" />
+
+					<div class="form-group">
+						<label for="{{uid}}_category">{{locale_str_system_category}}</label>
+						<input id="{{uid}}_category" class="form-control" type="text" name="category" />
+					</div>
+
+					<div class="form-group">
+						<label for="{{uid}}_title">{{locale_str_system_title}}</label>
+						<input id="{{uid}}_title" class="form-control" type="text" name="title" value="{{title}}" />
+					</div>
+
+					<div class="form-group">
+						<label for="{{uid}}_content">{{locale_str_system_content}}</label>
+						<textarea id="{{uid}}_content" class="form-control" name='content'>{{content.raw}}</textarea>
+					</div>
+				</form>

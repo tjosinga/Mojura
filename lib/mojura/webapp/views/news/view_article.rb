@@ -24,3 +24,4 @@ module MojuraWebApp
 	end
 
 end
+
