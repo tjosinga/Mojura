@@ -38,9 +38,8 @@ module MojuraAPI
 			@log.info('----- Loading the API -----')
 			MongoDb.connect(Settings.get_s(:database))
 			self.load_resources("#{Mojura::PATH}/api/resources/")
-			self.load_resources('resources/') if (Dir.exist?('resources/'))
+			self.load_resources('api/resources/') if (Dir.exist?('api/resources/'))
 			@log.info('----- The API is loaded -----')
-
 			@loaded = true
 		end
 
@@ -143,7 +142,7 @@ module MojuraAPI
 				API.log.info('Loading the API core')
 				mod_dependencies = {core: load_module(:core)}
 				paths = ["#{Mojura::PATH}/api/resources/"]
-				paths.push('./resources/') if Dir.exist?('./resources/')
+				paths.push('./api/resources/') if Dir.exist?('./api/resources/')
 
 				paths.each { | path |
 					Dir.foreach(path) { | name |

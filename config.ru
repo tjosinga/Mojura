@@ -3,8 +3,8 @@ $:.unshift(File.expand_path(File.dirname(__FILE__)))
 require 'lib/mojura'
 
 # Uncomment if your webserver doesn't support X-Sendfile (also see http://wiki.nginx.org/XSendfile)
-use Mojura::SendFiles
 use Mojura::StaticFiles
+use Mojura::SendFiles
 
 use Rack::Lint
 use Rack::ContentLength
