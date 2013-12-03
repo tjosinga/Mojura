@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 
+require 'fileutils'
 require 'json'
 
 $:.unshift(File.expand_path(File.dirname(__FILE__) + '/../lib/'))
@@ -48,19 +49,24 @@ def run
 end
 
 def new
-	Dir.mkdir('tmp')
-	Dir.mkdir('api')
-	Dir.mkdir('api/resources')
-	Dir.mkdir('webapp')
-	Dir.mkdir('webapp/ext')
-	Dir.mkdir('webapp/views')
+	realm = ARGV[1] || File.basename(Dir.getwd)
+	database = ARGV[2] || realm
 
-	files = ['config.ru', 'project_settings.yaml']
-	dir = File.expand_path File.dirname(__FILE__) + '/../lib/defaults'
-	files.each { | file |
-		STDOUT << "#{dir}/#{file}"
-		FileUtils.cp("#{dir}/#{file}", "./#{file}")
+	folders = %w(api api/resources webapp webapp/ext web/views uploads)
+	folders.each { | folder |
+		STDOUT << "Created folder #{folder}\n"
+		#Dir.mkdir(folder)
 	}
+
+	defaults_dir = File.expand_path(File.dirname(__FILE__) + '/../lib/defaults')
+	STDOUT << "Copied config.ru\n"
+	#FileUtils.cp("#{defaults_dir}/config.ru", './config.ru')
+
+	project_settings = File.read("#{defaults_dir}/project_settings.yaml")
+	project_settings.gsub!(/___REALM___/, realm)
+	project_settings.gsub!(/___DATABASE___/, database)
+	STDOUT << "Generating project_settings.yaml with realm #{realm} and database #{database}.\n"
+	#File.open('./project_settings.yaml', 'w') { | file | file.write(project_settings) }
 end
 
 case command
