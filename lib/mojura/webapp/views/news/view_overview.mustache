@@ -1,0 +1,12 @@
+{{#items}}
+	<div class="row-offset3 clearfix">
+		<article>
+
+			<h3>{{title}}</h3>
+			{{{content.html}}}
+			{{#content.readmore}}
+				<a class='readmore' href="{{article_url}}?newsid={{id}}">{{locale_str_system_readmore}}</a>
+			{{/content.readmore}}
+		</article>
+	</div>
+{{/items}}
