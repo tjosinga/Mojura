@@ -1,0 +1,45 @@
+#!/usr/bin/env ruby
+
+## Deletes all minified files if an original file exists
+
+require 'json'
+
+$:.unshift(File.expand_path(File.dirname(__FILE__) + '/../lib/mojura/'))
+Dir.chdir(File.expand_path(File.dirname(__FILE__) + '/../lib/mojura/'))
+
+@js_files = []
+@css_files = []
+
+def find_files(path)
+	Dir.foreach("#{path}") { |name|
+		@js_files.push("#{path}/#{name}") if (name.end_with?('.min.js'))
+		@css_files.push("#{path}/#{name}") if (name.end_with?('.min.css'))
+		find_files("#{path}/#{name}") if ((File.directory?("#{path}/#{name}")) &&
+			(name != '.') && (name != '..') &&
+			(!File.symlink?("#{path}/#{name}")) &&
+			("#{path}/#{name}" != 'webapp/mojura/js/sources'))
+	}
+end
+
+find_files('webapp')
+
+@js_files.each { | minified |
+	original = minified.gsub(/\.min\.js$/, '.js')
+	if File.exist?(original)
+		File.delete(minified)
+		STDOUT << "Deleted JS: #{minified}\n"
+	end
+}
+
+@css_files.each { |minified|
+	css_original = minified.gsub(/\.min\.css$/, '.css')
+	scss_original = minified.gsub(/\.min\.css$/, '.scss')
+	if File.exist?(css_original) || File.exists?(scss_original)
+		File.delete(minified)
+		STDOUT << "Deleted CSS: #{minified}\n"
+	end
+}
+
+## Delete combined files
+File.delete('webapp/mojura/js/mojura.min.js') rescue ''
+File.delete('webapp/mojura/js/mojura.min.css') rescue ''
