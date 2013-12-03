@@ -1,0 +1,76 @@
+#!/usr/bin/env ruby
+
+require 'fileutils'
+require 'json'
+
+$:.unshift(File.expand_path(File.dirname(__FILE__) + '/../lib/'))
+$:.unshift(File.expand_path(File.dirname(__FILE__) + '/../lib/'))
+
+command = ARGV[0]
+
+def usage
+	print "\033[1mUsage: mojura new\033[0m\n"
+	print "\033[1mUsage: mojura run [api|webapp] [request]\033[0m\n\n"
+	print "Author: Taco Jan Osinga\n"
+	print "Date: 2013-11-14\n\n"
+	print "Use one of the following commands:\n"
+	print "  \033[1mnew\033[0m     Creates a new Mojura project in the current folder\n"
+	print "  \033[1mrun\033[0m     Runs Mojura outside a webinterface, ideal for quick testing. Use the following parameters:\n"
+	print "               \033[1mapi\033[0m       Runs the API\n";
+	print "               \033[1mwebapp\033[0m    Runs the Webapp\n";
+	print "          Use the request paramater to run Mojura with a specific request.\n"
+end
+
+def run
+	require 'mojura'
+	type = ARGV[1] || 'web'
+	request = ARGV[2] || ''
+
+	request, params = request.split('?', 2)
+	request ||= ''
+	params ||= ''
+	params = Rack::Utils.parse_query(params)
+	params.symbolize_keys!
+
+	STDOUT << "Request: #{request}\nParams: #{params. to_s}\n"
+
+	env = {'rack.session' => {}, 'rack.request.cookie_hash' => {}}
+	MojuraAPI::API.load
+	MojuraAPI::API.init_thread(env)
+
+	if type == 'api'
+		result = JSON.pretty_generate(MojuraAPI::API.call(request, params, (params[:_method] || 'get')))
+	else
+		result = MojuraWebApp::WebApp.render(request, params)
+	end
+
+	STDOUT << "#{result}"
+	STDOUT << "\n"
+end
+
+def new
+	realm = ARGV[1] || File.basename(Dir.getwd)
+	database = ARGV[2] || realm
+
+	folders = %w(api api/resources webapp webapp/ext web/views uploads)
+	folders.each { | folder |
+		STDOUT << "Created folder #{folder}\n"
+		#Dir.mkdir(folder)
+	}
+
+	defaults_dir = File.expand_path(File.dirname(__FILE__) + '/../lib/defaults')
+	STDOUT << "Copied config.ru\n"
+	#FileUtils.cp("#{defaults_dir}/config.ru", './config.ru')
+
+	project_settings = File.read("#{defaults_dir}/project_settings.yaml")
+	project_settings.gsub!(/___REALM___/, realm)
+	project_settings.gsub!(/___DATABASE___/, database)
+	STDOUT << "Generating project_settings.yaml with realm #{realm} and database #{database}.\n"
+	#File.open('./project_settings.yaml', 'w') { | file | file.write(project_settings) }
+end
+
+case command
+	when 'new' then new
+	when 'run' then run
+	else usage
+end

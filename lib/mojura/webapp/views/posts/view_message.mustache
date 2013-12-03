@@ -1,0 +1,37 @@
+<ul class="media-list row-offset2">
+	<li class="media">
+		<a class="pull-left hidden-xs" href="#">
+			<img class="media-object" src="{{author.avatar}}" alt="">
+		</a>
+		<div class="media-body">
+			<h4 class="media-heading">{{author.fullname}} <small>{{pretty_timestamp}}</small></h4>
+			{{{message.html}}}
+
+			<div class="clearfix row-offset1"></div>
+			<div class="text-muted"><small class="likes_{{id}}">{{{likes_str}}}</small></div>
+
+			<div class="clearfix row-offset1"></div>
+			<div class="like_btn_{{id}} btn btn-default btn-xs {{#you_like_this}}hidden{{/you_like_this}}" onclick="PostsView.like({{#postid}}'{{postid}}', {{/postid}}'{{id}}')">
+				<i class="fa fa-thumbs-o-up"></i> {{locale_str_posts_like}}
+			</div>
+			<div class="unlike_btn_{{id}} btn btn-default btn-xs {{^you_like_this}}hidden{{/you_like_this}}" onclick="PostsView.unlike({{#postid}}'{{postid}}', {{/postid}}'{{id}}')">
+				<i class="fa fa-thumbs-o-down"></i> {{locale_str_posts_unlike}}
+			</div>
+			{{#is_post}}
+				<div class="reply_{{id}} btn btn-default btn-xs" onclick="$('.replies', $(this).parent()).removeClass('hidden')">
+					reply
+				</div>
+
+				<div class="replies well row-offset2 {{^has_replies}}hidden{{/has_replies}}">
+					{{#replies}}
+						{{> message}}
+					{{/replies}}
+
+					<div class="clearfix row-offset4">
+						{{> addform}}
+					</div>
+				</div>
+			{{/is_post}}
+		</div>
+	</li>
+</ul>
