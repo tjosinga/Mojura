@@ -83,8 +83,9 @@ module MojuraWebApp
 						@pageid = nil
 					end
 				end
-				@data = (@pageid.nil?) ? nil : WebApp.api_call("pages/#{@pageid}")
+				@data = (@pageid.empty?) ? nil : WebApp.api_call("pages/#{@pageid}")
 			end
+			@data = {view: 'setup', title: Locale.str('system', 'view_title')} if @data.nil? && WebApp.has_view('setup')
 			@data = {view: 'sitemap', title: Locale.str('system', 'no_default_page')} if @data.nil?
 			@data.symbolize_keys!
 		end

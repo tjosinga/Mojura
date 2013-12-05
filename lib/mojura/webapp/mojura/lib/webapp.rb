@@ -126,6 +126,10 @@ module MojuraWebApp
 			@view_classes[view_id][:class] rescue nil
 		end
 
+		def has_view(view_id)
+			@view_classes.include?(view_id)
+		end
+
 		def render_view(options = {})
       begin
 				return ViewWrapper.new(options).render
