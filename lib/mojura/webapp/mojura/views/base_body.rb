@@ -2,9 +2,9 @@ module MojuraWebApp
 
 	class BaseBodyView < BaseView
 
-		def initialize(options = {})
-			data = [show_navbar: Settings.get_b(:show_navbar),
-					    show_content_title: (Settings.get_b(:show_content_title))]
+		def initialize(options = {}, data = {})
+			data[:show_navbar] ||= Settings.get_b(:show_navbar)
+			data[:show_content_title] ||= Settings.get_b(:show_content_title)
 
 			super(options, data)
 			#pre render the content part, which allow setting of the title, etc.

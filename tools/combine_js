@@ -3,17 +3,17 @@
 ## Combines all JavaScript files in webapp/mojura/js/sources and
 ## and stores them in webapp/mojura/js/sources
 
-$:.unshift(File.expand_path(File.dirname(__FILE__) + '/../lib/mojura/'))
-Dir.chdir(File.expand_path(File.dirname(__FILE__) + '/../lib/mojura/'))
+$:.unshift(File.expand_path(File.dirname(__FILE__) + '/../'))
+Dir.chdir(File.expand_path(File.dirname(__FILE__) + '/../'))
 
 data = "/* This file is generated with Mojura's tool 'combine_js'.\n   "
 data << 'It combines all JavaScript files which are stored in '
-data << "webapp/mojura/js/sources/.*/\n\n"
+data << "lib/mojura/webapp/mojura/js/sources/.*/\n\n"
 
-Dir.foreach('webapp/mojura/js/sources/') { |name|
+Dir.foreach('lib/mojura/webapp/mojura/js/sources/') { |name|
 	if (name.end_with?('.js'))
 		data << "/* #{name} */\n\n"
-		data << File.read("webapp/mojura/js/sources/#{name}") + "\n\n\n"
+		data << File.read("lib/mojura/webapp/mojura/js/sources/#{name}") + "\n\n\n"
 	end
 }
-File.write('webapp/mojura/js/mojura.js', data)
+File.write('lib/mojura/webapp/mojura/js/mojura.js', data)

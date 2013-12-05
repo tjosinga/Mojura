@@ -49,24 +49,19 @@ def run
 end
 
 def new
-	realm = ARGV[1] || File.basename(Dir.getwd)
+	realm = ARGV[1] || File.basename(Dir.getwd).downcase
 	database = ARGV[2] || realm
 
-	folders = %w(api api/resources webapp webapp/ext web/views uploads)
-	folders.each { | folder |
-		STDOUT << "Created folder #{folder}\n"
-		#Dir.mkdir(folder)
-	}
+	STDOUT << "Constructing a basic file structure.\n"
+	defaults_dir = File.expand_path(File.dirname(__FILE__) + '/../lib/defaults/*')
+	STDOUT << "#{defaults_dir}\n"
+	FileUtils.cp_r(Dir.glob(defaults_dir), './')
 
-	defaults_dir = File.expand_path(File.dirname(__FILE__) + '/../lib/defaults')
-	STDOUT << "Copied config.ru\n"
-	#FileUtils.cp("#{defaults_dir}/config.ru", './config.ru')
-
-	project_settings = File.read("#{defaults_dir}/project_settings.yaml")
+	STDOUT << "Generating project_settings.yaml with realm #{realm} and database #{database}.\n"
+	project_settings = File.read('./project_settings.yaml')
 	project_settings.gsub!(/___REALM___/, realm)
 	project_settings.gsub!(/___DATABASE___/, database)
-	STDOUT << "Generating project_settings.yaml with realm #{realm} and database #{database}.\n"
-	#File.open('./project_settings.yaml', 'w') { | file | file.write(project_settings) }
+	File.open('./project_settings.yaml', 'w') { | file | file.write(project_settings) }
 end
 
 case command

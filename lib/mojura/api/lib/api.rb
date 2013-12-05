@@ -13,6 +13,7 @@ require 'api/lib/ubbparser_additions'
 require 'api/lib/settings'
 require 'api/resources/locale/locale.object'
 require 'api/resources/users/users.objects'
+require 'api/resources/pages/pages.objects'
 
 module MojuraAPI
 
@@ -210,7 +211,7 @@ module MojuraAPI
 			elsif request_path == 'help'
 				result = help(params)
 			elsif request_path == 'setup'
-				result = setup(params)
+				result = setup(method, params)
 			elsif request_path == 'salt'
 				result = salt(params)
 			elsif request_path == 'authenticate'
@@ -285,26 +286,39 @@ module MojuraAPI
 			return result
 		end
 
-		# API method /setup. Creates an admin account if there are no users.
+		# API method /setup. Creates an admin account, and a page if there are no users.
 		#noinspection RubyUnusedLocalVariable
-		def setup(params)
-			users = Users.new({'$or' => [{is_admin: true}, {username: 'admin'}]}, {ignore_rights: true})
-			if users.count == 0
-				user = User.new()
-				realm = Settings.get_s(:realm)
-				username = params[:username] || 'admin'
-				password = params[:password] || 'admin'
-				user.username = username
-				user.firstname = 'Administrator'
-				user.lastname = 'Administrator'
-				user.email = 'admin@127.0.0.1'
-				user.password = Digest::MD5.hexdigest("#{admin}{username}:#{realm}:#{admin}:#{password}").to_s
-				user.is_admin = true
-				user.state = :active
-				user.save_to_db
-				return ['Created an administrator with the default credentials']
+		def setup(method, params)
+			users = Users.new({'$or' => [{is_admin: true}]}, {ignore_rights: true})
+			pages = Pages.new()
+			if (method == 'put')
+				users = Users.new({'$or' => [{is_admin: true}]}, {ignore_rights: true})
+				result = ''
+				if users.count == 0
+					user = User.new()
+					realm = Settings.get_s(:realm)
+					username = params[:username] || 'admin'
+					digest = params[:digest] || Digest::MD5.hexdigest("#{username}:#{realm}:admin").to_s
+					user.username = username
+					user.firstname = 'Administrator'
+					user.lastname = 'Administrator'
+					user.email = 'admin@127.0.0.1'
+					user.password = digest
+					user.is_admin = true
+					user.state = :active
+					user.save_to_db
+					result = "Created an admin account with username #{username}. "
+				end
+				if pages.count == 0
+					page = Page.new
+					page.title = params[:title] || 'Home'
+					page.save_to_db
+					result += "Created a empty page with title #{page.title}."
+				end
+				result = "Didn't do anything: an admin account and a default already existed." if result.empty?
+				return [result]
 			else
-				return ['An administrator or user admin already exists']
+				return { realm: Settings.get_s(:realm), needs_admin: (users.count == 0), needs_page: (pages.count == 0)	}
 			end
 		end
 
@@ -379,7 +393,7 @@ module MojuraAPI
 					},
 					setup: {
 						uri: API.api_url + 'setup',
-						description: "Creates a default administrator account if there aren't any admin users in the system.",
+						description: "Creates a default administrator account and default home page if there aren't any in the system.",
 					},
 					signoff: {
 						uri: API.api_url + 'signoff',
