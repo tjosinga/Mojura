@@ -54,8 +54,10 @@ def new
 
 	STDOUT << "Constructing a basic file structure.\n"
 	defaults_dir = File.expand_path(File.dirname(__FILE__) + '/../lib/defaults/*')
-	STDOUT << "#{defaults_dir}\n"
 	FileUtils.cp_r(Dir.glob(defaults_dir), './')
+	dirs = %w(api api/lib api/resources webapp/ext uploads)
+	dirs.each { | dir | FileUtils.mkdir(dir) }
+	FileUtils.touch('tmp/restart.txt')
 
 	STDOUT << "Generating project_settings.yaml with realm #{realm} and database #{database}.\n"
 	project_settings = File.read('./project_settings.yaml')
