@@ -39,9 +39,17 @@ public:
     use_external_hosted_files:    false
 
     # Set to true if the website is currently in development.
-    # It will generate more usefull information.
-    developing:                   true
+    # It will generate more usefull information in the logger output.
+    developing:                   false
 
-    # The default locale
+    # The default locale. Since the origin is Dutch, the default is 'nl'. This might be update to 'en' in the future.
     locale:                       nl
+
+    # The default title, visible on the tab of the window
+    title:                        A Mojura website
+
+    # The title visible in the navigation bar
+    brand_name:                   A Mojura website
+
+
 
