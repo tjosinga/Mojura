@@ -1,5 +1,13 @@
-<div class="btn btn-default" onclick="NewsView.add();">{{locale_str_news_add}}</div>
-<div class="btn btn-default" onclick="NewsView.edit();">{{locale_str_news_edit}}</div>
-<div class="btn btn-default" onclick="NewsView.delete();">{{locale_str_news_edit}}</div>
-<div class="row-offset2 clearfix"></div>
+{{#show_admin}}
+	<div class="btn-group btn-group-sm pull-right">
+		<button type="button" class="btn btn-default" onclick="NewsView.showAdd()"><i class="fa fa-plus"></i></button>
+		{{#rights.allowed.update}}
+			<button type="button" class="btn btn-default" onclick="NewsView.showEdit('{{id}}')"><i class="fa fa-pencil"></i></button>
+		{{/rights.allowed.update}}
+		{{#rights.allowed.delete}}
+			<button type="button" class="btn btn-default" onclick="NewsView.showDelete('{{id}}')"><i class="fa fa-trash-o"></i></button>
+		{{/rights.allowed.delete}}
+	</div>
+{{/show_admin}}
+
 {{{content.html}}}

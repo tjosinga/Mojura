@@ -1,8 +1,10 @@
-{{#show_add}}
-
-{{/show_add}}
 {{#items}}
 	<ul class="news-title clearfix unstyled">
 		<li><a href="{{article_url}}?newsid={{id}}">{{title}}</a></li>
 	</ul>
 {{/items}}
+{{#show_admin}}
+	<button type="button" class="btn btn-default" onclick="NewsView.showAdd()">
+		<i class="fa fa-plus"></i> {{locale_str_news_add}}
+	</button>
+{{/show_admin}}

@@ -1,8 +1,22 @@
 {{#items}}
 	<div class="row-offset3 clearfix">
 		<article>
-
-			<h3>{{title}}</h3>
+			{{#show_admin}}
+				<div class="btn-group btn-group-sm pull-right">
+					<button type="button" class="btn btn-default" onclick="NewsView.showAdd()"><i class="fa fa-plus"></i></button>
+					{{#rights.allowed.update}}
+						<button type="button" class="btn btn-default" onclick="NewsView.showEdit('{{id}}')"><i class="fa fa-pencil"></i></button>
+					{{/rights.allowed.update}}
+					{{#rights.allowed.delete}}
+						<button type="button" class="btn btn-default" onclick="NewsView.showDelete('{{id}}')"><i class="fa fa-trash-o"></i></button>
+					{{/rights.allowed.delete}}
+				</div>
+			{{/show_admin}}
+			<h3>
+				<span style="cursor: pointer" onclick="location.href = '{{article_url}}?newsid={{id}}'">
+					{{title}}
+				</span>
+			</h3>
 			{{{content.html}}}
 			{{#content.readmore}}
 				<a class='readmore' href="{{article_url}}?newsid={{id}}">{{locale_str_system_readmore}}</a>
@@ -10,3 +24,11 @@
 		</article>
 	</div>
 {{/items}}
+{{^items}}
+	{{#show_admin}}
+		<button type="button" class="btn btn-default" onclick="NewsView.showAdd()">
+			<i class="fa fa-plus"></i> {{locale_str_news_add}}
+		</button>
+	{{/show_admin}}
+{{/items}}
+

@@ -58,8 +58,8 @@ module MojuraAPI
 			result = {
 				description: 'Creates a news item and returns the object.',
 				attributes: {
-					category: {required: true, type: String, description: 'The category of the news item.'},
 					title: {required: true, type: String, description: 'The title of the news item.'},
+					category: {required: false, type: String, description: 'The category of the news item.'},
 					imageid: {required: false, type: BSON::ObjectId, description: 'The file id of an image.'},
 					language: {required: false, type: String, description: 'The language of the news item.'},
 					timestamp: {required: false, type: DateTime, description: 'The timestamp of the news item.'},
