@@ -6,6 +6,10 @@ iframe {
   border: 0;
 }
 
+textarea.form-control {
+	height: 300px;
+}
+
 .loading {
   display: block;
   background: center center no-repeat url("../images/loading.gif");
@@ -177,4 +181,10 @@ iframe {
 
 .btn-sm .fa, .btn-xs .fa {
 	font-size: 14px;
+}
+
+.readmore {
+	clear: both;
+	margin: 10px 0;
+	display: block;
 }
