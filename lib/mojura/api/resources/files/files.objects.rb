@@ -35,7 +35,7 @@ module MojuraAPI
 		end
 
 		def delete_from_db
-			File.unlink(self.get_real_filename)
+			File.unlink(self.get_real_filename) rescue true
 			super
 		end
 
@@ -167,8 +167,8 @@ module MojuraAPI
 
 				# Extracts all files
 				zip.map { |f|
-					if !f.directory?
-						tmpfile = Tempfile.new('mojura_unzip', '/tmp')
+					if !f.directory? && !f.name.start_with?('.')
+						tmpfile = Tempfile.new('mojura_unzip', '/tmp', :encoding => 'ascii-8bit')
 						begin
 							tmpfile.write(f.read)
 							tmpfile.close
@@ -178,9 +178,10 @@ module MojuraAPI
 							file.title = File.basename(f.name)
 							file.save_to_db
 							file.save_uploaded_file(tmpfile.path, true)
-						ensure
-							tmpfile.unlink
+						rescue Exception => e
+							API.log.warn("Exception raised on extracting file #{f.name}: #{e.message}")
 						end
+						tmpfile.unlink
 					end
 				}
 			end
