@@ -1,4 +1,4 @@
-<div class="modal fade" id="{{id}}">
+<div class="modal {{#modal_large}}modal-large{{/modal_large}} fade" id="{{id}}">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -14,9 +14,9 @@
 				{{/body}}
 			</div>
 			<div class="modal-footer">
-				<a href="#" class="btn" data-dismiss="modal">{{locale_str_system_cancel}}</a>
-				<a href="#" class="btn btn-default {{btn_class}}" data-loading-text='{{btn_title}}...' onclick="$(this).button('loading'); {{onclick}}; return false;">
-					{{#btn_icon}}<span class='fa {{btn_icon}}'></span>{{/btn_icon}} {{btn_title}}
+				<a href="#" class="btn" data-dismiss="modal">{{btn_cancel}}</a>
+				<a href="#" class="btn btn-default {{btn_class}}" data-loading-text='{{btn_action}}...'>
+					{{#btn_icon}}<span class='fa {{btn_icon}}'></span>{{/btn_icon}} {{btn_action}}
 				</a>
 			</div>
 		</div>
