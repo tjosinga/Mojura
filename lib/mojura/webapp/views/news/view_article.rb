@@ -11,7 +11,8 @@ module MojuraWebApp
 				data = WebApp.api_call('news')
 			else
 				data = WebApp.api_call("news/#{@newsid}")
-				WebApp.page.data[:title] = data[:title].to_s
+				data[:show_title] = !Settings.get_b(:news, :title_as_page_title, false)
+				WebApp.page.data[:title] = data[:title].to_s unless data[:show_title]
 			end
 
 			data[:show_overview] = (options[:type] == 'overview')
