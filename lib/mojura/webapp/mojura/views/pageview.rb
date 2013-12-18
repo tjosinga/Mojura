@@ -37,7 +37,7 @@ module MojuraWebApp
 
 			# Check for the generated Mojura JS file. Otherwise add each source
 			mojura_js = "#{Mojura::PATH}/webapp/mojura/js/mojura.min.js"
-			if File.exist?(mojura_js)
+			if File.exist?(mojura_js) && !Settings.get_b(:developing)
 				self.include_script_link('mojura/js/mojura.min.js')
 			else
 				Dir.foreach("#{Mojura::PATH}/webapp/mojura/js/sources/") { |name|
@@ -176,8 +176,7 @@ module MojuraWebApp
 		end
 
 		def include_template_file(id, filename)
-			filename = "#{Mojura::PATH}/#{filename}" unless File.exist?(filename)
-			self.include_template(id, File.read(filename))
+			self.include_template(id, File.read(Mojura.filename(filename)))
 		end
 
 		def include_locale(view)
