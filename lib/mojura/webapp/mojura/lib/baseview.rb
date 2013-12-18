@@ -72,7 +72,10 @@ module MojuraWebApp
 			return result
 		end
 
+    def show_admin
+	    WebApp.current_user.administrator?
+		end
 
 	end
-
+	
 end

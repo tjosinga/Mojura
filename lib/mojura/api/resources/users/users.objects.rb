@@ -162,6 +162,10 @@ module MojuraAPI
 			#new_digest = "#{this.username}:#{new_password}:#{realm}"
 		end
 
+		def logged_in?
+			!id.nil? && (API.current_user.id == self.id)
+		end
+
 	end
 
 

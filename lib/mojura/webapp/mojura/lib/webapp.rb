@@ -94,10 +94,6 @@ module MojuraWebApp
 			end
 		end
 
-		def logged_in?
-			!self.id.nil?
-		end
-
 		# @return [MojuraAPI::User]
 		def current_user
 			MojuraAPI::API.current_user
