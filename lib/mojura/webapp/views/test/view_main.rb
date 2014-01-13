@@ -25,7 +25,7 @@ module MojuraWebApp
 				Locale.ensureLoaded('files', {loaded: function() {
 						url = \"views/files/coworkers/select_file.mustache?static_only=true\"
 						$.get(url, {cache: false},function (template) {
-							strs = Locale.rawStrings([\"system\", \"files\"]);
+							strs = Locale.getViewsStrings([\"system\", \"files\"]);
 
 							html = Mustache.to_html(template, strs);
 							$(\".test_container\").html(html);
