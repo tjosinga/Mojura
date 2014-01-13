@@ -1,0 +1,3 @@
+.results .result:first-child { margin-top: 5px; }
+.results .result .percentage { text-align: right; }
+.results .progress-xs { height: 5px; }
