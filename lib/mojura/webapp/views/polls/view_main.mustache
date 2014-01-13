@@ -1,0 +1,42 @@
+<div class="polls">
+	{{#polls}}
+		<div class="poll poll-{{id}}">
+			<div class="title strong">{{title}}</div>
+			<div class="data-container">
+				{{#voteable}}
+					<div class="description">{{description}}</div>
+					<ul class="poll-options">
+						{{#options}}
+							<li onclick="$(this).children('input').select(); PollsView.vote('{{id}}', '{{index}}')"><input type="radio" onclick="this.parentNode.click();" />{{title}}</li>
+						{{/options}}
+					</ul>
+				{{/voteable}}
+			</div>
+		</div>
+	{{/polls}}
+</div>
+
+<script type="text/javascript">
+	{{#polls}}
+		{{^voteable}}
+			PollsView.showResults('{{id}}');
+		{{/voteable}}
+	{{/polls}}
+</script>
+
+<style type="text/css">
+	.poll-options {
+		margin-bottom: 10px;
+		list-style-type: none;
+	}
+
+	.poll-options li {
+		margin-top: 5px;
+		cursor: pointer;
+	}
+
+	.poll-options li input {
+		position: absolute;
+		margin-left: -30px
+	}
+</style>

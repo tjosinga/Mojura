@@ -105,6 +105,11 @@ module MojuraAPI
 			Thread.current[:mojura][:locale].to_sym
 		end
 
+		# Returns the ip address of the client
+		def remote_ip
+			Thread.current[:mojura][:env]['REMOTE_ADDR']
+		end
+
 		def log
 			@log
 		end
@@ -269,7 +274,6 @@ module MojuraAPI
 		# API method /help. Returns all documentation of the API.
 		# noinspection RubyUnusedLocalVariable
 		def help(params)
-			load_resources
 			result = {core: {title: 'Core', resources: [core_conditions]}}
 			@resources.each { |_, v|
 				if v[:type] == :items

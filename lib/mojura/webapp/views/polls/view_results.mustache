@@ -1,0 +1,14 @@
+<div class="results">
+	{{#options}}
+		<div class="result">
+			<div class="row">
+				<div class="title col-xs-9">{{title}}</div>
+				<div class="percentage col-xs-3">{{votes.percentage}}%</div>
+			</div>
+			<div class="progress progress-xs">
+				<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{votes.absolute}}" aria-valuemin="0" aria-valuemax="{{total_votes}}" style="width: {{votes.rounded_percentage}}%;">
+				</div>
+			</div>
+		</div>
+	{{/options}}
+</div>
