@@ -25,15 +25,16 @@ module MojuraWebApp
 			@locale = Settings.get_s(:locale)
 			super({})
 
+			self.include_style_link('ext/font-awesome/css/font-awesome.min.css')
+			self.include_style_link('ext/bootstrap/css/bootstrap.min.css')
+			self.include_style_link('mojura/css/style.min.css')
+
 			self.include_script_link('ext/jquery/jquery.min.js')
 			self.include_script_link('ext/jquery/jquery-ui.min.js')
 			self.include_script_link('ext/jquery/jquery.form.min.js')
-
 			self.include_script_link('ext/bootstrap/js/bootstrap.min.js')
-			self.include_style_link('ext/bootstrap/css/bootstrap.min.css')
-			self.include_style_link('ext/font-awesome/css/font-awesome.min.css')
-
 			self.include_script_link('ext/mustache/mustache.min.js')
+			self.include_script_link('ext/respond/respond.min.js')
 
 			# Check for the generated Mojura JS file. Otherwise add each source
 			mojura_js = "#{Mojura::PATH}/webapp/mojura/js/mojura.min.js"
@@ -44,7 +45,6 @@ module MojuraWebApp
 					self.include_script_link("mojura/js/sources/#{name}") if name.end_with?('.js')
 				}
 			end
-			self.include_style_link('mojura/css/style.min.css')
 		end
 
 		def load
