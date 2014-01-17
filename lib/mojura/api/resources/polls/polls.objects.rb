@@ -50,7 +50,7 @@ module MojuraAPI
 			options.each_index { | index |
 				url = API.api_url + "polls/#{self.id}/votes/?_method=put&index=#{index}"
 				option = {title: options[index], index: index, vote_url: url}
-				a = votes[index] rescue 0
+				a = votes[index] || 0
 				option[:votes] = { absolute: a, percentage: f * a } if include_votes
 				result[:options].push(option)
 			}
