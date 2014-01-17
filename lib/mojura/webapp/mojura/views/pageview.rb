@@ -7,7 +7,7 @@ module MojuraWebApp
 	class PageView < BaseView
 
 		attr_reader :request_uri, :request_params, :metatags, :links, :scripts, :script_links, :styles,
-		            :templates, :locales, :locale, :pageid, :is_home
+		            :templates, :locales, :locale, :pageid, :is_home, :favicon
 
 		def initialize(uri = '', params = {})
 			@request_uri = uri
@@ -23,6 +23,7 @@ module MojuraWebApp
 			@body_html = ''
 			@is_home = false
 			@locale = Settings.get_s(:locale)
+			@favicon = 'mojura/images/favicon.ico'
 			super({})
 
 			self.include_style_link('ext/font-awesome/css/font-awesome.min.css')
@@ -183,6 +184,10 @@ module MojuraWebApp
 			Locale.strings(view).each{ | id, val |
 				@locales.push({view: view, id: id, str: val})
 			}
+		end
+
+		def set_favicon(relative_path)
+			@favicon = relative_path
 		end
 
 		def render
