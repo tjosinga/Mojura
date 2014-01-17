@@ -13,12 +13,10 @@
 			{{#templates}}
 				<li><a href="javascript:void(0)" onclick="PageEditor.addSubview('{{pageid}}', '{{templateid}}')">{{title}}</a></li>
 			{{/templates}}
+			<li class="divider"></li>
+			<li><a href="javascript:void(0)" onclick="PageEditor.showAddSubpage()">{{locale_str_system_subpage}}</a></li>
+			<li><a href="javascript:void(0)" onclick="PageEditor.showAddMainpage()">{{locale_str_system_mainpage}}</a></li>
 		</ul>
-	</div>
-	<div class="btn-group btn-edit-page hidden pull-left">
-		<button class="btn btn-default btn-sm" onclick="PageEditor.showAddSubpage()" id="btn_add_subpage">
-			<span class='fa fa-plus'></span>
-		</button>
 	</div>
 	<button class="btn btn-default btn-sm pull-left" data-toggle="button" onclick="PageEditor.togglePageAdmins()" id="toggle_edit_page">
 		<span class='fa fa-pencil'></span>
@@ -51,7 +49,7 @@
 </div>
 
 
-<div class="modal modal-large fade" id="modalAddSubpage" aria-hidden="true" role="dialog" data-backdrop="static">
+<div class="modal modal-large fade" id="modalAddPage" aria-hidden="true" role="dialog" data-backdrop="static">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -61,14 +59,14 @@
 			<div class="modal-body">
 				<form action="__api__/pages" method="post" onsubmit="return false">
 					<input type="hidden" name="_method" value="put"/>
-					<input type="hidden" name="parentid" value="{{pageid}}"/>
+					<input type="hidden" name="parentid" value=""/>
 					<div class="elements"><!-- All elements of the form in modalEditPage are inserted here dynamically //--></div>
 				</form>
 			</div>
 			<div class="modal-footer">
 				<button class="btn" data-dismiss="modal">{{locale_str_system_cancel}}</button>
 				<button id="submitAddSubpage" class="btn btn-default btn-primary" data-loading-text='{{locale_str_system_action_add}}...' onclick="PageEditor.submit(this)">
-					<span class='fa fa-plus'></span> {{locale_str_system_action_edit}}
+					<span class='fa fa-plus'></span> {{locale_str_system_action_add}}
 				</button>
 			</div>
 		</div>
