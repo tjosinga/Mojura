@@ -23,7 +23,7 @@ module MojuraAPI
 				result = PageTree.new.nodes_of_path(params[:path])
 			else
 				depth = (params.has_key?(:depth)) ? params[:depth].to_i : 2
-				menu_only = (params[:menu_only] == 'true')
+				menu_only = params[:menu_only]
 				result = PageTree.new(menu_only).to_a(depth)
 			end
 			return result

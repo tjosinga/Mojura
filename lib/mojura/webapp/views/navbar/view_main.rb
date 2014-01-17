@@ -18,7 +18,7 @@ module MojuraWebApp
 				@pages = options[:items]
 			else
 				options[:depth] ||= 2
-				options[:menu_only] = (options.include?(:menu_only) && options[:menu_only])
+				options[:menu_only] = true unless options.include?(:menu_only)
 				begin
 					@pages = WebApp.api_call('pages', {menu_only: options[:menu_only], depth: options[:depth]})
 				rescue APIException => _

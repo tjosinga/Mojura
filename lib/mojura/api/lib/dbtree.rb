@@ -147,7 +147,7 @@ module MojuraAPI
 			result = []
 			src.each { |src_info|
 				allowed = self.allowed_info_of_item(src_info[:rights])
-				if ((!@use_rights) || (allowed[:read])) && (self.on_compact(src_info))
+				if ((!@use_rights) || (allowed[:read])) && (on_compact(src_info))
 					dest_info = {id: src_info[:id]}
 					@cache_fields.each { |field|
 						str = field.to_s
