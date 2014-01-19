@@ -2,6 +2,7 @@ require 'strscan'
 require 'json'
 require 'api/lib/exceptions'
 require 'api/lib/datatypes'
+require 'api/lib/stringconvertor'
 
 module MojuraAPI
 
@@ -96,7 +97,12 @@ module MojuraAPI
 			else
 				token = @scanner.scan(/((\w+)|('.+')|(".+"))/)
 				token = token.strip_quotes if (!token.nil?)
-				# TODO: type checking should be implemented here.
+				# TODO: extra type checking should be implemented here.
+				if token.match(/^(true|false)$/)
+					token = StringConvertor.convert(token, :boolean)
+				elsif token.match(/^\-?\d+$/)
+					token = StringConvertor.convert(token, :integer)
+				end
 				return token
 			end
 		end
