@@ -1,0 +1,11 @@
+<div class="form-group">
+	<label for="{{urid}}_view_type">{{locale_str_polls_view_type}}</label>
+	<select id="{{urid}}_view_type" class="form-control" name="setting_view_type">
+		<option value="list">{{locale_str_polls_view_type_list}}</option>
+		<option value="last_active">{{locale_str_polls_view_type_last_active}}</option>
+	</select>
+</div>
+
+<script type="text/javascript">
+	$("{{urid}}_view_type").val("{{view_type}}");
+</script>

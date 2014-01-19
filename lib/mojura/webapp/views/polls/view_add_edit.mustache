@@ -1,0 +1,20 @@
+<form action="__api__/polls/{{pollid}}" method="post">
+	<input type="hidden" name="_method" value="{{method}}" />
+
+	<div class="form-group">
+		<label for="{{urid}}_title">{{locale_str_system_title}}</label>
+		<input class="form-control" type="text" id="{{urid}}_title" name="title" value="{{title}}" />
+	</div>
+
+	<div class="checkbox">
+		<label>
+			<input type="hidden" name="active" value="false" />
+			<input type="checkbox" {{#active}}checked="checked"{{/active}} name="active" value="true"> {{locale_str_polls_active}}
+		</label>
+	</div>
+
+	<div class="form-group">
+		<label for="{{urid}}_options">{{locale_str_polls_options}}</label>
+		<textarea class="form-control" type="text" id="{{urid}}_options" name="options">{{#options}}{{title}}{{newline}}{{/options}}</textarea>
+	</div>
+</form>

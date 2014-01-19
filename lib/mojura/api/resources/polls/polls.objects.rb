@@ -73,7 +73,7 @@ module MojuraAPI
 	class Polls < DbObjects
 
 		def initialize(where = {}, options = {})
-			options[:sort] ||= {timestamp: -1}
+			options[:sort] ||= {_id: -1}
 			super('polls', Poll, where, options)
 		end
 

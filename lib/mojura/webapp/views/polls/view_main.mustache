@@ -1,8 +1,25 @@
 <div class="polls">
 	{{#polls}}
-		<div class="poll poll-{{id}}">
-			<div class="title strong">{{title}}</div>
-			<div class="data-container">
+		<div class="poll poll-{{id}} row-offset4">
+			<div class="title strong">
+				{{#show_admin}}
+					<div class="btn-group btn-group-sm pull-right">
+						<button type="button" class="btn btn-default" onclick="PollsView.showAdd()"><i class="fa fa-plus"></i></button>
+						<button type="button" class="btn btn-default" onclick="PollsView.showEdit('{{id}}')"><i class="fa fa-pencil"></i></button>
+						<button type="button" class="btn btn-default" onclick="PollsView.showDelete('{{id}}')"><i class="fa fa-trash-o"></i></button>
+					</div>
+				{{/show_admin}}
+				{{title}}
+				{{#show_active}}
+					{{#active}}
+						<span class="label label-success">{{locale_str_polls_active}}</span>
+					{{/active}}
+					{{^active}}
+						<span class="label label-warning">{{locale_str_polls_inactive}}</span>
+					{{/active}}
+				{{/show_active}}
+			</div>
+			<div class="data-container clearfix">
 				{{#voteable}}
 					<div class="description">{{description}}</div>
 					<ul class="poll-options">
