@@ -9,33 +9,35 @@ module MojuraAPI
 
 		def self.convert(value, type)
 			return value if (type == String) || (type == 'String') || (value.nil?) || (!value.is_a?(String))
-			return case type.to_s.downcase
+			case type.to_s.downcase
 				when 'array' then
-				 value.split("\n")
+					return value.split("\n")
 				when 'float' then
-				 value.to_f rescue 0
+					return value.to_f rescue 0
 				when 'hash' then
-				 JSON.parse(value) rescue {}
+					return JSON.parse(value) rescue {}
 				when 'integer' then
-				 value.to_i rescue 0
+					return value.to_i rescue 0
 				when 'boolean' then
-				 (value.downcase == 'true')
+					return (value.downcase == 'true')
 				when 'trueclass' then
-				 (value.downcase == 'true')
+					return (value.downcase == 'true')
 				when 'falseclass' then
-				 (value.downcase == 'true')
+					return (value.downcase == 'true')
 				when 'date' then
-				 Date.parse(value) rescue Date.today
+					return Date.parse(value) rescue Date.today
 				when 'datetime' then
-				 DateTime.parse(value) rescue DateTime.now
+					return DateTime.parse(value) rescue DateTime.now
+				when 'time' then
+					return Time.parse(value) rescue Time.now
 				when 'richtext' then
-				 RichText.new(value)
+					return RichText.new(value)
 				when 'bson::objectid' then
-				 BSON::ObjectId(value) rescue nil
+					return BSON::ObjectId(value) rescue nil
 				else
-				 value
-				end
-		end
+					return value
+			end
+w		end
 
 	end
 

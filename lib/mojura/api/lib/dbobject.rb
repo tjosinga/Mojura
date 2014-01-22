@@ -119,9 +119,7 @@ module MojuraAPI
 			result[:id] = self.id
 			@fields.each { |field, options|
 				if !options[:hidden] && (!options[:extended_only] || !compact)
-
 					value = Marshal.load(Marshal.dump(options[:value]))
-
 					begin
 						value = yield field, value, compact
 					rescue
@@ -130,6 +128,8 @@ module MojuraAPI
 					if options[:type] == RichText
 						markup = @fields[(field.to_s + '_markup').to_sym][:value] rescue ''
 						value = RichText.new(value, markup).to_parsed_a(compact)
+					elsif options[:type] == Time
+						value = value.localtime.iso8601 if !value.nil?
 					elsif options[:type] == BSON::ObjectId
 						value = value.to_s if !value.nil?
 					end
