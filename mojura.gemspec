@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
 	s.name            = 'mojura'
-	s.version         = '0.1.3'
-	s.date            = '2014-01-13'
+	s.version         = '0.1.4'
+	s.date            = '2014-01-19'
 	s.summary         = 'Mojura'
 	s.description     = 'A CMS based on a REST API, MongoDb backend and a Bootstrap frontend'
 	s.authors         = ['Taco Jan Osinga']
@@ -10,5 +10,5 @@ Gem::Specification.new do |s|
 	s.executables     = ['mojura']
 	s.require_paths   = ['lib']
 	s.homepage        = 'http://www.mojura.nl'
-	s.license          = 'MIT'
+	s.license         = 'MIT'
 end
