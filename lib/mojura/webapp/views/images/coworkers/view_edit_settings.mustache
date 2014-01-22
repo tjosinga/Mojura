@@ -60,7 +60,7 @@
 		function showImages() {
 			var ids = getFileIdsFromForm();
 			var html = "";
-			for (i in ids) {
+			for (var i in ids) {
 				html += fileIdToHTML(ids[i]);
 			}
 			$(".current_images", "#modalEditView").html(html);
@@ -74,7 +74,7 @@
 					$("#modalEditView .select_file_container").html(html);
 					SelectFile.show({multi: true, parentModalId: "modalEditView", filter: [".png", ".jpeg", ".jpg", "gif"],
 						confirmed: function (ids) {
-							for (i in ids) {
+							for (var i in ids) {
 								if ($("#modalEditView .current_images div[data-fileid=" + ids[i] + "]").length === 0)
 									$(".current_images", "#modalEditView").append(fileIdToHTML(ids[i]));
 							}

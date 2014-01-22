@@ -74,6 +74,7 @@ module MojuraAPI
 					title: {required: true, type: String, description: 'The title of the page, preferably unique.'},
 					in_menu: {required: false, type: Boolean, description: 'A key-value hash of settings. Default is true.'},
 					menu_title: {required: false, type: String, description: 'An alternative title which is used in the menu\'s.'},
+					orderid: {required: false, type: Integer, description: 'An id to specify the sorting order.'},
 				}
 			}
 			result[:attributes].merge(self.rights_conditions)
