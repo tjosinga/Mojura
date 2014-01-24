@@ -37,7 +37,7 @@ module MojuraAPI
 				else
 					return value
 			end
-w		end
+		end
 
 	end
 
