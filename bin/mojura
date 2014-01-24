@@ -55,7 +55,7 @@ def new
 	STDOUT << "Constructing a basic file structure.\n"
 	defaults_dir = File.expand_path(File.dirname(__FILE__) + '/../lib/defaults/*')
 	FileUtils.cp_r(Dir.glob(defaults_dir), './')
-	dirs = %w(api api/lib api/resources webapp/ext uploads)
+	dirs = %w(api api/lib api/resources webapp/ext uploads tmp)
 	dirs.each { | dir | FileUtils.mkdir(dir) }
 	FileUtils.touch('tmp/restart.txt')
 
