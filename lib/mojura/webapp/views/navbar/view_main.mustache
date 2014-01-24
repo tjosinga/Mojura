@@ -17,7 +17,9 @@
 			<div class="collapse navbar-collapse navbar-ex1-collapse">
 				<ul class="nav navbar-nav">
 					{{#pages}}
-						<li class=""><a href="{{page_url}}">{{title}}</a></li>{{inc_index}}
+						<li class="{{#active}}active{{/active}}">
+							<a href="{{page_url}}">{{menu_title}}</a>
+						</li>{{inc_index}}
 					{{/pages}}
 				</ul>
 
@@ -26,5 +28,7 @@
 				{{/show_page_editor}}
 			</div>
 		{{/has_pages}}
+
+		{{extra_html}}
 	</div>
 </nav>

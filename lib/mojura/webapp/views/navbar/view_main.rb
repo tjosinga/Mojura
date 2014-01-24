@@ -25,6 +25,10 @@ module MojuraWebApp
 					@pages = {}
 				end
 			end
+			@pages.each { | page |
+				page[:menu_title] = page[:title] if page[:menu_title].to_s.empty?
+				page[:active] = (page[:id] === WebApp.page.pageid)
+			}
 			options.delete(:items)
 			super(options)
 		end
