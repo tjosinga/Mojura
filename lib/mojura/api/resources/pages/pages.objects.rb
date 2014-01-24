@@ -194,7 +194,7 @@ module MojuraAPI
 
 		def initialize(menu_only = false)
 			@menu_only = menu_only
-			super('pages', true, [:title, :in_menu, :orderid], 'pages')
+			super('pages', true, [:title, :in_menu, :menu_title, :orderid], 'pages')
 		end
 
 		def on_compact(src_info)
