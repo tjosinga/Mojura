@@ -59,6 +59,10 @@ module MojuraWebApp
 			WebApp.page.is_home
 		end
 
+		def is_setup
+			WebApp.page.is_setup
+		end
+
 	end
 
 end

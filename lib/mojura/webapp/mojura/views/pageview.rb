@@ -7,7 +7,7 @@ module MojuraWebApp
 	class PageView < BaseView
 
 		attr_reader :request_uri, :request_params, :metatags, :links, :scripts, :script_links, :styles,
-		            :templates, :locales, :locale, :pageid, :is_home, :favicon
+		            :templates, :locales, :locale, :pageid, :is_home, :is_setup, :favicon
 
 		def initialize(uri = '', params = {})
 			@request_uri = uri
@@ -22,6 +22,7 @@ module MojuraWebApp
 			@data = {}
 			@body_html = ''
 			@is_home = false
+			@is_setup = false
 			@locale = Settings.get_s(:locale)
 			@favicon = 'mojura/images/favicon.ico'
 			super({})
@@ -86,7 +87,8 @@ module MojuraWebApp
 				end
 				@data = (@pageid.empty?) ? nil : WebApp.api_call("pages/#{@pageid}")
 			end
-			@data = {view: 'setup', title: Locale.str('system', 'view_title')} if @data.nil? && WebApp.has_view('setup')
+			@is_setup = (@data.nil? || (@data[:view] == 'setup')) && WebApp.has_view('setup')
+			@data = {view: 'setup', title: Locale.str('setup', 'view_title')} if @is_setup
 			@data = {view: 'sitemap', title: Locale.str('system', 'no_default_page')} if @data.nil?
 			@data.symbolize_keys!
 		end

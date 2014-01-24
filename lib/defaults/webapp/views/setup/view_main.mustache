@@ -1,75 +1,80 @@
-<div class="col-md-8 col-md-offset-2 ">
+<div class="setup-container container">
+	<div class="col-md-8 col-md-offset-2 ">
 
-	<div id="setup-password-alert" class="alert alert-danger alert-dismissable hidden">
-		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-		<strong>{{locale_str_system_error}}!</strong> {{locale_str_setup_passwords_do_no_match}}
-	</div>
-
-	<div class="jumbotron">
-		<h1>{{locale_str_setup_view_title}}</h1>
-
-		<div id="success-container" class="hidden">
-			<p style="padding-top: 40px;">{{locale_str_setup_succeeded}}</p>
-			<p><a href="login" class="btn btn-success btn-lg pull-right">{{locale_str_setup_login}}</a></p>
-			<div class="clearfix"></div>
+		<div id="setup-password-alert" class="alert alert-danger alert-dismissable hidden">
+			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+			<strong>{{locale_str_system_error}}!</strong> {{locale_str_setup_passwords_do_no_match}}
 		</div>
 
-		<div id="form-container">
+		<div class="jumbotron">
+			<h1>Setup</h1>
 
-			<p>{{locale_str_setup_info}}</p>
-
-			<form id="setup-form" action="javascript:void(0)" method="get"
-						onsubmit="SetupView.run(); return this;">
-				{{#needs_admin}}
-					<input type="hidden" id="setup-realm" value="{{realm}}" />
-
-					<div class="form-group">
-						<label class="control-label" for="setup-username">{{locale_str_setup_username}}</label>
-						<input class="form-control" type="text" id="setup-username" value="admin" />
-					</div>
-
-					<div class="form-group">
-						<label class="control-label" for="setup-password">{{locale_str_setup_password}}</label>
-						<input class="form-control" type="password" id="setup-password" />
-					</div>
-
-					<div class="form-group">
-						<label class="control-label"
-									 for="setup-confirm-password">{{locale_str_setup_confirm_password}}</label>
-
-						<input class="form-control" type="password" id="setup-confirm-password" />
-					</div>
-
-				{{/needs_admin}}
-				{{^needs_admin}}
-					{{locale_str_setup_no_admin_needed}}
-				{{/needs_admin}}
-
-				{{#needs_page}}
-					<div class="form-group">
-						<label class="control-label" for="setup-title">{{locale_str_setup_title}}</label>
-
-						<input class="form-control" type="text" id="setup-title" value="Home" />
-					</div>
-				{{/needs_page}}
-				{{^needs_page}}
-					{{locale_str_setup_no_page_needed}}
-				{{/needs_page}}
-				<div class="pull-right">
-					<input type="submit" class="btn btn-primary btn-lg" val="{{locale_str_system_save}}" />
-				</div>
+			<div id="success-container" class="hidden">
+				<p style="padding-top: 40px;">{{locale_str_setup_succeeded}}</p>
+				<p><a href="login" class="btn btn-success btn-lg pull-right">{{locale_str_setup_login}}</a></p>
 				<div class="clearfix"></div>
-			</form>
+			</div>
+
+			<div id="form-container">
+
+				<p>{{locale_str_setup_info}}</p>
+
+				<form id="setup-form" action="javascript:void(0)" method="get"
+							onsubmit="SetupView.run(); return this;">
+					{{#needs_admin}}
+						<input type="hidden" id="setup-realm" value="{{realm}}" />
+
+						<div class="form-group">
+							<label class="control-label" for="setup-username">{{locale_str_setup_username}}</label>
+							<input class="form-control" type="text" id="setup-username" value="admin" />
+						</div>
+
+						<div class="form-group">
+							<label class="control-label" for="setup-password">{{locale_str_setup_password}}</label>
+							<input class="form-control" type="password" id="setup-password" />
+						</div>
+
+						<div class="form-group">
+							<label class="control-label"
+										 for="setup-confirm-password">{{locale_str_setup_confirm_password}}</label>
+
+							<input class="form-control" type="password" id="setup-confirm-password" />
+						</div>
+
+					{{/needs_admin}}
+					{{^needs_admin}}
+						<div>{{locale_str_setup_no_admin_needed}}</div>
+					{{/needs_admin}}
+
+					{{#needs_page}}
+						<div class="form-group">
+							<label class="control-label" for="setup-title">{{locale_str_setup_title}}</label>
+
+							<input class="form-control" type="text" id="setup-title" value="Home" />
+						</div>
+					{{/needs_page}}
+					{{^needs_page}}
+						<div>{{locale_str_setup_no_page_needed}}</div>
+					{{/needs_page}}
+					<div class="clearfix"></div>
+					<div class="pull-right">
+						<input type="submit" class="btn btn-primary btn-lg" val="{{locale_str_system_save}}" />
+					</div>
+					<div class="clearfix"></div>
+				</form>
+			</div>
+
+
 		</div>
-
-
 	</div>
 </div>
 
-
 <style type="text/css">
+	.setup-container {
+		margin-top: 40px;
+	}
+
 	#setup-form input, #setup-form label {
 		font-size: 14px;
 	}
-
 </style>
