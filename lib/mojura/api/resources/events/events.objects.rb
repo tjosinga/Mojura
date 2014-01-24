@@ -17,10 +17,9 @@ module MojuraAPI
 			yield :title, String, :required => true
 			yield :location, String, :required => false
 			yield :category, String, :required => false, :validations => {matches_regexp: /^[a-zA-Z]+[\w\.-]*$/}
-			yield :start_date, Date, :required => true, :default => Date.new
-			yield :start_time, Date, :required => false
-			yield :end_date, Date, :required => false
-			yield :end_time, Date, :required => false
+			yield :start, Time, :required => true, :default => Time.new
+			yield :duration, Integer, :default => 60
+			yield :all_day, Boolean, :default => false
 			#yield :recurring, Boolean, :required, :default => false
 			yield :notes, RichText, :required => false
 		end
@@ -32,7 +31,7 @@ module MojuraAPI
 
 		def initialize(where = {}, options = {})
 			options[:sort] ||= {start: -1}
-			super('events', NewsItem, where, options)
+			super('events', Event, where, options)
 		end
 
 	end

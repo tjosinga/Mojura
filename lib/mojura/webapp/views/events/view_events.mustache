@@ -1,0 +1,18 @@
+{{#sections}}
+	<div class="events-section">
+		<h4>{{title}}</h4>
+		{{#events}}
+			<div class="event row">
+				{{#show_date}}
+					<div class="col-xs-3 vent-startdate pretty-moment" data-type="locale" data-format="LL">{{start}}</div>
+					<div class="col-xs-3 event-starttime pretty-moment" data-type="locale" data-format="LT">{{start}}</div>
+					<div class="col-xs-6 event-title">{{title}}</div>
+				{{/show_date}}
+				{{^show_date}}
+					<div class="col-xs-3 event-starttime pretty-moment" data-type="locale" data-format="LT">{{start}}</div>
+					<div class="col-xs-9 event-title">{{title}}</div>
+				{{/show_date}}
+			</div>
+		{{/events}}
+	</div>
+{{/sections}}

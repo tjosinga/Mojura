@@ -56,11 +56,10 @@ module MojuraAPI
 				attributes: {
 					title: {required: true, type: String, description: 'The title of the event.'},
 					category: {required: false, type: String, description: 'The category of the event.'},
-					start_date: {required: true, type: Date, description: 'The start date of the event.'},
-					start_time: {required: false, type: Time, description: 'The start time of the event.'},
-					end_date: {required: false, type: Date, description: 'The end date of the event.'},
-					end_time: {required: false, type: Time, description: 'The end time of the event.'},
-					notes: {required: true, type: RichText, description: 'The notes of the event.'},
+					start: {required: true, type: Time, description: 'The start date and time of the event, formatted in ISO8601.'},
+					duration: {required: false, type: Integer, description: 'The end date of the event.'},
+					all_day: {required: false, type: Boolean, description: 'True if it is an all day event.'},
+					notes: {required: false, type: RichText, description: 'The notes of the event.'},
 				}
 			}
 			result[:attributes].merge(self.rights_conditions)
