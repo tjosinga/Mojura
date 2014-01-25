@@ -4,6 +4,8 @@ iframe { border: 0; }
 
 textarea.form-control { height: 300px; }
 
+textarea.small { height: 150px !important; }
+
 .loading { display: block; background: center center no-repeat url("../images/loading.gif"); height: 50px; }
 
 .hover-glow:hover { background-color: #F6F6F6; }
