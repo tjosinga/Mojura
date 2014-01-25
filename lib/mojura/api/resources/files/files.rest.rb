@@ -42,6 +42,7 @@ module MojuraAPI
 			file = DbFile.new(params[:ids][0])
 			#TODO: Check rights
 			file.load_from_hash(params)
+			self.process_upload(file, params)
 			file.save_to_db
 			return self.process_action(file, params[:action])
 		end
