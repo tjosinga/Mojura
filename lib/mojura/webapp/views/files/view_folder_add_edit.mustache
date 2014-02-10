@@ -1,10 +1,14 @@
 <form action="{{url}}" method="post">
 	<input type="hidden" name="_method" value="{{method}}" />
-	<input type="hidden" name="parentid" value="{{folderid}}" />
-	<label >{{locale_str_system_name}}
-		<input type="text" name="title" value="{{title}}" />
-	</label>
-	<label >{{locale_str_system_description}}
-		<textarea name='description'>{{description.raw}}</textarea>
-	</label>
+	<input type="hidden" name="parentid" value="{{parentid}}" />
+
+	<div class="form-group">
+		<label for="{{uid}}_title">{{locale_str_system_name}}</label>
+		<input id="{{uid}}_title" class="form-control" type="text" name="title" value="{{title}}"/>
+	</div>
+
+	<div class="form-group">
+		<label for="{{uid}}_description">{{locale_str_system_description}}</label>
+		<textarea id="{{uid}}_description" class="form-control small" name='description'>{{description.raw}}</textarea>
+	</div>
 </form>

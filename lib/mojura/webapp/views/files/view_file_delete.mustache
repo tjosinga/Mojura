@@ -1,5 +1,4 @@
-{{locale_str_files_delete_file_info}}
-<h5>{{title}}</h5>
-<form action="__api__/files/{{id}}" method="post" onsubmit='$(this).ajaxSubmit()'>
-  <input type="hidden" name="_method" value="{{method}}"/>
+<form action="__api__/files/{{id}}" method="post">
+  <input type="hidden" name="_method" value="delete" />
+	{{locale_str_files_delete_file_info}}
 </form>
