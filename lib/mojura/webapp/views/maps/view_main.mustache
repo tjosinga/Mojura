@@ -1,0 +1,9 @@
+<div id="{{urid}}-map" class="leaflet-maps" style="height: {{height}}"></div>
+
+<script type="text/javascript">
+	options = {};
+	{{#tile_url}}options.tileUrl = "{{tile_url}}";{{/tile_url}}
+	{{#tile_attribution}}options.tileUrl = "{{tile_url}}";{{/tile_attribution}}
+	MapsView.initMap("{{urid}}-map", options);
+	MapsView.loadLocations("{{urid}}-map", "{{category}}", true);
+</script>
