@@ -16,7 +16,7 @@ module MojuraAPI
 
 		def all(params)
 			params[:pagesize] ||= 50
-			result = paginate(params) { |options| Events.new(self.filter(params), options) }
+			result = paginate(params) { |options| Events.new(params[:start], params[:end], self.filter(params), options) }
 			return result
 		end
 
@@ -44,6 +44,8 @@ module MojuraAPI
 			result = {
 				description: 'Returns a list of calendar events. Use pagination and filtering to make selections.',
 				attributes: {
+					start: {required: false, type: Time, description: 'The start date of the selected range, formatted in ISO8601. Default is now.'},
+					end: {required: false, type: Time, description: 'The end date and time of the event, formatted in ISO8601. Default is none.'},
 				}
 			}
 			result[:attributes].merge(self.filter_conditions)
