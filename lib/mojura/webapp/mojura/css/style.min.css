@@ -71,3 +71,9 @@ textarea.small { height: 150px !important; }
 .strong { font-weight: bold; }
 
 .em { font-style: italic; }
+
+.ubb-img { max-width: 100%; }
+
+.ubb-img-left { float: left; margin: 0px 10px 10px 0px; }
+
+.ubb-img-right { float: right; margin: 0px 0px 10px 10px; }

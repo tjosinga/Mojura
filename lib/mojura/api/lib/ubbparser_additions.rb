@@ -41,29 +41,10 @@ module UBBParser
 		return result
 	end
 
-	## Not yet implemented
-	## :category: Render methods
-	#def self.render_googlemaps(inner_text, attributes = {}, parse_options = {})
-	#end
-	#
-	## Not yet implemented
-	## :category: Render methods
-	#def self.render_googlecalendar(inner_text, attributes = {}, parse_options = {})
-	#end
-	#
-	#def self.render_img_large(inner_text, attributes = {}, parse_options = {})
-	#end
-	#
-	#def self.render_img_left_large(inner_text, attributes = {}, parse_options = {})
-	#end
-	#
-	#def self.render_img_right_large(inner_text, attributes = {}, parse_options = {})
-	#end
-
 	# :category: Render methods
 	def self.render_icon(inner_text, attributes = {}, parse_options = {})
 		icon_type = (inner_text.match(/^[\w\-]*$/).nil?) ? 'question' : inner_text
-		return "<span class='glyphicon glyphicon-#{icon_type}'></span>"
+		return "<span class='fa fa-#{icon_type}'></span>"
 	end
 
 		# :category: Render methods
