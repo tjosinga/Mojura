@@ -53,8 +53,9 @@ module MojuraAPI
 				description: 'Creates a location and returns the object.',
 				attributes: {
 					title: {required: true, type: String, description: 'The title of the location.'},
-					latitude: {required: true, type: Float, description: 'The latitude of the location.'},
-					longitude: {required: true, type: Float, description: 'The longitude of the location.'},
+					latitude: {required: false, type: Float, description: 'The latitude of the location.'},
+					longitude: {required: false, type: Float, description: 'The longitude of the location.'},
+					address: {required: false, type: String, description: 'The address of the location. This address will be converted to a latitude or longitude. If the search fails, the server responds with a server error and nothing is saved.'},
 					category: {required: false, type: String, description: 'The category of the location.'},
 					description: {required: false, type: RichText, description: 'The description of the item in the format.'},
 					language: {required: false, type: String, description: 'The language of the description.'},
