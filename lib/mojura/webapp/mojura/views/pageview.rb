@@ -198,7 +198,7 @@ module MojuraWebApp
 
 			if File.exists?('webapp/views/body/view_main.rb')
 				require 'webapp/views/body/view_main'
-				@body_html = WebApp.render_view(:view => 'body', :wrapping => 'simple', :classes => 'body_container', :add_span => false)
+				@body_html = WebApp.render_view(:view => 'body', :wrapping => 'nowrap', :add_span => false)
 			else
 				@body_html = BaseBodyView.new({}).render
 			end
