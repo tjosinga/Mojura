@@ -17,7 +17,7 @@ module MojuraAPI
 		def load_fields
 			yield :title, String, :required => true
 			yield :category, String, :required => false, :validations => {matches_regexp: /^[a-zA-Z]+[\w\.-]*$/}
-			yield :imageid, BSON::ObjectId, :required => true, :default => nil
+			yield :imageid, BSON::ObjectId, :required => false, :default => nil
 			yield :timestamp, Time, :required => false, :default => Time.new
 			yield :content, RichText, :required => true
 		end
