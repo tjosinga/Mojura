@@ -21,10 +21,10 @@ module MojuraWebApp
 			newsid = WebApp.page.request_params[:newsid]
 			if type == 'list'
 				view = NewsListView.new(@options)
-			elsif (type == 'overview') || (newsid.nil?)
-				view = NewsOverviewView.new(@options)
-			else
+			elsif (type == 'article')
 				view = NewsArticleView.new(@options)
+			else
+				view = NewsOverviewView.new(@options)
 			end
 			return view.render
 		end

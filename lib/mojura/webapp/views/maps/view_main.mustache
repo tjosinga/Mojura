@@ -1,9 +1,19 @@
-<div id="{{urid}}-map" class="leaflet-maps" style="height: {{height}}"></div>
+<div class="leaflet-map-wrapper">
+	{{#show_admin}}
+		<div class="btn-group btn-group-sm">
+			<button type="button" class="btn btn-default" onclick="MapsView.addLocation('{{urid}}-map')"><i class="fa fa-plus"></i></button>
+		</div>
+	{{/show_admin}}
+
+	<div id="{{urid}}-map" class="leaflet-map"></div>
+</div>
 
 <script type="text/javascript">
 	options = {};
 	{{#tile_url}}options.tileUrl = "{{tile_url}}";{{/tile_url}}
-	{{#tile_attribution}}options.tileUrl = "{{tile_url}}";{{/tile_attribution}}
+	{{#tile_attribution}}options.tileAttribution = "{{tile_attribution}}";{{/tile_attribution}}
+	{{#category}}options.category = "{{category}}";{{/category}}
+	{{#show_admin}}options.showAdmin = true;{{/show_admin}}
 	MapsView.initMap("{{urid}}-map", options);
-	MapsView.loadLocations("{{urid}}-map", "{{category}}", true);
+	MapsView.loadLocations("{{urid}}-map", true);
 </script>

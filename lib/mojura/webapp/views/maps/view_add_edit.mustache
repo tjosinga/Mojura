@@ -1,0 +1,25 @@
+<form action="__api__/locations/{{id}}" method="post">
+	<input type="hidden" name="_method" value="{{method}}" />
+
+	<div class="form-group">
+		<label for="{{uid}}_title">{{locale_str_system_title}}</label>
+		<input id="{{uid}}_title" class="form-control" type="text" name="title" value="{{title}}" />
+	</div>
+
+	<div class="form-group">
+		<label for="{{uid}}_address">{{locale_str_maps_address}}</label>
+		<div class="alert alert-danger alert-dismissable alert-address-not-found hidden">
+			<strong>{{locale_str_system_error}}</strong> {{locale_str_maps_address_not_found}}
+		</div>
+		<input id="{{uid}}_address" class="form-control" type="text" name="address" value="{{address}}" />
+	</div>
+
+	<div class="form-group view_texteditor">
+		<label for="{{uid}}_description">{{locale_str_system_description}}</label>
+		<textarea id="{{uid}}_description" class="form-control texteditor small" name='description'>{{description.raw}}</textarea>
+	</div>
+</form>
+
+<script type="text/javascript">
+	TextEditor.init("#{{uid}}_description", "mapsAddEditModal");
+</script>
