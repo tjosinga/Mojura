@@ -16,8 +16,14 @@
 				<span style="cursor: pointer" onclick="location.href = '{{article_url}}?newsid={{id}}'">
 					{{title}}
 				</span>
+				<!--<div class="news-timestamp"><small class="prettify">{{timestamp}}</small></div>-->
 			</h3>
+			{{#imageid}}
+				<img class="ubb-img-left" src="__api__/files/{{imageid}}/download?type=thumb" alt="" />
+			{{/imageid}}
+
 			{{{content.html}}}
+
 			{{#content.readmore}}
 				<a class='readmore' href="{{article_url}}?newsid={{id}}">{{locale_str_system_readmore}}</a>
 			{{/content.readmore}}
@@ -31,4 +37,3 @@
 		</button>
 	{{/show_admin}}
 {{/items}}
-

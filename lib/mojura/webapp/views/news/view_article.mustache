@@ -10,9 +10,24 @@
 	</div>
 {{/show_admin}}
 {{#show_title}}
-	<h2>{{title}}</h2>
+	<h2>
+		{{title}}
+		<!--<div class="news-timestamp"><small class="prettify">{{timestamp}}</small></div>-->
+	</h2>
 {{/show_title}}
+
+{{#imageid}}
+	<img class="ubb-img-left" src="__api__/files/{{imageid}}/download?type=thumb" alt="" />
+{{/imageid}}
 
 {{{content.html}}}
 
 <div class="btn btn-default row-offset4" onclick="NewsView.gotoList()">{{locale_str_news_goto_list}}</div>
+
+<!--<script type="text/javascript">-->
+	<!--$.ready(function() {-->
+		<!--$(".news-timestamp > .prettify").each(function () {-->
+			<!--$(this).text(moment($(this).text()).fromNow()).removeClass("prettify");-->
+		<!--});-->
+	<!--});-->
+<!--</script>-->
