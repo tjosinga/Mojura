@@ -11,7 +11,7 @@
 <script type="text/javascript">
 	options = {};
 	{{#tile_url}}options.tileUrl = "{{tile_url}}";{{/tile_url}}
-	{{#tile_attribution}}options.tileAttribution = "{{tile_attribution}}";{{/tile_attribution}}
+	{{#tile_attribution}}options.tileAttribution = "{{{tile_attribution}}}";{{/tile_attribution}}
 	{{#category}}options.category = "{{category}}";{{/category}}
 	{{#show_admin}}options.showAdmin = true;{{/show_admin}}
 	MapsView.initMap("{{urid}}-map", options);
