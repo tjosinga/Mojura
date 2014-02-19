@@ -27,9 +27,10 @@ module MojuraWebApp
 			WebApp.log.debug("New page call: '#{uri}' with params #{params}")
 			Thread.current[:mojura][:page] = PageView.new(uri, params)
 			Thread.current[:mojura][:page].load
-			result = Thread.current[:mojura][:page].render
+			html = Thread.current[:mojura][:page].render
+			status = Thread.current[:mojura][:page].status
 			WebApp.save_settings if (@new_settings.count > 0)
-			return result
+			return { status: status, html: html }
 		end
 
 		# ------------------------------------------------- Initialization -------------------------------------------------

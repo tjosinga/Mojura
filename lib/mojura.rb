@@ -48,7 +48,7 @@ module Mojura
 				begin
 					MojuraWebApp::WebApp.init_thread(env)
 					result = MojuraWebApp::WebApp.render(env['PATH_INFO'].gsub(/\/*$/, '').gsub(/^\/*/, ''), request.params)
-					return [200, MojuraWebApp::WebApp.headers, [result]]
+					return [result[:status], MojuraWebApp::WebApp.headers, [result[:html]]]
 				rescue Exception => e
 					code = (e.is_a?(MojuraAPI::HTTPException)) ? e.code : 500
 					return [code, {}, [e.message]]

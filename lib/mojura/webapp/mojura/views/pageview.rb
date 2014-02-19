@@ -7,7 +7,9 @@ module MojuraWebApp
 	class PageView < BaseView
 
 		attr_reader :request_uri, :request_params, :metatags, :links, :scripts, :script_links, :styles,
-		            :templates, :locales, :locale, :pageid, :is_home, :is_setup, :favicon
+		            :templates, :locales, :locale, :pageid, :is_home, :is_setup
+
+		attr_accessor :favicon, :status
 
 		def initialize(uri = '', params = {})
 			@request_uri = uri
@@ -25,6 +27,7 @@ module MojuraWebApp
 			@is_setup = false
 			@locale = Settings.get_s(:locale)
 			@favicon = 'mojura/images/favicon.ico'
+			@status = 200
 			super({})
 
 			self.include_style_link('ext/font-awesome/css/font-awesome.min.css')
@@ -68,9 +71,10 @@ module MojuraWebApp
 						@data[:title] = Locale.str(@request_uri, :view_title)
 						@data[:view] = @request_uri
 					else
-						@data[:title] = "'#{e.class}' for view #{@request_uri}" #titel from strings.locale.json
+						@status = 404
+						@data[:title] = Locale.str(:system, :error) + ' 404'
 						@data[:view] = nil
-						@data[:error] = e.to_s
+						@data[:error] = @request_uri
 					end
 				end
 			else
@@ -188,6 +192,7 @@ module MojuraWebApp
 			}
 		end
 
+		# @deprecated
 		def set_favicon(relative_path)
 			@favicon = relative_path
 		end
@@ -215,6 +220,10 @@ module MojuraWebApp
 
 		def analyticsid
 			Settings.get_s(:analyticsid)
+		end
+
+		def is_404
+			@status == 404
 		end
 
 	end

@@ -1,16 +1,17 @@
+require 'webapp/mojura/views/page_404'
+
 module MojuraWebApp
 
 	class BaseBodyView < BaseView
 
 		def initialize(options = {}, data = {})
-			data[:show_navbar] ||= Settings.get_b(:show_navbar)
-			data[:show_content_title] ||= Settings.get_b(:show_content_title)
-
 			super(options, data)
 			#pre render the content part, which allow setting of the title, etc.
 			if WebApp.page.data[:views].nil?
 				if (!WebApp.page.data[:view].nil?) && (WebApp.page.data[:view] != 'body')
 					@content = WebApp.render_view(:view => WebApp.page.data[:view], :classes => 'page-content-row')
+				elsif WebApp.page.status == 404
+					@content = Page404.new.render
 				else
 					@content = WebApp.page.data[:error].to_s rescue ''
 				end
