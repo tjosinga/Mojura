@@ -7,7 +7,7 @@ module MojuraWebApp
 		def initialize(options = {})
 			@newsid = WebApp.page.request_params[:newsid]
 			if newsid.nil?
-				data = WebApp.api_call('news').items[(options[:article_type])]
+				data = WebApp.api_call('news')[:items][0] # TODO: change to options[:article_type]
 			else
 				data = WebApp.api_call("news/#{@newsid}")
 			end
