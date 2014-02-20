@@ -174,7 +174,7 @@ module MojuraWebApp
 
 		def include_template(id, code)
 			self.include_script_link('ext/mustache/mustache.min.js')
-			code.gsub!(/\{\{locale_str_([0-9a-zA-Z]+)_(\w+)\}\}/) { |str|
+						code.gsub!(/\{\{locale_str_([0-9a-zA-Z]+)_(\w+)\}\}/) { |str|
 				view, str_id = str.gsub(/(\{\{locale_str_|\}\})/, '').split('_', 2)
 				Locale.str(view.to_sym, str_id.to_sym)
 			}

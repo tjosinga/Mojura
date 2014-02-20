@@ -33,6 +33,11 @@ module MojuraWebApp
 				options[:uses_editor] = true
 				WebApp.page.include_script('if (document.location.hash == \'#editing\') jQuery(\'#toggle_edit_page\').click()')
 				WebApp.page.include_locale(:system)
+
+				WebApp.page.include_template_file('template-pageview-addedit-page', 'webapp/mojura/modals/pageedit_addedit_page.mustache')
+				WebApp.page.include_template_file('template-pageview-delete-page', 'webapp/mojura/modals/pageedit_delete_page.mustache')
+				WebApp.page.include_template_file('template-pageview-edit-view', 'webapp/mojura/modals/pageedit_edit_view.mustache')
+				WebApp.page.include_template_file('template-pageview-delete-view', 'webapp/mojura/modals/pageedit_delete_view.mustache')
 			end
 			super(options, data)
 		end
