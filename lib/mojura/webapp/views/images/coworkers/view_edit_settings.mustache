@@ -13,17 +13,17 @@
 
 <style type="text/css">
 
-	#modalEditView .image-thumb	{
+	{{modalId}} .image-thumb	{
 		margin: 0 5px 5px 0;
 		background-color: #EEEEEE;
 	}
 
-	#modalEditView .image-thumb img	{
+	{{modalId}} .image-thumb img	{
 		width: 64px;
 		height: 64px;
 	}
 
-	#modalEditView .image_add_button {
+	{{modalId}} .image_add_button {
 		display: inline-block;
 		margin: 17px 12px;
 	}
@@ -37,19 +37,19 @@
 
 		function setFileIdsToForm() {
 			var fileids = [];
-			$(".image-thumb", "#modalEditView").each(function(index) {
+			$(".image-thumb", "#{{modalId}}").each(function(index) {
 				fileids.push($(this).attr("data-fileid"));
 			});
-			$("[name=setting_fileids]", "#modalEditView").val(fileids.join(","));
+			$("[name=setting_fileids]", "#{{modalId}}").val(fileids.join(","));
 			if (fileids.length > 1)
-				$(".slideshow-checkbox", "#modalEditView").show();
+				$(".slideshow-checkbox", "#{{modalId}}").show();
 			else
-				$(".slideshow-checkbox", "#modalEditView").hide();
+				$(".slideshow-checkbox", "#{{modalId}}").hide();
 
 		}
 
 		function getFileIdsFromForm() {
-			var ids_str = $("[name=setting_fileids]", "#modalEditView").val();
+			var ids_str = $("[name=setting_fileids]", "#{{modalId}}").val();
 			return (ids_str !== "") ? ids_str.split(",") : [];
 		};
 
@@ -63,7 +63,7 @@
 			for (var i in ids) {
 				html += fileIdToHTML(ids[i]);
 			}
-			$(".current_images", "#modalEditView").html(html);
+			$(".current_images", "#{{modalId}}").html(html);
 		};
 
 		function addImage() {
@@ -71,12 +71,12 @@
 				var url = "views/files/coworkers/select_file.mustache?static_only=true";
 				$.get(url, {cache: false}, function (template) {
 					var html = Mustache.to_html(template, Locale.getViewsStrings(["system", "files"]));
-					$("#modalEditView .select_file_container").html(html);
-					SelectFile.show({multi: true, parentModalId: "modalEditView", filter: [".png", ".jpeg", ".jpg", "gif"],
+					$("{{modalId}} .select_file_container").html(html);
+					SelectFile.show({multi: true, parentModalId: "#{{modalId}}", filter: [".png", ".jpeg", ".jpg", "gif"],
 						confirmed: function (ids) {
 							for (var i in ids) {
-								if ($("#modalEditView .current_images div[data-fileid=" + ids[i] + "]").length === 0)
-									$(".current_images", "#modalEditView").append(fileIdToHTML(ids[i]));
+								if ($(".current_images div[data-fileid=" + ids[i] + "]", "#{{modalId}}").length === 0)
+									$(".current_images", "#{{modalId}}").append(fileIdToHTML(ids[i]));
 							}
 							setFileIdsToForm();
 						},

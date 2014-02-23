@@ -139,8 +139,9 @@
 			options = (typeof options === "undefined") ? {} : options;
 			multiSelect = (options.multi === true);
 
-			if (options.parentModalId === undefined)
+			if (typeof options.parentModalId === "undefined")
 				options.parentModalId = "";
+			options.parentModalId = options.parentModalId.replace(/^#/, "");
 			parentModalId = options.parentModalId;
 
 			selectedFiles = [];

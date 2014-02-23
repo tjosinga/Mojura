@@ -16,6 +16,9 @@ module MojuraWebApp
       @options = options
 			if @options[:uses_editor]
 				WebApp.page.include_script_link('ext/jquery/jquery-textrange.min.js')
+				WebApp.page.include_template_file('template-texteditor-email', 'webapp/mojura/modals/texteditor_email.mustache')
+				WebApp.page.include_template_file('template-texteditor-video', 'webapp/mojura/modals/texteditor_video.mustache')
+				WebApp.page.include_template_file('template-texteditor-url', 'webapp/mojura/modals/texteditor_url.mustache')
 			end
 			if private_methods(false).include?(:initialize)
 				source_file = method(:initialize).source_location[0]

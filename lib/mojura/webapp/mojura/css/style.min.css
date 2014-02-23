@@ -2,9 +2,9 @@ body { padding-bottom: 20px; }
 
 iframe { border: 0; }
 
-textarea.form-control { height: 300px; }
+textarea.form-control { height: 300px; max-width: 100%; }
 
-textarea.small { height: 150px !important; }
+textarea.small { height: 100px !important; }
 
 .loading { display: block; background: center center no-repeat url("../images/loading.gif"); height: 50px; }
 

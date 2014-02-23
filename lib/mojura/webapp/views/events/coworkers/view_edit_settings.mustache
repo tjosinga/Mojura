@@ -4,7 +4,7 @@
 		"use strict";
 
 		function init(type, range) {
-			$("option[value=" + type + "], option[value=" + range + "]", "#modalEditView").prop("selected", "selected");
+			$("option[value=" + type + "], option[value=" + range + "]", "#{{modalId}}").prop("selected", "selected");
 		}
 
 		return {

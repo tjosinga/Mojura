@@ -43,5 +43,5 @@
 <script type="text/javascript">
 	max = '{{max_tweets}}';
 	if (max == '') max = '5';
-	$("select[name=setting_max_tweets] option[value=" + max + "]", "#modalEditView").prop("selected", "selected");
+	$("select[name=setting_max_tweets] option[value=" + max + "]", "#{{modalId}}").prop("selected", "selected");
 </script>

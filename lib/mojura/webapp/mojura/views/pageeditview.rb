@@ -23,6 +23,7 @@ module MojuraWebApp
 					@@views[locale].sort! { | a, b | a[:title] <=> b[:title] }
 				end
 				data[:views] = @@views[locale]
+
 				data[:col_spans] = (1..12).to_a.map { |i| {index: i, title: i} }
 				data[:col_spans].reverse!
 				data[:col_offsets] = (0..11).to_a.map { |i| {index: i, title: i} }
@@ -32,6 +33,13 @@ module MojuraWebApp
 
 				options[:uses_editor] = true
 				WebApp.page.include_script('if (document.location.hash == \'#editing\') jQuery(\'#toggle_edit_page\').click()')
+
+				views = []
+				WebApp.get_views.each { | view |
+					views.push({view_id: view[:view_id], min_col_span: view[:min_col_span], title: Locale.str(view[:view_id], :view_title)});
+					views.sort! { | x, y | x[:title] <=> y[:title] }
+				}
+				WebApp.page.include_script("PageEditor.init('#{WebApp.page.pageid}', #{JSON.generate(views)})")
 				WebApp.page.include_locale(:system)
 
 				WebApp.page.include_template_file('template-pageview-addedit-page', 'webapp/mojura/modals/pageedit_addedit_page.mustache')

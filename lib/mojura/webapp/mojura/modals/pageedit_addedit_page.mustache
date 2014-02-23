@@ -1,4 +1,6 @@
-<form action="__api__/pages/{{pageid}}" method="post" onsubmit="return false">
+<form action="__api__/pages/{{id}}" method="post" onsubmit="return false">
+	<input type="hidden" name="_method" value="{{method}}" />
+	{{#parentid}}<input type="hidden" name="parentid" value="{{parentid}}" />{{/parentid}}
 	<div class="form-group">
 		<label for="{{urid}}_title">{{locale_str_system_title}}</label>
 		<input id="{{urid}}_title" class="form-control" type="text" name="title" value="{{title}}" />

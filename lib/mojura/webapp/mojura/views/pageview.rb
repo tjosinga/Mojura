@@ -183,7 +183,12 @@ module MojuraWebApp
 		end
 
 		def include_template_file(id, filename)
-			self.include_template(id, File.read(Mojura.filename(filename)))
+			file = Mojura.filename(filename)
+			if file.nil?
+				WebApp.log.warn("include_template_filename: '#{filename}' does not exists");
+			else
+				self.include_template(id, File.read(file))
+			end
 		end
 
 		def include_locale(view)

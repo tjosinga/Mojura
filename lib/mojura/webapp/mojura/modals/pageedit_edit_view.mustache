@@ -1,6 +1,4 @@
-<form action="javascript:void(0)" method="post" onsubmit="">
-	<input type="hidden" name="pageid" value="{{pageid}}" />
-	<input type="hidden" name="viewid" value="test" />
+<form action="__api__/pages/{{pageid}}/view/{{viewid}}" method="post">
 
 	<ul class="nav nav-tabs nav-bottom-space">
 		<li class="active"><a href="#form_view_content" data-toggle="tab">{{locale_str_system_view_content}}</a></li>
@@ -13,7 +11,7 @@
 
 			<div class="form-group">
 				<label for="{{urid}}_title">{{locale_str_system_view_webview}}</label>
-				<select id="{{urid}}_title" class="form-control" name="view" onchange="PageEditor.checkVisibilityTextEditor()">
+				<select id="{{urid}}_title" class="form-control" name="view">
 					<option value="">{{locale_str_system_view_no_webview}}</option>
 					{{#views}}
 						<option class="min-col-span{{min_col_span}}" value="{{view_id}}">{{title}}</option>
@@ -21,16 +19,9 @@
 				</select>
 			</div>
 
-			<div class='form-group view_include_text'>
-				<label>
-					<input type='checkbox' onchange="$('#form_view_content .view_texteditor').toggle(this.checked)" />
-					{{locale_str_system_view_include_text}}
-				</label>
-			</div>
-
 			<div class="view_texteditor form-group">
 				<label for="{{urid}}_content">{{locale_str_system_view_text}}</label>
-				<textarea id="{{urid}}_content" class="form-control" name="content" rows="6"></textarea>
+				<textarea id="{{urid}}_content" class="form-control" name="content">{{content.raw}}</textarea>
 			</div>
 
 			<div class="clearfix"></div>
@@ -42,32 +33,41 @@
 			<div class="form-group">
 				<label for="{{urid}}_col_span">{{locale_str_system_view_col_span}}</label>
 				<select id="{{urid}}_col_span" class="form-control" name="col_span">
-					{{#col_spans}}
-						<option value="{{index}}">{{title}}</option>
-					{{/col_spans}}
+					{{#available_col_spans}}
+						<option>{{.}}</option>
+					{{/available_col_spans}}
 				</select>
 			</div>
 
 			<div class="form-group">
 				<label for="{{urid}}_col_offset">{{locale_str_system_view_col_offset}}</label>
 				<select id="{{urid}}_col_offset" class="form-control" name="col_offset">
-					{{#col_offsets}}
-						<option value="{{index}}">{{title}}</option>
-					{{/col_offsets}}
+					{{#available_col_offsets}}
+						<option>{{.}}</option>
+					{{/available_col_offsets}}
 				</select>
 			</div>
 
 			<div class="form-group">
 				<label for="{{urid}}_row_offset">{{locale_str_system_view_row_offset}}</label>
 				<select id="{{urid}}_row_offset" class="form-control" name="row_offset">
-					{{#row_offsets}}
-						<option value="{{index}}">{{title}}</option>
-					{{/row_offsets}}
+					<option>0</option>
+					<option>1</option>
+					<option>2</option>
+					<option>3</option>
+					<option>4</option>
+					<option>5</option>
+					<option>6</option>
+					<option>7</option>
+					<option>8</option>
+					<option>9</option>
+					<option>10</option>
+					<option>11</option>
 				</select>
 			</div>
 			<div class="form-group">
 				<label for="{{urid}}_classes">{{locale_str_system_view_classes}}</label>
-				<input id="{{urid}}_classes" class="form-control" type="text" name="setting_classes" value="" />
+				<input id="{{urid}}_classes" class="form-control" type="text" name="setting_classes" value="{{settings.classes}}" />
 			</div>
 
 			<div class="clearfix"></div>

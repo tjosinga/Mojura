@@ -1,5 +1,4 @@
-<form action="javascript:void(0)" method="post" onsubmit="return false">
-	<input type="hidden" name="pageid" value="{{pageid}}" />
-	<input type="hidden" name="viewid" value="" />
+<form action="__api__/pages/{{pageid}}/view/{{viewid}}" method="post">
+	<input type="hidden" name="_method" value="delete" />
 	{{locale_str_system_delete_view_warning}}
 </form>

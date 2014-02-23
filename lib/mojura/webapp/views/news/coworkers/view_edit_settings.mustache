@@ -4,7 +4,7 @@
 		"use strict";
 
 		function setType(value) {
-			$("option[value=" + value + "]", "#modalEditView").prop("selected", "selected");
+			$("option[value=" + value + "]", "#{{modalId}}").prop("selected", "selected");
 			onChangeType(value);
 		}
 
