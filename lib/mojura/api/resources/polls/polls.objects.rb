@@ -38,14 +38,10 @@ module MojuraAPI
 			return true
 		end
 
-		def on_save_data(data)
-			API.log.info(JSON.pretty_generate(data))
-		end
-
 		def get_votes(include_votes = true)
 			result = {}
 			result[:options] = []
-			result[:total_votes] = votes.inject { | sum, _ | sum + 1 }
+			result[:total_votes] = votes.inject { | sum, i | sum + i }
 			f = 100.00 / result[:total_votes] rescue 0.00
 			options.each_index { | index |
 				url = API.api_url + "polls/#{self.id}/votes/?_method=put&index=#{index}"
