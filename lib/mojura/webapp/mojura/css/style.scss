@@ -215,3 +215,24 @@ textarea.small {
 	float: right;
 	margin: 0px 0px 10px 10px;
 }
+
+body.dragging, body.dragging * {
+	cursor: move !important;
+}
+
+.dragged {
+	position: absolute;
+	opacity: 0.5;
+	z-index: 2000;
+}
+
+.page-content-parts {
+	li.placeholder {
+		position: relative;
+		/** More li styles **/
+	}
+	li.placeholder:before {
+		position: absolute;
+		/** Define arrowhead **/
+	}
+}
