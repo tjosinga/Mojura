@@ -28,6 +28,10 @@ private:
     # Mojura API uses a MongoDb. The following database is used:
     database :                  osisoft_mojuradev
 
+protected:
+  data:
+    receiver:                   info@osingasoftware.nl
+
 #setting default public settings
 public:
 

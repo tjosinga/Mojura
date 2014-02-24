@@ -1,0 +1,46 @@
+<div id="{{urid}}_contact_form_container">
+	<form id='{{urid}}_contact_form' action="__api__/data" method="post">
+		<input type="hidden" name="_method" value="put" />
+		<input type="hidden" name="type" value="contact" />
+
+		<div class="form-group">
+			<label for="{{urid}}_name">{{locale_str_system_name}}:</label>
+			<input id="{{urid}}_name" class="form-control" type="text" name="name" value="Taco" data-validation="required" />
+		</div>
+
+		<div class="form-group">
+			<label for="{{urid}}_email">{{locale_str_system_email}}:</label>
+			<input id="{{urid}}_email" class="form-control" type="text" name="email" value="taco@osisoft.nl" data-validation="required email" />
+		</div>
+
+		<div class="form-group">
+			<label for="{{urid}}_text">{{locale_str_system_description}}:</label>
+			<textarea id="{{urid}}_text" class="form-control" name="text" data-validation="required">Testing</textarea>
+		</div>
+
+		<div class="form-group">
+			<input type="submit" class="btn btn-primary" data-loading-text="{{locale_str_system_send}}..." value="{{locale_str_system_send}}" />
+		</div>
+
+	</form>
+	<div class="thanks hidden">{{locale_str_contact_thanks}}</div>
+</div>
+
+<script type="text/javascript">
+
+	$("form", "#{{urid}}_contact_form_container").ajaxForm({
+		beforeSubmit: function(arr, $form, options) {
+			if (Validator.validateForm($form[0])) {
+				$(".btn-primary", "#{{urid}}_contact_form_container").button("loading");
+				return true;
+			}
+			else {
+				return false;
+			}
+		},
+		success: function() {
+			$("form", "#{{urid}}_contact_form_container").remove();
+			$(".thanks", "#{{urid}}_contact_form_container").removeClass("hidden");
+		}
+	});
+</script>
