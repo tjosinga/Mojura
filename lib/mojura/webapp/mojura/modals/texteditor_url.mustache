@@ -1,14 +1,14 @@
 <form>
 	<div class="form-group">
 		<div class="form-group">
-			<label for="{{uid}}_url">{{locale_str_system_url}}</label>
-			<input id="{{uid}}_url" class="form-control" type="text" name="url" value="{{url}}" />
+			<label for="{{uid}}_url">{{locale_str_system_url}} *:</label>
+			<input id="{{uid}}_url" class="form-control" type="text" name="url" value="{{url}}" data-validation="required url" />
 		</div>
 	</div>
 
 	<div class="form-group">
 		<div class="form-group">
-			<label for="{{uid}}_visible_text">{{locale_str_system_visible_text}}</label>
+			<label for="{{uid}}_visible_text">{{locale_str_system_visible_text}}:</label>
 			<input id="{{uid}}_visible_text" class="form-control" type="text" name="visible_text" value="{{visible_text}}" />
 		</div>
 	</div>
