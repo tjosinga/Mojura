@@ -17,11 +17,11 @@ module MojuraWebApp
 		end
 
 		def render
-			type = @options[:type]
-			newsid = WebApp.page.request_params[:newsid]
+			type = @options[:type].to_s
+			newsid = WebApp.page.request_params[:newsid].to_s
 			if type == 'list'
 				view = NewsListView.new(@options)
-			elsif (type == 'article')
+			elsif (type == 'article') || (type.empty? && !newsid.empty?)
 				view = NewsArticleView.new(@options)
 			else
 				view = NewsOverviewView.new(@options)

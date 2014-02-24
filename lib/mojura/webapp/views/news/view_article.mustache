@@ -22,7 +22,13 @@
 
 {{{content.html}}}
 
-<div class="btn btn-default row-offset4" onclick="NewsView.gotoList()">{{locale_str_news_goto_list}}</div>
+{{#content.readmore}}
+	<a class='readmore' href="{{article_url}}?newsid={{id}}">{{locale_str_system_readmore}}</a>
+{{/content.readmore}}
+
+<div class="clearfix row-offset2">
+	<div class="btn btn-default" onclick="NewsView.gotoList()">{{locale_str_news_goto_list}}</div>
+</div>
 
 <!--<script type="text/javascript">-->
 	<!--$.ready(function() {-->
