@@ -28,8 +28,11 @@ module MojuraAPI
 
 		def send_as_email
 			receiver = Settings.get_s('receiver_' + type, :data)
-			receiver = Settings.get_s(:receiver, :data, 'taco@osisoft.nl') if receiver.empty?
-			API.log.warn("There's no known receiver for data block emails. The data block is stored, but not send as e-mail")
+			receiver = Settings.get_s(:receiver, :data) if receiver.empty?
+			if receiver.empty?
+				API.log.warn("There's no known receiver for data block emails. The data block is stored, but not send as e-mail")
+				return false # break
+			end
 
 			website = Thread.current[:mojura][:env]['HTTP_HOST']
 
@@ -51,6 +54,8 @@ module MojuraAPI
 			mail[:body] = body
 			mail.delivery_method(:sendmail)
 			mail.deliver!
+
+			return true
 		end
 
 	end
