@@ -9,8 +9,8 @@
 		}
 
 		function onChangeType (value) {
-			$("#{{urid}}_readmore").parent().toggle(value !== "list")
-			$("#{{urid}}_article_type").parent().toggle(value === "article")
+			$("#readmore_{{urid}}").parent().toggle(value !== "list")
+			$("#article_type_{{urid}}").parent().toggle(value === "article")
 		}
 
 		function onArticleTypeChange(value) {
@@ -26,8 +26,8 @@
 </script>
 
 <div class="form-group">
-	<label for="{{urid}}_type">{{locale_str_news_type}}</label>
-	<select id="{{urid}}_type" class="form-control" name="setting_type" onchange="NewsSettingsCoworker.onChangeType(this.value)">
+	<label for="type_{{urid}}">{{locale_str_news_type}}</label>
+	<select id="type_{{urid}}" class="form-control" name="setting_type" onchange="NewsSettingsCoworker.onChangeType(this.value)">
 		<option value="overview">{{locale_str_news_type_overview}}</option>
 		<option value="list">{{locale_str_news_type_list}}</option>
 		<option value="article">{{locale_str_news_type_article}}</option>
@@ -35,8 +35,8 @@
 </div>
 
 <div class="form-group">
-	<label for="{{urid}}_article_type">{{locale_str_news_article_type}}</label>
-	<select id="{{urid}}_article_type" class="form-control" name="setting_article_type" onchange="NewsSettingsCoworker.onArticleTypeChange(this.value)">
+	<label for="article_type_{{urid}}">{{locale_str_news_article_type}}</label>
+	<select id="article_type_{{urid}}" class="form-control" name="setting_article_type" onchange="NewsSettingsCoworker.onArticleTypeChange(this.value)">
 		<option value="0">{{locale_str_news_article_type_0}}</option>
 		<option value="1">{{locale_str_news_article_type_1}}</option>
 		<option value="2">{{locale_str_news_article_type_2}}</option>
@@ -47,8 +47,8 @@
 </div>
 
 <div class="form-group">
-	<label for="{{urid}}_readmore">{{locale_str_news_readmore}}</label>
-	<select id="{{urid}}_readmore" class="form-control" name="setting_readmore" onchange="NewsSettingsCoworker.onReadmoreChange(this.value)">
+	<label for="readmore_{{urid}}">{{locale_str_news_readmore}}</label>
+	<select id="readmore_{{urid}}" class="form-control" name="setting_readmore" onchange="NewsSettingsCoworker.onReadmoreChange(this.value)">
 		<option value="disabled">{{locale_str_news_readmore_disabled}}</option>
 		<option value="inline">{{locale_str_news_readmore_inline}}</option>
 		<option value="new_page">{{locale_str_news_readmore_new_page}}</option>

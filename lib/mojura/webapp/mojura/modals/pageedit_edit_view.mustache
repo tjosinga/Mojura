@@ -10,8 +10,8 @@
 		<div class="tab-pane active" id="form_view_content">
 
 			<div class="form-group">
-				<label for="{{urid}}_title">{{locale_str_system_view_webview}}</label>
-				<select id="{{urid}}_title" class="form-control" name="view">
+				<label for="title_{{urid}}">{{locale_str_system_view_webview}}</label>
+				<select id="title_{{urid}}" class="form-control" name="view">
 					<option value="">{{locale_str_system_view_no_webview}}</option>
 					{{#views}}
 						<option class="min-col-span{{min_col_span}}" value="{{view_id}}">{{title}}</option>
@@ -20,8 +20,8 @@
 			</div>
 
 			<div class="view_texteditor form-group">
-				<label for="{{urid}}_content">{{locale_str_system_view_text}}</label>
-				<textarea id="{{urid}}_content" class="form-control" name="content">{{content.raw}}</textarea>
+				<label for="content_{{urid}}">{{locale_str_system_view_text}}</label>
+				<textarea id="content_{{urid}}" class="form-control" name="content">{{content.raw}}</textarea>
 			</div>
 
 			<div class="clearfix"></div>
@@ -31,8 +31,8 @@
 
 		<div class="tab-pane" id="form_view_advanced">
 			<div class="form-group">
-				<label for="{{urid}}_col_span">{{locale_str_system_view_col_span}}</label>
-				<select id="{{urid}}_col_span" class="form-control" name="col_span">
+				<label for="col_span_{{urid}}">{{locale_str_system_view_col_span}}</label>
+				<select id="col_span_{{urid}}" class="form-control" name="col_span">
 					{{#available_col_spans}}
 						<option>{{.}}</option>
 					{{/available_col_spans}}
@@ -40,8 +40,8 @@
 			</div>
 
 			<div class="form-group">
-				<label for="{{urid}}_col_offset">{{locale_str_system_view_col_offset}}</label>
-				<select id="{{urid}}_col_offset" class="form-control" name="col_offset">
+				<label for="col_offset_{{urid}}">{{locale_str_system_view_col_offset}}</label>
+				<select id="col_offset_{{urid}}" class="form-control" name="col_offset">
 					{{#available_col_offsets}}
 						<option>{{.}}</option>
 					{{/available_col_offsets}}
@@ -49,8 +49,8 @@
 			</div>
 
 			<div class="form-group">
-				<label for="{{urid}}_row_offset">{{locale_str_system_view_row_offset}}</label>
-				<select id="{{urid}}_row_offset" class="form-control" name="row_offset">
+				<label for="row_offset_{{urid}}">{{locale_str_system_view_row_offset}}</label>
+				<select id="row_offset_{{urid}}" class="form-control" name="row_offset">
 					<option>0</option>
 					<option>1</option>
 					<option>2</option>
@@ -66,8 +66,8 @@
 				</select>
 			</div>
 			<div class="form-group">
-				<label for="{{urid}}_classes">{{locale_str_system_view_classes}}</label>
-				<input id="{{urid}}_classes" class="form-control" type="text" name="setting_classes" value="{{settings.classes}}" />
+				<label for="classes_{{urid}}">{{locale_str_system_view_classes}}</label>
+				<input id="classes_{{urid}}" class="form-control" type="text" name="setting_classes" value="{{settings.classes}}" />
 			</div>
 
 			<div class="clearfix"></div>

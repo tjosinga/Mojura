@@ -1,21 +1,21 @@
-<div id="{{urid}}_contact_form_container">
-	<form id='{{urid}}_contact_form' action="__api__/data" method="post">
+<div id="contact_form_container_{{urid}}">
+	<form id='contact_form_{{urid}}' action="__api__/data" method="post">
 		<input type="hidden" name="_method" value="put" />
 		<input type="hidden" name="type" value="contact" />
 
 		<div class="form-group">
-			<label for="{{urid}}_name">{{locale_str_system_name}}:</label>
-			<input id="{{urid}}_name" class="form-control" type="text" name="name" value="Taco" data-validation="required" />
+			<label for="name_{{urid}}">{{locale_str_system_name}}:</label>
+			<input id="name_{{urid}}" class="form-control" type="text" name="name" value="Taco" data-validation="required" />
 		</div>
 
 		<div class="form-group">
-			<label for="{{urid}}_email">{{locale_str_system_email}}:</label>
-			<input id="{{urid}}_email" class="form-control" type="text" name="email" value="taco@osisoft.nl" data-validation="required email" />
+			<label for="email_{{urid}}">{{locale_str_system_email}}:</label>
+			<input id="email_{{urid}}" class="form-control" type="text" name="email" value="taco@osisoft.nl" data-validation="required email" />
 		</div>
 
 		<div class="form-group">
-			<label for="{{urid}}_text">{{locale_str_system_description}}:</label>
-			<textarea id="{{urid}}_text" class="form-control" name="text" data-validation="required">Testing</textarea>
+			<label for="text_{{urid}}">{{locale_str_system_description}}:</label>
+			<textarea id="text_{{urid}}" class="form-control" name="text" data-validation="required">Testing</textarea>
 		</div>
 
 		<div class="form-group">
@@ -28,10 +28,10 @@
 
 <script type="text/javascript">
 
-	$("form", "#{{urid}}_contact_form_container").ajaxForm({
+	$("form", "#contact_form_container_{{urid}}").ajaxForm({
 		beforeSubmit: function(arr, $form, options) {
 			if (Validator.validateForm($form[0])) {
-				$(".btn-primary", "#{{urid}}_contact_form_container").button("loading");
+				$(".btn-primary", "#contact_form_container_{{urid}}").button("loading");
 				return true;
 			}
 			else {
@@ -39,8 +39,8 @@
 			}
 		},
 		success: function() {
-			$("form", "#{{urid}}_contact_form_container").remove();
-			$(".thanks", "#{{urid}}_contact_form_container").removeClass("hidden");
+			$("form", "#contact_form_container_{{urid}}").remove();
+			$(".thanks", "#contact_form_container_{{urid}}").removeClass("hidden");
 		}
 	});
 </script>

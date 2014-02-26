@@ -15,16 +15,16 @@
 </script>
 
 <div class="form-group">
-	<label for="{{urid}}_type">{{locale_str_events_type}}</label>
-	<select id="{{urid}}_type" class="form-control" name="setting_type" onchange="EventsSettingsCoworker.onChangeType(this.value)">
+	<label for="type_{{urid}}">{{locale_str_events_type}}</label>
+	<select id="type_{{urid}}" class="form-control" name="setting_type" onchange="EventsSettingsCoworker.onChangeType(this.value)">
 		<option value="list">{{locale_str_events_type_list}}</option>
 		<option value="calendar">{{locale_str_events_type_calendar}}</option>
 	</select>
 </div>
 
 <div class="form-group">
-	<label for="{{urid}}_readmore">{{locale_str_events_readmore}}</label>
-	<select id="{{urid}}_readmore" class="form-control" name="setting_readmore" onchange="NewsSettingsCoworker.onReadmoreChange(this.value)">
+	<label for="readmore_{{urid}}">{{locale_str_events_readmore}}</label>
+	<select id="readmore_{{urid}}" class="form-control" name="setting_readmore" onchange="NewsSettingsCoworker.onReadmoreChange(this.value)">
 		<option value="year">{{locale_str_events_readmore_disabled}}</option>
 		<option value="month">{{locale_str_events_readmore_inline}}</option>
 		<option value="week">{{locale_str_events_readmore_new_page}}</option>

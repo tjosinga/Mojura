@@ -3,17 +3,17 @@
 	<input type="hidden" name="folderid" value="{{folderid}}" />
 
 	<div class="form-group">
-		<label for="{{uid}}_file">{{locale_str_files_file}}</label>
-		<input id="{{uid}}_file" class="form-control" type="file" name="file" />
+		<label for="file_{{urid}}">{{locale_str_files_file}}</label>
+		<input id="file_{{urid}}" class="form-control" type="file" name="file" />
 	</div>
 
   <div class="form-group">
-		<label for="{{uid}}_title">{{locale_str_files_alt_name}}</label>
-		<input id="{{uid}}_title" class="form-control" type="text" name="title" value="{{title}}" />
+		<label for="title_{{urid}}">{{locale_str_files_alt_name}}</label>
+		<input id="title_{{urid}}" class="form-control" type="text" name="title" value="{{title}}" />
 	</div>
 
   <div class="form-group">
-		<label for="{{uid}}_description">{{locale_str_system_description}}</label>
-		<textarea id="{{uid}}_description" class="form-control small" name='description'>{{description.raw}}</textarea>
+		<label for="description_{{urid}}">{{locale_str_system_description}}</label>
+		<textarea id="description_{{urid}}" class="form-control small" name='description'>{{description.raw}}</textarea>
 	</div>
 </form>

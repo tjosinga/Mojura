@@ -2,7 +2,7 @@
 	<input type="hidden" name="_method" value="{{method}}" />
 	{{#parentid}}<input type="hidden" name="parentid" value="{{parentid}}" />{{/parentid}}
 	<div class="form-group">
-		<label for="{{urid}}_title">{{locale_str_system_title}} *:</label>
-		<input id="{{urid}}_title" class="form-control" type="text" name="title" value="{{title}}" data-validation="required" />
+		<label for="title_{{urid}}">{{locale_str_system_title}} *:</label>
+		<input id="title_{{urid}}" class="form-control" type="text" name="title" value="{{title}}" data-validation="required" />
 	</div>
 </form>

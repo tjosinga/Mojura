@@ -2,32 +2,32 @@
 	<input type="hidden" name="_method" value="{{method}}" />
 
 	<div class="form-group">
-		<label for="{{uid}}_title">{{locale_str_system_title}}</label>
-		<input id="{{uid}}_title" class="form-control" type="text" name="title" value="{{title}}" />
+		<label for="title_{{urid}}">{{locale_str_system_title}}</label>
+		<input id="title_{{urid}}" class="form-control" type="text" name="title" value="{{title}}" />
 	</div>
 
 	<div class="form-group">
-		<label for="{{uid}}_title">{{locale_str_news_imageid}}</label>
-		<input id="{{uid}}_imageid" type="hidden" name="imageid" value="{{imageid}}" />
+		<label for="title_{{urid}}">{{locale_str_news_imageid}}</label>
+		<input id="imageid_{{urid}}" type="hidden" name="imageid" value="{{imageid}}" />
 		<div class="row">
 			<div class="col-xs-6 col-md-3">
-				<div class="{{uid}}_img_remove close {{^imageid}}hidden{{/imageid}}" style="margin-right: 5px;" onclick="NewsAddEditForm.removeImage();">&times;</div>
+				<div class="img_remove_{{urid}} close {{^imageid}}hidden{{/imageid}}" style="margin-right: 5px;" onclick="NewsAddEditForm.removeImage();">&times;</div>
 				<a href="javascript:void(0)" class="thumbnail" onclick="NewsAddEditForm.selectImage();" style="min-height: 138px">
-					<img id="{{uid}}_img" src="{{#imageid}}__api__/files/{{imageid}}/download?type=thumb{{/imageid}}" alt="">
+					<img id="img_{{urid}}" src="{{#imageid}}__api__/files/{{imageid}}/download?type=thumb{{/imageid}}" alt="">
 				</a>
 			</div>
 		</div>
 	</div>
 
 	<div class="form-group view_texteditor">
-		<label for="{{uid}}_content">{{locale_str_news_content}}</label>
-		<textarea id="{{uid}}_content" class="form-control texteditor" name='content'>{{content.raw}}</textarea>
+		<label for="content_{{urid}}">{{locale_str_news_content}}</label>
+		<textarea id="content_{{urid}}" class="form-control texteditor" name='content'>{{content.raw}}</textarea>
 	</div>
 </form>
 
 <div class="select_file_container clearfix"></div>
 <script type="text/javascript">
-	TextEditor.init("#{{uid}}_content", "newsAddEditModal");
+	TextEditor.init("#content_{{urid}}", "newsAddEditModal");
 
 	var NewsAddEditForm = (function($) {
 		"use strict";
@@ -40,9 +40,9 @@
 					$("#newsAddEditModal .select_file_container").html(html);
 					SelectFile.show({multi: false, parentModalId: "newsAddEditModal", filter: [".png", ".jpeg", ".jpg", "gif"],
 						confirmed: function (id) {
-							$("#{{uid}}_imageid").val(id);
-							$("#{{uid}}_img").attr("src", "__api__/files/" + id + "/download?type=thumb");
-							$("#{{uid}}_img_remove").removeClass("hidden");
+							$("#imageid_{{urid}}").val(id);
+							$("#img_{{urid}}").attr("src", "__api__/files/" + id + "/download?type=thumb");
+							$("#img_remove_{{urid}}").removeClass("hidden");
 						}
 					});
 				});
@@ -50,9 +50,9 @@
 		};
 
 		function removeImage() {
-			$("#{{uid}}_imageid").val("");
-			$("#{{uid}}_img").attr("src", "");
-			$("#{{uid}}_img_remove").addClass("hidden");
+			$("#imageid_{{urid}}").val("");
+			$("#img_{{urid}}").attr("src", "");
+			$("#img_remove_{{urid}}").addClass("hidden");
 		}
 
 		return {
