@@ -222,7 +222,11 @@ module MojuraAPI
 			return self if (data.empty?)
 
 			data.stringify_keys!
-			@object_collection.update({_id: BSON::ObjectId(self.id)}, {'$set' => data}, {upsert: true}) if (!data.empty?)
+			if is_new
+				@id = @object_collection.insert(data).to_s
+			else
+				@object_collection.update({_id: BSON::ObjectId(self.id)}, {'$set' => data}) if (!data.empty?)
+			end
 			@fields.each { |_, options| options[:changed] = false }
 			@options[:tree].new.refresh if @options.has_key?(:tree)
 			return self
