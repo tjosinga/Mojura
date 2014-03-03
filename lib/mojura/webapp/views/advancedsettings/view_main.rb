@@ -10,19 +10,19 @@ module MojuraWebApp
 
 			data = {settings: {}}
 			api_result = WebApp.api_call('settings', api_options)
-			api_result.each { | level, resources |
+			api_result.each { | level, categories |
 				level_hash = level_to_as_hash(level)
-					resources.each { | resource, settings|
-					unless data[:settings].include?(resource)
-						data[:settings][resource] = {resource: resource, keyvalues: []}
+					categories.each { | category, settings|
+					unless data[:settings].include?(category)
+						data[:settings][category] = {category: category, keyvalues: []}
 					end
 					settings.each { |k, v|
-						id = "#{resource}_#{level}_#{k}"
+						id = "#{category}_#{level}_#{k}"
 						t = (v.is_a?(Boolean)) ? Boolean.to_s : v.class.to_s
 						values = type_to_as_hash(v)
 						values.merge!(level_hash)
 						values.merge!({id: id, level: level, key: k, value: v, type: t})
-						data[:settings][resource][:keyvalues].push(values)
+						data[:settings][category][:keyvalues].push(values)
 					}
 				}
 			}
@@ -33,7 +33,11 @@ module MojuraWebApp
 			data[:datatypes] = %w(String Boolean Integer Float) # Hash Array)
 			super(options, data)
 
-			WebApp.page.include_template_file('template_settings_row', 'webapp/views/advancedsettings/view_row.mustache')
+			WebApp.page.include_template_file('template-advancedsettings-row', 'webapp/views/advancedsettings/view_row.mustache')
+			WebApp.page.include_template_file('template-advancedsettings-addedit', 'webapp/views/advancedsettings/view_add_edit.mustache')
+			WebApp.page.include_template_file('template-advancedsettings-delete', 'webapp/views/advancedsettings/view_delete.mustache')
+			WebApp.page.include_locale(:advancedsettings)
+			WebApp.page.include_locale(:system)
 		end
 
 		def render(*args)

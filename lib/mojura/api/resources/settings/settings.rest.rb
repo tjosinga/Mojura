@@ -33,7 +33,13 @@ module MojuraAPI
 			value = (params.include?(:type)) ? StringConvertor.convert(params[:value], params[:type]) : params[:value]
 			level = (params[:level].to_s == 'public') ? :public : :protected
 			Settings.set(params[:key], value, params[:category], level)
-			return [value]
+			return {
+				category: params[:category],
+			  level: level,
+			  type: params[:type] || :String,
+			  key: params[:key],
+			  value: value
+			}
 		end
 
 		def put_conditions

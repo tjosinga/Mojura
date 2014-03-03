@@ -3,96 +3,27 @@
 <div class="panel-group" id="accordion">
 	{{#settings}}
 	  <div class="panel panel-default">
-	    <div class="panel-heading" style="cursor: pointer" data-toggle="collapse" data-parent="#settings_panel" href="#settings_body_{{resource}}">
+	    <div class="panel-heading" style="cursor: pointer" data-toggle="collapse" data-parent="#settings_panel" href="#settings_body_{{category}}">
 	      <h4 class="panel-title">
 	        <a class="accordion-toggle">
-	          {{resource}}
+	          {{category}}
 	        </a>
 	      </h4>
 	    </div>
-			<div id="settings_body_{{resource}}" class="panel-collapse collapse">
+			<div id="settings_body_{{category}}" class="panel-collapse collapse">
 				<div class="panel-body">
 					<p>
-						<table class='table-striped settings-table-{{resource}}' width='100%'>
+						<div class='settings-category-keyvalues settings-{{category}}' width='100%'>
 							{{#keyvalues}}
 								{{>view_row}}
 							{{/keyvalues}}
-						</table>
+						</div>
 					</p>
-					<button class="btn btn-default btn-sm" onclick="AdvancedSettings.showAdd('{{resource}}')">
+					<button class="btn btn-default btn-sm" onclick="AdvancedSettingsView.showAdd('{{category}}')">
 						<span class="fa fa-plus"></span> {{locale_str_advancedsettings_action_add}}
 					</button>
 				</div>
 			</div>
 		</div>
 	{{/settings}}
-</div>
-
-<div class="modal fade" id="settings_add_modal">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal">&times;</button>
-				<h3>{{locale_str_advancedsettings_action_add}}</h3>
-			</div>
-			<div class="modal-body">
-				<form action="__api__/settings/" method="post">
-					<input type="hidden" name="_method" value="put" />
-					<input type="hidden" name="resource" value="" />
-
-					<div class="form-group">
-						<label>{{locale_str_advancedsettings_type}}</label>
-						<select class="form-control" name="type">
-							{{#datatypes}}
-								<option value="{{.}}">{{.}}</option>
-							{{/datatypes}}
-						</select>
-					</div>
-
-					<div class="form-group">
-						<label>{{locale_str_advancedsettings_level}}</label>
-						<select class="form-control" name="level">
-							<option value="protected" selected="selected">{{locale_str_advancedsettings_level_protected}}</option>
-							<option value="public">{{locale_str_advancedsettings_level_public}}</option>
-						</select>
-					</div>
-
-					<div class="form-group">
-						<label>{{locale_str_advancedsettings_key}}</label>
-						<input class="form-control" type="text" name="key"/>
-					</div>
-
-					<div class="form-group">
-						<label>{{locale_str_advancedsettings_value}}</label>
-						<input class="form-control" type="text" name="value"/>
-					</div>
-
-				</form>
-			</div>
-			<div class="modal-footer">
-				<button class="btn" data-dismiss="modal">{{locale_str_system_cancel}}</button>
-				<button class="btn btn-default btn-primary save-btn">{{locale_str_system_save}}</button>
-			</div>
-		</div>
-	</div>
-</div>
-
-<div class="modal fade" id="settings_delete_modal">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal">&times;</button>
-				<h3>{{locale_str_advancedsettings_action_delete}}</h3>
-			</div>
-			<div class="modal-body">
-				{{locale_str_advancedsettings_delete_warning}}
-			</div>
-			<div class="modal-footer">
-				<button class="btn" data-dismiss="modal">{{locale_str_system_cancel}}</button>
-				<button class="btn btn-default btn-danger delete-btn">
-					<span class="fa fa-trash-o"></span> {{locale_str_system_delete}}
-				</button>
-			</div>
-		</div>
-	</div>
 </div>

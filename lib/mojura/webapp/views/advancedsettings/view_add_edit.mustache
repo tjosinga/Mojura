@@ -1,19 +1,37 @@
-<form enctype="multipart/form-data" action="__api__/files/{{id}}" method="post">
+<form action="__api__/settings/{{#key}}{{category}}/{{key}}{{/key}}" method="post">
 	<input type="hidden" name="_method" value="{{method}}" />
-	<input type="hidden" name="folderid" value="{{folderid}}" />
+	<input type="hidden" name="category" value="{{category}}" />
 
 	<div class="form-group">
-		<label>{{locale_str_files_file}}</label>
-		<input class="form-control" type="file" name="file" />
+		<label for="settings-datatype-{{urid}}">{{locale_str_advancedsettings_type}}</label>
+		<select id="settings-datatype-{{urid}}" class="form-control" name="type">
+			{{#datatypes}}
+				<option value="{{.}}">{{.}}</option>
+			{{/datatypes}}
+		</select>
 	</div>
 
-  <div class="form-group">
-		<label for="title_{{urid}}">{{locale_str_files_alt_name}}</label>
-		<input class="form-control" id="title_{{urid}}" type="text" name="title" value="{{title}}" />
-	 </div>
-
-  <div class="form-group">
-		<label for="description_{{urid}}">{{locale_str_system_description}}</label>
-		<textarea class="form-control" id="description_{{urid}}" name='description'>{{description.raw}}</textarea>
+	<div class="form-group">
+		<label for="settings-datatype-{{urid}}">{{locale_str_advancedsettings_level}}</label>
+		<select id="settings-datatype-{{urid}}" class="form-control" name="level">
+			<option value="protected" selected="selected">{{locale_str_advancedsettings_level_protected}}</option>
+			<option value="public">{{locale_str_advancedsettings_level_public}}</option>
+		</select>
 	</div>
+
+	<div class="form-group">
+		<label for="settings-key-{{urid}}">{{locale_str_advancedsettings_key}}</label>
+		<input id="settings-key-{{urid}}" class="form-control" type="text" name="key" value="{{key}}" />
+	</div>
+
+	<div class="form-group">
+		<label for="settings-value-{{urid}}">{{locale_str_advancedsettings_value}}</label>
+		<input id="settings-value-{{urid}}" class="form-control" type="text" name="value" value="{{value}}"/>
+	</div>
+
 </form>
+<script type="text/javascript">
+	$("#settings-datatype-{{urid}}").val("{{type}}");
+	window.alert("{{type}}");
+</script>
+
