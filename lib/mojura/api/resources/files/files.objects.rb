@@ -105,15 +105,15 @@ module MojuraAPI
 			size = 1024 if (size > 1024)
 
 			resize_str = case type
-				             when 'width' then
-					             "#{size}>"
-				             when 'height' then
-					             "x#{size}>"
-				             when 'cropped' then
-					             "#{size}x#{size}^"
-				             else
-					             "#{size}x#{size}>" # i.e. auto
-			             end
+				when 'width' then
+				 "#{size}>"
+				when 'height' then
+				 "x#{size}>"
+				when 'cropped' then
+				 "#{size}x#{size}^"
+				else
+				 "#{size}x#{size}>" # i.e. auto
+			end
 
 			image = MiniMagick::Image.open(orig_filename)
 			image.resize(resize_str)

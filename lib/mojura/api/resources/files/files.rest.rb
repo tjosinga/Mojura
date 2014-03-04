@@ -48,7 +48,7 @@ module MojuraAPI
 		end
 
 		def process_upload(file, params)
-			if (params.include?(:file)) && (!params[:file][:tempfile].nil?)
+			if (params.include?(:file)) && (params[:file].is_a?(Hash)) && (!params[:file][:tempfile].nil?)
 				file.save_uploaded_file(params[:file][:tempfile].path)
 			end
 		end
