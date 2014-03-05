@@ -3,8 +3,8 @@
 
 Gem::Specification.new do |s|
 	s.name            = 'mojura'
-	s.version         = '0.1.10'
-	s.date            = '2014-03-03'
+	s.version         = '0.1.11'
+	s.date            = '2014-03-05'
 	s.summary         = 'Mojura'
 	s.description     = 'A CMS based on a REST API, MongoDb backend and a Bootstrap frontend.'
 	s.authors         = ['Taco Jan Osinga']
