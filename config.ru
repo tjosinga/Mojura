@@ -9,6 +9,8 @@ use Rack::Runtime
 use Rack::CommonLogger
 use Rack::ETag
 
+use Mojura::GemVersions
+
 # Uncomment if your webserver doesn't support X-Sendfile (also see http://wiki.nginx.org/XSendfile)
 use Mojura::StaticFiles
 use Mojura::SendFiles

@@ -13,6 +13,7 @@ use Rack::ETag
 # use Rack::Session::Memcache
 use Rack::Session::Cookie, :secret => 'my_secret_cookie_string'
 
+use Mojura::GemVersions
 use Mojura::StaticFiles
 
 use Mojura::Formatter

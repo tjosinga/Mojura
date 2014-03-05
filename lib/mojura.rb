@@ -17,6 +17,7 @@ require 'middleware/methodoverride'
 require 'middleware/cookietokens'
 require 'middleware/formatter'
 require 'middleware/sendfiles'
+require 'middleware/gem_versions'
 
 # Forcing UTF-8 encoding
 Encoding.default_external = Encoding::UTF_8
