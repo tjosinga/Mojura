@@ -71,7 +71,7 @@
 				var url = "views/files/coworkers/select_file.mustache?static_only=true";
 				$.get(url, {cache: false}, function (template) {
 					var html = Mustache.to_html(template, Locale.getViewsStrings(["system", "files"]));
-					$("{{modalId}} .select_file_container").html(html);
+					$("#{{modalId}} .select_file_container").html(html);
 					SelectFile.show({multi: true, parentModalId: "#{{modalId}}", filter: [".png", ".jpeg", ".jpg", "gif"],
 						confirmed: function (ids) {
 							for (var i in ids) {

@@ -2,31 +2,32 @@
 	#file-popup .modal-body .thumbnail {
 		width: 100%;
 		cursor: pointer;
-		padding-top: 148px;
+		padding-top: 10px;
 		display: inline-block;
-		background-size: 128px;
-		background: no-repeat center 10px;
 		position: relative;
 		margin: 0 5px 10px 0;
 	}
+
+	#file-popup .modal-body .thumbnail .thumb {
+		height: 128px;
+		width: 128px;
+		text-align: center;
+		margin: 0 auto;
+		background: no-repeat center;
+	}
+
+	#file-popup .modal-body .thumbnail .thumb .fa {
+		font-size: 96px;
+		line-height: 128px;
+		color: #ccc;
+	}
+
 
 	#file-popup .modal-body .caption {
 		text-overflow: ellipsis;
 		overflow: hidden;
 		white-space: nowrap;
 		text-align: center;
-	}
-
-	#file-popup .modal-body .fa {
-		display: block;
-		position: absolute;
-		top: 10px;
-		color: silver;
-		font-size: 40px;
-		width: 100%;
-		line-height: 128px;
-		text-align: center;
-		vertical-align: middle;
 	}
 
 	#file-popup .modal-body .selected {
@@ -85,7 +86,9 @@
 		{{^is_base_folder}}
 		<div class="col-xs-6 col-sm-4 col-md-3">
 			<div class='thumbnail'>
-				<span class='fa fa-folder-open'></span>
+				<div class="thumb">
+					<span class='fa fa-folder-open'></span>
+				</div>
 				<div class='caption'>
 					<%locale_str_files_parent_folder%>
 				</div>
@@ -96,7 +99,9 @@
 		{{#subfolders}}
 		<div class="col-xs-6 col-sm-4 col-md-3">
 			<div class='thumbnail' onclick="SelectFile.setCurrentFolderId('{{id}}')">
-				<span class='fa fa-folder'></span>
+				<div class="thumb">
+					<span class='fa fa-folder'></span>
+				</div>
 				<div class='caption'>{{title}}</div>
 			</div>
 		</div>
@@ -105,7 +110,8 @@
 		{{#files}}
 			{{#is_image}}
 			<div class="col-xs-6 col-sm-4 col-md-3">
-				<div class='thumbnail thumbnail_{{id}}' onclick="SelectFile.selectFile('{{id}}', this)" style="background-image: url('__api__/files/{{id}}/download?type=avatar')">
+				<div class='thumbnail thumbnail_{{id}}' onclick="SelectFile.selectFile('{{id}}', this)">
+					<div class="thumb" style="background-image: url('__api__/files/{{id}}/download?type=thumb')"></div>
 					<div class='caption'>{{title}}</div>
 				</div>
 			</div>
@@ -113,7 +119,9 @@
 			{{^is_image}}
 			<div class="col-xs-6 col-sm-4 col-md-3">
 				<div class='thumbnail thumbnail_{{id}}' onclick="SelectFile.selectFile('{{id}}', this);">
-					<span class='fa fa-file'></span>
+					<div class="thumb">
+						<span class='fa fa-file'></span>
+					</div>
 					<div class='caption'>{{title}}</div>
 				</div>
 			</div>
@@ -160,12 +168,12 @@
 					refresh();
 				})
 				.one("hidden.bs.modal", function () {
-						if (parentModalId != "") {
-							$("#" + parentModalId).one("shown.bs.modal",function () {
-								$("#" + parentModalId + ", .modal-backdrop").addClass("fade");
-							}).modal("show");
-						}
-						jModal.remove();
+					if (parentModalId != "") {
+						$("#" + parentModalId).one("shown.bs.modal",function () {
+							$("#" + parentModalId + ", .modal-backdrop").addClass("fade");
+						}).modal("show");
+					}
+					jModal.remove();
 				});
 
 			if (parentModalId == "") {
@@ -207,8 +215,9 @@
 			if (jElem.hasClass("selected")) {
 				jElem.removeClass("selected");
 				selectedFiles.splice(selectedFiles.indexOf(id), 1);
-				if (selectedFiles.length === 0)
+				if (selectedFiles.length === 0) {
 					$("#file-popup .btn-primary").addClass("disabled");
+				}
 			} else {
 				if (!multiSelect) {
 					$("#file-popup .modal-body .selected").removeClass("selected");
