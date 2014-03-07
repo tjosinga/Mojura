@@ -3,29 +3,56 @@ module MojuraAPI
 	module AccessControl
 		extend self
 
-		# Structure: role_based_rights[resource][type][right] = boolean
-		# NB: A right may be true, false or nil. Nil means it skips to the next check.
+		# Structure: group_rights[group][module][resource] = crud bits
+		# NB: A result may be true, false or nil. Nil means it skips to the next check.
 
-		:true
-		:false
-		:skip
-
-		@role_based_rights = {}
+		@group_rights = {}
 
 		def load
-			@role_based_rights = Settings.get_h(:access_control, :core, {}, [:private])
+			@group_rights = Settings.get_h(:group_rights, :core, {}, [:private])
+			@group_rights.symbolize_keys!
 		end
 
 		def save
-			Settings.set(:access_control, :core, :private)
+			Settings.set(:group_rights, :core, :private)
+			Settings.save_db_settings
 		end
 
-		def set_role_right(resource, type, value)
-
+		def set_role_right(groupid, module_name, resource, right, value)
+			groupid = groupid.to_sym
+			module_name = module_name.to_sym
+			resource = resource.to_sym
+			right = right.to_sym
+			@group_rights[groupid] ||= {}
+			@group_rights[groupid][module_name] ||= {}
+			@group_rights[groupid][module_name][resource] ||= {}
+			@group_rights[groupid][module_name][resource][right] = value
 		end
 
-		def get_role_right(resource, type)
+		def get_role_right(groupid, module_name, resource)
+			return @group_rights[groupid.to_sym][module_name.to_sym][resource.to_sym] rescue nil
+		end
 
+		#-------------------------------------------------------------------------------------------------------------------
+
+		def right_to_sym(right)
+			case right
+				when RIGHT_CREATE then :create
+				when RIGHT_READ then :read
+				when RIGHT_UPDATE then :update
+				when RIGHT_DELETE then :delete
+				when RIGHT_CUSTOM then :custom
+			end
+		end
+
+		def sym_to_right(sym)
+			case sym
+				when :create then RIGHT_CREATE
+				when :read then RIGHT_READ
+				when :update then RIGHT_UPDATE
+				when :delete then RIGHT_DELETE
+				when :custom then RIGHT_CUSTOM
+			end
 		end
 
 		#-------------------------------------------------------------------------------------------------------------------
@@ -41,7 +68,11 @@ module MojuraAPI
 
 		def has_role_based_owner_rights?(rights, object, user)
 			resource = (object.is_a?(Class)) ? object : object.class
-			#TODO Add some magic here
+			group_right = nil
+			user.groupids.each { | groupid |
+
+			}
+			if
 			return has_role_based_group_rights?(rights, object, user)
 		end
 
@@ -49,7 +80,11 @@ module MojuraAPI
 			resource = (object.is_a?(Class)) ? object : object.class
 			#TODO Add some magic here
 			right_code = rights.inject{ | sum, x | sum + x }
-			return (object.is_a?(Class)) ? false : has_object_based_guest_rights?(right_code, object, user)
+			if (object.is_a?(Class))
+				return false
+			else
+				return has_object_based_guest_rights?(right_code, object, user)
+			end
 		end
 
 		# Checks rights if user is a guest
