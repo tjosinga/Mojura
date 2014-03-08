@@ -16,8 +16,8 @@ module MojuraAPI
 	# :category: DbObject
 	class DbObject
 
-		@object_module = nil
-		@object_collection = nil
+		@module = nil
+		@collection = nil
 		@loaded = false
 		@options = nil
 
@@ -30,9 +30,9 @@ module MojuraAPI
 			@loaded = false
 			@options = options || {}
 			@id = id
-			@object_collection = MongoDb.collection(db_col_name)
-			@object_module = (@options.has_key?(:module_name)) ? @options[:module_name] : db_col_name
-			@options[:api_url] ||= API.api_url + @object_module
+			@collection = MongoDb.collection(db_col_name)
+			@module = (@options.has_key?(:module_name)) ? @options[:module_name] : db_col_name
+			@options[:api_url] ||= API.api_url + @module
 			@fields = get_fields(:load_fields)
 
 			# include all fields of added mixins, if it has a method named load_xxxx_fields
@@ -205,7 +205,7 @@ module MojuraAPI
 		# sets values directly to avoid validation and :changed being set
 		# :category: Database methods
 		def load_from_db
-			data = @object_collection.find_one('_id' => BSON::ObjectId(@id)).to_a
+			data = @collection.find_one('_id' => BSON::ObjectId(@id)).to_a
 			# raise NullObjectError.new if data.empty?
 			return self.load_from_hash(data, true)
 		end
@@ -223,9 +223,9 @@ module MojuraAPI
 
 			data.stringify_keys!
 			if is_new
-				@id = @object_collection.insert(data).to_s
+				@id = @collection.insert(data).to_s
 			else
-				@object_collection.update({_id: BSON::ObjectId(self.id)}, {'$set' => data}) if (!data.empty?)
+				@collection.update({_id: BSON::ObjectId(self.id)}, {'$set' => data}) if (!data.empty?)
 			end
 			@fields.each { |_, options| options[:changed] = false }
 			@options[:tree].new.refresh if @options.has_key?(:tree)
@@ -250,7 +250,7 @@ module MojuraAPI
 		# Deletes the object from the database.
 		# :category: Database methods
 		def delete_from_db
-			@object_collection.remove({_id: BSON::ObjectId(self.id)})
+			@collection.remove({_id: BSON::ObjectId(self.id)})
 			@id = nil
 			@options[:tree].new.refresh if @options.has_key?(:tree)
 			return self

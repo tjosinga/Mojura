@@ -98,8 +98,10 @@ module MojuraAPI
 	end
 
 	# Rights constants according the CRUD standard, though in this case CREATE is replaced by CUSTOM.
+	# CREATE is used, but not within objects. These only use 4 crud bits.
 	# These rights can be used as bitmasks. There for these constants can be used to construct combinations.
 	# RIGHTS_READWRITE could be the combination of RIGHT_READ + RIGHT_UPDATE
+	RIGHT_CREATE = 16
 	RIGHT_CUSTOM = 8
 	RIGHT_READ = 4
 	RIGHT_UPDATE = 2
