@@ -174,7 +174,12 @@ module MojuraWebApp
 
 		def include_template(id, code)
 			self.include_script_link('ext/mustache/mustache.min.js')
-						code.gsub!(/\{\{locale_str_([0-9a-zA-Z]+)_(\w+)\}\}/) { |str|
+			if id == 'rights-controls' #&& Settings.get_b(:advanced_rights_control) #TODO
+				%w(advanced_object_rights advanced_object_rights_users advanced_object_rights_groups).each { | name |
+					@templates.push({id: 'template-' + name.gsub('_', '-'), template: File.read("#{Mojura::PATH}/webapp/mojura/modals/#{name}.mustache")})
+				}
+			end
+			code.gsub!(/\{\{locale_str_([0-9a-zA-Z]+)_(\w+)\}\}/) { |str|
 				view, str_id = str.gsub(/(\{\{locale_str_|\}\})/, '').split('_', 2)
 				Locale.str(view.to_sym, str_id.to_sym)
 			}

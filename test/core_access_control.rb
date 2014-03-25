@@ -116,7 +116,8 @@ module MojuraAPI
 
 		def test_object_rights
 			# Checks all possible rights
-			65535.times { | right |
+			#65535.times { | right |
+			6.times { | right |
 				an_object = MockObject.new({ title: 'test', right: right, userids: [4], groupids: [10], module: 'test_module'})
 				assert_equal((right & 8 > 0), AccessControl.has_rights?(RIGHT_CUSTOM, an_object, @guest))
 				assert_equal((right & 4 > 0), AccessControl.has_rights?(RIGHT_READ,   an_object, @guest))

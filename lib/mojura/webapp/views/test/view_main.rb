@@ -4,8 +4,10 @@ module MojuraWebApp
 
 	class TestView < BaseView
 
-		def render
-			return render_files
+		def initialize(options)
+			WebApp.page.include_locale(:system)
+			WebApp.page.include_template_file('rights-controls', 'webapp/mojura/modals/rights_controls.mustache')
+			super
 		end
 
 		def render_thread

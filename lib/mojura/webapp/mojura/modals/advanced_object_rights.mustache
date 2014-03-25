@@ -1,0 +1,52 @@
+<div class="row">
+	<div class="col-xs-4"></div>
+	<div class="col-xs-2 text-center">{{locale_str_system_right_custom}}</div>
+	<div class="col-xs-2 text-center">{{locale_str_system_right_read}}</div>
+	<div class="col-xs-2 text-center">{{locale_str_system_right_update}}</div>
+	<div class="col-xs-2 text-center">{{locale_str_system_right_delete}}</div>
+</div>
+{{#categories}}
+	<div class="row advanced-rights hover-glow">
+		<div class="col-xs-4">{{name}}</div>
+		{{#bits}}
+			<div class="col-xs-2 text-center">
+				<input type="checkbox" class="advanced-rights-checkbox" data-bit="{{.}}" />
+			</div>
+		{{/bits}}
+	</div>
+{{/categories}}
+
+<div class="row row-offset2">
+	<div class="col-sm-6">
+		<h5>
+			<button class="btn btn-default btn-xs pull-right" onclick="$('#add-user-{{urid}}').show();">
+				<span class='fa fa-plus'></span>
+			</button>
+			{{locale_str_system_owners}}
+		</h5>
+		<div class="clearfix advanced-rights-list advanced-rights-users-list">
+		</div>
+		<div class="advanced-rights-users-alert alert alert-info hidden">{{locale_str_system_rights_no_users}}</div>
+		<!--<div id="add-user-{{urid}}" class="row-offset1">-->
+			<!--<div class="input-group input-group-sm">-->
+				<!--<input type="text" class="form-control input-sm" data-provide="typeahead" autocomplete="off" />-->
+				<!--<span class="input-group-addon bg-success"><i class="fa fa-pencil"></i></span>-->
+				<!--<span class="input-group-addon bg-danger"><i class="fa fa-pencil"></i></span>-->
+			<!--</div>-->
+		<!--</div>-->
+	</div>
+
+	<div class="row-offset2 visible-xs"></div>
+
+	<div class="col-sm-6">
+		<h5>
+			<button class="btn btn-default btn-xs pull-right" onclick="$('#add-group-{{urid}}').show();">
+				<span class='fa fa-plus'></span>
+			</button>
+			{{locale_str_system_groupmembers}}
+		</h5>
+		<div class="clearfix advanced-rights-list advanced-rights-groups-list">
+		</div>
+		<div class="advanced-rights-groups-alert alert alert-info hidden">{{locale_str_system_rights_no_groups}}</div>
+	</div>
+</div>
