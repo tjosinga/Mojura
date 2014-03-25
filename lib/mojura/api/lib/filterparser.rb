@@ -64,6 +64,7 @@ module MojuraAPI
 
 		def get_exp
 			@currentkey = @scanner.scan(/\w+/)
+			@currentkey = '_id' if @currentkey == 'id' # Mojura uses id, while MongoDB uses _id.
 			@processedkey = false
 			@scanner.scan(/:/)
 			value = self.get_value_or_list
@@ -95,13 +96,17 @@ module MojuraAPI
 				@scanner.skip(/\}/)
 				return result
 			else
-				token = @scanner.scan(/((\w+)|('.+')|(".+"))/)
+				token = @scanner.scan(/(([\w\*]+)|('.+')|(".+"))/)
 				token = token.strip_quotes if (!token.nil?)
 				# TODO: extra type checking should be implemented here.
 				if token.match(/^(true|false)$/)
 					token = StringConvertor.convert(token, :boolean)
 				elsif token.match(/^\-?\d+$/)
 					token = StringConvertor.convert(token, :integer)
+				elsif token.match(/^[0-9a-f]{24}$/)
+					token = StringConvertor.convert(token, 'bson::objectid')
+				elsif token.match(/\*/)
+					token = {'$regex' => token.gsub('*', '.*'), '$options' => 'i'}
 				end
 				return token
 			end

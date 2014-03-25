@@ -1,4 +1,4 @@
-$:.unshift File.join(File.dirname(__FILE__), '..')
+$:.unshift File.join(File.dirname(__FILE__), '../lib/mojura')
 require 'test/unit'
 require 'api/lib/filterparser'
 
@@ -15,6 +15,8 @@ module MojuraAPI
 			assert_equal({'$and' => [{'username' => 'osingat'}, {'lastname' => 'cosinga'}]}, FilterParser.parse('(username:osingat),(lastname:cosinga)'))
 			assert_equal({'$and' => [{'username' => 'osingat'}, {'lastname' => 'Osinga-Albers'}]}, FilterParser.parse('(username:osingat),(lastname:\'Osinga-Albers\')'))
 			assert_equal({'username' => {'$in' => %w(osingat hannah)}}, FilterParser.parse('username:{in:(osingat,hannah)}'))
+			assert_equal({'username' => {'$in' => %w(osingat hannah)}}, FilterParser.parse('username:{in:(osingat,hannah)}'))
+			assert_equal({'username' => {'$regex' => 'osi.*', '$options' => 'i'}}, FilterParser.parse('username:osi*'))
 
 			# assert_equal({"$and" => [{"$or" => [{"username" => {"$gt" => "tjosinga"}}, {"username" => "cosinga"}]}], "lastname" => [{"gt" => "osinga"}]}, FilterParser.parse("username:({gt:tjosinga}|cosinga),lastname:{gt:osinga}"))
 

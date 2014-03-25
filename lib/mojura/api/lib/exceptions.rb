@@ -5,7 +5,7 @@ module MojuraAPI
 
 		def initialize(error_string, error_code = 500)
 			@code = error_code
-			API.log.error(error_string)
+			API.log.error(error_string) rescue
 			super(error_string)
 		end
 	end
