@@ -24,14 +24,14 @@ module MojuraAPI
 
 		def load_fields
 			yield :folderid, BSON::ObjectId, :required => false
-			yield :title, String, :required => true
+			yield :title, String, :required => true, :searchable => true, :searchable_weight => 2
 			yield :sort_title, String, :required => true, :hidden => true #this field is needed because MongoDb doesn't natural sorting...
 			yield :mime_type, String, :required => false
 			yield :extension, String, :required => false
 			yield :filesize, Integer, :required => false, :extended_only => true
 			yield :img_width, Integer, :required => false, :extended_only => true
 			yield :img_height, Integer, :required => false, :extended_only => true
-			yield :description, RichText, :required => false
+			yield :description, RichText, :required => false, :searchable => true
 		end
 
 		def delete_from_db
@@ -222,8 +222,8 @@ module MojuraAPI
 
 		def load_fields
 			yield :parentid, BSON::ObjectId, :required => false, :default => nil
-			yield :title, String, :required => true, :default => ''
-			yield :description, RichText, :required => false, :default => '', :extended_only => true
+			yield :title, String, :required => true, :default => '', :searchable => true, :searchable_weight => 2
+			yield :description, RichText, :required => false, :default => '', :extended_only => true, :searchable => true
 		end
 
 		def delete_from_db

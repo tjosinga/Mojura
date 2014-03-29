@@ -14,12 +14,12 @@ module MojuraAPI
 		end
 
 		def load_fields
-			yield :username, String, :required => true, :validations => {matches_regexp: /^[a-zA-Z]+[\w\.-]*$/}
+			yield :username, String, :required => true, :validations => {matches_regexp: /^[a-zA-Z0-9]+[\w\.-]*$/}, :searchable => true
 			yield :password, String, :required => true, :hidden => true
 			yield :email, String, :required => true, :extended_only => true, :validations => {is_email: true}
-			yield :firstname, String, :required => true
-			yield :infix, String
-			yield :lastname, String, :required => true
+			yield :firstname, String, :required => true, :searchable => true, :searchable_weight => 10
+			yield :infix, String, :searchable => true
+			yield :lastname, String, :required => true, :searchable => true, :searchable_weight => 10
 			yield :is_admin, Boolean, :required => true, :default => false, :extended_only => true
 			yield :groupids, Array, :default => [], :hidden => true
 			yield :state, String, :default => :active
@@ -166,6 +166,10 @@ module MojuraAPI
 
 		def logged_in?
 			!id.nil? && (API.current_user.id == self.id)
+		end
+
+		def get_search_index_title_and_description
+			[fullname, '']
 		end
 
 	end

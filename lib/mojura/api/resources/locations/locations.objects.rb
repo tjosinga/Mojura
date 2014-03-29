@@ -18,11 +18,11 @@ module MojuraAPI
 		end
 
 		def load_fields
-			yield :title, String, :required => true
+			yield :title, String, :required => true, :searchable => true, :searchable_weight => 3
 			yield :latitude, Float, :required => true, :default => 0
 			yield :longitude, Float, :required => true, :default => 0
 			yield :category, String, :required => false, :validations => {matches_regexp: /^[a-zA-Z]+[\w\.-]*$/}
-			yield :description, RichText, :required => false
+			yield :description, RichText, :required => false, :searchable => true
 			yield :address, String, :required => false
 		end
 

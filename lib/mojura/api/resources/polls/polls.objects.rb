@@ -9,8 +9,8 @@ module MojuraAPI
 		end
 
 		def load_fields
-			yield :title, String, :required => true
-			yield :description, String
+			yield :title, String, :required => true, :searchable => true, :searchable_weight => 3
+			yield :description, String, :searchable => true
 			yield :options, Array, :default => []
 			yield :active, Boolean, :default => false
 			yield :votes, Array, :default => [], :hidden => true
