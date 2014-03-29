@@ -8,13 +8,17 @@ require 'api/lib/dbobject_rights'
 require 'api/lib/dbobject_tags'
 require 'api/lib/dbobject_votes'
 require 'api/lib/dbobject_orderid'
+require 'api/lib/dbobject_searchable'
 
 module MojuraAPI
 
-	# DbObject is a base vlass for all database driven objects. It has support for saving and loading to a database,
+	# DbObject is a base class for all database driven objects. It has support for saving and loading to a database,
 	# caching and validation when setting variables.
 	# :category: DbObject
+
 	class DbObject
+
+		include DbObjectSearchable
 
 		@object_module = nil
 		@object_collection = nil
@@ -36,8 +40,8 @@ module MojuraAPI
 			@fields = get_fields(:load_fields)
 
 			# include all fields of added mixins, if it has a method named load_xxxx_fields
-			self.class.included_modules.each { |mod|
-				mod.instance_methods.each { |method|
+			self.class.included_modules.each { | mod |
+				mod.instance_methods.each { | method |
 					@fields.merge!(get_fields(method)) if (method.match(/^load_\w+_fields$/))
 				}
 			}
@@ -66,6 +70,8 @@ module MojuraAPI
 					hidden: (options[:hidden]),
 					default: options[:default],
 					group: options[:group],
+					searchable: options[:searchable].is_a?(TrueClass),
+					searchable_weight: options[:searchable_weight] || 1,
 					extended_only: (options[:extended_only]),
 				}
 				if type == RichText
@@ -198,7 +204,7 @@ module MojuraAPI
 					if (k.to_sym == :right) && (!v.is_a?(Hash))
 						self.set_field_value(k, DbObjectRights.int_to_rights_hash(v.to_i))
 					else
-					(silent) ? @fields[k.to_sym][:value] = v : self.set_field_value(k, v)
+						(silent) ? @fields[k.to_sym][:value] = v : self.set_field_value(k, v)
 					end
 				elsif (k.to_s == 'id') || (k.to_s == '_id')
 					@id = v.to_s
@@ -215,7 +221,7 @@ module MojuraAPI
 		# sets values directly to avoid validation and :changed being set
 		# :category: Database methods
 		def load_from_db
-			data = @object_collection.find_one('_id' => BSON::ObjectId(@id)).to_a
+		data = @object_collection.find_one('_id' => BSON::ObjectId(@id)).to_a
 			# raise NullObjectError.new if data.empty?
 			return self.load_from_hash(data, true)
 		end
@@ -237,6 +243,17 @@ module MojuraAPI
 			else
 				@object_collection.update({_id: BSON::ObjectId(self.id)}, {'$set' => data}) if (!data.empty?)
 			end
+
+			if regenerate_for_search_index?
+				rights = {
+					right: self.right || DbObjectRights.int_to_rights_hash(0x7044), # TODO Include valid default rights
+					userids: self.userids || [],
+					groupids: self.groupids || []
+				}
+				title, description = self.get_search_index_title_and_description
+				SearchIndex.set(@id, @object_collection.name, title, description, get_weighted_keywords, rights)
+			end
+
 			@fields.each { |_, options| options[:changed] = false }
 			@options[:tree].new.refresh if @options.has_key?(:tree)
 			return self
@@ -260,7 +277,8 @@ module MojuraAPI
 		# Deletes the object from the database.
 		# :category: Database methods
 		def delete_from_db
-			@object_collection.remove({_id: BSON::ObjectId(self.id)})
+			SearchIndex.unset(@id)
+			@object_collection.remove({_id: BSON::ObjectId(@id)})
 			@id = nil
 			@options[:tree].new.refresh if @options.has_key?(:tree)
 			return self
