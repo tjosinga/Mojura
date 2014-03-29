@@ -142,7 +142,10 @@ module MojuraAPI
 					end
 				end
 			}
-			result[:rights][:allowed] = self.rights_as_bool if ((result.has_key?(:rights)) && (self.class.include?(DbObjectRights)))
+			if ((result.has_key?(:rights)) && (self.class.include?(DbObjectRights)))
+				result[:rights][:allowed] = rights_as_bool
+				result[:rights][:right] = DbObjectRights.rights_hash_to_int(result[:rights][:right])
+			end
 			result[:api_url] = @options[:api_url] + '/' + @id if (compact)
 			return result
 		end
@@ -192,11 +195,18 @@ module MojuraAPI
 		def load_from_hash(values, silent = false)
 			values.each { |k, v|
 				if @fields.has_key?(k.to_sym)
+					if (k.to_sym == :right) && (!v.is_a?(Hash))
+						self.set_field_value(k, DbObjectRights.int_to_rights_hash(v.to_i))
+					else
 					(silent) ? @fields[k.to_sym][:value] = v : self.set_field_value(k, v)
+					end
 				elsif (k.to_s == 'id') || (k.to_s == '_id')
 					@id = v.to_s
 				end
 			}
+			if silent #TODO: Temporary. All tables need to convert right int to right hash
+				save_to_db
+			end
 			self.loaded = true
 			return self
 		end

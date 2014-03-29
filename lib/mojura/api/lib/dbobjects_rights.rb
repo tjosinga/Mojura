@@ -7,13 +7,13 @@ module MojuraAPI
 
 		def get_rights_where(user)
 			if (user.nil?) || (user.id.nil?) || (user.id == '')
-				result = {'$where' => '(this.right & 0x0004) == 0x0004'}
+				result = {'right.guests.read' => true}
 			elsif !user.administrator?
 				groupids = user.groupids
-				users_rights_where = {'$where' => '(this.right & 0x0040) == 0x0040'}
-				owner_rights_where = {'$and' => [{userids: user.id}, {'$where' => '(this.right & 0x4000) = 0x4000'}]}
+				users_rights_where = {'right.users.read' => true}
+				owner_rights_where = {'$and' => [{userids: user.id}, {'right.owners.read' => true}]}
 				result = {'$or' => [users_rights_where, owner_rights_where]}
-				result['$or'] << {'$and' => [{groupids: {'$in' => groupids}}, {'$where' => '(this.right & 0x0400) = 0x0400'}]} if (groupids.count > 0)
+				result['$or'] << {'$and' => [{groupids: {'$in' => groupids}}, {'right.groups.read' => true}]} if (groupids.count > 0)
 			else
 				result = {}
 			end

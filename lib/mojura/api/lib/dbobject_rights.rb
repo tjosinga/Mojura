@@ -4,18 +4,18 @@ module MojuraAPI
 
 		def rights_default
 			class_name = self.class.name[11..-1].to_sym
-			Settings.get_h(:object_rights, @object_module)[class_name] || 0x7044
+			int_to_rights_hash(Settings.get_h(:object_rights, @object_module)[class_name] || 0x7044)
 		end
 
 		def load_rights_fields
 			yield :userids, Array, :required => true, :group => :rights, :default => [ API.current_user.id ]
 			yield :groupids, Array, :required => false, :group => :rights, :default => []
-			yield :right, Integer, :required => true, :group => :rights, :default => rights_default
+			yield :right, Hash, :required => true, :group => :rights, :default => rights_default
 		end
 
 		def user_has_right?(right, user = nil)
 			user ||= API.current_user
-			return user.has_object_right?(right, self.userids, self.groupids, self.right.to_i)
+			return user.has_object_right?(right, self.userids, self.groupids, self.right)
 		end
 
 		def rights_as_bool(user = nil)
@@ -24,6 +24,33 @@ module MojuraAPI
 			        read: self.user_has_right?(RIGHT_READ, user),
 			        update: self.user_has_right?(RIGHT_UPDATE, user),
 			        delete: self.user_has_right?(RIGHT_DELETE, user)}
+		end
+
+
+		def DbObjectRights.int_to_rights_hash(i)
+			mask = 1
+			result = {}
+			[:guests, :users, :groups, :owners].each { | level |
+				[:delete, :update, :read, :custom].each { | action |
+					result[level] ||= {}
+					result[level][action] = i & mask > 0
+					mask = mask << 1
+				}
+			}
+			return result
+		end
+
+		def DbObjectRights.rights_hash_to_int(hsh)
+			result = 0
+			hsh.symbolize_keys!
+			[:owners, :groups, :users, :guests].each { | level |
+				[:custom, :read, :update, :delete].each { | action |
+					hsh[level] ||= {}
+					result = result << 1
+					result += (hsh[level][action].is_a?(TrueClass) ? 1 : 0)
+				}
+			}
+			return result
 		end
 
 	end
