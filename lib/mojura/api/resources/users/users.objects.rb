@@ -14,12 +14,12 @@ module MojuraAPI
 		end
 
 		def load_fields
-			yield :username, String, :required => true, :validations => {matches_regexp: /^[a-zA-Z]+[\w\.-]*$/}
+			yield :username, String, :required => true, :validations => {matches_regexp: /^[a-zA-Z0-9]+[\w\.-]*$/}, :searchable => true
 			yield :password, String, :required => true, :hidden => true
 			yield :email, String, :required => true, :extended_only => true, :validations => {is_email: true}
-			yield :firstname, String, :required => true
-			yield :infix, String
-			yield :lastname, String, :required => true
+			yield :firstname, String, :required => true, :searchable => true, :searchable_weight => 10
+			yield :infix, String, :searchable => true
+			yield :lastname, String, :required => true, :searchable => true, :searchable_weight => 10
 			yield :is_admin, Boolean, :required => true, :default => false, :extended_only => true
 			yield :groupids, Array, :default => [], :hidden => true
 			yield :state, String, :default => :active
@@ -68,22 +68,24 @@ module MojuraAPI
 		end
 
 		def has_object_right?(orig_right, object_userids, object_groupids, object_right)
+			unless (object_right.is_a?(Hash))
+				object_right = DbObjectRights::int_to_rights_hash(object_right.to_i)
+			end
+			object_right.symbolize_keys!
 			if self.administrator?
 				result = true
 			elsif (self.id.nil?) || (self.id == '')
-				result = ((object_right & orig_right) == orig_right)
+				result = object_right[:guests][orig_right]
 			else
 				result = false
-				users_right = (orig_right << 4)
-				group_right = (orig_right << 8)
-				owner_right = (orig_right << 12)
 				self.userids = [] unless self.userids.is_a?(Array)
 				self.groupids = [] unless self.groupids.is_a?(Array)
 				object_userids = [] unless object_userids.is_a?(Array)
 				object_groupids = [] unless object_groupids.is_a?(Array)
-				result = ((object_right & users_right) == users_right) unless result
-				result = (((self.userids.to_a & object_userids).length > 0) && ((object_right & owner_right) == owner_right)) unless result
-				result = (((self.groupids & object_groupids).length > 0) && ((object_right & group_right) == group_right)) unless result
+				result = (object_right[:users][orig_right]) unless result
+				result = (object_right[:owners][orig_right]) unless result
+				result = ((self.userids.to_a & object_userids).length > 0) && (object_right[:owners][orig_right]) unless result
+				result = ((self.groupids & object_groupids).length > 0) && (object_right[:groups][orig_right]) unless result
 			end
 			return result
 		end
@@ -164,6 +166,10 @@ module MojuraAPI
 
 		def logged_in?
 			!id.nil? && (API.current_user.id == self.id)
+		end
+
+		def get_search_index_title_and_description
+			[fullname, '']
 		end
 
 	end

@@ -13,7 +13,7 @@ module MojuraAPI
 		end
 
 		def load_fields
-			yield :message, RichText, :required => true
+			yield :message, RichText, :required => true, :searchable => true
 			yield :author, BSON::ObjectId, :required => true, :default => API.current_user.id
 			yield :likes, Hash, :default => {}
 			yield :mentions, Array, :default => []

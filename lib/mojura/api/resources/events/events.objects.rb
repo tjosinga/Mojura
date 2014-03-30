@@ -14,15 +14,15 @@ module MojuraAPI
 		end
 
 		def load_fields
-			yield :title, String, :required => true
-			yield :location, String, :required => false
+			yield :title, String, :required => true, :searchable => true, :searchable_weight => 3
+			yield :location, String, :required => false, :searchable => true
 			yield :category, String, :required => false, :validations => {matches_regexp: /^[a-zA-Z]+[\w\.-]*$/}
 			yield :start, Time, :required => true, :default => Time.new
 			yield :duration, Integer, :default => 60
 			yield :end, Time, :hidden => true # only for querying confenience
 			yield :all_day, Boolean, :default => false
 			#yield :recurring, Boolean, :required, :default => false
-			yield :notes, RichText, :required => false
+			yield :notes, RichText, :required => false, :searchable => true
 		end
 
 		def on_save_data(data)

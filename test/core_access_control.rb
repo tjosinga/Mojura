@@ -69,7 +69,7 @@ module MojuraAPI
 		end
 
 		def test_group_rights
-			right = 0b00001111000001000100
+			right = DbObjectRights.int_to_rights_hash(0b00001111000001000100)
 			an_object = MockObject.new({ title: 'test', right: right, userids: [4], groupids: [10], module: :test_module})
 
 			assert_equal(false, AccessControl.has_rights?(RIGHT_CREATE, an_object, @user))
@@ -118,7 +118,8 @@ module MojuraAPI
 			# Checks all possible rights
 			#65535.times { | right |
 			6.times { | right |
-				an_object = MockObject.new({ title: 'test', right: right, userids: [4], groupids: [10], module: 'test_module'})
+				right_hash = DbObjectRights.int_to_rights_hash(right)
+				an_object = MockObject.new({ title: 'test', right: right_hash, userids: [4], groupids: [10], module: 'test_module'})
 				assert_equal((right & 8 > 0), AccessControl.has_rights?(RIGHT_CUSTOM, an_object, @guest))
 				assert_equal((right & 4 > 0), AccessControl.has_rights?(RIGHT_READ,   an_object, @guest))
 				assert_equal((right & 2 > 0), AccessControl.has_rights?(RIGHT_UPDATE, an_object, @guest))

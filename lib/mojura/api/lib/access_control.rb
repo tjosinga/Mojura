@@ -1,3 +1,5 @@
+require 'api/lib/dbobject_rights'
+
 module MojuraAPI
 
 	module AccessControl
@@ -26,7 +28,6 @@ module MojuraAPI
 			groupid = groupid.to_s
 			module_name = module_name.to_s
 			object_name = object_name.to_s.gsub(/^(\w+::)*/, '').downcase
-			right = right_to_sym(right)
 			@group_rights[groupid] ||= {}
 			@group_rights[groupid][module_name] ||= {}
 			@group_rights[groupid][module_name][object_name] ||= {}
@@ -48,22 +49,9 @@ module MojuraAPI
 
 		def get_role_right(groupid, module_name, object_name, right)
 			object_name = object_name.to_s.gsub(/^(\w+::)*/, '').downcase
-			return @group_rights[groupid.to_s][module_name.to_s][object_name][right_to_sym(right)] rescue nil
+			return @group_rights[groupid.to_s][module_name.to_s][object_name][right] rescue nil
 		end
 
-		#-------------------------------------------------------------------------------------------------------------------
-
-		def right_to_sym(right)
-			case right
-				when RIGHT_CREATE then :create
-				when RIGHT_READ then :read
-				when RIGHT_UPDATE then :update
-				when RIGHT_DELETE then :delete
-				when RIGHT_CUSTOM then :custom
-				else
-					right.to_sym
-			end
-		end
 
 		#-------------------------------------------------------------------------------------------------------------------
 
@@ -81,7 +69,7 @@ module MojuraAPI
 		end
 
 		def has_role_based_group_rights?(right, object, user)
-			group_right = ((right == RIGHT_CREATE) && (object.id.nil?)) ? false : nil
+			group_right = ((right == :create) && (object.id.nil?)) ? false : nil
 			user.groupids.each { | groupid |
 				val = get_role_right(groupid, object.module, object.class.name, right)
 				group_right = (group_right.is_a?(TrueClass)) || val unless val.nil?
@@ -92,7 +80,7 @@ module MojuraAPI
 		# Checks rights if user is a guest
 		def has_object_based_guest_rights?(right, object, user)
 			if user.id.nil?
-				return (right & object.right) > 0
+				return object.right[:guests][right]
 			end
 			return has_object_based_owner_rights?(right, object, user)
 		end
@@ -100,7 +88,7 @@ module MojuraAPI
 		# Checks rights if user is the owner of the object
 		def has_object_based_owner_rights?(right, object, user)
 			if (object.userids.include?(user.id))
-				return ((right << 12) & object.right) > 0
+				return object.right[:owners][right]
 			end
 			return has_object_based_group_rights?(right, object, user)
 		end
@@ -108,14 +96,14 @@ module MojuraAPI
 		# Checks rights if user is in the same group as the object
 		def has_object_based_group_rights?(right, object, user)
 			if (object.groupids & user.groupids).size > 0
-				return ((right << 8) & object.right) > 0
+				return object.right[:groups][right]
 			end
 			return has_object_based_other_users_rights?(right, object)
 		end
 
 		# Checks rights if user is logged in, but not owner and not in a intersecting group
 		def has_object_based_other_users_rights?(right, object)
-			return ((right << 4) & object.right) > 0
+			return object.right[:users][right]
 		end
 
 	end

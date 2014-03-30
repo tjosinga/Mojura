@@ -12,9 +12,9 @@ module MojuraAPI
 		end
 
 		def load_fields
-			yield :name, String, :required => true
+			yield :name, String, :required => true, :searchable => true, :searchable_weight => 1
 			yield :group_rights, Array, :extended_only => true
-			yield :description, String, :extended_only => true
+			yield :description, String, :extended_only => true, :searchable => true
 		end
 
 		#noinspection RubyUnusedLocalVariable,RubyUnusedLocalVariable

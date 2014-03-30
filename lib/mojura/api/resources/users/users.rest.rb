@@ -15,6 +15,20 @@ module MojuraAPI
 		end
 
 		def all(params)
+
+			#db.users.remove({"_id": {$nin: [ObjectId("533294b95861f1b0dc000003", ObjectId("528cb0415861f132030000a4")]}});
+			if (params[:importusers] == 'true')
+				new_users = JSON.parse( IO.read(Mojura.filename('api/resources/users/userssample.json')))
+				new_users.each { | user_data |
+					user_data.symbolize_keys!
+					user_data[:password] = '123456789' # Just something useless
+					user_data[:username].gsub!(' ', '')
+					begin
+						User.new.load_from_hash(user_data).save_to_db
+					rescue ValidationError
+					end
+				}
+			end
 			return paginate(params) { |options| Users.new(self.filter(params), options) }
 		end
 

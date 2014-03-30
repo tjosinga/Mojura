@@ -1,3 +1,4 @@
+# encoding: utf-8
 # The classes in this file extend common datatypes with some extra functionality.
 require 'bson'
 
@@ -88,6 +89,14 @@ class String
 		gsub(/\A['"]+|['"]+\Z/, '')
 	end
 
+	# Normalizes a string, remove diacritics (accents)
+	def normalize
+		tr(
+			"ÀÁÂÃÄÅàáâãäåĀāĂăĄąÇçĆćĈĉĊċČčÐðĎďĐđÈÉÊËèéêëĒēĔĕĖėĘęĚěĜĝĞğĠġĢģĤĥĦħÌÍÎÏìíîïĨĩĪīĬĭĮįİıĴĵĶķĸĹĺĻļĽľĿŀŁłÑñŃńŅņŇňŉŊŋÒÓÔÕÖØòóôõöøŌōŎŏŐőŔŕŖŗŘřŚśŜŝŞşŠšſŢţŤťŦŧÙÚÛÜùúûüŨũŪūŬŭŮůŰűŲųŴŵÝýÿŶŷŸŹźŻżŽž",
+			"AAAAAAaaaaaaAaAaAaCcCcCcCcCcDdDdDdEEEEeeeeEeEeEeEeEeGgGgGgGgHhHhIIIIiiiiIiIiIiIiIiJjKkkLlLlLlLlLlNnNnNnNnnNnOOOOOOooooooOoOoOoRrRrRrSsSsSsSssTtTtTtUUUUuuuuUuUuUuUuUuUuWwYyyYyYZzZzZz")
+	end
+
+
 end
 
 
@@ -98,13 +107,11 @@ module MojuraAPI
 	end
 
 	# Rights constants according the CRUD standard, though in this case CREATE is replaced by CUSTOM.
-	# CREATE is used, but not within objects. These only use 4 crud bits.
-	# These rights can be used as bitmasks. There for these constants can be used to construct combinations.
-	# RIGHTS_READWRITE could be the combination of RIGHT_READ + RIGHT_UPDATE
-	RIGHT_CREATE = 16
-	RIGHT_CUSTOM = 8
-	RIGHT_READ = 4
-	RIGHT_UPDATE = 2
-	RIGHT_DELETE = 1
+	# CREATE is used, but not within objects.
+	RIGHT_CREATE = :create
+	RIGHT_CUSTOM = :custom
+	RIGHT_READ =   :read
+	RIGHT_UPDATE = :update
+	RIGHT_DELETE = :delete
 
 end

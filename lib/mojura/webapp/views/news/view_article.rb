@@ -10,6 +10,7 @@ module MojuraWebApp
 			@newsid = WebApp.page.request_params[:newsid]
 			if newsid.nil?
 				data = WebApp.api_call('news')[:items][0] # TODO: change to options[:article_type]
+				data ||= {} # Might be empty
 				data[:article_url] = 'news'
 				data[:show_title] = true
 			else

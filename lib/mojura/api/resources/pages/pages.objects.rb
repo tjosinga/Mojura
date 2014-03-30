@@ -18,9 +18,9 @@ module MojuraAPI
 
 		def load_fields
 			yield :parentid, BSON::ObjectId, :required => false
-			yield :title, String, :required => true, :default => ''
+			yield :title, String, :required => true, :default => '', :searchable => true, :searchable_weight => 4
 			yield :in_menu, Boolean, :required => false, :default => true
-			yield :menu_title, String, :required => false, :default => ''
+			yield :menu_title, String, :required => false, :default => '', :searchable => true, :searchable_weight => 2
 			yield :views, Array, :required => false
 		end
 
