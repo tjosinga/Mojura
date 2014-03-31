@@ -49,3 +49,8 @@ public:
     # The default locale
     locale:                       nl
 
+
+  # By default all objects are readible by guests. Users are generally hidden for guests.
+  users:
+    object_rights:
+      User:                      28736

@@ -246,10 +246,14 @@ module MojuraAPI
 
 			if regenerate_for_search_index?
 				rights = {
-					right: self.right || DbObjectRights.int_to_rights_hash(0x7044), # TODO Include valid default rights
+					right: self.right,
 					userids: self.userids || [],
 					groupids: self.groupids || []
 				}
+				if (rights[:right].nil?)
+					default_right = Settings.get_h(:object_rights, @module)[self.class.name[11..-1].to_sym] || 0x704
+					rights[:right] = int_to_rights_hash(default_right)
+				end
 				title, description = self.get_search_index_title_and_description
 				SearchIndex.set(@id, @collection.name, title, description, get_weighted_keywords, rights)
 			end

@@ -3,8 +3,7 @@ module MojuraAPI
 	module DbObjectRights
 
 		def rights_default
-			class_name = self.class.name[11..-1].to_sym
-			int_to_rights_hash(Settings.get_h(:object_rights, @object_module)[class_name] || 0x7044)
+			int_to_rights_hash(Settings.get_h(:object_rights, @module)[self.class.name[11..-1].to_sym] || 0x7044)
 		end
 
 		def load_rights_fields

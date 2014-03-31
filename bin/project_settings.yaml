@@ -22,11 +22,11 @@ private:
     # The realm is used in the digest of the stored passwords of users.
     # Therefor changing the realm will make all accounts inaccessible.
     # Users must use the function to request a new password.
-    realm :                     mojuradev
+    realm :                     __REALM__
 
 
     # Mojura API uses a MongoDb. The following database is used:
-    database :                  osisoft_mojuradev
+    database :                  __DATABASE__
 
 #setting default public settings
 public:
@@ -40,8 +40,12 @@ public:
 
     # Set to true if the website is currently in development.
     # It will generate more usefull information.
-    developing:                   true
+    developing:                   false
 
     # The default locale
     locale:                       nl
 
+  # By default all objects are readible by guests. Users are generally hidden for guests.
+  users:
+    object_rights:
+      User:                      28736
