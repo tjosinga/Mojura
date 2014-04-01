@@ -6,3 +6,8 @@ rights:
 
 dependecies:
   [ user, groups ]
+
+
+maintenance:
+  reindex_search:
+    pages: Page

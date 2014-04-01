@@ -4,3 +4,8 @@ global_rights:
 object_rights:
   File: 0x7044
   Folder: 0x7044
+
+maintenance:
+  reindex_search:
+    files_files: DbFile
+    files_folders: DbFolder

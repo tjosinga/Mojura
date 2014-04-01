@@ -244,23 +244,25 @@ module MojuraAPI
 				@collection.update({_id: BSON::ObjectId(self.id)}, {'$set' => data}) if (!data.empty?)
 			end
 
-			if regenerate_for_search_index?
-				rights = {
-					right: self.right,
-					userids: self.userids || [],
-					groupids: self.groupids || []
-				}
-				if (rights[:right].nil?)
-					default_right = Settings.get_h(:object_rights, @module)[self.class.name[11..-1].to_sym] || 0x704
-					rights[:right] = int_to_rights_hash(default_right)
-				end
-				title, description = self.get_search_index_title_and_description
-				SearchIndex.set(@id, @collection.name, title, description, get_weighted_keywords, rights)
-			end
+			save_to_search_index if regenerate_for_search_index?
 
 			@fields.each { |_, options| options[:changed] = false }
 			@options[:tree].new.refresh if @options.has_key?(:tree)
 			return self
+		end
+
+		def save_to_search_index
+			rights = {
+				right: self.right,
+				userids: self.userids || [],
+				groupids: self.groupids || []
+			}
+			if (rights[:right].nil?)
+				rights[:right] = Settings.get_h(:object_rights, @module)[self.class.name[11..-1].to_sym] || 0x704
+			end
+			rights[:right] = DbObjectRights.int_to_rights_hash(rights[:right].to_i) unless rights[:right].is_a?(Hash)
+			title, description = self.get_search_index_title_and_description
+			SearchIndex.set(@id, @collection.name, title, description, get_weighted_keywords, rights)
 		end
 
 		# Sets all the values to the original state

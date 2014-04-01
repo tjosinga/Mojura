@@ -4,3 +4,6 @@ rights:
 dependecies:
   [ groups ]
 
+maintenance:
+  reindex_search:
+    users: User

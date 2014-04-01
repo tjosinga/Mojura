@@ -3,3 +3,8 @@ rights:
 
 dependecies:
   [ user, groups ]
+
+maintenance:
+  reindex_search:
+    posts_posts: Post
+    posts_replies: Reply

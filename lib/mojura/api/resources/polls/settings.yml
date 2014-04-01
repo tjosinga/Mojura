@@ -3,3 +3,7 @@ rights:
 
 dependecies:
   [ ]
+
+maintenance:
+  reindex_search:
+    polls: Poll

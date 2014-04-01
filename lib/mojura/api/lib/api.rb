@@ -129,12 +129,14 @@ module MojuraAPI
 
 		def load_module(mod)
 			filename = (mod == :core) ? 'api/lib/settings.yml' : "api/resources/#{mod}/settings.yml"
+			filename = Mojura.filename(filename)
 			yaml = YAML.load_file(filename) rescue {}
 			yaml.symbolize_keys!
 			options = {ignore_if_exists: true, type: :file}
 			Settings.set(:version, (yaml[:version] || '0.0.0'), mod, :private, options)
 			Settings.set(:global_rights, yaml[:global_rights], mod, :private, options) if yaml[:global_rights].is_a?(Array)
 			Settings.set(:object_rights, yaml[:object_rights], mod, :protected, options) if yaml[:object_rights].is_a?(Hash)
+			Settings.set(:maintenance, yaml[:maintenance], mod, :protected, options) if yaml[:maintenance].is_a?(Hash)
 			yaml[:private].each { |k, v| Settings.set(k, v, mod, :private, options) } if yaml[:private].is_a?(Hash)
 			yaml[:protected].each { |k, v| Settings.set(k, v, mod, :protected, options) } if yaml[:protected].is_a?(Hash)
 			yaml[:public].each { |k, v| Settings.set(k, v, mod, :public, options) } if yaml[:public].is_a?(Hash)
@@ -223,6 +225,9 @@ module MojuraAPI
 				result = authenticate(params)
 			elsif request_path == 'signoff'
 				result = sign_off(params)
+			elsif request_path == 'maintenance'
+				raise NoRightsException.new unless current_user.administrator?
+				result = maintenance(params)
 			else
 				result = call_resource(request_path, params, method)
 			end
@@ -405,6 +410,32 @@ module MojuraAPI
 					}
 				}
 			}
+		end
+
+		def maintenance(params)
+			result = {}
+			@modules.each { | mod |
+				Settings.get_h(:maintenance, mod).each { | method, collections |
+					collections.each { | collection, klass |
+						result[mod] ||= {}
+						result[mod][method] ||= {}
+						result[mod][method][collection] = reindex_search(collection, klass) if (method == :reindex_search)
+					}
+				}
+			}
+			return result
+		end
+
+		def reindex_search(collection_name, klass)
+			collection = MongoDb.collection(collection_name)
+			count = 0
+			collection.find.each { | row |
+				object = MojuraAPI.const_get(klass).new
+				object.load_from_hash(row, true)
+				object.save_to_search_index
+				count += 1
+			}
+			return count
 		end
 
 		private :load_module

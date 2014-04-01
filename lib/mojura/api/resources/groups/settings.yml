@@ -3,3 +3,7 @@ global_rights:
 
 dependecies:
   [ user ]
+
+maintenance:
+  reindex_search:
+    groups: Group

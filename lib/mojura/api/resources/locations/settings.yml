@@ -1,2 +1,6 @@
 rights:
   [ maintain, create ]
+
+maintenance:
+  reindex_search:
+    locations: Location
