@@ -118,6 +118,10 @@ module MojuraAPI
 			return self.to_a.to_s
 		end
 
+		def api_url
+			@options[:api_url] + '/' + @id
+		end
+
 		# Extracts all values of the database object fields and returns them in a hash
 		# :category: Conversion methods
 		def to_a(compact = false)
@@ -152,7 +156,7 @@ module MojuraAPI
 				result[:rights][:allowed] = rights_as_bool
 				result[:rights][:right] = DbObjectRights.rights_hash_to_int(result[:rights][:right])
 			end
-			result[:api_url] = @options[:api_url] + '/' + @id if (compact)
+			result[:api_url] = api_url if (compact)
 			return result
 		end
 
@@ -262,7 +266,7 @@ module MojuraAPI
 			end
 			rights[:right] = DbObjectRights.int_to_rights_hash(rights[:right].to_i) unless rights[:right].is_a?(Hash)
 			title, description = self.get_search_index_title_and_description
-			SearchIndex.set(@id, @collection.name, title, description, get_weighted_keywords, rights)
+			SearchIndex.set(@id, @collection.name, title, description, api_url, get_weighted_keywords, rights)
 		end
 
 		# Sets all the values to the original state

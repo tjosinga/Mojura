@@ -10,7 +10,7 @@ module MojuraAPI
 		KEYWORDS_PATTERN = /[\w@\d]+/
 
 		#noinspection RubyStringKeysInHashInspection
-		def set(id, category, title, description, weighted_keywords = {}, rights = {})
+		def set(id, category, title, description, api_url, weighted_keywords = {}, rights = {})
 			@collection ||= MongoDb.collection(:search_index)
 			keywords = []
 			weighted_keywords.each { | keyword, weight |
@@ -22,6 +22,7 @@ module MojuraAPI
 				title: title,
 				description: description,
 				category: category,
+				api_url: api_url,
 			  rights: rights,
 			  keywords: keywords,
 				right: rights[:right] || 0x7044,
@@ -61,6 +62,7 @@ module MojuraAPI
 					'id' => {'$first' => '$id'},
 					'title' => {'$first' => '$title'},
 					'category' => {'$first' => '$category'},
+					'api_url' => {'$first' => '$api_url'},
 					'description' => {'$first' => '$description'},
 					'score' => {'$sum' => '$keywords.weight'}}},
 				## Sort on score, ascending

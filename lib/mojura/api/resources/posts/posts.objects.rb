@@ -97,9 +97,12 @@ module MojuraAPI
 			yield :praises, Hash, :default => {}
 		end
 
+		def api_url
+			API.api_url + "posts/#{id}"
+		end
+
 		def to_a(compact = false)
 			result = super
-			result[:api_url] = API.api_url + "posts/#{id}" if compact
 			result[:replies_url] = API.api_url + "posts/#{id}/replies"
 			return result
 		end
@@ -128,10 +131,8 @@ module MojuraAPI
 			super
 		end
 
-		def to_a(compact = false)
-			result = super
-			result[:api_url] = API.api_url + "posts/#{postid}/reply/#{id}" if compact
-			return result
+		def api_url
+			API.api_url + "posts/#{postid}/reply/#{id}"
 		end
 
 	end
