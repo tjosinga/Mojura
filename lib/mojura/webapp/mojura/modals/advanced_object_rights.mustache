@@ -19,7 +19,7 @@
 <div class="row row-offset2">
 	<div class="col-sm-6">
 		<h5>
-			<button class="btn btn-default btn-xs pull-right" onclick="$('#add-user-{{urid}}').show();">
+			<button class="btn btn-default btn-xs pull-right" onclick="AdvancedObjectRights.showAdd('users');">
 				<span class='fa fa-plus'></span>
 			</button>
 			{{locale_str_system_owners}}
@@ -27,20 +27,24 @@
 		<div class="clearfix advanced-rights-list advanced-rights-users-list">
 		</div>
 		<div class="advanced-rights-users-alert alert alert-info hidden">{{locale_str_system_rights_no_users}}</div>
-		<!--<div id="add-user-{{urid}}" class="row-offset1">-->
-			<!--<div class="input-group input-group-sm">-->
-				<!--<input type="text" class="form-control input-sm" data-provide="typeahead" autocomplete="off" />-->
-				<!--<span class="input-group-addon bg-success"><i class="fa fa-pencil"></i></span>-->
-				<!--<span class="input-group-addon bg-danger"><i class="fa fa-pencil"></i></span>-->
-			<!--</div>-->
-		<!--</div>-->
+
+		<div class="add-users row-offset1 hidden">
+			<div class="input-group">
+				<input type="text" class="form-control" autocomplete="off" />
+				<div class="input-group-btn">
+					<button type="button" class="btn btn-success " onclick="AdvancedObjectRights.confirmAdd('users');"><i class="fa fa-check"></i></button>
+					<button type="button" class="btn btn-danger" onclick="AdvancedObjectRights.cancelAdd('users');"><i class="fa fa-times"></i></button>
+				</div>
+			</div>
+		</div>
+
 	</div>
 
 	<div class="row-offset2 visible-xs"></div>
 
 	<div class="col-sm-6">
 		<h5>
-			<button class="btn btn-default btn-xs pull-right" onclick="$('#add-group-{{urid}}').show();">
+			<button class="btn btn-default btn-xs pull-right" onclick="AdvancedObjectRights.showAdd('groups');">
 				<span class='fa fa-plus'></span>
 			</button>
 			{{locale_str_system_groupmembers}}
@@ -48,5 +52,16 @@
 		<div class="clearfix advanced-rights-list advanced-rights-groups-list">
 		</div>
 		<div class="advanced-rights-groups-alert alert alert-info hidden">{{locale_str_system_rights_no_groups}}</div>
+
+		<div class="add-groups row-offset1 hidden">
+			<div class="input-group input-group-sm">
+				<input type="text" class="form-control input-sm" autocomplete="off" />
+				<div class="input-group-btn">
+					<button class="input-group-addon bg-success" onclick="AdvancedObjectRights.confirmAdd('groups');"><i class="fa fa-check"></i></button>
+					<button class="input-group-addon bg-danger" onclick="AdvancedObjectRights.cancelAdd('groups');"><i class="fa fa-times"></i></button>
+				</div>
+			</div>
+		</div>
+
 	</div>
 </div>
