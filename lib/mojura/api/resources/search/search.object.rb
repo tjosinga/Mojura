@@ -30,7 +30,6 @@ module MojuraAPI
 				userids: rights[:userids] || [],
 				groupids: rights[:groupids] || []
 			}
-			@collection.create_index({collection: 1})
 			@collection.create_index({'keywords.keyword' => 1})
 			@collection.create_index({'category' => 1})
 			@collection.update({'id' => id.to_s}, values, {upsert: true})

@@ -7,7 +7,8 @@ module MojuraAPI
 
 		def get_rights_where(user)
 			if (user.nil?) || (user.id.nil?) || (user.id == '')
-				result = {'right.guests.read' => true}
+				# The comparison with 0x7044 is temporarily, for backwards compatibility.
+				result = {'$or' => [{'right.guests.read' => true}, {'right' => 0x7044}]}
 			elsif !user.administrator?
 				groupids = user.groupids
 				users_rights_where = {'right.users.read' => true}
