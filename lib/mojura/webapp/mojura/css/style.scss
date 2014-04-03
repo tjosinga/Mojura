@@ -236,3 +236,25 @@ body.dragging, body.dragging * {
 		/** Define arrowhead **/
 	}
 }
+
+.autocomplete-dropdown {
+	border: 1px solid silver;
+	background-color: white;
+	display: block;
+	left: inherit;
+	visibility: visible !important;
+
+	li {
+		padding: 3px 10px;
+		cursor: pointer;
+	}
+
+	li.active {
+		background-color: lightskyblue;
+	}
+
+	li:hover {
+		background-color: #F6F6F6;
+	}
+
+}
