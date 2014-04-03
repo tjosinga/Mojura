@@ -1,5 +1,6 @@
 # encoding: utf-8
 require 'api/resources/search/search.object'
+require 'sanitize'
 
 module MojuraAPI
 
@@ -39,17 +40,23 @@ module MojuraAPI
 		end
 
 		def get_search_index_title_and_description
-			[name || title, '']
+			result_name = name || title
+			result_description = ''
+			[:notes, :content, :description, :message].each { | field |
+				if @fields.include?(field)
+					result_description = get_searchable_string(field)
+				end
+			}
+			[result_name, result_description]
 		end
 
 		def get_searchable_string(field)
-			options = {}
-			options[:markup] = @fields[(field.to_s + '_markup').to_sym][:value] if (@fields[field][:type] == 'RichText')
+			options = (@fields[field][:type] == RichText) ? { markup: @fields[("#{field}_markup").to_sym][:value] } : {}
 			return typed_value_to_searchable_string(@fields[field][:type], @fields[field][:value], options)
 		end
 
 		def typed_value_to_searchable_string(type, value, options = {})
-			if (type === RichText)
+			if (type == RichText)
 				if (options[:markup] == :ubb)
 					value = UBBParser.strip_ubb(value)
 				else

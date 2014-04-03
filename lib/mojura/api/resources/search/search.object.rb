@@ -16,11 +16,12 @@ module MojuraAPI
 			weighted_keywords.each { | keyword, weight |
 				keywords.push({keyword: keyword.normalize.downcase, weight: weight})
 			}
+			title = description if title.to_s.empty?
 			# Forces correct rights
 			values = {
 				id: id.to_s,
-				title: title,
-				description: description,
+				title: title.to_s.truncate(100),
+				description: description.to_s.truncate(160),
 				category: category,
 				api_url: api_url,
 			  rights: rights,

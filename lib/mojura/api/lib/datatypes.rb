@@ -96,6 +96,9 @@ class String
 			"AAAAAAaaaaaaAaAaAaCcCcCcCcCcDdDdDdEEEEeeeeEeEeEeEeEeGgGgGgGgHhHhIIIIiiiiIiIiIiIiIiJjKkkLlLlLlLlLlNnNnNnNnnNnOOOOOOooooooOoOoOoRrRrRrSsSsSsSssTtTtTtUUUUuuuuUuUuUuUuUuUuWwYyyYyYZzZzZz")
 	end
 
+	def truncate(max_length, ellipses = '...')
+		(self.length > max_length) ? self.to_s[0..max_length].gsub(/[^\w]\w+\s*$/, '...') : self.to_s
+	end
 
 end
 
