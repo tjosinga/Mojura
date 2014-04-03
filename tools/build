@@ -54,6 +54,6 @@ compressor = YUI::CssCompressor.new
 
 @scss_files.each { |original|
 	minified = original.gsub(/\.scss$/, '.min.css')
-	Sass.compile_file(original, minified, :style => :compact)
+	Sass.compile_file(original, minified, :style => :compressed)
 	STDOUT << "Created file #{minified}\n"
 }
