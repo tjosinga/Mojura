@@ -174,7 +174,7 @@ module MojuraWebApp
 
 		def include_template(id, code)
 			self.include_script_link('ext/mustache/mustache.min.js')
-			if id == 'rights-controls' #&& Settings.get_b(:advanced_rights_control) #TODO
+			if id == 'template-rights-controls' #&& Settings.get_b(:advanced_rights_control) #TODO
 				%w(advanced_object_rights advanced_object_rights_users advanced_object_rights_groups).each { | name |
 					@templates.push({id: 'template-' + name.gsub('_', '-'), template: File.read("#{Mojura::PATH}/webapp/mojura/modals/#{name}.mustache")})
 				}
@@ -210,6 +210,10 @@ module MojuraWebApp
 		def render
 			# preloading so all views can still affect the page object (i.e. to include css, js, etc.)
 			self.include_template_file('modal_template', 'webapp/mojura/views/modal.mustache')
+			if (WebApp.current_user.logged_in?)
+				type = Settings.get_b(:advanced_rights_control) ? 'advanced' : 'simple'
+				self.include_template_file('template-rights-controls', "webapp/mojura/modals/rights_controls_#{type}.mustache")
+			end
 
 			if File.exists?('webapp/views/body/view_main.rb')
 				require 'webapp/views/body/view_main'

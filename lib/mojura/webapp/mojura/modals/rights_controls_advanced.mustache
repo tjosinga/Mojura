@@ -1,0 +1,17 @@
+<div class="form-control">
+	<label for="right-{{urid}}">{{locale_str_system_rights_visible}}</label>
+	<div class="input-group">
+		<input type="hidden" name="userids" value="{{#rights.userids}}{{.}},{{/rights.userids}}">
+		<input type="hidden" name="groupids" value="{{#rights.groupids}}{{.}},{{/rights.groupids}}">
+		<input type="text" id="right-{{urid}}" class="form-control">
+		<div class="input-group-btn">
+			<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Action <span class="caret"></span></button>
+			<ul class="dropdown-menu pull-right">
+				<li><a href="#">Action</a></li>
+				<li><a href="#">Another action</a></li>
+				<li><a href="#">Something else here</a></li>
+				<li class="divider"></li>
+				<li><a href="#">Separated link</a></li>
+			</ul>
+		</div>
+</div>
