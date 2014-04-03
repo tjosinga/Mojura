@@ -32,6 +32,7 @@ module MojuraAPI
 			}
 			@collection.create_index({collection: 1})
 			@collection.create_index({'keywords.keyword' => 1})
+			@collection.create_index({'category' => 1})
 			@collection.update({'id' => id.to_s}, values, {upsert: true})
 		end
 
@@ -41,18 +42,20 @@ module MojuraAPI
 		end
 
 		#noinspection RubyStringKeysInHashInspection
-		def search(keyword_string, options = {})
+		def search(keyword_string, category, options = {})
 			@collection ||= MongoDb.collection(:search_index)
 			options[:limit] ||= 25
 			options[:skip] ||= 0
 
 			regex = keyword_string.normalize.downcase.scan(KEYWORDS_PATTERN).join('|')
-			first_match = {'keywords.keyword' => {'$regex' => /^(#{regex})/}}
-			first_match = {'$and' => [first_match, self.get_rights_where(API.current_user)]} unless API.current_user.administrator?
+			first_matches = []
+			first_matches.push({'category' => category}) unless category.to_s.empty?
+			first_matches.push({'keywords.keyword' => {'$regex' => /^(#{regex})/}})
+			first_matches.push(self.get_rights_where(API.current_user)) unless API.current_user.administrator?
 
 			pipeline = [
 				# Selects only the documents containing these keywords (for performance), and where the user has right
-				{'$match' => first_match},
+				{'$match' => {'$and' => first_matches}},
 				# Break up the documents in subdocuments
 				{'$unwind' => '$keywords'},
 				# Select only the subdocument with the keywords
@@ -67,7 +70,7 @@ module MojuraAPI
 					'description' => {'$first' => '$description'},
 					'score' => {'$sum' => '$keywords.weight'}}},
 				## Sort on score, ascending
-				{'$sort' => {'score' => -1}},
+				{'$sort' => {'score' => -1, 'title' => 1}},
 				{'$skip' => options[:skip]},
 				{'$limit' => options[:limit]}
 			]

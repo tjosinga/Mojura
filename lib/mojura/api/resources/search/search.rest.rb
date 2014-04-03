@@ -14,8 +14,10 @@ module MojuraAPI
 		end
 
 		def all(params)
-			params[:pagesize] ||= 25
-			result = SearchIndex.search(params[:keywords])
+			options = {}
+			options[:limit] = params[:pagesize] || 25
+			options[:skip] = (((params[:page] || 1) - 1) * options[:limit])
+			result = SearchIndex.search(params[:keywords], params[:category], options)
 			return result
 		end
 
@@ -24,7 +26,9 @@ module MojuraAPI
 				description: 'Returns a list of items. Use pagination and filtering to make selections.',
 				attributes: {
 					keywords: {required: true, type: String, description: 'The keywords to search for.'},
-					category: {required: false, type: String, description: 'The category to search in. If none given'},
+					category: {required: false, type: String, description: 'The category to use as filter.'},
+					pagesize: {required: false, type: Integer, description: 'The maximum amount of items. Default is 25.'},
+					page: {required: false, type: Integer, description: 'The requested page. Default is 1.'},
 				}
 			}
 			result[:attributes].merge(self.filter_conditions)
