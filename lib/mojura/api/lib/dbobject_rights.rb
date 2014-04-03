@@ -41,6 +41,7 @@ module MojuraAPI
 
 		def DbObjectRights.rights_hash_to_int(hsh)
 			result = 0
+			hsh ||= {}
 			hsh.symbolize_keys!
 			[:owners, :groups, :users, :guests].each { | level |
 				[:custom, :read, :update, :delete].each { | action |
