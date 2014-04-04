@@ -22,6 +22,30 @@ def find_files(path)
 	}
 end
 
+## Combines all JavaScript files in webapp/mojura/js/sources and
+## and stores them in webapp/mojura/js/sources
+def combine_js_files
+
+	$:.unshift(File.expand_path(File.dirname(__FILE__) + '/../'))
+	Dir.chdir(File.expand_path(File.dirname(__FILE__) + '/../'))
+
+	data = "/* This file is generated with Mojura's tool 'combine_js'.\n   "
+	data << 'It combines all JavaScript files which are stored in '
+	data << "lib/mojura/webapp/mojura/js/sources/.*/\n\n"
+
+	dirname = 'lib/mojura/webapp/mojura/js/sources/'
+	Dir.foreach(dirname) { |name|
+		if (name.end_with?('.js'))
+			data << "/* #{name} */\n\n"
+			data << File.read("lib/mojura/webapp/mojura/js/sources/#{name}") + "\n\n\n"
+		end
+	}
+	filename = 'lib/mojura/webapp/mojura/js/mojura.js'
+	File.write(filename, data)
+	STDOUT << "Combined files in #{dirname} into #{filename}\n"
+end
+
+combine_js_files
 
 ## Find all files in views and ext and create a minified file for each of them
 @js_files = []
