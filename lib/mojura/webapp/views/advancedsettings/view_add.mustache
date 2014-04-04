@@ -1,5 +1,5 @@
 <form action="__api__/settings/{{#key}}{{category}}/{{key}}{{/key}}" method="post">
-	<input type="hidden" name="_method" value="{{method}}" />
+	<input type="hidden" name="_method" value="put" />
 	<input type="hidden" name="category" value="{{category}}" />
 
 	<div class="form-group">
@@ -30,8 +30,3 @@
 	</div>
 
 </form>
-<script type="text/javascript">
-	$("#settings-datatype-{{urid}}").val("{{type}}");
-	window.alert("{{type}}");
-</script>
-

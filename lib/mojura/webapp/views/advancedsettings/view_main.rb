@@ -34,7 +34,7 @@ module MojuraWebApp
 			super(options, data)
 
 			WebApp.page.include_template_file('template-advancedsettings-row', 'webapp/views/advancedsettings/view_row.mustache')
-			WebApp.page.include_template_file('template-advancedsettings-addedit', 'webapp/views/advancedsettings/view_add_edit.mustache')
+			WebApp.page.include_template_file('template-advancedsettings-add', 'webapp/views/advancedsettings/view_add.mustache')
 			WebApp.page.include_template_file('template-advancedsettings-delete', 'webapp/views/advancedsettings/view_delete.mustache')
 			WebApp.page.include_locale(:advancedsettings)
 			WebApp.page.include_locale(:system)
