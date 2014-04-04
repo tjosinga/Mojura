@@ -205,11 +205,7 @@ module MojuraAPI
 		def load_from_hash(values, silent = false)
 			values.each { |k, v|
 				if @fields.has_key?(k.to_sym)
-					if (k.to_sym == :right) && (!v.is_a?(Hash))
-						self.set_field_value(k, DbObjectRights.int_to_rights_hash(v.to_i))
-					else
-						(silent) ? @fields[k.to_sym][:value] = v : self.set_field_value(k, v)
-					end
+					(silent) ? @fields[k.to_sym][:value] = v : self.set_field_value(k, v)
 				elsif (k.to_s == 'id') || (k.to_s == '_id')
 					@id = v.to_s
 				end
