@@ -214,9 +214,6 @@ module MojuraAPI
 					@id = v.to_s
 				end
 			}
-			if silent #TODO: Temporary. All tables need to convert right int to right hash
-				save_to_db
-			end
 			self.loaded = true
 			return self
 		end
