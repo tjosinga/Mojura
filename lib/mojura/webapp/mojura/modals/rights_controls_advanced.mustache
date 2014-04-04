@@ -42,7 +42,6 @@
 					{
 						parentModalId: $("#static-input-group-{{urid}}").closest(".modal").attr("id"),
 						onsave: function(right, userIds, groupIds) {
-							window.alert(JSON.stringify([right, userIds, groupIds]));
 							setRight(right, userIds, groupIds);
 						}
 					});
