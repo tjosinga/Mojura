@@ -155,8 +155,8 @@
 			selectedFiles = [];
 			$("body").append($("#file-popup-template").html());
 
-			var jModal = $("body > .file-popup-modal");
-			jModal.attr("id", "file-popup")
+			var $popupModal = $("body > .file-popup-modal");
+			$popupModal.attr("id", "file-popup")
 				.one("shown.bs.modal", function() {
 					$("#file-popup .btn-primary").click(function() {
 						if (!$("#file-popup .btn-primary").hasClass("disabled")) {
@@ -173,15 +173,15 @@
 							$("#" + parentModalId + ", .modal-backdrop").addClass("fade");
 						}).modal("show");
 					}
-					jModal.remove();
+					$popupModal.remove();
 				});
 
 			if (parentModalId == "") {
-				jModal.addClass("fade").modal("show");
+				$popupModal.addClass("fade").modal("show");
 			}
 			else {
 				$("#" + parentModalId).removeClass("fade").one("hidden.bs.modal",function () {
-					jModal.removeClass("fade").modal("show");
+					$popupModal.removeClass("fade").modal("show");
 				}).modal("hide");
 			}
 		}
