@@ -20,3 +20,6 @@ logs/*
 .yardoc
 _yardoc
 doc/
+
+# The Test view is only for testing purposes
+/lib/mojura/webapp/views/test
