@@ -1,17 +1,78 @@
-<div class="form-control">
-	<label for="right-{{urid}}">{{locale_str_system_rights_visible}}</label>
-	<div class="input-group">
-		<input type="hidden" name="userids" value="{{#rights.userids}}{{.}},{{/rights.userids}}">
-		<input type="hidden" name="groupids" value="{{#rights.groupids}}{{.}},{{/rights.groupids}}">
-		<input type="text" id="right-{{urid}}" class="form-control">
-		<div class="input-group-btn">
-			<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Action <span class="caret"></span></button>
-			<ul class="dropdown-menu pull-right">
-				<li><a href="#">Action</a></li>
-				<li><a href="#">Another action</a></li>
-				<li><a href="#">Something else here</a></li>
+<div class="form-group">
+	<input type="hidden" id="right-{{urid}}" name="right" value="{{rights.right}}">
+	<input type="hidden" id="userids-{{urid}}" name="userids" value="{{#rights.userids}}{{.}},{{/rights.userids}}">
+	<input type="hidden" id="groupids-{{urid}}" name="groupids" value="{{#rights.groupids}}{{.}},{{/rights.groupids}}">
+	<div>
+		<label for="right-{{urid}}">{{locale_str_system_rights_advanced}}:</label>
+	</div>
+	<div id="static-input-group-{{urid}}" class="static-input-group">
+		<div class="btn-group pull-right">
+			<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">{{locale_str_system_rights_advanced}} <span class="caret"></span></button>
+			<ul class="dropdown-menu">
+				<li><a href="javascript:void(0)" data-right="28740">{{locale_str_system_rights_advanced_users_guests}}</a><li>
+				<li><a href="javascript:void(0)" data-right="28736">{{locale_str_system_rights_advanced_users_only}}</a><li>
+				<li><a href="javascript:void(0)" data-right="12292">{{locale_str_system_rights_advanced_guests_only}}</a><li>
+				<li><a href="javascript:void(0)" data-right="29696">{{locale_str_system_rights_advanced_groups_only}}</a><li>
+				<li><a href="javascript:void(0)" data-right="28672">{{locale_str_system_rights_advanced_owners_only}}</a><li>
+				<li><a href="javascript:void(0)" data-right="0">{{locale_str_system_rights_advanced_admin_only}}</a><li>
 				<li class="divider"></li>
-				<li><a href="#">Separated link</a></li>
+				<li><a href="javascript:void(0)" class="advanced-show">{{locale_str_system_rights_advanced_show}}...</a></li>
 			</ul>
 		</div>
+		<div class="description well">&nbsp;</div>
+	</div>
 </div>
+
+<script type="text/javascript">
+
+	var AdvancedRightsControls = (function($) {
+
+		function initialize(right) {
+			setRight({{rights.right}});
+
+			$("li > a[data-right]", "#static-input-group-{{urid}}").click(function(){
+				setRight($(this).attr("data-right"));
+			});
+
+			$("li > a.advanced-show", "#static-input-group-{{urid}}").click(function(){
+				AdvancedObjectRights.show(
+					$("#right-{{urid}}").val(),
+					($("#userids-{{urid}}").val() || "").replace(/\,+$/, "").split(","),
+					($("#groupids-{{urid}}").val() || "").replace(/\,+$/, "").split(","),
+					{
+						parentModalId: $("#static-input-group-{{urid}}").closest(".modal").attr("id"),
+						onsave: function(right, userIds, groupIds) {
+							window.alert(JSON.stringify([right, userIds, groupIds]));
+							setRight(right, userIds, groupIds);
+						}
+					});
+				});
+
+		}
+
+		function setRight(right, userids, groupids) {
+			$("#right-{{urid}}").val(right);
+			var $option = $("li > a[data-right=" + right + "]", "#static-input-group-{{urid}}").first();
+			if ($option.size() > 0) {
+				$(".description", "#static-input-group-{{urid}}").html($option.html());
+			} else {
+				$(".description", "#static-input-group-{{urid}}").html($(".advanced-show", "#static-input-group-{{urid}}").html());
+			}
+			if (typeof userids !== "undefined") {
+				$("#userids-{{urid}}").val(userids.join(","));
+			}
+			if (typeof groupids !== "undefined") {
+				$("#groupids-{{urid}}").val(groupids.join(","));
+			}
+		}
+
+		return {
+			initialize: initialize,
+			setRight: setRight
+		}
+
+	})(jQuery);
+
+	AdvancedRightsControls.initialize({{rights.right}});
+
+</{{escaping_script_tag}}script>

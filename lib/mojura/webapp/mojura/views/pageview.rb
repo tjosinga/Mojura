@@ -174,7 +174,7 @@ module MojuraWebApp
 
 		def include_template(id, code)
 			self.include_script_link('ext/mustache/mustache.min.js')
-			if id == 'template-rights-controls' #&& Settings.get_b(:advanced_rights_control) #TODO
+			if id == 'template-rights-controls' && Settings.get_b(:advanced_rights_control)
 				%w(advanced_object_rights advanced_object_rights_users advanced_object_rights_groups).each { | name |
 					@templates.push({id: 'template-' + name.gsub('_', '-'), template: File.read("#{Mojura::PATH}/webapp/mojura/modals/#{name}.mustache")})
 				}

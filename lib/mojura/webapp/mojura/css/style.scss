@@ -175,11 +175,6 @@ textarea.small {
   }
 }
 
-.fa {
-	display: inline-block;
-	font-size: 14px;
-}
-
 .texteditor_toolbar .btn-group {
 	margin-right: 5px;
 }
@@ -258,3 +253,22 @@ body.dragging, body.dragging * {
 	}
 
 }
+
+.static-input-group {
+
+	.well {
+		padding: 6px 12px;
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		border-right-width: 0;
+		border-bottom-right-radius: 0;
+		border-top-right-radius: 0;
+	}
+
+	.btn:first-child {
+		border-bottom-left-radius: 0;
+		border-top-left-radius: 0;
+	}
+}
+
