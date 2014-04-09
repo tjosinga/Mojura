@@ -1,11 +1,11 @@
 <div class="form-group">
-	<label for="right-{{urid}}">{{locale_str_system_rights_simple}} *:</label>
-	<select id="right-{{urid}}" name="right" class="form-control select">
+	<label for="rights-{{urid}}">{{locale_str_system_rights_simple}} *:</label>
+	<select id="rights-{{urid}}" name="right" class="form-control select">
 		<option value="28740">{{locale_str_system_rights_simple_visible}}</option>
 		<option value="28672">{{locale_str_system_rights_simple_invisible}}</option>
 	</select>
 </div>
 
 <script type="text/javascript">
-	$("#right-{{urid}} option[value={{rights.right}}]").attr("selected", "selected");
+	$("#right-{{urid}} option[value={{rights.rights}}]").attr("selected", "selected");
 </{{escaping_script_tag}}script>

@@ -154,7 +154,7 @@ module MojuraAPI
 			}
 			if ((result.has_key?(:rights)) && (self.class.include?(DbObjectRights)))
 				result[:rights][:allowed] = rights_as_bool
-				result[:rights][:right] = DbObjectRights.rights_hash_to_int(result[:rights][:right])
+				result[:rights][:rights] = DbObjectRights.rights_hash_to_int(result[:rights][:rights])
 			end
 			result[:api_url] = api_url if (compact)
 			return result
@@ -203,10 +203,12 @@ module MojuraAPI
 		# Loads all values from an hash and validates them.
 		# :category: Database methods
 		def load_from_hash(values, silent = false)
-			values.each { |k, v|
-				if @fields.has_key?(k.to_sym)
-					(silent) ? @fields[k.to_sym][:value] = v : self.set_field_value(k, v)
-				elsif (k.to_s == 'id') || (k.to_s == '_id')
+			values.each { | k, v |
+				k = k.to_sym
+				k = :rights if (silent && k == :right) # TODO: Remove later. Now here because I changed right to rights.
+				if @fields.has_key?(k)
+					(silent) ? @fields[k][:value] = v : self.set_field_value(k, v)
+				elsif (k == :id) || (k == :_id)
 					@id = v.to_s
 				end
 			}
@@ -250,14 +252,14 @@ module MojuraAPI
 
 		def save_to_search_index
 			rights = {
-				right: self.right,
+				rights: self.rights,
 				userids: self.userids || [],
 				groupids: self.groupids || []
 			}
-			if (rights[:right].nil?)
-				rights[:right] = Settings.get_h(:object_rights, @module)[self.class.name[11..-1].to_sym] || 0x704
+			if (rights[:rights].nil?)
+				rights[:rights] = Settings.get_h(:object_rights, @module)[self.class.name[11..-1].to_sym] || 0x704
 			end
-			rights[:right] = DbObjectRights.int_to_rights_hash(rights[:right].to_i) unless rights[:right].is_a?(Hash)
+			rights[:rights] = DbObjectRights.int_to_rights_hash(rights[:rights].to_i) unless rights[:rights].is_a?(Hash)
 			title, description = self.get_search_index_title_and_description
 			SearchIndex.set(@id, @collection.name, title, description, api_url, get_weighted_keywords, rights)
 		end

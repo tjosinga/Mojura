@@ -67,25 +67,25 @@ module MojuraAPI
 			end
 		end
 
-		def has_object_right?(orig_right, object_userids, object_groupids, object_right)
-			unless (object_right.is_a?(Hash))
-				object_right = DbObjectRights::int_to_rights_hash(object_right.to_i)
+		def has_object_right?(orig_right, object_userids, object_groupids, object_rights)
+			unless (object_rights.is_a?(Hash))
+				object_rights = DbObjectRights::int_to_rights_hash(object_rights.to_i)
 			end
-			object_right.symbolize_keys!
+			object_rights.symbolize_keys!
 			if self.administrator?
 				result = true
 			elsif (self.id.nil?) || (self.id == '')
-				result = object_right[:guests][orig_right]
+				result = object_rights[:guests][orig_right]
 			else
 				result = false
 				self.userids = [] unless self.userids.is_a?(Array)
 				self.groupids = [] unless self.groupids.is_a?(Array)
 				object_userids = [] unless object_userids.is_a?(Array)
 				object_groupids = [] unless object_groupids.is_a?(Array)
-				result = (object_right[:users][orig_right]) unless result
-				result = (object_right[:owners][orig_right]) unless result
-				result = ((self.userids.to_a & object_userids).length > 0) && (object_right[:owners][orig_right]) unless result
-				result = ((self.groupids & object_groupids).length > 0) && (object_right[:groups][orig_right]) unless result
+				result = (object_rights[:users][orig_right]) unless result
+				result = (object_rights[:owners][orig_right]) unless result
+				result = ((self.userids.to_a & object_userids).length > 0) && (object_rights[:owners][orig_right]) unless result
+				result = ((self.groupids & object_groupids).length > 0) && (object_rights[:groups][orig_right]) unless result
 			end
 			return result
 		end

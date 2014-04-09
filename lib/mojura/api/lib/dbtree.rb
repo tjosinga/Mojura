@@ -116,7 +116,7 @@ module MojuraAPI
 				if @use_rights
 					info[:rights] = {userid: object[:userid.to_s],
 					                 groupid: object[:groupid.to_s],
-					                 right: object[:right.to_s]}
+					                 rights: object[:rights.to_s]}
 				end
 				self.on_object_to_tree!(object, info)
 				children = self.objects_to_tree(object['_id'])
@@ -133,7 +133,7 @@ module MojuraAPI
 
 		def user_has_right(orig_right, rights)
 			return false if (!rights.is_a?(Hash))
-			return API.current_user.has_object_right?(orig_right, rights[:userid], rights[:groupid], rights[:right])
+			return API.current_user.has_object_right?(orig_right, rights[:userid], rights[:groupid], rights[:rights])
 		end
 
 		def allowed_info_of_item(rights)
@@ -158,7 +158,7 @@ module MojuraAPI
 					if @use_rights
 						dest_info[:rights] = {userid: src_info[:rights][:userid],
 						                      groupid: src_info[:rights][:groupid],
-						                      right: src_info[:rights][:right],
+						                      rights: src_info[:rights][:rights],
 						                      allowed: allowed}
 					end
 					if (src_info.has_key?(:children)) && (depth > 0)

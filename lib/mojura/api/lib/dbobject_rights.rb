@@ -9,12 +9,12 @@ module MojuraAPI
 		def load_rights_fields
 			yield :userids, Array, :required => true, :group => :rights, :default => [ API.current_user.id ]
 			yield :groupids, Array, :required => false, :group => :rights, :default => []
-			yield :right, Hash, :required => true, :group => :rights, :default => rights_default
+			yield :rights, Hash, :required => true, :group => :rights, :default => rights_default
 		end
 
 		def user_has_right?(right, user = nil)
 			user ||= API.current_user
-			return user.has_object_right?(right, self.userids, self.groupids, self.right)
+			return user.has_object_right?(right, self.userids, self.groupids, self.rights)
 		end
 
 		def rights_as_bool(user = nil)

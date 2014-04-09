@@ -24,9 +24,8 @@ module MojuraAPI
 				description: description.to_s.truncate(160),
 				category: category,
 				api_url: api_url,
-			  rights: rights,
 			  keywords: keywords,
-				right: rights[:right] || 0x7044,
+				rights: rights[:rights] || DbObjectRights.int_to_rights_hash(0x7044),
 				userids: rights[:userids] || [],
 				groupids: rights[:groupids] || []
 			}
@@ -37,7 +36,7 @@ module MojuraAPI
 
 		def unset(id)
 			@collection ||= MongoDb.collection(:search_index)
-			MongDb.collection(:search_index).remove({'id' => id})
+			@collection.remove({'id' => id})
 		end
 
 		#noinspection RubyStringKeysInHashInspection

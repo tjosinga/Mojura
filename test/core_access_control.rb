@@ -69,8 +69,8 @@ module MojuraAPI
 		end
 
 		def test_group_rights
-			right = DbObjectRights.int_to_rights_hash(0b00001111000001000100)
-			an_object = MockObject.new({ title: 'test', right: right, userids: [4], groupids: [10], module: :test_module})
+			rights = DbObjectRights.int_to_rights_hash(0b00001111000001000100)
+			an_object = MockObject.new({ title: 'test', rights: rights, userids: [4], groupids: [10], module: :test_module})
 
 			assert_equal(false, AccessControl.has_rights?(RIGHT_CREATE, an_object, @user))
 			assert_equal(true, AccessControl.has_rights?(RIGHT_READ,    an_object, @user))
@@ -116,37 +116,37 @@ module MojuraAPI
 
 		def test_object_rights
 			# Checks all possible rights
-			#65535.times { | right |
-			6.times { | right |
-				right_hash = DbObjectRights.int_to_rights_hash(right)
-				an_object = MockObject.new({ title: 'test', right: right_hash, userids: [4], groupids: [10], module: 'test_module'})
-				assert_equal((right & 8 > 0), AccessControl.has_rights?(RIGHT_CUSTOM, an_object, @guest))
-				assert_equal((right & 4 > 0), AccessControl.has_rights?(RIGHT_READ,   an_object, @guest))
-				assert_equal((right & 2 > 0), AccessControl.has_rights?(RIGHT_UPDATE, an_object, @guest))
-				assert_equal((right & 1 > 0), AccessControl.has_rights?(RIGHT_DELETE, an_object, @guest))
+			#0xFFFF.times { | rights |
+			0x000F.times { | rights |
+				rights_hash = DbObjectRights.int_to_rights_hash(rights)
+				an_object = MockObject.new({ title: 'test', rights: rights_hash, userids: [4], groupids: [10], module: 'test_module'})
+				assert_equal((rights & 8 > 0), AccessControl.has_rights?(RIGHT_CUSTOM, an_object, @guest))
+				assert_equal((rights & 4 > 0), AccessControl.has_rights?(RIGHT_READ,   an_object, @guest))
+				assert_equal((rights & 2 > 0), AccessControl.has_rights?(RIGHT_UPDATE, an_object, @guest))
+				assert_equal((rights & 1 > 0), AccessControl.has_rights?(RIGHT_DELETE, an_object, @guest))
 
-				right = right >> 4
-				assert_equal((right & 8 > 0), AccessControl.has_rights?(RIGHT_CUSTOM, an_object, @user))
-				assert_equal((right & 4 > 0), AccessControl.has_rights?(RIGHT_READ,   an_object, @user))
-				assert_equal((right & 2 > 0), AccessControl.has_rights?(RIGHT_UPDATE, an_object, @user))
-				assert_equal((right & 1 > 0), AccessControl.has_rights?(RIGHT_DELETE, an_object, @user))
+				rights = rights >> 4
+				assert_equal((rights & 8 > 0), AccessControl.has_rights?(RIGHT_CUSTOM, an_object, @user))
+				assert_equal((rights & 4 > 0), AccessControl.has_rights?(RIGHT_READ,   an_object, @user))
+				assert_equal((rights & 2 > 0), AccessControl.has_rights?(RIGHT_UPDATE, an_object, @user))
+				assert_equal((rights & 1 > 0), AccessControl.has_rights?(RIGHT_DELETE, an_object, @user))
 
-				right = right >> 4
-				assert_equal((right & 8 > 0), AccessControl.has_rights?(RIGHT_CUSTOM, an_object, @group_member))
-				assert_equal((right & 4 > 0), AccessControl.has_rights?(RIGHT_READ,   an_object, @group_member))
-				assert_equal((right & 2 > 0), AccessControl.has_rights?(RIGHT_UPDATE, an_object, @group_member))
-				assert_equal((right & 1 > 0), AccessControl.has_rights?(RIGHT_DELETE, an_object, @group_member))
+				rights = rights >> 4
+				assert_equal((rights & 8 > 0), AccessControl.has_rights?(RIGHT_CUSTOM, an_object, @group_member))
+				assert_equal((rights & 4 > 0), AccessControl.has_rights?(RIGHT_READ,   an_object, @group_member))
+				assert_equal((rights & 2 > 0), AccessControl.has_rights?(RIGHT_UPDATE, an_object, @group_member))
+				assert_equal((rights & 1 > 0), AccessControl.has_rights?(RIGHT_DELETE, an_object, @group_member))
 
-				right = right >> 4
-				assert_equal((right & 8 > 0), AccessControl.has_rights?(RIGHT_CUSTOM, an_object, @owner))
-				assert_equal((right & 4 > 0), AccessControl.has_rights?(RIGHT_READ,   an_object, @owner))
-				assert_equal((right & 2 > 0), AccessControl.has_rights?(RIGHT_UPDATE, an_object, @owner))
-				assert_equal((right & 1 > 0), AccessControl.has_rights?(RIGHT_DELETE, an_object, @owner))
+				rights = rights >> 4
+				assert_equal((rights & 8 > 0), AccessControl.has_rights?(RIGHT_CUSTOM, an_object, @owner))
+				assert_equal((rights & 4 > 0), AccessControl.has_rights?(RIGHT_READ,   an_object, @owner))
+				assert_equal((rights & 2 > 0), AccessControl.has_rights?(RIGHT_UPDATE, an_object, @owner))
+				assert_equal((rights & 1 > 0), AccessControl.has_rights?(RIGHT_DELETE, an_object, @owner))
 
-				assert_equal(true,  AccessControl.has_rights?(RIGHT_CUSTOM, an_object, @admin))
-				assert_equal(true,  AccessControl.has_rights?(RIGHT_READ,   an_object, @admin))
-				assert_equal(true,  AccessControl.has_rights?(RIGHT_UPDATE, an_object, @admin))
-				assert_equal(true,  AccessControl.has_rights?(RIGHT_DELETE, an_object, @admin))
+				assert_equal(true, AccessControl.has_rights?(RIGHT_CUSTOM, an_object, @admin))
+				assert_equal(true, AccessControl.has_rights?(RIGHT_READ,   an_object, @admin))
+				assert_equal(true, AccessControl.has_rights?(RIGHT_UPDATE, an_object, @admin))
+				assert_equal(true, AccessControl.has_rights?(RIGHT_DELETE, an_object, @admin))
 			}
 		end
 

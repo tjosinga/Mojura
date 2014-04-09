@@ -229,7 +229,7 @@ module MojuraAPI
 			{
 				userid: {required: false, type: Array, description: 'A list of user ids who owning this item.'},
 				groupip: {required: false, type: Array, description: 'A list of group ids who owning this item.'},
-				right: {required: false, type: Integer, description: 'The CRUD code which tells what the specific rights for the user and group members on this item is.'}
+				rights: {required: false, type: Integer, description: 'The CRUD code which tells what the specific rights for the user and group members on this item is.'}
 			}
 		end
 

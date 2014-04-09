@@ -20,7 +20,7 @@ module MojuraAPI
 				return true if (options[:searchable]) && (options[:changed])
 			}
 			if (self.class.include?(DbObjectRights))
-				return @fields[:right][:changed] || @fields[:userids][:changed] || @fields[:groupids][:changed]
+				return @fields[:rights][:changed] || @fields[:userids][:changed] || @fields[:groupids][:changed]
 			end
 			return false
 		end

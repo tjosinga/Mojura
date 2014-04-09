@@ -8,13 +8,13 @@ module MojuraAPI
 		def get_rights_where(user)
 			if (user.nil?) || (user.id.nil?) || (user.id == '')
 				# The comparison with 0x7044 is temporarily, for backwards compatibility.
-				result = {'$or' => [{'right.guests.read' => true}, {'right' => 0x7044}]}
+				result = {'$or' => [{'rights.guests.read' => true}, {'rights' => 0x7044}]}
 			elsif !user.administrator?
 				groupids = user.groupids
-				users_rights_where = {'right.users.read' => true}
-				owner_rights_where = {'$and' => [{userids: user.id}, {'right.owners.read' => true}]}
+				users_rights_where = {'rights.users.read' => true}
+				owner_rights_where = {'$and' => [{userids: user.id}, {'rights.owners.read' => true}]}
 				result = {'$or' => [users_rights_where, owner_rights_where]}
-				result['$or'] << {'$and' => [{groupids: {'$in' => groupids}}, {'right.groups.read' => true}]} if (groupids.count > 0)
+				result['$or'] << {'$and' => [{groupids: {'$in' => groupids}}, {'rights.groups.read' => true}]} if (groupids.count > 0)
 			else
 				result = {}
 			end
@@ -22,7 +22,6 @@ module MojuraAPI
 		end
 
 		def update_where_with_rights(where = {})
-			## insert right control here to where
 			user = (!@options[:user].nil?) ? @options[:user] : API.current_user
 			rights_where = get_rights_where(user)
 			if rights_where != {}
