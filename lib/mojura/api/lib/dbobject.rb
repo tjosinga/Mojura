@@ -86,7 +86,11 @@ module MojuraAPI
 		def set_field_value(key, value, validate_value = true, set_changed_flag = true)
 			key = key.to_sym
 			return if @fields[key].nil?
-			value = StringConvertor.convert(value, @fields[key][:type])
+			if (key == :rights) && (!value.is_a?(Hash))
+				value = DbObjectRights.int_to_rights_hash(value.to_i)
+			else
+				value = StringConvertor.convert(value, @fields[key][:type])
+			end
 			if (@fields[key][:value] != value) && ((!validate_value) || (self.validate_field_value(key, value)))
 				@fields[key][:orig_value] = @fields[key][:value] unless @fields[key][:changed]
 				@fields[key][:changed] = true if (set_changed_flag)
