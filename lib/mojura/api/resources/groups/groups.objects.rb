@@ -1,5 +1,6 @@
 require 'api/lib/dbobject'
 require 'api/lib/dbobjects'
+require 'api/lib/settings'
 
 module MojuraAPI
 
@@ -40,6 +41,13 @@ module MojuraAPI
 				@fields[:group_rights][:value][mod_name].delete(right)
 				@fields[:group_rights][:changed] = true
 			end
+		end
+
+		def save_to_db
+			super
+			has_subscribable_groups = @collection.count(:query => {'rights.users.custom' => true}) > 0
+			Settings.set(:has_subscribable_groups, has_subscribable_groups, :groups, :private)
+			return self
 		end
 
 	end

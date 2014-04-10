@@ -31,8 +31,9 @@ module MojuraAPI
 
 		#noinspection RubyUnusedLocalVariable,RubyUnusedLocalVariable
 		def post(params)
-			return 'post group'
+			group = Group.new(params[:ids][0])
 			#TODO: Check rights
+			return group.load_from_hash(params).save_to_db.to_a
 		end
 
 		def delete(params)
