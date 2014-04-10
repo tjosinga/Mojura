@@ -207,9 +207,7 @@ module MojuraAPI
 
 			params ||= {}
 			params.symbolize_keys!
-			if (params[:show_env] == 'true') && (Settings.get_s(:developing))
-				result = Thread.current[:mojura]
-			elsif request_path == ''
+			if request_path == ''
 				result = []
 				mods = modules
 				mods.each { |mod|
@@ -231,6 +229,23 @@ module MojuraAPI
 			else
 				result = call_resource(request_path, params, method)
 			end
+
+			if (params[:show_env] == 'true') && (Settings.get_s(:developing))
+				result = {result: result} unless result.is_a?(Hash)
+				result[:env] = Thread.current[:mojura]
+			end
+
+			unless params[:include_settings].to_s.empty?
+				result = {result: result} unless result.is_a?(Hash)
+				result[:settings] ||= {}
+				params[:include_settings].split(',').each { | s |
+					mod, key = s.split('.', 2)
+					scopes = API.current_user.administrator? ? [:private, :protected, :public] : [:public]
+					result[:settings][mod] ||= {}
+					result[:settings][mod][key] = Settings.get_raw(key, mod, scopes)
+				}
+			end
+
 			return result
 		end
 

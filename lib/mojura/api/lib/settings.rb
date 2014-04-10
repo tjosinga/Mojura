@@ -103,6 +103,10 @@ module MojuraAPI
 			return result
 		end
 
+		def get_raw(key, category = :core, scopes = [:private, :protected, :public])
+			get(key, category, nil, scopes)
+		end
+
 		def get_s(key, category = :core, default = nil, scopes = [:private, :protected, :public])
 			get(key, category, default, scopes).to_s
 		end
