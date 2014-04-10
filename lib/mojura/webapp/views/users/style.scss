@@ -1,16 +1,15 @@
-.users-thumb-list {
+.avatar {
+	margin-bottom: 30px;
 
-  margin-left: -15px;
+	.name {
+		white-space: nowrap;
+		overflow-x: hidden;
+		text-overflow: ellipsis;
+		text-align: center;
+		padding-top: 5px;
+	}
+}
 
-  li {
-    margin: 0 0 15px 15px;
-  }
+.avatar-form {
 
-  li img {
-    margin-bottom: 5px;
-  }
-
-  li a {
-    text-align: center;
-  }
 }

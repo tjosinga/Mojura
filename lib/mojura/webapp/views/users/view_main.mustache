@@ -1,20 +1,11 @@
-{{#is_list_view}}
-	<ul class="users-list">
-		{{#items}}
-			<li><a href="{{web_url}}">{{fullname}}</a></li>
-		{{/items}}
-	</ul>
-{{/is_list_view}}
+{{#show_extensive}}
+	{{> view_extensive}}
+{{/show_extensive}}
 
-{{#is_thumbs_view}}
-	<ul class="users-thumb-list list-unstyled">
-		{{#items}}
-		  <li class="pull-left">
-		    <a class="thumbnail" href="{{web_url}}">
-		      <img src="{{avatar}}&s={{size}}" alt="">
-		      <p class="small_title">{{thumb_name}}</p>
-		    </a>
-		  </li>
-		{{/items}}
-	</ul>
-{{/is_thumbs_view}}
+{{#show_extensive_list}}
+	{{> view_extensive_list}}
+{{/show_extensive_list}}
+
+{{#show_avatars}}
+	{{> view_avatars}}
+{{/show_avatars}}
