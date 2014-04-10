@@ -209,7 +209,7 @@ module MojuraWebApp
 
 		def render
 			# preloading so all views can still affect the page object (i.e. to include css, js, etc.)
-			self.include_template_file('modal_template', 'webapp/mojura/views/modal.mustache')
+			self.include_template_file('modal_template', 'webapp/mojura/modals/modal.mustache')
 			if (WebApp.current_user.logged_in?)
 				type = Settings.get_b(:advanced_rights_control) ? 'advanced' : 'simple'
 				self.include_template_file('template-rights-controls', "webapp/mojura/modals/rights_controls_#{type}.mustache")
