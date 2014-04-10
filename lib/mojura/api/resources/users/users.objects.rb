@@ -143,18 +143,33 @@ module MojuraAPI
 		def to_a(compact = false)
 			result = super
 			result[:fullname] = fullname
+
 			if !self.id.nil?
 				#TODO: create avatar support. If ready implement:
 				#if (has_avatar)
 				#else
 				avatar = 'http://www.gravatar.com/avatar/' + Digest::MD5.hexdigest(self.email.to_s) + '?d=mm'
 				#end
+				is_admin = API.current_user.administrator?
 				result[:avatar] = avatar
-				result[:may_update] = (API.current_user.administrator?) || (API.current_user.id == self.id) if (!compact)
-			else
-				result[:may_update] = false
+				unless compact
+					result[:rights] = {
+						update: false,
+						delete: false
+					}
+					if API.current_user.logged_in?
+						result[:rights][:subscribe] = true if is_admin || Settings.get_b(:has_subscribable_groups, :groups)
+						result[:rights][:force_password] = true if is_admin
+						result[:rights][:update] = is_admin || (API.current_user.id == self.id)
+						result[:rights][:delete] = is_admin || has_global_right?(:users, :delete)
+					end
+				end
 			end
 			result[:groups_url] = API.api_url + "users/#{self.id}/groups"
+
+			unless API.current_user.administrator? ||	(API.current_user.id == id) || Settings.get_b(:show_email_to_users, :users, true) || has_global_right?(:users, :update)
+				result.delete(:email)
+			end
 			return result
 		end
 
