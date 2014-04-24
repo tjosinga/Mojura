@@ -8,17 +8,17 @@ require 'zipruby'
 
 # NB: Note that the objects are called DbFile(s) and DbFolder(s). Otherwise it would conflict with the File core class. Namespaces could fix it, but that's not
 
-
 module MojuraAPI
+
+	#making sure the following folders exists
+	FileUtils.mkdir_p('uploads/files/image_cache')
+	FileUtils.mkdir_p('uploads/files/originals')
 
 	class DbFile < DbObject
 
 		include DbObjectRights
 
 		def initialize(id = nil)
-			#making sure the following folders exists
-			FileUtils.mkdir_p('uploads/files/image_cache')
-			FileUtils.mkdir_p('uploads/files/originals')
 			super('files_files', id, {module_name: 'files'})
 		end
 
@@ -116,11 +116,14 @@ module MojuraAPI
 			end
 
 			image = MiniMagick::Image.open(orig_filename)
-			image.resize(resize_str)
-			if type == 'cropped'
-				image.gravity('center')
-				image.crop("#{size}x#{size}+0+0")
-			end
+			image.combine_options { | c |
+				c.resize(resize_str)
+				if type == 'cropped'
+					c.gravity('center')
+					c.crop("#{size}x#{size}+0+0")
+				end
+			}
+
 			if (self.extension == '.bmp') && (orig_filename == dest_filename)
 				image.format('jpg')
 				self.extension = '.jpg'
