@@ -1,4 +1,4 @@
-.avatar {
+.user-info .avatar {
 	margin-bottom: 30px;
 
 	.name {
@@ -11,5 +11,15 @@
 }
 
 .avatar-form {
+
+	.avatar, .gravatar {
+		margin-bottom: 20px;
+	}
+
+	.semi-transparent {
+		zoom: 1;
+		filter: alpha(opacity=50);
+		opacity: 0.5;
+	}
 
 }

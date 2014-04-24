@@ -1,28 +1,44 @@
-<!--<div class="row avatar-form">-->
-	<!--<div class="col-sm-6">-->
-		<h4>{{locale_str_users_use_gravatar}}</h4>
-		<div class="thumbnail avatar gravatar">
-			<img src="{{gravatar}}&s=256" alt="{{fullname}}">
+<div class="row avatar-form">
+	<div class="col-sm-6">
+		<div {{^uses_gravatar}}class="semi-transparent"{{/uses_gravatar}}>
+			<h4>{{locale_str_users_use_gravatar}}</h4>
+			<div class="thumbnail gravatar {{^uses_gravatar}}semi-transparent{{/uses_gravatar}}">
+				<img src="{{gravatar}}" alt="{{fullname}}">
+			</div>
 		</div>
-		<p>{{locale_str_users_gravatar_info}}</p>
-		<div class="center-block">
-			<a href="http://www.gravatar.com" target="_blank" class="btn btn-default">{{locale_str_users_goto_gravatar}}</a>
+		<a href="http://www.gravatar.com" target="_blank" class="btn btn-block btn-default">
+			<i class="fa fa-globe"></i>
+			{{locale_str_users_goto_gravatar}}
+		</a>
+		<p class="row-offset2">
+			{{locale_str_users_gravatar_info}}
+		</p>
+	</div>
+	<div class="divider visible-xs row-offset4"></div>
+	<div class="col-sm-6">
+		<div {{#uses_gravatar}}class="semi-transparent"{{/uses_gravatar}}>
+			<h4>{{locale_str_users_upload_own}}</h4>
+			<div class="thumbnail avatar">
+				<img src="{{avatar}}" alt="{{fullname}}">
+			</div>
 		</div>
-	<!--</div>-->
-	<!--<div class="divider visible-xs row-offset4"></div>-->
-	<!--<div class="col-sm-6">-->
-		<!--<h4>{{locale_str_users_upload_own}}</h4>-->
-		<!--<div class="thumbnail avatar">-->
-			<!--<img src="{{avatar}}&s=256" alt="{{fullname}}">-->
-		<!--</div>-->
-		<!--<p>{{locale_str_users_upload_own_info}}</p>-->
-		<!--<div class="center-block">-->
-			<!--<form enctype="multipart/form-data" action="__api__/files/" method="post" class="file-upload-form pull-left">-->
-				<!--<input type="hidden" name="_method" value="put"/>-->
-				<!--<input type="hidden" name="folderid" value="{{folderid}}"/>-->
-				<!--<input type="file" name="file" class="file-input" onchange="if (this.value !== '') UsersView.uploadAvatar();" />-->
-			<!--</form>-->
-			<!--<button class="btn btn-default ">{{locale_str_users_upload}}</button>-->
-		<!--</div>-->
-	<!--</div>-->
-<!--</div>-->
+		<form enctype="multipart/form-data" action="__api__/users/{{id}}/avatar" method="post" class="file-upload-form pull-left">
+			<input type="hidden" name="_method" value="put" />
+			<input type="file" name="file" class="file-input hidden" onchange="if (this.value !== '') UsersView.uploadAvatar($(this).parent());" />
+		</form>
+		{{^uses_gravatar}}
+			<button class="btn btn-default btn-block btn-delete" data-loading-text="{{locale_str_users_delete_avatar}}...">
+				<i class="fa fa-trash-o"></i>
+				{{locale_str_users_delete_avatar}}
+			</button>
+		{{/uses_gravatar}}
+		<button class="btn btn-default btn-block btn-upload" data-loading-text="{{locale_str_users_upload}}..." onclick="$(this).prev('form').children('.file-input').click()">
+			<i class="fa fa-upload"></i>
+			{{locale_str_users_upload}}
+		</button>
+		<p class="row-offset2">
+			{{locale_str_users_upload_own_info}}
+			{{^uses_gravatar}}{{locale_str_users_delete_info}}{{/uses_gravatar}}
+		</p>
+	</div>
+</div>
