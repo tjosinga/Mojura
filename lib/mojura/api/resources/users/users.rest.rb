@@ -1,6 +1,7 @@
 require 'api/lib/restresource'
 require 'api/resources/users/users.objects'
 require 'api/resources/users/user_groups.rest'
+require 'api/resources/users/user_avatar.rest'
 
 module MojuraAPI
 

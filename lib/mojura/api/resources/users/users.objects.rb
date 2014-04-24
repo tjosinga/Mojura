@@ -6,6 +6,9 @@ require 'api/resources/groups/groups.objects'
 
 module MojuraAPI
 
+	#making sure the following folders exists
+	FileUtils.mkdir_p('uploads/users/avatars')
+
 	class User < DbObject
 
 		def initialize(id = nil)
@@ -23,6 +26,7 @@ module MojuraAPI
 			yield :is_admin, Boolean, :required => true, :default => false, :extended_only => true
 			yield :groupids, Array, :default => [], :hidden => true
 			yield :state, String, :default => :active
+			yield :has_avatar, Boolean, :hidden => true
 			yield :cookie_tokens, Hash, :default => {}, :hidden => true
 		end
 
@@ -146,12 +150,12 @@ module MojuraAPI
 
 			if !self.id.nil?
 				#TODO: create avatar support. If ready implement:
-				#if (has_avatar)
-				#else
-				avatar = 'http://www.gravatar.com/avatar/' + Digest::MD5.hexdigest(self.email.to_s) + '?d=mm'
-				#end
+				if (has_avatar)
+					result[:avatar] = API.api_url + "users/#{@id}/avatar?"
+				else
+					result[:avatar] = 'http://www.gravatar.com/avatar/' + Digest::MD5.hexdigest(self.email.to_s) + '?d=mm'
+				end
 				is_admin = API.current_user.administrator?
-				result[:avatar] = avatar
 				unless compact
 					result[:rights] = {
 						update: false,
@@ -165,7 +169,7 @@ module MojuraAPI
 					end
 				end
 			end
-			result[:groups_url] = API.api_url + "users/#{self.id}/groups"
+			result[:groups_url] = API.api_url + "users/#{@id}/groups"
 
 			unless API.current_user.administrator? ||	(API.current_user.id == id) || Settings.get_b(:show_email_to_users, :users, true) || has_global_right?(:users, :update)
 				result.delete(:email)
@@ -185,6 +189,50 @@ module MojuraAPI
 
 		def get_search_index_title_and_description
 			[fullname, '']
+		end
+
+		def avatar_filename
+			"uploads/users/avatars/#{@id}.jpg"
+		end
+
+		def save_avatar(tempfile, type)
+			degrees = ''
+			size = 256
+			if (type.downcase == 'image/jpeg')
+				image_exif = EXIFR::JPEG.new(tempfile).exif
+				if (image_exif[:orientation] == EXIFR::TIFF::LeftTopOrientation)
+					degrees = '90>'
+				elsif (image_exif[:orientation] == EXIFR::TIFF::RightTopOrientation)
+					degrees = '90>'
+				elsif (image_exif[:orientation] == EXIFR::TIFF::RightBottomOrientation)
+					degrees = '-90>'
+				elsif (image_exif[:orientation] == EXIFR::TIFF::LeftBottomOrientation)
+					degrees = '-90>'
+				elsif (image_exif[:orientation] == EXIFR::TIFF::BottomRightOrientation)
+					degrees = '180>'
+				end
+			end
+			begin
+				image = MiniMagick::Image.open(tempfile)
+				image.combine_options { | c |
+					c.rotate(degrees) unless degrees.empty?
+					c.resize("#{size}x#{size}^")
+					c.gravity('center')
+					c.crop("#{size}x#{size}+0+0")
+				}
+				image.format('jpg')
+				image.write(avatar_filename)
+			rescue
+				# Do nothing
+			end
+			self.has_avatar = true
+			save_to_db
+		end
+
+		def delete_avatar
+			File.delete(avatar_filename) rescue true
+			self.has_avatar = false
+			save_to_db
 		end
 
 	end
