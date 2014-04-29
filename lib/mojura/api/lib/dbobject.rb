@@ -210,6 +210,7 @@ module MojuraAPI
 			values.each { | k, v |
 				k = k.to_sym
 				k = :rights if (silent && k == :right) # TODO: Remove later. Now here because I changed right to rights.
+				v.symbolize_keys! if (v.is_a?(Hash) || v.is_a?(Array))
 				if @fields.has_key?(k)
 					(silent) ? @fields[k][:value] = v : self.set_field_value(k, v)
 				elsif (k == :id) || (k == :_id)

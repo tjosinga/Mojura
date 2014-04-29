@@ -31,13 +31,14 @@ class Hash
 
 	# Changes all keys to symbols. If the value is an array or hash, it will do this recursively.
 	def symbolize_keys!(recursive = true)
-		self.keys.each do |key|
+		self.keys.each { | key |
 			if !key.is_a?(Symbol)
 				val = self.delete(key)
 				val.symbolize_keys! if (recursive && (val.is_a?(Hash) || val.is_a?(Array)))
 				self[(key.to_sym rescue key) || key] = val
 			end
-		end
+			self[key.to_sym].symbolize_keys! if (recursive && (self[key.to_sym].is_a?(Hash) || self[key.to_sym].is_a?(Array)))
+		}
 	end
 
 	# Changes all keys to strings.  If the value is an array or hash, it will do this recursively.

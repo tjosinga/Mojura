@@ -24,12 +24,6 @@ module MojuraAPI
 			yield :views, Array, :required => false
 		end
 
-		def load_from_db
-			super
-			@fields[:views][:value] ||= []
-			@fields[:views][:value].symbolize_keys! if @fields[:views][:value].is_a?(Array)
-		end
-
 		def save_to_db
 			self.reorder_before_save({parent: self.parentid}) if @fields[:orderid][:changed]
 			super
