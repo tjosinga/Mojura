@@ -13,7 +13,8 @@ module Mojura
 			@app = app
 			@versions = {}
 			%w(mojura kvparser ubbparser).each { | gem |
-				@versions[gem] = `gem spec #{gem} version`[/(\d+.\d+.\d+)/]
+				version = `gem spec #{gem} version`[/(\d+.\d+.\d+)/]
+				@versions[gem] = version unless version.nil?
 			}
 		end
 
