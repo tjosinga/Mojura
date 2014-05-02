@@ -76,6 +76,7 @@ module MojuraAPI
 
 			if (degrees == 'auto') && ((self.extension == '.jpg') || (self.extension == '.jpeg'))
 				image_exif = EXIFR::JPEG.new(orig_filename).exif
+				return if image_exif.nil?
 				if (image_exif[:orientation] == EXIFR::TIFF::LeftTopOrientation)
 					degrees = '90>'
 				elsif (image_exif[:orientation] == EXIFR::TIFF::RightTopOrientation)

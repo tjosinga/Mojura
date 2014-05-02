@@ -200,6 +200,7 @@ module MojuraAPI
 			size = 256
 			if (type.downcase == 'image/jpeg')
 				image_exif = EXIFR::JPEG.new(tempfile).exif
+				return if image_exif.nil?
 				if (image_exif[:orientation] == EXIFR::TIFF::LeftTopOrientation)
 					degrees = '90>'
 				elsif (image_exif[:orientation] == EXIFR::TIFF::RightTopOrientation)
