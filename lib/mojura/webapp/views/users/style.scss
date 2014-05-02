@@ -14,12 +14,17 @@
 
 	.avatar, .gravatar {
 		margin-bottom: 20px;
+		zoom: 1;
 	}
 
-	.semi-transparent {
-		zoom: 1;
+	.avatar-container {
 		filter: alpha(opacity=50);
 		opacity: 0.5;
+	}
+
+	.selected {
+		filter: alpha(opacity=100);
+		opacity: 1.0;
 	}
 
 }

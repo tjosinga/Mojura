@@ -1,8 +1,8 @@
 <div class="row avatar-form">
 	<div class="col-sm-6">
-		<div {{^uses_gravatar}}class="semi-transparent"{{/uses_gravatar}}>
+		<div class="avatar-container {{#uses_gravatar}}selected{{/uses_gravatar}}">
 			<h4>{{locale_str_users_use_gravatar}}</h4>
-			<div class="thumbnail gravatar {{^uses_gravatar}}semi-transparent{{/uses_gravatar}}">
+			<div class="thumbnail gravatar {{#uses_gravatar}}selected{{/uses_gravatar}}">
 				<img src="{{gravatar}}" alt="{{fullname}}">
 			</div>
 		</div>
@@ -16,23 +16,21 @@
 	</div>
 	<div class="divider visible-xs row-offset4"></div>
 	<div class="col-sm-6">
-		<div {{#uses_gravatar}}class="semi-transparent"{{/uses_gravatar}}>
+		<div class="avatar-container {{^uses_gravatar}}selected{{/uses_gravatar}}">
 			<h4>{{locale_str_users_upload_own}}</h4>
 			<div class="thumbnail avatar">
 				<img src="{{avatar}}" alt="{{fullname}}">
 			</div>
 		</div>
 		<form enctype="multipart/form-data" action="__api__/users/{{id}}/avatar" method="post" class="file-upload-form pull-left">
-			<input type="hidden" name="_method" value="put" />
+			<input type="hidden" name="_method" value="post" />
 			<input type="file" name="file" class="file-input hidden" onchange="if (this.value !== '') UsersView.uploadAvatar($(this).parent());" />
 		</form>
-		{{^uses_gravatar}}
-			<button class="btn btn-default btn-block btn-delete" data-loading-text="{{locale_str_users_delete_avatar}}...">
-				<i class="fa fa-trash-o"></i>
-				{{locale_str_users_delete_avatar}}
-			</button>
-		{{/uses_gravatar}}
-		<button class="btn btn-default btn-block btn-upload" data-loading-text="{{locale_str_users_upload}}..." onclick="$(this).prev('form').children('.file-input').click()">
+		<button class="btn btn-default btn-block btn-delete {{#uses_gravatar}}hidden{{/uses_gravatar}}" data-loading-text="{{locale_str_users_delete_avatar}}..." onclick="UsersView.deleteAvatar()">
+			<i class="fa fa-trash-o"></i>
+			{{locale_str_users_delete_avatar}}
+		</button>
+		<button class="btn btn-default btn-block btn-upload" data-loading-text="{{locale_str_users_upload}}..." onclick="$('form', '.avatar-form').children('.file-input').click()">
 			<i class="fa fa-upload"></i>
 			{{locale_str_users_upload}}
 		</button>
