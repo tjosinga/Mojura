@@ -93,6 +93,6 @@ module MojuraAPI
 	end
 
 	API.register_resource(EventsResource.new('events', '', '[eventid]'))
-	API.register_resource(TagsResource.new('events', '[eventid]/tags', '[eventid]/tags', Event))
+	API.register_resource(TagsResource.new('events', '[eventid]/tags', Event))
 
 end

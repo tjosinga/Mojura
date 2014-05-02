@@ -96,6 +96,6 @@ module MojuraAPI
 	end
 
 	API.register_resource(NewsResource.new('news', '', '[newsid]'))
-	API.register_resource(TagsResource.new('news', '[newsid]/tags', '[newsid]/tags', NewsItem))
+	API.register_resource(TagsResource.new('news', '[newsid]/tags', NewsItem))
 
 end

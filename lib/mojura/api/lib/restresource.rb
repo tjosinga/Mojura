@@ -11,7 +11,7 @@ module MojuraAPI
 		attr_reader :module, :items_path, :item_path
 
 		# Initializes the REST resouce
-		def initialize(mod, items_path, item_path)
+		def initialize(mod, items_path, item_path = nil)
 			@module = mod
 			@items_path = items_path
 			@item_path = item_path

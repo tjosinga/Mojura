@@ -6,8 +6,8 @@ module MojuraAPI
 
 		attr_reader :resource_class
 
-		def initialize(mod, items_path, item_path, resource_class)
-			super(mod, items_path, item_path)
+		def initialize(mod, items_path, resource_class)
+			super(mod, items_path)
 			@resource_class = resource_class
 		end
 

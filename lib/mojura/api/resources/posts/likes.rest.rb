@@ -55,7 +55,7 @@ module MojuraAPI
 
 	end
 
-	API.register_resource(LikesResource.new('posts', '[postid]/likes', '[postid]/likes'))
-	API.register_resource(LikesResource.new('posts', '[postid]/reply/[replyid]/likes', '[postid]/reply/[replyid]/likes'))
+	API.register_resource(LikesResource.new('posts', '[postid]/likes'))
+	API.register_resource(LikesResource.new('posts', '[postid]/reply/[replyid]/likes'))
 
 end

@@ -45,6 +45,6 @@ module MojuraAPI
 
 	end
 
-	API.register_resource(PollVotesResource.new('polls', '[pollid]/votes', '[pollid]/votes'))
+	API.register_resource(PollVotesResource.new('polls', '[pollid]/votes'))
 
 end

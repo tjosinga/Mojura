@@ -89,5 +89,5 @@ module MojuraAPI
 	end
 
 	API.register_resource(GroupResource.new('groups', '', '[groupid]'))
-	API.register_resource(TagsResource.new('groups', '[groupid]/tags', '[groupid]/tags', Group))
+	API.register_resource(TagsResource.new('groups', '[groupid]/tags', Group))
 end

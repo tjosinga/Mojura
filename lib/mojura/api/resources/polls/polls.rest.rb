@@ -88,6 +88,6 @@ module MojuraAPI
 	end
 
 	API.register_resource(PollsResource.new('polls', '', '[pollid]'))
-	API.register_resource(TagsResource.new('polls', '[pollid]/tags', '[pollid]/tags', Poll))
+	API.register_resource(TagsResource.new('polls', '[pollid]/tags', Poll))
 
 end

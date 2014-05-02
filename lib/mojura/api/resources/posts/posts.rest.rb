@@ -97,6 +97,6 @@ module MojuraAPI
 	end
 
 	API.register_resource(PostResource.new('posts', '', '[postid]'))
-	API.register_resource(TagsResource.new('posts', '[postid]/tags', '[postid]/tags', Post))
+	API.register_resource(TagsResource.new('posts', '[postid]/tags', Post))
 
 end

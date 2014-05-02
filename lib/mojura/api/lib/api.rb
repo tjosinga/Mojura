@@ -196,8 +196,12 @@ module MojuraAPI
 			API.log.info("Registering resource #{object.module.to_s}/#{object.items_path}")
 			items_path = "#{object.module.to_s}/#{object.items_path}".gsub(/(\/*)$/, '')
 			item_path = "#{object.module.to_s}/#{object.item_path}".gsub(/(\/*)$/, '')
-			@resources[items_path] = {type: :items, object: object}
-			@resources[item_path] = {type: :item, object: object} if (items_path != item_path)
+			if object.items_path == object.item_path
+				raise Exception.new('Resource registration conflict: the items_path and item_path shouldn\'t be equal.')
+			else
+				@resources[items_path] = {type: :items, object: object} unless object.items_path.nil?
+				@resources[item_path] = {type: :item, object: object} unless object.item_path.nil?
+			end
 		end
 
 		# Executes a complete request. Request could be a resource, help or nothing
@@ -280,9 +284,7 @@ module MojuraAPI
 				result = resource[:object].get(params) if resource[:object].required_params_present?(:get, params)
 			elsif (resource[:type] == :item) && (method == 'post')
 				result = resource[:object].post(params) if resource[:object].required_params_present?(:post, params)
-			elsif method == 'delete'
-				# No idea why RubyMine sees result as unused
-				#noinspection RubyUnusedLocalVariable
+			elsif method == 'delete' # Delete is supported both by resource items and a single resource item
 				result = resource[:object].delete(params) if resource[:object].required_params_present?(:delete, params)
 			else
 				raise UnknownModuleException.new(request_path)

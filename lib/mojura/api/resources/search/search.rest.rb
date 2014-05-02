@@ -37,6 +37,6 @@ module MojuraAPI
 
 	end
 
-	API.register_resource(SearchResource.new('search', '', ''))
+	API.register_resource(SearchResource.new('search', ''))
 
 end

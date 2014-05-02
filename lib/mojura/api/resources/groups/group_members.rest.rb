@@ -32,5 +32,5 @@ module MojuraAPI
 
 	end
 
-	API.register_resource(GroupMembersResource.new('groups', '[groupid]/members', '[groupid]/members'))
+	API.register_resource(GroupMembersResource.new('groups', '[groupid]/members'))
 end
