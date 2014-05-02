@@ -128,7 +128,7 @@ module MojuraAPI
 
 			# Delete all stored tokens older than two weeks
 			old_timestamp = (Time.now - (60*60*24*14)).strftime('%Y-%m-%d %H:%M:%S')
-			@fields[:cookie_tokens][:value].delete_if { | ts, _ | ts < old_timestamp }
+			@fields[:cookie_tokens][:value].delete_if { | ts, _ | ts.to_s < old_timestamp }
 
 			# Purge oldest as long as the set contains more than 50 tokens
 			purge_count = @fields[:cookie_tokens][:value].length - 50
