@@ -94,12 +94,6 @@ module MojuraAPI
 			return result
 		end
 
-		# noinspection RubyUnusedLocalVariable
-		# TODO: implementation
-		def has_global_right?(mod_name, right_name)
-			return self.administrator?
-		end
-
 		def user_has_right?(right, user = nil)
 			user ||= API.current_user
 			if user.administrator?
@@ -200,17 +194,18 @@ module MojuraAPI
 			size = 256
 			if (type.downcase == 'image/jpeg')
 				image_exif = EXIFR::JPEG.new(tempfile).exif
-				return if image_exif.nil?
-				if (image_exif[:orientation] == EXIFR::TIFF::LeftTopOrientation)
-					degrees = '90>'
-				elsif (image_exif[:orientation] == EXIFR::TIFF::RightTopOrientation)
-					degrees = '90>'
-				elsif (image_exif[:orientation] == EXIFR::TIFF::RightBottomOrientation)
-					degrees = '-90>'
-				elsif (image_exif[:orientation] == EXIFR::TIFF::LeftBottomOrientation)
-					degrees = '-90>'
-				elsif (image_exif[:orientation] == EXIFR::TIFF::BottomRightOrientation)
-					degrees = '180>'
+				unless image_exif.nil?
+					if (image_exif[:orientation] == EXIFR::TIFF::LeftTopOrientation)
+						degrees = '90>'
+					elsif (image_exif[:orientation] == EXIFR::TIFF::RightTopOrientation)
+						degrees = '90>'
+					elsif (image_exif[:orientation] == EXIFR::TIFF::RightBottomOrientation)
+						degrees = '-90>'
+					elsif (image_exif[:orientation] == EXIFR::TIFF::LeftBottomOrientation)
+						degrees = '-90>'
+					elsif (image_exif[:orientation] == EXIFR::TIFF::BottomRightOrientation)
+						degrees = '180>'
+					end
 				end
 			end
 			begin
