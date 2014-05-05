@@ -29,6 +29,7 @@ module MojuraAPI
 		@modules = nil
 		@resources = {}
 		@loaded = false
+		@first_init = true
 		@log = nil
 
 		# Loads all settings, resources and makes the connection with the database
@@ -73,6 +74,15 @@ module MojuraAPI
 			end
 			Thread.current[:mojura][:current_user] ||= User.new(uid)
 			Locale.load_strings
+
+			if @first_init
+				@first_init = false
+				if Settings.get_b(:maintenance_on_first_init, :core, true)
+					@log.info('----- Running maintenance jobs -----')
+					self.maintenance({})
+					@log.info('----- Finished maintenance jobs -----')
+				end
+			end
 		end
 
 		# Returns the current user.
@@ -436,7 +446,11 @@ module MojuraAPI
 					collections.each { | collection, klass |
 						result[mod] ||= {}
 						result[mod][method] ||= {}
-						result[mod][method][collection] = reindex_search(collection, klass) if (method == :reindex_search)
+						if (method == :reindex_search)
+							result[mod][method][collection] = reindex_search(collection, klass)
+						elsif (method == :right_2_rights)
+							result[mod][method][collection] = right_2_rights(collection)
+						end
 					}
 				}
 			}
@@ -453,6 +467,11 @@ module MojuraAPI
 				count += 1
 			}
 			return count
+		end
+
+		def right_2_rights(collection_name)
+			collection = MongoDb.collection(collection_name)
+			collection.update({}, {'$rename' => {'right' => 'rights'}}, multi: true)
 		end
 
 		private :load_module
