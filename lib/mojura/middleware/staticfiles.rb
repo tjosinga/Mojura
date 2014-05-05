@@ -12,7 +12,7 @@ module Mojura
 		end
 
 		def call(env)
-			filename = Mojura.filename('webapp/' + env['PATH_INFO'].to_s).to_s
+			filename = Mojura.filename('webapp/' + env['PATH_INFO'])
 			if File.file?(filename) && File.exists?(filename) && (File.extname(filename) != '.rb')
 				headers = {'Content-Type' => Rack::Mime.mime_type(File.extname(filename))}
 				return [200, headers, [File.binread(filename)]]

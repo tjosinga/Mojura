@@ -67,7 +67,7 @@ module MojuraWebApp
 					@is_home = (@pageid == Settings.get_s(:default_pageid))
 				rescue HTTPException => e
 					filename = Mojura.filename("webapp/views/#{@request_uri}/view_main.rb")
-					unless filename.nil?
+					unless filename.empty?
 						@data[:title] = Locale.str(@request_uri, :view_title)
 						@data[:view] = @request_uri
 					else
@@ -122,15 +122,16 @@ module MojuraWebApp
 				return external unless external.empty?
 			end
 
+			minified_filename = filename
+			normal_filename = filename
 			if filename.end_with?('.min.js') || filename.end_with?('.min.css')
-				return filename unless Mojura.filename("webapp/#{filename}").nil?
-				normal_filename = filename.gsub(/\.min\.js$/, '.js').gsub(/\.min\.css$/, '.css')
-				return normal_filename unless Mojura.filename("webapp/#{normal_filename}").nil?
+				fn = filename.gsub(/\.min\.js$/, '.js').gsub(/\.min\.css$/, '.css')
+				normal_filename = fn if File.exists?(Mojura.filename("webapp/#{fn}"))
 			else
-				minified_filename = filename.gsub(/\.js$/, '.min.js').gsub(/\.css$/, '.min.css')
-				return minified_filename unless Mojura.filename("webapp/#{minified_filename}").nil?
+				fn = filename.gsub(/\.js$/, '.min.js').gsub(/\.css$/, '.min.css')
+				minified_filename = fn if File.exists?(Mojura.filename("webapp/#{fn}"))
 			end
-			return filename
+			return Settings.get_b(:developing) ? normal_filename : minified_filename
 		end
 
 		def include_metatag(name, content)
@@ -189,7 +190,7 @@ module MojuraWebApp
 
 		def include_template_file(id, filename)
 			file = Mojura.filename(filename)
-			if file.nil?
+			if file.empty?
 				WebApp.log.warn("include_template_filename: '#{filename}' does not exists");
 			else
 				self.include_template(id, File.read(file))

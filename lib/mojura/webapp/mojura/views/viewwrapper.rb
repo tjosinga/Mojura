@@ -53,21 +53,16 @@ module MojuraWebApp
 		def render_view
 			return nil if (@view.nil?) || (@view.empty?)
 
-			path = "webapp/views/#{@view}/"
-			if !Mojura.filename("#{path}/style.min.css").nil?
-				WebApp.page.include_style_link("views/#{@view}/style.min.css")
-			elsif !Mojura.filename("#{path}/style.css").nil?
-				WebApp.page.include_style_link("views/#{@view}/style.css")
-			end
+			path = "views/#{@view}"
 
-			if !Mojura.filename("#{path}/script.min.js").nil?
-				WebApp.page.include_script_link("views/#{@view}/script.min.js")
-			elsif !Mojura.filename("#{path}/script.js").nil?
-				WebApp.page.include_script_link("views/#{@view}/script.js")
-			end
+			css = WebApp.page.get_best_url("#{path}/style.css")
+			WebApp.page.include_style_link(css) if File.exists?(Mojura.filename("webapp/#{css}"))
+
+			js = WebApp.page.get_best_url("#{path}/script.js")
+			WebApp.page.include_script_link(js) if File.exists?(Mojura.filename("webapp/#{js}"))
 
 			begin
-				source_file = "#{path}/view_main"
+				source_file = "webapp/#{path}/view_main"
 				require(source_file) if (File.exists?(source_file + '.rb'))
 			rescue Exception => e
 				raise CorruptViewFileException.new(@view, e.to_s)

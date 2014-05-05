@@ -13,7 +13,7 @@ module MojuraWebApp
 
 		def load
 			filename = Mojura.filename('webapp/ext/external_hosting.kv')
-			@libs = KeyValueParser.parse(File.read(filename))
+			@libs = KeyValueParser.parse(File.read(filename)) rescue {}
 		end
 
 		def get_external_equivalent(local_file)

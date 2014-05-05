@@ -19,7 +19,7 @@ module MojuraAPI
 				@strings[locale] = {}
 				API.modules.each { |mod_name|
 					filename = Mojura.filename("api/resources/#{mod_name}/strings.#{locale}.kv")
-					@strings[locale][mod_name] = KeyValueParser.parse(File.binread(filename)) unless filename.nil?
+					@strings[locale][mod_name] = KeyValueParser.parse(File.binread(filename)) unless filename.empty?
 				}
 			end
 		end

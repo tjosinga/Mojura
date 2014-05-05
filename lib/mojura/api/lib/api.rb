@@ -140,7 +140,7 @@ module MojuraAPI
 		def load_module(mod)
 			filename = (mod == :core) ? 'api/lib/settings.yml' : "api/resources/#{mod}/settings.yml"
 			filename = Mojura.filename(filename)
-			yaml = YAML.load_file(filename) rescue {}
+			yaml = filename.empty? ? {} : YAML.load_file(filename)
 			yaml.symbolize_keys!
 			options = {ignore_if_exists: true, type: :file}
 			Settings.set(:version, (yaml[:version] || '0.0.0'), mod, :private, options)

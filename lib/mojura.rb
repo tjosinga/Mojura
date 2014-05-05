@@ -62,14 +62,14 @@ module Mojura
 	PATH = File.dirname(__FILE__) + '/mojura/'
 
 	# Checks wether the given filename is available in the project or the gem and returns the correct filename.
-	# Returns nil if the file does not exists.
+	# Returns an empty string if the file does not exists.
 	def filename(filename)
-		if File.exist?(filename)
+		if File.exists?(filename)
 			return filename
 		elsif File.exists?("#{PATH}/#{filename}")
 			return "#{PATH}/#{filename}"
 		else
-			return nil
+			return ''
 		end
 	end
 
