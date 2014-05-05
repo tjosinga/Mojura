@@ -49,7 +49,7 @@ module MojuraAPI
 
 		def get(params)
 			user = User.new(params[:ids][0])
-			user.user_has_right?(RIGHT_READ)
+			user.current_user_has_right?(RIGHT_READ)
 			return user.to_a
 		end
 
@@ -61,7 +61,7 @@ module MojuraAPI
 
 		def post(params)
 			user = User.new(params[:ids][0])
-			raise NoRightsException.new unless user.user_has_right?(RIGHT_UPDATE)
+			raise NoRightsException.new unless user.current_user_has_right?(RIGHT_UPDATE)
 			params.delete(:username); # usernames may not be updated
 			params.delete(:password); # password may not be updated directly, only via new_password
 			if params.include?(:new_password)
@@ -89,7 +89,7 @@ module MojuraAPI
 
 		def delete(params)
 			user = User.new(params[:ids][0])
-			raise NoRightsException.new unless user.user_has_right?(RIGHT_DELETE)
+			raise NoRightsException.new unless user.current_user_has_right?(RIGHT_DELETE)
 			user.delete_from_db
 			return [:success => true]
 		end

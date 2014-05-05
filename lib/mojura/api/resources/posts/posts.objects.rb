@@ -6,6 +6,7 @@ module MojuraAPI
 	class PostsMessage < DbObject
 
 		include DbObjectTags
+		include DbObjectRights
 
 		def initialize(type, id = nil, options = {})
 			type = (type == 'posts') ? 'posts' : 'replies'

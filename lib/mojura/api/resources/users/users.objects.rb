@@ -94,15 +94,12 @@ module MojuraAPI
 			return result
 		end
 
-		def user_has_right?(right, user = nil)
-			user ||= API.current_user
-			if user.administrator?
-				return true
-			elsif right == RIGHT_READ
-				return (self.id == user.id) || (user.has_global_right?(:users, :show_users))
-			else
-				return (self.id == user.id) || (user.has_global_right?(:users, :maintain_users))
-			end
+		def current_user_has_right?(right)
+			user_has_right?(right, API.current_user)
+		end
+
+		def user_has_right?(right, user)
+			return AccessControl.has_rights?(right, self, user)
 		end
 
 		def valid_cookie_token?(token)
@@ -158,14 +155,20 @@ module MojuraAPI
 					if API.current_user.logged_in?
 						result[:rights][:subscribe] = true if is_admin || Settings.get_b(:has_subscribable_groups, :groups)
 						result[:rights][:force_password] = true if is_admin
-						result[:rights][:update] = is_admin || (API.current_user.id == self.id)
+						result[:rights][:update] = is_admin || (API.current_user.id == @id)
 						result[:rights][:delete] = is_admin || has_global_right?(:users, :delete)
+						result[:groups_url] = API.api_url + "users/#{@id}/groups"
+					else
+						[:is_admin, :state, :rights].each { | k | result.delete(k) }
 					end
 				end
 			end
-			result[:groups_url] = API.api_url + "users/#{@id}/groups"
 
-			unless API.current_user.administrator? ||	(API.current_user.id == id) || Settings.get_b(:show_email_to_users, :users, true) || has_global_right?(:users, :update)
+			setting = API.current_user.logged_in? ? :show_email_to_users : :show_email_to_guests
+			unless API.current_user.administrator? ||
+							(API.current_user.id == @id) ||
+							Settings.get_b(setting, :users, false) ||
+							has_global_right?(:users, :update)
 				result.delete(:email)
 			end
 			return result

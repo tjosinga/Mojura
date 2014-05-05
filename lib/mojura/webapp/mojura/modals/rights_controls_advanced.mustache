@@ -36,7 +36,7 @@
 
 			$("li > a.advanced-show", "#static-input-group-{{urid}}").click(function(){
 				AdvancedObjectRights.show(
-					$("#right-{{urid}}").val(),
+					$("#rights-{{urid}}").val(),
 					($("#userids-{{urid}}").val() || "").replace(/\,+$/, "").split(","),
 					($("#groupids-{{urid}}").val() || "").replace(/\,+$/, "").split(","),
 					{
@@ -50,7 +50,7 @@
 		}
 
 		function setRights(rights, userids, groupids) {
-			$("#right-{{urid}}").val(rights);
+			$("#rights-{{urid}}").val(rights);
 			var $option = $("li > a[data-rights=" + rights + "]", "#static-input-group-{{urid}}").first();
 			if ($option.size() > 0) {
 				$(".description", "#static-input-group-{{urid}}").html($option.html());

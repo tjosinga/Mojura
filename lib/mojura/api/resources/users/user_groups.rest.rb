@@ -18,19 +18,19 @@ module MojuraAPI
 		def all(params = {})
 			userid = params[:ids][0]
 			user = User.new(userid)
-			raise NoRightsException.new unless user.user_has_right(RIGHT_READ)
+			raise NoRightsException.new unless user.current_user_has_right?(RIGHT_READ)
 			return user.groups.to_a
 		end
 
 		def put(params = {})
 			userid = params[:ids][0]
 			user = User.new(userid)
-			raise NoRightsException.new unless user.user_has_right(RIGHT_UPDATE)
+			raise NoRightsException.new unless user.current_user_has_right?(RIGHT_UPDATE)
 			user.subscribe_to_group(groupid)
 
 			groupid = params[:groupid].to_s
 			group = Group.new(groupid)
-			raise NoRightsException.new unless group.user_has_right(RIGHT_SUBSCRIBE)
+			raise NoRightsException.new unless group.current_user_has_right?(RIGHT_SUBSCRIBE)
 
 			user.save_to_db
 			return user.groups.to_a
@@ -39,11 +39,11 @@ module MojuraAPI
 		def delete(params = {})
 			userid = params[:ids][0]
 			user = User.new(userid)
-			raise NoRightsException.new unless user.user_has_right(RIGHT_UPDATE)
+			raise NoRightsException.new unless user.current_user_has_right?(RIGHT_UPDATE)
 
 			groupid = params[:ids][1].to_s
 			group = Group.new(groupid)
-			raise NoRightsException.new unless group.user_has_right(RIGHT_SUBSCRIBE)
+			raise NoRightsException.new unless group.current_user_has_right?(RIGHT_SUBSCRIBE)
 
 			user.unsubscribe_from_group(groupid)
 			user.save_to_db

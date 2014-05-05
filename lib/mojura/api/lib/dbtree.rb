@@ -114,8 +114,8 @@ module MojuraAPI
 				}
 				info[:api_url] = @object_url + '/' + info[:id] if (@object_url != '')
 				if @use_rights
-					info[:rights] = {userid: object[:userid.to_s],
-					                 groupid: object[:groupid.to_s],
+					info[:rights] = {userids: object[:userids.to_s],
+					                 groupids: object[:groupids.to_s],
 					                 rights: object[:rights.to_s]}
 				end
 				self.on_object_to_tree!(object, info)
@@ -132,8 +132,8 @@ module MojuraAPI
 		end
 
 		def user_has_right(orig_right, rights)
-			return false if (!rights.is_a?(Hash))
-			return API.current_user.has_object_right?(orig_right, rights[:userid], rights[:groupid], rights[:rights])
+			object = AccessControlObject.new(:pages, :Page, rights[:rights], rights[:userids], rights[:groupids])
+			return AccessControl.has_rights?(orig_right, object)
 		end
 
 		def allowed_info_of_item(rights)

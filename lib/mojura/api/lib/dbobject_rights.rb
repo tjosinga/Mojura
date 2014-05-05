@@ -12,9 +12,12 @@ module MojuraAPI
 			yield :rights, Hash, :required => true, :group => :rights, :default => rights_default
 		end
 
-		def user_has_right?(right, user = nil)
-			user ||= API.current_user
-			return user.has_object_right?(right, self.userids, self.groupids, self.rights)
+		def current_user_has_right?(right)
+			user_has_right?(right, API.current_user)
+		end
+
+		def user_has_right?(right, user)
+			return AccessControl.has_rights?(right, self, user)
 		end
 
 		def rights_as_bool(user = nil)
@@ -24,7 +27,6 @@ module MojuraAPI
 			        update: self.user_has_right?(RIGHT_UPDATE, user),
 			        delete: self.user_has_right?(RIGHT_DELETE, user)}
 		end
-
 
 		def DbObjectRights.int_to_rights_hash(i)
 			mask = 1

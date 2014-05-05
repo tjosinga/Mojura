@@ -11,6 +11,7 @@ require 'api/lib/mongodb'
 require 'api/lib/exceptions'
 require 'api/lib/ubbparser_additions'
 require 'api/lib/settings'
+require 'api/lib/access_control'
 require 'api/resources/locale/locale.object'
 require 'api/resources/users/users.objects'
 require 'api/resources/pages/pages.objects'
@@ -41,6 +42,7 @@ module MojuraAPI
 			MongoDb.connect(Settings.get_s(:database))
 			self.load_resources("#{Mojura::PATH}/api/resources/")
 			self.load_resources('api/resources/') if (Dir.exist?('api/resources/'))
+			AccessControl.load
 			@log.info('----- The API is loaded -----')
 			@loaded = true
 		end
