@@ -7,3 +7,5 @@ dependecies:
 maintenance:
   reindex_search:
     events: Event
+  right_2_rights:
+    events: Event

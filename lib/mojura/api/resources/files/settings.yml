@@ -9,3 +9,6 @@ maintenance:
   reindex_search:
     files_files: DbFile
     files_folders: DbFolder
+  right_2_rights:
+    files_files: DbFile
+    files_folders: DbFolder

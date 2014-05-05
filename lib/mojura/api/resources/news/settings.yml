@@ -7,3 +7,5 @@ dependecies:
 maintenance:
   reindex_search:
     news: NewsItem
+  right_2_rights:
+    news: NewsItem

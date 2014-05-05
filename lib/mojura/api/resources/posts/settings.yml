@@ -8,3 +8,5 @@ maintenance:
   reindex_search:
     posts_posts: Post
     posts_replies: Reply
+  right_2_rights:
+    posts_posts: Post

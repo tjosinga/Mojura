@@ -11,3 +11,5 @@ dependecies:
 maintenance:
   reindex_search:
     pages: Page
+  right_2_rights:
+    pages: Page

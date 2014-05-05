@@ -7,3 +7,5 @@ dependecies:
 maintenance:
   reindex_search:
     groups: Group
+  right_2_rights:
+    groups: Group
