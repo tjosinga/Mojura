@@ -21,7 +21,8 @@ module MojuraAPI
 		#noinspection RubyUnusedLocalVariable,RubyUnusedLocalVariable
 		def to_a(compact = false)
 			result = super
-			result[:groups_url] = API.api_url + "groups/#{self.id}/members"
+			result[:members_url] = API.api_url + "groups/#{self.id}/members"
+			result[:rights_url] = API.api_url + "groups/#{self.id}/rights" if API.current_user.logged_in?
 			return result
 		end
 
