@@ -272,3 +272,21 @@ body.dragging, body.dragging * {
 	}
 }
 
+.user-info .avatar {
+	margin-bottom: 30px;
+
+	.name {
+		white-space: nowrap;
+		overflow-x: hidden;
+		text-overflow: ellipsis;
+		text-align: center;
+		padding-top: 5px;
+	}
+}
+
+.btn-group-sm > .btn {
+	padding: 3px 7px 2px 7px;
+	font-size: 14px;
+	line-height: 1.5;
+	border-radius: 3px;
+}
