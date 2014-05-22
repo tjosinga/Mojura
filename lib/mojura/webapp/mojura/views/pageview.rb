@@ -125,12 +125,12 @@ module MojuraWebApp
 			minified_filename = filename
 			normal_filename = filename
 			if filename.end_with?('.min.js') || filename.end_with?('.min.css')
-				fn = filename.gsub(/\.min\.js$/, '.js').gsub(/\.min\.css$/, '.css')
-				normal_filename = fn if File.exists?(Mojura.filename("webapp/#{fn}"))
+				normal_filename = filename.gsub(/\.min\.js$/, '.js').gsub(/\.min\.css$/, '.css')
 			else
-				fn = filename.gsub(/\.js$/, '.min.js').gsub(/\.css$/, '.min.css')
-				minified_filename = fn if File.exists?(Mojura.filename("webapp/#{fn}"))
+				minified_filename = filename.gsub(/\.js$/, '.min.js').gsub(/\.css$/, '.min.css')
 			end
+			normal_filename = minified_filename unless File.exists?(Mojura.filename("webapp/#{normal_filename}"))
+			minified_filename = normal_filename unless File.exists?(Mojura.filename("webapp/#{minified_filename}"))
 			return Settings.get_b(:developing) ? normal_filename : minified_filename
 		end
 
