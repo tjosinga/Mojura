@@ -33,7 +33,9 @@ module MojuraAPI
 
 			user.subscribe_to_group(groupid)
 			user.save_to_db
-			return user.groups.to_a
+			result = user.to_a
+			result[:groups] = user.groups.to_a
+			return result
 		end
 
 		def delete(params = {})
@@ -47,7 +49,10 @@ module MojuraAPI
 
 			user.unsubscribe_from_group(groupid)
 			user.save_to_db
-			return user.groups.to_a
+
+			result = user.to_a
+			result[:groups] = user.groups.to_a
+			return result
 		end
 
 		def all_conditions
@@ -58,7 +63,7 @@ module MojuraAPI
 
 		def put_conditions
 			{
-				description: 'Subscribes the user to the given group',
+				description: 'Subscribes the user to the given group. Returns the user including all current groups.',
 				attributes: {
 					groupid: {required: true, type: BSON::ObjectId, description: 'The id of the group.'},
 				}
@@ -67,7 +72,7 @@ module MojuraAPI
 
 		def delete_conditions
 			{
-				description: 'Unsubscribes the user of the given group'
+				description: 'Unsubscribes the user of the given group. Returns the user including all current groups.'
 			}
 		end
 
