@@ -1,6 +1,3 @@
-global_rights:
-  [ maintain ]
-
 dependencies:
   users: 0.0
   groups: 0.0

@@ -146,7 +146,6 @@ module MojuraAPI
 			yaml.symbolize_keys!
 			options = {ignore_if_exists: true, type: :file}
 			Settings.set(:version, (yaml[:version] || '0.0.0'), mod, :private, options)
-			Settings.set(:global_rights, yaml[:global_rights], mod, :private, options) if yaml[:global_rights].is_a?(Array)
 			Settings.set(:object_rights, yaml[:object_rights], mod, :protected, options) if yaml[:object_rights].is_a?(Hash)
 			Settings.set(:maintenance, yaml[:maintenance], mod, :protected, options) if yaml[:maintenance].is_a?(Hash)
 			yaml[:private].each { |k, v| Settings.set(k, v, mod, :private, options) } if yaml[:private].is_a?(Hash)

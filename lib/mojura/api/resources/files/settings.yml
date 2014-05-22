@@ -1,6 +1,3 @@
-global_rights:
-  [ maintain, create ]
-
 object_rights:
   File: 0x7044
   Folder: 0x7044
