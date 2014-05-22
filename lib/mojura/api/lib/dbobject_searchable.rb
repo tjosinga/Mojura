@@ -40,7 +40,7 @@ module MojuraAPI
 		end
 
 		def get_search_index_title_and_description
-			result_name = name || title
+			result_name = name rescue title
 			result_description = ''
 			[:notes, :content, :description, :message].each { | field |
 				if @fields.include?(field)

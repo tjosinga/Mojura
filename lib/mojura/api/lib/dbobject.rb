@@ -107,13 +107,21 @@ module MojuraAPI
 		# getter and setter for object fields. Database which
 		def method_missing(name, *arguments)
 			value = arguments[0]
-			name = name.to_s
-			if name[-1, 1] == '='
-				key = name[0..-2]
+			if name.to_s[-1, 1] == '='
+				key = name.to_s[0..-2].to_sym
 				self.set_field_value(key, value)
 			else
-				return self.get_field_value(name)
+				if @fields.include?(name.to_sym)
+					return self.get_field_value(name)
+				else
+					super
+				end
 			end
+		end
+
+		# Returns true if the object responds to the given method_sym.
+		def respond_to?(method_sym, include_private = false)
+			return @fields.include?(method_sym) || super
 		end
 
 		# Converts the values hash to a string
