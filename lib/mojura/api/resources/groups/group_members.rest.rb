@@ -19,8 +19,7 @@ module MojuraAPI
 
 		def all(params)
 			groupid = params[:ids][0]
-			members = Users.new({groupids: groupid})
-			return members.to_a(true)
+			return paginate(params) { |options| Users.new({groupids: groupid}, options) }
 		end
 
 		def all_conditions
