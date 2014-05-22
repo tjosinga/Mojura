@@ -4,6 +4,9 @@
 This changelog summaries the most important changes per version.
 Besides the main topics mention, most versions also including some bugfixes or minor tweaks.
 
+##Version 0.3.1
+- Fixes a bug which occurs when running maintenances.
+
 ##Version 0.3.0
 - Futher improvements and integration of the new rights system.
 - Adds settings support to the API on each call.
