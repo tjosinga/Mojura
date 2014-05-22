@@ -4,6 +4,13 @@
 This changelog summaries the most important changes per version.
 Besides the main topics mention, most versions also including some bugfixes or minor tweaks.
 
+##Version 0.3.0
+- Futher improvements and integration of the new rights system.
+- Adds settings support to the API on each call.
+- Adds Groups view and updates the Groups resource.
+- Major update on the Users view and resources including avatar support.
+- Fixes several bugs and tweaks.
+
 ##Version 0.2.0
 - Adds API resource Search. All searchable object stores summaries, including a list of keywords in the search_index.
 - Refactors the right system, improving the object based rights.
