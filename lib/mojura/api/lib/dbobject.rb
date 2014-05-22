@@ -265,9 +265,9 @@ module MojuraAPI
 
 		def save_to_search_index
 			rights = {
-				rights: self.rights,
-				userids: self.userids || [],
-				groupids: self.groupids || []
+				rights: (self.rights rescue 0),
+				userids: (self.userids rescue []),
+				groupids: (self.groupids rescue [])
 			}
 			if (rights[:rights].nil?)
 				rights[:rights] = Settings.get_h(:object_rights, @module)[self.class.name[11..-1].to_sym] || 0x704
