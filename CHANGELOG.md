@@ -4,6 +4,9 @@
 This changelog summaries the most important changes per version.
 Besides the main topics mention, most versions also including some bugfixes or minor tweaks.
 
+##Version 0.3.2
+- Fixes a bug that only regconizes minified CSS and JavaScript.
+
 ##Version 0.3.1
 - Fixes a bug which occurs when running maintenances.
 
