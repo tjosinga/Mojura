@@ -1,0 +1,15 @@
+{{#may_update}}
+	<div class="add-member">
+		{{locale_str_groups_add_member_info}}
+		<div class="input-group">
+			<input type="text" class="form-control" autocomplete="off" />
+			<div class="input-group-btn">
+				<button type="button" class="btn" onclick="GroupsView.addMember('{{groupid}}', this)"><i class="fa fa-plus"></i></button>
+			</div>
+		</div>
+	</div>
+{{/may_update}}
+
+<div class="group-members row-offset2">
+	{{> avatars}}
+</div>

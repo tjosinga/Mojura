@@ -1,0 +1,28 @@
+<ul class="list-unstyled">
+{{#items}}
+	<li>
+		<div class="btn-group pull-right btn-group-sm">
+			<button type="button" class="btn btn-default" onclick="GroupsView.showMembers('{{id}}', {{rights.allowed.update}})">
+				<i class="fa fa-group"></i>
+			</button>
+			{{#rights.allowed.update}}
+				<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+					<i class="fa fa-pencil"></i>
+					<span class="caret"></span>
+				</button>
+				<ul class="dropdown-menu" role="menu">
+					<li><a href="javascript:void(0)" onclick="GroupsView.editGroup('{{id}}')">{{locale_str_groups_edit_group}}</a></li>
+					<!--<li><a href="javascript:void(0)" onclick="GroupsView.editRights('{{id}}')">{{locale_str_groups_edit_rights}}</a></li>-->
+					<!--<li><a href="javascript:void(0)" onclick="GroupsView.deleteGroup('{{id}}')">{{locale_str_groups_delete_group}}</a></li>-->
+				</ul>
+			{{/rights.allowed.update}}
+		</div>
+		<div class="bold group-name">{{name}}</div>
+		<div class="group-description">{{description.html}}</div>
+	</li>
+{{/items}}
+</ul>
+
+{{#may_add_groups}}
+	Yep
+{{/may_add_groups}}
