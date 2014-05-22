@@ -55,10 +55,10 @@ module MojuraWebApp
 
 			path = "views/#{@view}"
 
-			css = WebApp.page.get_best_url("#{path}/style.css")
+			css = WebApp.page.get_best_url("#{path}/style.min.css")
 			WebApp.page.include_style_link(css) if File.exists?(Mojura.filename("webapp/#{css}"))
 
-			js = WebApp.page.get_best_url("#{path}/script.js")
+			js = WebApp.page.get_best_url("#{path}/script.min.js")
 			WebApp.page.include_script_link(js) if File.exists?(Mojura.filename("webapp/#{js}"))
 
 			begin
