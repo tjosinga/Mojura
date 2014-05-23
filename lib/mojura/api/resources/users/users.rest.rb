@@ -28,8 +28,9 @@ module MojuraAPI
 
 		def put(params)
 			#TODO: check rights
-			raise NoRightsException.new unless API.current_user.has_global_right?(:users, :add_users)
-			User.new.load_from_hash(params).save_to_db.to_a
+			user = User.new
+			raise NoRightsException.new unless user.current_user_has_right?(:create)
+			return user.load_from_hash(params).save_to_db.to_a
 		end
 
 		def put_conditions
@@ -49,7 +50,7 @@ module MojuraAPI
 
 		def get(params)
 			user = User.new(params[:ids][0])
-			user.current_user_has_right?(RIGHT_READ)
+			raise NoRightsException.new unless user.current_user_has_right?(:read)
 			return user.to_a
 		end
 
@@ -61,7 +62,7 @@ module MojuraAPI
 
 		def post(params)
 			user = User.new(params[:ids][0])
-			raise NoRightsException.new unless user.current_user_has_right?(RIGHT_UPDATE)
+			raise NoRightsException.new unless user.current_user_has_right?(:update)
 			params.delete(:username); # usernames may not be updated
 			params.delete(:password); # password may not be updated directly, only via new_password
 			if params.include?(:new_password)
@@ -89,7 +90,7 @@ module MojuraAPI
 
 		def delete(params)
 			user = User.new(params[:ids][0])
-			raise NoRightsException.new unless user.current_user_has_right?(RIGHT_DELETE)
+			raise NoRightsException.new unless user.current_user_has_right?(:delete)
 			user.delete_from_db
 			return [:success => true]
 		end

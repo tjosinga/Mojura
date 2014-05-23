@@ -133,7 +133,7 @@ module MojuraAPI
 						result[:rights][:subscribe] = true if is_admin || Settings.get_b(:has_subscribable_groups, :groups)
 						result[:rights][:force_password] = true if is_admin
 						result[:rights][:update] = is_admin || (API.current_user.id == @id)
-						result[:rights][:delete] = is_admin || has_global_right?(:users, :delete)
+						result[:rights][:delete] = is_admin || current_user_has_right?(:delete)
 						result[:groups_url] = API.api_url + "users/#{@id}/groups"
 					else
 						[:is_admin, :state, :rights].each { | k | result.delete(k) }
@@ -145,7 +145,7 @@ module MojuraAPI
 			unless API.current_user.administrator? ||
 							(API.current_user.id == @id) ||
 							Settings.get_b(setting, :users, false) ||
-							has_global_right?(:users, :update)
+							current_user_has_right?(:update)
 				result.delete(:email)
 			end
 			return result
@@ -223,7 +223,7 @@ module MojuraAPI
 		def get_rights_where(user = nil)
 			user ||= API.current_user
 			@options[:ignore_rights] = false unless @options.include?(:ignore_rights)
-			if (!@options[:ignore_rights]) && (!user.nil?) && (!user.has_global_right?(:users, :show_users))
+			if (!@options[:ignore_rights]) && (!user.nil?) && (!user.current_user_has_right?(:read))
 				#TODO: implement state and set active to current users
 				result = {_id: user.id} #{'$and' => [{state: 'active'}, {_id: user.id}]}
 			else
