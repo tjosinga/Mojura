@@ -4,6 +4,10 @@
 This changelog summaries the most important changes per version.
 Besides the main topics mention, most versions also including some bugfixes or minor tweaks.
 
+##Version 0.3.3
+- Minor fixes due to NoMethodException inclusion in method_missing since 0.3.0. More will come, probably
+- Adds rights checks in the Users resource.
+
 ##Version 0.3.2
 - Fixes a bug that only regconizes minified CSS and JavaScript.
 
