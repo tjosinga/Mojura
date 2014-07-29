@@ -4,6 +4,9 @@
 This changelog summaries the most important changes per version.
 Besides the main topics mention, most versions also including some bugfixes or minor tweaks.
 
+##Version 0.3.5
+- Fixes an architectual mistake that POST was meant for updates and PUT for creates. Now works according REST convention (POST for unknown resource URI and PUT for known resource URI). 
+
 ##Version 0.3.4
 - Fixes AccessControl checks
 
@@ -41,7 +44,7 @@ Besides the main topics mention, most versions also including some bugfixes or m
 - Improves auto rotation of images in Files resource.
 
 ##Version 0.1.9
-_This version is not released. You can find changes for this version on 0.1.10.
+- This version is not released. You can find changes for this version on 0.1.10.
 
 ##Version 0.1.8
 - Open Graph support, for better integration in Facebook.
