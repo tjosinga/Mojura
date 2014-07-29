@@ -17,7 +17,7 @@ module MojuraAPI
 			Poll.new(params[:ids][0]).get_votes
 		end
 
-		def put(params)
+		def post(params)
 			index = params[:index] || -1
 			poll = Poll.new(params[:ids][0])
 			if poll.vote(index.to_i, API.remote_ip)
@@ -35,9 +35,9 @@ module MojuraAPI
 			return result
 		end
 
-		def put_conditions
+		def post_conditions
 			result = {
-				description: 'Creates a poll and returns the object.',
+				description: 'Votes on an option of a poll.',
 				attributes: {}
 			}
 			return result

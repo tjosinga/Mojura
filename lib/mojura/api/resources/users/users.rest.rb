@@ -33,9 +33,9 @@ module MojuraAPI
 			return user.load_from_hash(params).save_to_db.to_a
 		end
 
-		def put_conditions
+		def post_conditions
 			{
-				description: 'Creates a user and returns the object.',
+				description: 'Creates a user and returns the resource.',
 				attributes: {
 					username: {required: true, type: String, description: 'The username for the user. Must be unique.'},
 					password: {required: false, type: String, description: 'A password for the user, encoded as a digest (MD5([username]:[realm]:[password])).'},
@@ -60,7 +60,7 @@ module MojuraAPI
 			}
 		end
 
-		def post(params)
+		def put(params)
 			user = User.new(params[:ids][0])
 			raise NoRightsException.new unless user.current_user_has_right?(:update)
 			params.delete(:username); # usernames may not be updated
@@ -76,11 +76,11 @@ module MojuraAPI
 			return user.save_to_db.to_a
 		end
 
-		def post_conditions
+		def put_conditions
 			result =
 				{
 					description: 'Updates an user with the given keys. A username may not be updated.',
-					attributes: self.put_conditions[:attributes].each { |_, v| v[:required] = false }
+					attributes: self.post_conditions[:attributes].each { |_, v| v[:required] = false }
 				}
 			result[:attributes].delete(:password)
 			result[:attributes][:old_password] = {required: false, type: String, description: 'The digest of the old password. Is required if the authenticated user is not an administrator.'}

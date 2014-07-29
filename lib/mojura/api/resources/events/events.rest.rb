@@ -20,7 +20,7 @@ module MojuraAPI
 			return result
 		end
 
-		def put(params)
+		def post(params)
 			Event.new.load_from_hash(params).save_to_db.to_a
 		end
 
@@ -28,7 +28,7 @@ module MojuraAPI
 			Event.new(params[:ids][0]).to_a
 		end
 
-		def post(params)
+		def put(params)
 			event = Event.new(params[:ids][0])
 			event.load_from_hash(params)
 			return event.save_to_db.to_a
@@ -52,9 +52,9 @@ module MojuraAPI
 			return result
 		end
 
-		def put_conditions
+		def post_conditions
 			result = {
-				description: 'Creates a event and returns the object.',
+				description: 'Creates a event and returns the resource.',
 				attributes: {
 					title: {required: true, type: String, description: 'The title of the event.'},
 					category: {required: false, type: String, description: 'The category of the event.'},
@@ -75,11 +75,11 @@ module MojuraAPI
 			}
 		end
 
-		def post_conditions
+		def put_conditions
 			result =
 				{
 					description: 'Updates an event with the given keys.',
-					attributes: self.put_conditions[:attributes].each { |_, v| v[:required] = false }
+					attributes: self.post_conditions[:attributes].each { |_, v| v[:required] = false }
 				}
 			return result
 		end

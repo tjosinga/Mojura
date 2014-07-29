@@ -28,7 +28,7 @@ module MojuraAPI
 			}
 		end
 
-		def put(params)
+		def post(params)
 			raise NoRightsException.new unless API.current_user.administrator?
 			value = (params.include?(:type)) ? StringConvertor.convert(params[:value], params[:type]) : params[:value]
 			level = (params[:level].to_s == 'public') ? :public : :protected
@@ -42,7 +42,7 @@ module MojuraAPI
 			}
 		end
 
-		def put_conditions
+		def post_conditions
 			{
 				description: 'Adds a new setting.',
 				attributes: {
@@ -70,7 +70,7 @@ module MojuraAPI
 		end
 
 		#noinspection RubyUnusedLocalVariable
-		def post(params)
+		def put(params)
 			key = params[:ids][1]
 			category = params[:ids][0]
 			value = params[:value]
@@ -78,10 +78,10 @@ module MojuraAPI
 			return [value]
 		end
 
-		def post_conditions
+		def put_conditions
 			result = {
 				description: 'Updates an setting with a specific value. It\'s not possible to update a private setting.',
-				attributes: self.put_conditions[:attributes].keep_if { |k, v| v[:required] = false; k == :value }
+				attributes: self.post_conditions[:attributes].keep_if { |k, v| v[:required] = false; k == :value }
 			}
 			return result
 		end

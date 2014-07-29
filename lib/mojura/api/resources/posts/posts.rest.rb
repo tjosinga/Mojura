@@ -26,7 +26,7 @@ module MojuraAPI
 			return result
 		end
 
-		def put(params)
+		def post(params)
 			#TODO: check rights
 			Post.new.load_from_hash(params).save_to_db.to_a
 		end
@@ -36,7 +36,7 @@ module MojuraAPI
 			Post.new(params[:ids][0]).to_a
 		end
 
-		def post(params)
+		def put(params)
 			#TODO: check rights
 			post = Post.new(params[:ids][0])
 			post.load_from_hash(params)
@@ -61,7 +61,7 @@ module MojuraAPI
 			return result
 		end
 
-		def put_conditions
+		def post_conditions
 			result = {
 				description: 'Creates a post and returns the object.',
 				attributes: {
@@ -79,11 +79,11 @@ module MojuraAPI
 			}
 		end
 
-		def post_conditions
+		def put_conditions
 			result =
 				{
 					description: 'Updates a post with the given keys.',
-					attributes: self.put_conditions[:attributes].each { |_, v| v[:required] = false }
+					attributes: self.post_conditions[:attributes].each { |_, v| v[:required] = false }
 				}
 			return result
 		end

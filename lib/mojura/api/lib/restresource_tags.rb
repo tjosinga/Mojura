@@ -31,14 +31,14 @@ module MojuraAPI
 			}
 		end
 
-		def put(params)
+		def post(params)
 			object = self.resource_class.new(params[:ids][0])
 			object.add_tags(params['tags'].split(','))
 			object.save_to_db
 			return object.tags
 		end
 
-		def put_conditions
+		def post_conditions
 			{
 				description: 'Adds tags to the specified resource.',
 				uri: @module + '/' + @items_path,

@@ -22,7 +22,7 @@ module MojuraAPI
 			return user.groups.to_a
 		end
 
-		def put(params = {})
+		def post(params = {})
 			userid = params[:ids][0]
 			user = User.new(userid)
 			raise NoRightsException.new unless user.current_user_has_right?(:update)
@@ -61,7 +61,7 @@ module MojuraAPI
 			}
 		end
 
-		def put_conditions
+		def post_conditions
 			{
 				description: 'Subscribes the user to the given group. Returns the user including all current groups.',
 				attributes: {

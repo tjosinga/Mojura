@@ -21,7 +21,7 @@ module MojuraAPI
 			return API.send_file(user.avatar_filename, :filename => user.username + '.jpg', :mime_type => 'image/jpeg')
 		end
 
-		def post(params = {})
+		def put(params = {})
 			userid = params[:ids][0]
 			user = User.new(userid)
 			user.save_avatar(params[:file][:tempfile].path, params[:file][:type]) if params[:file].is_a?(Hash)
@@ -41,7 +41,7 @@ module MojuraAPI
 			}
 		end
 
-		def post_conditions
+		def put_conditions
 			{
 				description: 'Adds a new avatar to the given user.',
 				attributes: {

@@ -35,12 +35,6 @@ module MojuraAPI
 			'[0-9a-f]{24}|0|new'
 		end
 
-		# Returns a set of objects
-		#noinspection RubyUnusedLocalVariable
-		def all(params)
-			raise UnsupportedMethodException(:all)
-		end
-
 		# Returns the url of another page of the requested resource
 		def new_page_url(new_page, params)
 			result = API.api_url + params[:query_string] + '?'
@@ -76,25 +70,31 @@ module MojuraAPI
 			FilterParser.parse(params[:filter])
 		end
 
-		# Creates a new object
+		# Returns a list of resources
 		#noinspection RubyUnusedLocalVariable
-		def put(params)
-			raise UnsupportedMethodException(:put)
+		def all(params)
+			raise UnsupportedMethodException(:all)
 		end
 
-		# Returns an object
-		#noinspection RubyUnusedLocalVariable
-		def get(params)
-			raise UnsupportedMethodException(:get)
-		end
-
-		# Updates an object
+		# Creates a resource of which the location is unknown untill after creation.
 		#noinspection RubyUnusedLocalVariable
 		def post(params)
 			raise UnsupportedMethodException(:post)
 		end
 
-		# Removes an object
+		# Updates or creates a resource with a specified  location.
+		#noinspection RubyUnusedLocalVariable
+		def put(params)
+			raise UnsupportedMethodException(:put)
+		end
+
+		# Returns a resource.
+		#noinspection RubyUnusedLocalVariable
+		def get(params)
+			raise UnsupportedMethodException(:get)
+		end
+
+		# Removes a resource
 		#noinspection RubyUnusedLocalVariable
 		def delete(params)
 			raise UnsupportedMethodException(:delete)
@@ -107,12 +107,12 @@ module MojuraAPI
 			conds = case method
 				        when :all then
 					        self.all_conditions
+				        when :post then
+					        self.post_conditions
 				        when :put then
 					        self.put_conditions
 				        when :get then
 					        self.get_conditions
-				        when :post then
-					        self.post_conditions
 				        when :delete then
 					        self.delete_conditions
 				        else
@@ -148,20 +148,20 @@ module MojuraAPI
 				methods: {
 					all: self.all_conditions,
 					get: self.get_conditions,
-					put: self.put_conditions,
 					post: self.post_conditions,
+					put: self.put_conditions,
 					delete: self.delete_conditions
 				}
 			}
 			result[:methods].delete(:all) if result[:methods][:all].nil?
 			result[:methods].delete(:get) if result[:methods][:get].nil?
-			result[:methods].delete(:put) if result[:methods][:put].nil?
 			result[:methods].delete(:post) if result[:methods][:post].nil?
+			result[:methods].delete(:put) if result[:methods][:put].nil?
 			result[:methods].delete(:delete) if result[:methods][:delete].nil?
 
 			result[:methods].each { |k, v|
 				if !v.include?(:uri)
-					if k == :all || k == :put
+					if k == :all || k == :post
 						v[:uri] = API.api_url + "#{@module}/#{@items_path}"
 					else
 						v[:uri] = API.api_url + "#{@module}/#{@item_path}"
@@ -182,6 +182,11 @@ module MojuraAPI
 			nil
 		end
 
+		# Returns the conditions of the 'post' method
+		def post_conditions
+			nil
+		end
+
 		# Returns the conditions of the 'put' method
 		def put_conditions
 			nil
@@ -189,11 +194,6 @@ module MojuraAPI
 
 		# Returns the conditions of the 'get' method
 		def get_conditions
-			nil
-		end
-
-		# Returns the conditions of the 'post' method
-		def post_conditions
 			nil
 		end
 

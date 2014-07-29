@@ -20,7 +20,7 @@ module MojuraAPI
 			return result
 		end
 
-		def put(params)
+		def post(params)
 			DataBlock.new.load_from_hash(params).save_to_db.to_a
 		end
 
@@ -28,7 +28,7 @@ module MojuraAPI
 			DataBlock.new(params[:ids][0]).to_a
 		end
 
-		def post(params)
+		def put(params)
 			datablock = DataBlock.new(params[:ids][0])
 			datablock.load_from_hash(params)
 			return datablock.save_to_db.to_a
@@ -47,9 +47,9 @@ module MojuraAPI
 			return result
 		end
 
-		def put_conditions
+		def post_conditions
 			result = {
-				description: 'Creates a data block and returns the object.',
+				description: 'Creates and returns the data resource.',
 				attributes: {
 					type: {required: true, type: String, description: 'The type of the data block, a unique identifier for the form.'},
 					name: {required: true, type: String, description: 'The name of the user.'},
@@ -63,22 +63,22 @@ module MojuraAPI
 
 		def get_conditions
 			{
-				description: 'Returns a data block with the specified dataid',
+				description: 'Returns a data resource with the specified dataid',
 			}
 		end
 
-		def post_conditions
+		def put_conditions
 			result =
 				{
-					description: 'Updates a data block with the given keys.',
-					attributes: self.put_conditions[:attributes].each { |_, v| v[:required] = false }
+					description: 'Updates a data resource with the given keys.',
+					attributes: self.post_conditions[:attributes].each { |_, v| v[:required] = false }
 				}
 			return result
 		end
 
 		def delete_conditions
 			{
-				description: 'Deletes the data blocks'
+				description: 'Deletes the data resource'
 			}
 		end
 

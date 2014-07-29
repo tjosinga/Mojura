@@ -24,13 +24,13 @@ module MojuraAPI
 			#TODO: Check rights
 		end
 
-		def put(params)
+		def post(params)
 			Group.new.load_from_hash(params).save_to_db.to_a
 			#TODO: Check rights
 		end
 
 		#noinspection RubyUnusedLocalVariable,RubyUnusedLocalVariable
-		def post(params)
+		def put(params)
 			group = Group.new(params[:ids][0])
 			#TODO: Check rights
 			return group.load_from_hash(params).save_to_db.to_a
@@ -56,10 +56,10 @@ module MojuraAPI
 			}
 		end
 
-		def put_conditions
+		def post_conditions
 			result =
 				{
-					description: 'Creates a group and returns the object.',
+					description: 'Creates a group and returns the resource.',
 					uri: @module + '/' + @items_path,
 					attributes: {
 						name: {required: true, type: String, description: 'The name of the group.'},
@@ -70,11 +70,11 @@ module MojuraAPI
 			return result
 		end
 
-		def post_conditions
+		def put_conditions
 			result =
 				{
 					description: 'Updates a group with the given keys.',
-					attributes: self.put_conditions[:attributes].each { |_, v| v[:required] = false }
+					attributes: self.post_conditions[:attributes].each { |_, v| v[:required] = false }
 				}
 			return result
 		end

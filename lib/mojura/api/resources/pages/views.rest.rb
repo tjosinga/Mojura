@@ -34,7 +34,7 @@ module MojuraAPI
 			return page.views_to_a
 		end
 
-		def put(params)
+		def post(params)
 			raise Exception.new if (params[:ids][0] == '0')
 			page = Page.new(params[:ids][0])
 			#TODO: check rights
@@ -53,7 +53,7 @@ module MojuraAPI
 			return page.view_to_a(page.get_view(params[:ids][1]), index, path)
 		end
 
-		def post(params)
+		def put(params)
 			raise Exception.new if (params[:ids][0] == '0')
 			page = Page.new(params[:ids][0])
 			#TODO: check rights
@@ -90,7 +90,7 @@ module MojuraAPI
 			}
 		end
 
-		def put_conditions
+		def post_conditions
 			{
 				description: 'Updates a view of the specified page.',
 				attributes: {
@@ -106,10 +106,10 @@ module MojuraAPI
 			}
 		end
 
-		def post_conditions
+		def put_conditions
 			{
 				description: 'Updates a view of the specified page.',
-				attributes: self.put_conditions[:attributes].each { |_, v| v[:required] = false }
+				attributes: self.post_conditions[:attributes].each { |_, v| v[:required] = false }
 			}
 		end
 

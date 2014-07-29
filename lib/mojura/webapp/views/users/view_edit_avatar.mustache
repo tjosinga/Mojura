@@ -23,7 +23,7 @@
 			</div>
 		</div>
 		<form enctype="multipart/form-data" action="__api__/users/{{id}}/avatar" method="post" class="file-upload-form pull-left">
-			<input type="hidden" name="_method" value="post" />
+			<input type="hidden" name="_method" value="put" />
 			<input type="file" name="file" class="file-input hidden" onchange="if (this.value !== '') UsersView.uploadAvatar($(this).parent());" />
 		</form>
 		<button class="btn btn-default btn-block btn-delete {{#uses_gravatar}}hidden{{/uses_gravatar}}" data-loading-text="{{locale_str_users_delete_avatar}}..." onclick="UsersView.deleteAvatar()">

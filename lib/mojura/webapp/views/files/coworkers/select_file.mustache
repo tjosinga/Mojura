@@ -61,7 +61,6 @@
 				</div>
 				<div class="modal-footer">
 					<form enctype="multipart/form-data" action="__api__/files/" method="post" class="file-upload-form pull-left">
-						<input type="hidden" name="_method" value="put"/>
 						<input type="hidden" name="folderid" value="{{folderid}}"/>
 						<input type="file" name="file" class="file-input" onchange="if (this.value !== '') SelectFile.uploadFile();" />
 					</form>

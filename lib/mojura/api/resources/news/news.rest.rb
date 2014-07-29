@@ -23,7 +23,7 @@ module MojuraAPI
 			return result
 		end
 
-		def put(params)
+		def post(params)
 			NewsItem.new.load_from_hash(params).save_to_db.to_a
 		end
 
@@ -31,7 +31,7 @@ module MojuraAPI
 			NewsItem.new(params[:ids][0]).to_a
 		end
 
-		def post(params)
+		def put(params)
 			newsitem = NewsItem.new(params[:ids][0])
 			newsitem.load_from_hash(params)
 			return newsitem.save_to_db.to_a
@@ -54,9 +54,9 @@ module MojuraAPI
 			return result
 		end
 
-		def put_conditions
+		def post_conditions
 			result = {
-				description: 'Creates a news item and returns the object.',
+				description: 'Creates a news item and returns the resource.',
 				attributes: {
 					title: {required: true, type: String, description: 'The title of the news item.'},
 					category: {required: false, type: String, description: 'The category of the news item.'},
@@ -78,11 +78,11 @@ module MojuraAPI
 			}
 		end
 
-		def post_conditions
+		def put_conditions
 			result =
 				{
 					description: 'Updates a news item with the given keys.',
-					attributes: self.put_conditions[:attributes].each { |_, v| v[:required] = false }
+					attributes: self.post_conditions[:attributes].each { |_, v| v[:required] = false }
 				}
 			return result
 		end

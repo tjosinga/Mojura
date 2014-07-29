@@ -289,13 +289,13 @@ module MojuraAPI
 				result = resource[:object].conditions
 			elsif (resource[:type] == :items) && (method == 'get')
 				result = resource[:object].all(params) if resource[:object].required_params_present?(:all, params)
-			elsif (resource[:type] == :items) && (method == 'put')
-				result = resource[:object].put(params) if resource[:object].required_params_present?(:put, params)
+			elsif (resource[:type] == :items) && (method == 'post')
+				result = resource[:object].post(params) if resource[:object].required_params_present?(:post, params)
 			elsif (resource[:type] == :item) && (method == 'get')
 				result = resource[:object].get(params) if resource[:object].required_params_present?(:get, params)
-			elsif (resource[:type] == :item) && (method == 'post')
-				result = resource[:object].post(params) if resource[:object].required_params_present?(:post, params)
-			elsif method == 'delete' # Delete is supported both by resource items and a single resource item
+			elsif (resource[:type] == :item) && (method == 'put')
+				result = resource[:object].put(params) if resource[:object].required_params_present?(:put, params)
+			elsif method == 'delete' # Delete is supported both by a list of resource and a single resource item
 				result = resource[:object].delete(params) if resource[:object].required_params_present?(:delete, params)
 			else
 				raise UnknownModuleException.new(request_path)
@@ -328,7 +328,7 @@ module MojuraAPI
 		def setup(method, params)
 			users = Users.new({'$or' => [{is_admin: true}]}, {ignore_rights: true})
 			pages = Pages.new()
-			if (method == 'put')
+			if (method == 'post')
 				users = Users.new({'$or' => [{is_admin: true}]}, {ignore_rights: true})
 				result = ''
 				if users.count == 0

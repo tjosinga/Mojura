@@ -21,7 +21,7 @@ module MojuraAPI
 			return result
 		end
 
-		def put(params)
+		def post(params)
 			Poll.new.load_from_hash(params).save_to_db.to_a(false, params[:include_votes])
 		end
 
@@ -29,7 +29,7 @@ module MojuraAPI
 			Poll.new(params[:ids][0]).to_a(false, params[:include_votes])
 		end
 
-		def post(params)
+		def put(params)
 			poll = Poll.new(params[:ids][0])
 			poll.load_from_hash(params)
 			poll.clear_votes if params[:clear_votes]
@@ -50,7 +50,7 @@ module MojuraAPI
 			return result
 		end
 
-		def put_conditions
+		def post_conditions
 			result = {
 				description: 'Creates a poll and returns the object.',
 				attributes: {
@@ -70,11 +70,11 @@ module MojuraAPI
 			}
 		end
 
-		def post_conditions
+		def put_conditions
 			result =
 				{
 					description: 'Updates a poll with the given keys.',
-					attributes: self.put_conditions[:attributes].each { |_, v| v[:required] = false }
+					attributes: self.post_conditions[:attributes].each { |_, v| v[:required] = false }
 				}
 			return result
 		end

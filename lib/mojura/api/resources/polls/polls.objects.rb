@@ -44,7 +44,7 @@ module MojuraAPI
 			result[:total_votes] = votes.inject { | sum, i | sum + i }
 			f = 100.00 / result[:total_votes] rescue 0.00
 			options.each_index { | index |
-				url = API.api_url + "polls/#{self.id}/votes/?_method=put&index=#{index}"
+				url = API.api_url + "polls/#{self.id}/votes/?_method=post&index=#{index}"
 				option = {title: options[index], index: index, vote_url: url}
 				a = votes[index] || 0
 				option[:votes] = { absolute: a, percentage: f * a } if include_votes

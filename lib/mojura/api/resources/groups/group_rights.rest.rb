@@ -26,7 +26,7 @@ module MojuraAPI
 			Group.new(params[:ids][0]).group_rights.to_hash
 		end
 
-		def post(params)
+		def put(params)
 			group = Group.new(params[:ids][0])
 			rights = params[:rights].to_s.split(',')
 			rights.each { | s |
@@ -60,7 +60,7 @@ module MojuraAPI
 			}
 		end
 
-		def post_conditions
+		def put_conditions
 			{
 				description: 'Adds multiple rights to the given group',
 				attributes: {

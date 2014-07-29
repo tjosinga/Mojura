@@ -19,7 +19,7 @@ module MojuraAPI
 			return paginate(params) { |options| DbFiles.new(self.filter(params), options) }
 		end
 
-		def put(params)
+		def post(params)
 			if (!params.include?(:title) || params[:title] == '') && (!params[:file].nil?)
 				params[:title] = params[:file][:filename]
 			end
@@ -40,7 +40,7 @@ module MojuraAPI
 			return file.to_a
 		end
 
-		def post(params)
+		def put(params)
 			file = DbFile.new(params[:ids][0])
 			raise NoRightsException unless AccessControl.has_rights?(:update, file)
 			file.load_from_hash(params)
@@ -79,7 +79,7 @@ module MojuraAPI
 			return result
 		end
 
-		def put_conditions
+		def post_conditions
 			result = {
 				description: 'Creates a file and returns the object.',
 				attributes: {
@@ -100,11 +100,11 @@ module MojuraAPI
 			}
 		end
 
-		def post_conditions
+		def put_conditions
 			result =
 				{
 					description: 'Updates a file with the given keys.',
-					attributes: self.put_conditions[:attributes].each { |_, v| v[:required] = false }
+					attributes: self.post_conditions[:attributes].each { |_, v| v[:required] = false }
 				}
 			return result
 		end

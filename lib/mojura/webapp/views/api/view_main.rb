@@ -12,11 +12,11 @@ module MojuraWebApp
 
 		def load_api_help
 			api_modules = WebApp.api_call('help')
-			method_names = {all: {http: 'GET', title: 'Multiple items'},
-			                get: {http: 'GET', title: 'Single item'},
-			                put: {http: 'PUT', title: 'Add item'},
-			                post: {http: 'POST', title: 'Edit item'},
-			                delete: {http: 'DELETE', title: 'Delete item'}}
+			method_names = {all: {http: 'GET', title: 'List of resources'},
+			                get: {http: 'GET', title: 'Single resource'},
+			                post: {http: 'POST', title: 'Post resource'},
+			                put: {http: 'PUT', title: 'Put resource'},
+			                delete: {http: 'DELETE', title: 'Delete resource'}}
 			@modules = []
 			api_modules.each { |mod, mod_data|
 				resources = []

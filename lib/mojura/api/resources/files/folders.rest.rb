@@ -39,12 +39,12 @@ module MojuraAPI
 			return result
 		end
 
-		def put(params)
+		def post(params)
 			DbFolder.new.load_from_hash(params).save_to_db.to_a
 			#TODO: Check rights
 		end
 
-		def post(params)
+		def put(params)
 			id = (params[:ids][0] == 'root') ? nil : params[:ids][0]
 			DbFolder.new(id).load_from_hash(params).save_to_db.to_a
 			#TODO: Check rights
@@ -67,7 +67,7 @@ module MojuraAPI
 			}
 		end
 
-		def put_conditions
+		def post_conditions
 			result = {
 				description: 'Creates a folder and returns the object.',
 				attributes: {
@@ -90,11 +90,11 @@ module MojuraAPI
 			return result
 		end
 
-		def post_conditions
+		def put_conditions
 			result =
 				{
 					description: 'Updates a folder with the given keys.',
-					attributes: self.put_conditions[:attributes].each { |_, v| v[:required] = false }
+					attributes: self.post_conditions[:attributes].each { |_, v| v[:required] = false }
 				}
 			return result
 		end
