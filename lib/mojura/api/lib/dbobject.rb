@@ -25,7 +25,7 @@ module MojuraAPI
 		@loaded = false
 		@options = nil
 
-		attr_reader :id, :loaded, :fields, :module
+		attr_reader :id, :id_type, :loaded, :fields, :module
 
 		# Initializes the API. It calls the get_fields of its
 		def initialize(db_col_name, id = nil, options = {})
@@ -34,6 +34,7 @@ module MojuraAPI
 			@loaded = false
 			@options = options || {}
 			@id = id
+			@id_type = @options[:id_type] || 'BSON::ObjectId'
 			@collection = MongoDb.collection(db_col_name)
 			@module = (@options.has_key?(:module_name)) ? @options[:module_name] : db_col_name
 			@options[:api_url] ||= API.api_url + @module
@@ -233,7 +234,8 @@ module MojuraAPI
 		# sets values directly to avoid validation and :changed being set
 		# :category: Database methods
 		def load_from_db
-			data = @collection.find_one('_id' => BSON::ObjectId(@id)).to_a
+			id = (@id_type === 'BSON::ObjectId') ? BSON::ObjectId(@id) : @id
+			data = @collection.find_one('_id' => id).to_a
 			# raise NullObjectError.new if data.empty?
 			return self.load_from_hash(data, true)
 		end
@@ -241,21 +243,20 @@ module MojuraAPI
 		# Saves all object data to the database.
 		# :category: Database methods
 		def save_to_db
-			is_new = self.id.nil?
 			data = {}
 			@fields.each { |key, options|
-				data[key] = options[:value] if (is_new || options[:changed])
+				data[key] = options[:value] if (@id.nil? || options[:changed])
 			}
 			self.on_save_data(data)
 			return self if (data.empty?)
 
 			data.stringify_keys!
-			if is_new
+			if @id.nil?
 				@id = @collection.insert(data).to_s
 			else
-				@collection.update({_id: BSON::ObjectId(self.id)}, {'$set' => data}) if (!data.empty?)
+				id = (@id_type === 'BSON::ObjectId') ? BSON::ObjectId(@id) : @id
+				@collection.update({_id: id}, {'$set' => data}, {upsert: true}) if (!data.empty?)
 			end
-
 			save_to_search_index if regenerate_for_search_index?
 
 			@fields.each { |_, options| options[:changed] = false }
@@ -296,7 +297,8 @@ module MojuraAPI
 		# :category: Database methods
 		def delete_from_db
 			SearchIndex.unset(@id)
-			@collection.remove({_id: BSON::ObjectId(@id)})
+			id = (@id_type === 'BSON::ObjectId') ? BSON::ObjectId(@id) : @id
+			@collection.remove({_id: id})
 			@id = nil
 			@options[:tree].new.refresh if @options.has_key?(:tree)
 			return self
