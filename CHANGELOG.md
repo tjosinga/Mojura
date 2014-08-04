@@ -4,6 +4,9 @@
 This changelog summaries the most important changes per version.
 Besides the main topics mention, most versions also including some bugfixes or minor tweaks.
 
+##Version 0.3.6
+- Small fix in page editor caused by POST-PUT fix.
+
 ##Version 0.3.5
 - Fixes an architectual mistake that POST was meant for updates and PUT for creates. Now works according REST convention (POST for unknown resource URI and PUT for known resource URI). 
 
