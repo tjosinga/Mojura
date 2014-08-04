@@ -4,6 +4,9 @@
 This changelog summaries the most important changes per version.
 Besides the main topics mention, most versions also including some bugfixes or minor tweaks.
 
+##Version 0.3.7
+- Adds production dependencies to gemspec.
+
 ##Version 0.3.6
 - Small fix in page editor caused by POST-PUT fix.
 
