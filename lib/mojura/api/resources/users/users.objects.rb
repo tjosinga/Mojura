@@ -115,7 +115,7 @@ module MojuraAPI
 		def to_a(compact = false)
 			result = super
 			result[:fullname] = fullname
-
+			return result if API.current_user.nil? # Only happens in debugging mode, due to premature call of to_a
 			if !self.id.nil?
 				#TODO: create avatar support. If ready implement:
 				if (has_avatar)
