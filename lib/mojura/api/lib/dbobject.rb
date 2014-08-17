@@ -34,7 +34,7 @@ module MojuraAPI
 			@loaded = false
 			@options = options || {}
 			@id = id
-			@id_type = @options[:id_type] || 'BSON::ObjectId'
+			@id_type = (@options[:id_type] == :binary) ? :binary : :objectid
 			@collection = MongoDb.collection(db_col_name)
 			@module = (@options.has_key?(:module_name)) ? @options[:module_name] : db_col_name
 			@options[:api_url] ||= API.api_url + @module
@@ -155,6 +155,8 @@ module MojuraAPI
 						value = value.localtime.iso8601 if !value.nil?
 					elsif options[:type] == BSON::ObjectId
 						value = value.to_s if !value.nil?
+					elsif options[:type] == BSON::Binary
+						value = value.unpack('H*')[0] if !value.nil?
 					end
 					if !options[:group].nil?
 						group = options[:group]
@@ -223,7 +225,7 @@ module MojuraAPI
 				if @fields.has_key?(k)
 					(silent) ? @fields[k][:value] = v : self.set_field_value(k, v)
 				elsif (k == :id) || (k == :_id)
-					@id = v.to_s
+					@id = (v.is_a?(BSON::Binary)) ? v.unpack('H*')[0] : v.to_s
 				end
 			}
 			self.loaded = true
@@ -234,9 +236,8 @@ module MojuraAPI
 		# sets values directly to avoid validation and :changed being set
 		# :category: Database methods
 		def load_from_db
-			id = (@id_type === 'BSON::ObjectId') ? BSON::ObjectId(@id) : @id
-			data = @collection.find_one('_id' => id).to_a
-			# raise NullObjectError.new if data.empty?
+			id = (@id_type == :binary) ? BSON::Binary.new([@id].pack('H*')) : BSON::ObjectId(@id)
+			data = @collection.find_one('_id' => id).to_h
 			return self.load_from_hash(data, true)
 		end
 
@@ -245,16 +246,17 @@ module MojuraAPI
 		def save_to_db
 			data = {}
 			@fields.each { |key, options|
-				data[key] = options[:value] if (@id.nil? || options[:changed])
+				data[key] = options[:value].dup if (@id.nil? || options[:changed])
 			}
 			self.on_save_data(data)
 			return self if (data.empty?)
 
 			data.stringify_keys!
 			if @id.nil?
-				@id = @collection.insert(data).to_s
+				bin_id = @collection.insert(data)
+				@id = (bin_id.is_a?(BSON::ObjectId)) ? bin_id.to_s : bin_id.unpack('H*')[0]
 			else
-				id = (@id_type === 'BSON::ObjectId') ? BSON::ObjectId(@id) : @id
+				id = (@id_type == :binary) ? BSON::Binary.new([@id].pack('H*')) : BSON::ObjectId(@id)
 				@collection.update({_id: id}, {'$set' => data}, {upsert: true}) if (!data.empty?)
 			end
 			save_to_search_index if regenerate_for_search_index?
@@ -297,7 +299,7 @@ module MojuraAPI
 		# :category: Database methods
 		def delete_from_db
 			SearchIndex.unset(@id)
-			id = (@id_type === 'BSON::ObjectId') ? BSON::ObjectId(@id) : @id
+			id = (@id_type == :binary) ? BSON::Binary.new([@id].pack('H*')) : BSON::ObjectId(@id)
 			@collection.remove({_id: id})
 			@id = nil
 			@options[:tree].new.refresh if @options.has_key?(:tree)
