@@ -122,6 +122,10 @@ module MojuraAPI
 			Thread.current[:mojura][:env]['REMOTE_ADDR']
 		end
 
+		def current_call
+			Thread.current[:mojura][:current_call]
+		end
+
 		def log
 			@log
 		end
@@ -217,6 +221,7 @@ module MojuraAPI
 
 		# Executes a complete request. Request could be a resource, help or nothing
 		def call(request_path, params = {}, method = 'get')
+			Thread.current[:mojura][:current_call] = request_path
 			self.load if (!@loaded)
 			API.log.debug("calling '#{request_path}' with params #{params}")
 
@@ -261,6 +266,7 @@ module MojuraAPI
 				}
 			end
 
+			Thread.current[:mojura][:current_call] = nil
 			return result
 		end
 
