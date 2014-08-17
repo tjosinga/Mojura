@@ -1,7 +1,7 @@
 source 'http://rubygems.org'
 source 'http://gems.github.com'
 
-ruby '1.9.3'
+ruby '2.1.2'
 
 gem 'bson'
 gem 'bson_ext'
@@ -17,7 +17,7 @@ gem 'memcache-client'
 gem 'mini_magick'
 gem 'mongo'
 gem 'mustache'
-gem 'pbkdf2'
+gem 'openssl'
 gem 'prawn'
 gem 'rack'
 gem 'sanitize'

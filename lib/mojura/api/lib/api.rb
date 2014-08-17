@@ -3,7 +3,7 @@
 # Website:: www.mojura.nl
 
 require 'fileutils'
-require 'pbkdf2'
+require 'openssl'
 require 'digest/md5'
 require 'yaml'
 require 'log4r'
@@ -376,7 +376,7 @@ module MojuraAPI
 			raise InvalidAuthentication.new if (users.count != 1)
 			user = users.first
 			iterations = 500 + (user.username + Settings.get_s(:realm)).length
-			crypted = PBKDF2.new(:password => user.digest, :salt => API.session[:salt], :iterations => iterations, :key_length => 64, :hash_function => 'SHA1').hex_string
+			crypted = OpenSSL::PKCS5.pbkdf2_hmac_sha1(user.digest, API.session[:salt], iterations, 64).unpack('H*')[0]
 			if params[:password] == crypted
 				API.session[:uid] = user.id
 				user.generate_new_cookie_token if (params[:set_cookie] == 'true')

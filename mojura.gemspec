@@ -30,12 +30,13 @@ Gem::Specification.new do |s|
 	s.add_dependency('mini_magick')
 	s.add_dependency('mongo')
 	s.add_dependency('mustache')
-	s.add_dependency('pbkdf2')
+	s.add_dependency('openssl')
 	s.add_dependency('prawn')
 	s.add_dependency('rack')
+	s.add_dependency('sanitize')
 	s.add_dependency('xml-simple')
 	s.add_dependency('zipruby')
+
 	s.add_dependency('kvparser')
 	s.add_dependency('ubbparser')
-
 end
