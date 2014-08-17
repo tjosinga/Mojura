@@ -40,6 +40,13 @@ module MojuraAPI
 		end
 	end
 
+	class ResourceNotFoundException < HTTPException
+		def initialize(path = '')
+			path = API.current_call if path.empty?
+			super("There's no resouce found at #{path}", 404)
+		end
+	end
+
 	class DataNotFoundException < HTTPException
 		def initialize(fieldname, value)
 			super("Could not find data for #{field}: #{value}", 200)
@@ -61,14 +68,6 @@ module MojuraAPI
 	class NoRightsException < HTTPException
 		def initialize
 			super('No rights to do this', 403)
-		end
-	end
-
-	class UnknownObjectException < HTTPException
-		def initialize(id = '')
-			title = 'Unknown object'
-			title += " ('#{id}')" if (id != '')
-			super(title, 404)
 		end
 	end
 
