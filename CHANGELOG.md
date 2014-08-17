@@ -4,6 +4,11 @@
 This changelog summaries the most important changes per version.
 Besides the main topics mention, most versions also including some bugfixes or minor tweaks.
 
+##Version 0.3.8
+- Uses Ruby 2.1.2
+- Replaces PBKDF2 gem with the OpenSSL gem for PBKDF2 password encoding
+- Adds support for BSON::Binary id's in addition to BSON::ObjectId.  
+
 ##Version 0.3.7
 - Adds production dependencies to gemspec.
 
