@@ -21,7 +21,7 @@ module MojuraAPI
 			yield :title, String, :required => true, :default => '', :searchable => true, :searchable_weight => 4
 			yield :in_menu, Boolean, :required => false, :default => true
 			yield :menu_title, String, :required => false, :default => '', :searchable => true, :searchable_weight => 2
-			yield :views, Array, :required => false
+			yield :views, Array, :required => false, :default => []
 		end
 
 		def save_to_db
@@ -66,7 +66,7 @@ module MojuraAPI
 			@fields[:views][:changed] = true
 			parentid ||= ''
 			parent = self.get_view(parentid)
-			view = (params[:template].nil?) ? self.new_view(params) : self.new_view_from_template(params[:template])
+			view = (params[:template].nil?) ? new_view(params) : new_view_from_template(params[:template])
 			index = params[:index]
 			if (!index.nil?) && (index.to_i < parent[:subviews].size)
 				view[:index] = index.to_i
@@ -121,7 +121,8 @@ module MojuraAPI
 		end
 
 		def get_view(indexes = '', views = nil, orig_indexes = '')
-			views = self.views if (views.nil?)
+			self.views ||= []
+			views ||= self.views
 			if indexes.is_a?(String)
 				return {subviews: views} if (indexes.empty?)
 				orig_indexes = indexes
@@ -134,7 +135,7 @@ module MojuraAPI
 			elsif indexes.size == 0
 				return views[index]
 			else
-				return self.get_view(indexes, views[index][:subviews], orig_indexes)
+				return get_view(indexes, views[index][:subviews], orig_indexes)
 			end
 		end
 
