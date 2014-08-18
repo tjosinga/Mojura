@@ -400,8 +400,7 @@ module MojuraAPI
 		# :category: Core API methods
 		# noinspection RubyUnusedLocalVariable
 		def sign_off(params)
-			API.session[:uid] = nil
-			API.session[:salt] = SecureRandom.hex(16)
+			API.session.clear
 			return {success: 'true'}
 		end
 
