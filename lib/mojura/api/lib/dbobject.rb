@@ -246,7 +246,7 @@ module MojuraAPI
 		def save_to_db
 			data = {}
 			@fields.each { |key, options|
-				data[key] = options[:value].dup if (@id.nil? || options[:changed])
+				data[key] = options[:value].dup rescue options[:value] if (@id.nil? || options[:changed])
 			}
 			self.on_save_data(data)
 			return self if (data.empty?)
