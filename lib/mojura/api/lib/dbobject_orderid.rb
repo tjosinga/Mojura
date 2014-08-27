@@ -14,7 +14,7 @@ module MojuraAPI
 		# Reorders other objects to fit the new place of the current object
 		def reorder_before_save(query = {})
 			query ||= {}
-			count = @object_collection.find(query).count()
+			count = @collection.find(query).count()
 
 			if (@id.nil?) || (@fields[:orderid][:value] >= count)
 				@fields[:orderid][:value] = count
@@ -31,7 +31,7 @@ module MojuraAPI
 					amount = 1
 					query[:orderid] = {'$gte' => new, '$lt' => old}
 				end
-				@object_collection.update(query, {'$inc' => {orderid: amount}}, {multi: true})
+				@collection.update(query, {'$inc' => {orderid: amount}}, {multi: true})
 			end
 		end
 
