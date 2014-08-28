@@ -3,8 +3,8 @@
 
 Gem::Specification.new do |s|
 	s.name            = 'mojura'
-	s.version         = '0.3.8'
-	s.date            = '2014-08-17'
+	s.version         = '0.3.9'
+	s.date            = '2014-08-28'
 	s.summary         = 'Mojura'
 	s.description     = 'A CMS based on a REST API, MongoDb backend and a Bootstrap frontend.'
 	s.authors         = ['Taco Jan Osinga']
@@ -16,27 +16,26 @@ Gem::Specification.new do |s|
 	s.license         = 'MIT'
 
 	# package dependencies
-	s.add_dependency('bson', '~> 0')
-	s.add_dependency('bson_ext', '~> 0')
-	s.add_dependency('chunky_png', '~> 0')
-	s.add_dependency('crypt', '~> 0')
-	s.add_dependency('exifr', '~> 0')
-	s.add_dependency('geocoder', '~> 0')
-	s.add_dependency('json', '~> 0')
-	s.add_dependency('kramdown', '~> 0')
-	s.add_dependency('log4r', '~> 0')
-	s.add_dependency('mail', '~> 0')
-	s.add_dependency('memcache-client', '~> 0')
-	s.add_dependency('mini_magick', '~> 0')
-	s.add_dependency('mongo', '~> 0')
-	s.add_dependency('mustache', '~> 0')
-	s.add_dependency('openssl', '~> 0')
-	s.add_dependency('prawn', '~> 0')
-	s.add_dependency('rack', '~> 0')
-	s.add_dependency('sanitize', '~> 0')
-	s.add_dependency('xml-simple', '~> 0')
-	s.add_dependency('zipruby', '~> 0')
+	s.add_runtime_dependency('bson', '>= 0')
+	s.add_runtime_dependency('bson_ext', '>= 0')
+	s.add_runtime_dependency('chunky_png', '>= 0')
+	s.add_runtime_dependency('crypt', '>= 0')
+	s.add_runtime_dependency('exifr', '>= 0')
+	s.add_runtime_dependency('geocoder', '>= 0')
+	s.add_runtime_dependency('json', '>= 0')
+	s.add_runtime_dependency('kramdown', '>= 0')
+	s.add_runtime_dependency('log4r', '>= 0')
+	s.add_runtime_dependency('mail', '>= 0')
+	s.add_runtime_dependency('memcache-client', '>= 0')
+	s.add_runtime_dependency('mini_magick', '>= 0')
+	s.add_runtime_dependency('mongo', '>= 0')
+	s.add_runtime_dependency('mustache', '>= 0')
+	s.add_runtime_dependency('prawn', '>= 0')
+	s.add_runtime_dependency('rack', '>= 0')
+	s.add_runtime_dependency('sanitize', '>= 0')
+	s.add_runtime_dependency('xml-simple', '>= 0')
+	s.add_runtime_dependency('zipruby', '>= 0')
 
-	s.add_dependency('kvparser', '~> 0.0')
-	s.add_dependency('ubbparser', '~> 0.2')
+	s.add_runtime_dependency('kvparser', '>= 0')
+	s.add_runtime_dependency('ubbparser', '>= 0')
 end

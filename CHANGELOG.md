@@ -4,6 +4,13 @@
 This changelog summaries the most important changes per version.
 Besides the main topics mention, most versions also including some bugfixes or minor tweaks.
 
+##Version 0.3.9
+- Fixes a lot of small bugs, mostly due to the POST-PUT fix.
+- Improves signing of from the backend
+- Updates ModalJS for beter form handling.
+- Includes FontAwesome 4.1
+- Updates how dates and times are stored in the database.
+
 ##Version 0.3.8
 - Uses Ruby 2.1.2
 - Replaces PBKDF2 gem with the OpenSSL gem for PBKDF2 password encoding
