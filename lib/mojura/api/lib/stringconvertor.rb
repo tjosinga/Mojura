@@ -25,11 +25,11 @@ module MojuraAPI
 				when 'falseclass' then
 					return (value.downcase == 'true')
 				when 'date' then
-					return Date.parse(value) rescue Date.today
+					return Date.parse(value).strftime('%F') rescue Date.today.strftime('%F')
 				when 'datetime' then
-					return DateTime.parse(value) rescue DateTime.now
+					return Time.parse(value).strftime('%FT%T') rescue Time.now.strftime('%FT%T')
 				when 'time' then
-					return Time.parse(value) rescue Time.now
+					return Time.parse(value).strftime('%T') rescue Time.now.strftime('%T')
 				when 'richtext' then
 					return RichText.new(value)
 				when 'bson::objectid' then

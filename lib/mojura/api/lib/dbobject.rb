@@ -151,8 +151,15 @@ module MojuraAPI
 					if options[:type] == RichText
 						markup = @fields[(field.to_s + '_markup').to_sym][:value] rescue ''
 						value = RichText.new(value, markup).to_parsed_a(compact)
+					elsif options[:type] == DateTime
+						value = Date.parse(value) if value.is_a?(String)
+						value = value.localtime.strftime('%FT%T') if !value.nil?
+					elsif options[:type] == Date
+						value = Time.parse(value) if value.is_a?(String)
+						value = value.localtime.strftime('%F') if !value.nil?
 					elsif options[:type] == Time
-						value = value.localtime.iso8601 if !value.nil?
+						value = Time.parse(value) if value.is_a?(String)
+						value = value.localtime.strftime('%T') if !value.nil?
 					elsif options[:type] == BSON::ObjectId
 						value = value.to_s if !value.nil?
 					elsif options[:type] == BSON::Binary
