@@ -42,7 +42,7 @@ module MojuraAPI
 			body = Settings.get_s('body_' + type, :data)
 			body = Settings.get_s(:body, :data, sprintf(Locale.str(:data, :default_body), website)) if body.empty?
 			body = (body + "\n\n").gsub("^\n*", '')
-			body += (text + "\n\n").gsub("^\n*", '')
+			body += (text + "\n\n").gsub("^\n*", '') unless text.nil?
 			values.each { | k, v |
 				body += "#{k}: #{v}\n"
 			}
