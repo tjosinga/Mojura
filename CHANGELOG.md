@@ -4,6 +4,9 @@
 This changelog summaries the most important changes per version.
 Besides the main topics mention, most versions also including some bugfixes or minor tweaks.
 
+##Version 0.3.10
+- Fixes a bug in the Data resource, which occurs when sending a mail and the text property is not used. 
+
 ##Version 0.3.9
 - Fixes a lot of small bugs, mostly due to the POST-PUT fix.
 - Improves signing of from the backend
