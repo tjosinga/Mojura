@@ -25,7 +25,7 @@ module MojuraAPI
 		end
 
 		def save_to_db
-			self.reorder_before_save({parent: self.parentid}) if @fields[:orderid][:changed]
+			self.reorder_before_save({parentid: self.parentid}) if (@id.nil? || @fields[:orderid][:changed])
 			super
 		end
 
