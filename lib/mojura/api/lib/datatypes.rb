@@ -19,6 +19,20 @@ class FalseClass
 	include Boolean
 end
 
+# Adds to_h and to_json to BSON::OrderedHash
+# source: http://stackoverflow.com/questions/2940156/in-ruby-mongodb-returns-a-bsonorderedhash-how-to-i-covert-it-to-json-using
+class BSON::OrderedHash
+
+	def to_h
+		inject({}) { |acc, element| k,v = element; acc[k] = (if v.class == BSON::OrderedHash then v.to_h else v end); acc }
+	end
+
+	def to_json
+		to_h.to_json
+	end
+
+end
+
 
 # Adds a few extra methods to the standard Hash
 class Hash

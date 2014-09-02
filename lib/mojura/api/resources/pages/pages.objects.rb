@@ -83,7 +83,7 @@ module MojuraAPI
 			viewid ||= ''
 			view = self.get_view(viewid)
 			template = self.new_view()
-			params.each { |k, v| view[k] = v if (k != :settings) && (template.include?(k))}
+			params.each { |k, v| view[k.to_sym] = v if (k != :settings) && (template.include?(k))}
 
 			if params.include?(:settings)
 				params[:settings].each { |k, v|
@@ -108,7 +108,7 @@ module MojuraAPI
 				end
 				self.add_view(params[:parentid], view)
 			end
-			return view
+			return view.to_json.symbolize_keys!
 		end
 
 		def delete_view(viewid)
