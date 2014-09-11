@@ -4,6 +4,10 @@
 This changelog summaries the most important changes per version.
 Besides the main topics mention, most versions also including some bugfixes or minor tweaks.
 
+##Version 0.4.0
+- When updating just the texts of a view on the page, the changes will be applied without reloading.
+- Rewritten the method to reorder objects which uses the ObjectOrderId mixin.
+
 ##Version 0.3.10
 - Fixes a bug in the Data resource, which occurs when sending a mail and the text property is not used. 
 
