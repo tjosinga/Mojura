@@ -108,7 +108,7 @@ module MojuraAPI
 				end
 				self.add_view(params[:parentid], view)
 			end
-			return view.to_json.symbolize_keys!
+			return view.to_h.symbolize_keys!
 		end
 
 		def delete_view(viewid)
