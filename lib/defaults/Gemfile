@@ -1,0 +1,7 @@
+source 'http://rubygems.org'
+source 'http://gems.github.com'
+source 'http://gems.mojura.nl'
+
+ruby '2.1.2'
+
+gem 'mojura', '>= 0.4.1'
