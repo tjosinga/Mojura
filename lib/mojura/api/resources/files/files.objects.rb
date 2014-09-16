@@ -87,15 +87,20 @@ module MojuraAPI
 					degrees = '-90>'
 				elsif (image_exif[:orientation] == EXIFR::TIFF::BottomRightOrientation)
 					degrees = '180>'
+				else
+					degrees = ''
 				end
 			end
 
-			begin
-				image = MiniMagick::Image.open(orig_filename)
-				image.rotate(degrees)
-				image.write(dest_filename)
-			rescue
-				# Do nothing
+			unless degrees.empty?
+				begin
+					image = MiniMagick::Image.open(orig_filename)
+					image.rotate(degrees)
+					image.write(dest_filename)
+					image.destroy!
+				rescue
+					# Do nothing
+				end
 			end
 		end
 
