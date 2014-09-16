@@ -4,6 +4,10 @@
 This changelog summaries the most important changes per version.
 Besides the main topics mention, most versions also including some bugfixes or minor tweaks.
 
+##Version 0.4.1
+- Fixes a minor bug, which caused an error when saving views.
+- Fixes a bug which occurs on uploading files.
+
 ##Version 0.4.0
 - When updating just the texts of a view on the page, the changes will be applied without reloading.
 - Rewritten the method to reorder objects which uses the ObjectOrderId mixin.
