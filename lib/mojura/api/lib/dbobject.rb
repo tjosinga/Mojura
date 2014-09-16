@@ -164,6 +164,8 @@ module MojuraAPI
 						value = value.to_s if !value.nil?
 					elsif options[:type] == BSON::Binary
 						value = value.unpack('H*')[0] if !value.nil?
+					elsif options[:type] == Hash # Force hash. Mongo might have changed it to a OrderedHash.
+						value = value.to_h if !value.nil?
 					end
 					if !options[:group].nil?
 						group = options[:group]
