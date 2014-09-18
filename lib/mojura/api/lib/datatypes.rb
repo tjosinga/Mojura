@@ -28,7 +28,7 @@ class BSON::OrderedHash
 	end
 
 	def to_json
-		to_h.to_json
+		to_h.to_json rescue '{}'
 	end
 
 end
