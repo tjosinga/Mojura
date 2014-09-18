@@ -18,8 +18,12 @@ module MojuraAPI
 
 		include DbObjectRights
 
+		attr_reader :max_image_size, :thumb_size
+
 		def initialize(id = nil)
 			super('files_files', id, {module_name: 'files'})
+			@max_image_size = Settings.get_i(:max_image_size, :files, 800)
+			@thumb_size = Settings.get_i(:thumb_size, :files, 128)
 		end
 
 		def load_fields
@@ -45,7 +49,7 @@ module MojuraAPI
 				size = (options[:size] || 0)
 				type = (options[:type] || 'auto')
 				auto_create = options[:auto_create]
-				size = 1024 if (size > 1024)
+				size = @max_image_size if (size > @max_image_size)
 				if size > 0
 					filename = "uploads/files/image_cache/#{@id}_#{size}_#{type}"
 					self.resize_image(size, type, filename) if (auto_create) && (!File.exists?(filename))
@@ -61,9 +65,9 @@ module MojuraAPI
 			FileUtils.mv(tempfile, filename)
 			FileUtils.chmod(0777, filename)
 			if self.is_image?
-				self.resize_image(800, 'auto') # force resizing of images to 800
+				self.resize_image(@max_image_size, 'auto') # force resizing of images to 800
 				self.rotate('auto')
-				self.get_real_filename(:size => 128, :auto_create => true) # force creation of thumb
+				self.get_real_filename(:size => @thumb_size, :auto_create => true) # force creation of thumb
 			end
 			self.mime_type = Rack::Mime.mime_type(self.extension)
 			self.filesize = File.size(filename)
@@ -108,7 +112,7 @@ module MojuraAPI
 			return false if (!self.is_image?)
 			orig_filename = self.get_real_filename
 			dest_filename ||= orig_filename
-			size = 1024 if (size > 1024)
+			size = @max_image_size if (size > @max_image_size)
 
 			resize_str = case type
 				when 'width' then
