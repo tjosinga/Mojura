@@ -90,10 +90,12 @@
 </a>
 <div class="select_file_container clearfix"></div>
 
-<label class="checkbox slideshow-checkbox">
-	<input type="checkbox" name="setting_slideshow" value="true" {{#slideshow}}checked="checked"{{/slideshow}} />
-	{{locale_str_images_slideshow}}
-</label>
+<div class="checkbox">
+	<label class="slideshow-checkbox">
+		<input type="checkbox" name="setting_slideshow" value="true" {{#slideshow}}checked="checked"{{/slideshow}} />
+		{{locale_str_images_slideshow}}
+	</label>
+</div>
 
 <template id="settings_image_file">
 	{{=<% %>=}}
