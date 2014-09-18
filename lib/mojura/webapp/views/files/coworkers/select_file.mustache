@@ -1,4 +1,12 @@
 <style type="text/css">
+	#file-popup .modal-body {
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		-o-user-select: none;
+		user-select: none;
+	}
+
 	#file-popup .modal-body .thumbnail {
 		width: 100%;
 		cursor: pointer;
@@ -84,7 +92,7 @@
 		<!-- The following template codes are processed in second phase //-->
 		{{^is_base_folder}}
 		<div class="col-xs-6 col-sm-4 col-md-3">
-			<div class='thumbnail'>
+			<div class='thumbnail' onclick="SelectFile.setCurrentFolderId('{{parentid}}')">
 				<div class="thumb">
 					<span class='fa fa-folder-open'></span>
 				</div>
