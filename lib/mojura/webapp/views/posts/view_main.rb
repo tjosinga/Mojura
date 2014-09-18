@@ -10,7 +10,7 @@ module MojuraWebApp
 			WebApp.page.include_template_file('template_posts_posts', 'webapp/views/posts/view_posts.mustache')
 			WebApp.page.include_template_file('template_posts_message', 'webapp/views/posts/view_message.mustache')
 			WebApp.page.include_template_file('template_posts_add_edit', 'webapp/views/posts/view_add_edit.mustache')
-			WebApp.page.include_script_link('ext/moment/moment-with-langs.min.js')
+			WebApp.page.include_script_link('ext/moment/moment-with-locales.min.js')
 			WebApp.page.include_locale('posts');
 		end
 

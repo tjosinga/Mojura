@@ -12,7 +12,7 @@ module MojuraWebApp
 				WebApp.page.include_template_file('template-news-delete', 'webapp/views/news/view_delete.mustache')
 				options[:uses_editor] = true
 			end
-			WebApp.page.include_script_link('ext/moment/moment-with-langs.min.js')
+			WebApp.page.include_script_link('ext/moment/moment-with-locales.min.js')
       super(options, data);
 		end
 
