@@ -1,6 +1,90 @@
+<style type="text/css">
+
+	#{{modalId}} .current-images {
+		padding-right: 10px;
+	}
+
+	#{{modalId}} .image-thumb	{
+		margin: 0 5px 5px 0;
+		background-color: #EEEEEE;
+	}
+
+	#{{modalId}} .image-thumb img	{
+		width: 64px;
+		height: 64px;
+	}
+	#{{modalId}} .image-thumb .masks {
+		position: absolute;
+		width: 64px;
+		height: 64px;
+	}
+
+	#{{modalId}} .image-thumb .mask,
+	#{{modalId}} .image-thumb .background,
+	#{{modalId}} .image-thumb .fa {
+		position: absolute;
+		top: 0;
+		left: 0;
+		height: 100%;
+		width: 100%;
+		text-align: center;
+	}
+
+	#{{modalId}} .image-thumb .move-mask {
+		height: 50%;
+	}
+
+	#{{modalId}} .image-thumb .delete-mask {
+		top: 50%;
+		height: 50%;
+	}
+
+	#{{modalId}} .image-thumb .masks {
+		display: none;
+	}
+
+	#{{modalId}} .image-thumb:hover .masks {
+		display: block;
+		cursor: pointer;
+	}
+
+	#{{modalId}} .image-thumb .background {
+		opacity: 0.5;
+		background-color: white;
+	}
+
+	#{{modalId}} .image-thumb .background:hover {
+		opacity: 0.6;
+	}
+
+	#{{modalId}} .image-thumb .fa {
+		font-size: 24px;
+		line-height: 150%;
+		cursor: pointer;
+	}
+
+	#{{modalId}} .image-thumb .move-mask .fa {
+		cursor: move;
+	}
+
+	#{{modalId}} .image_add_button {
+		display: inline-block;
+		margin: 17px 12px;
+	}
+
+	#{{modalId}} .image-thumb-placeholder {
+		border: 1px dotted silver;
+		margin: 0 5px 5px 0;
+		width: 64px;
+		height: 64px;
+		float: left;
+	}
+</style>
+
+
 <input type="hidden" name="setting_fileids" value="{{fileids}}" />
 
-<div class="current_images"></div>
+<ul class="current-images list-unstyled"></ul>
 <a href="javascript:void(0)" class="btn btn-default image_add_button" onclick="ImageEditView.addImage();">
 	<span class="fa fa-plus"></span>
 </a>
@@ -11,29 +95,30 @@
 	{{locale_str_images_slideshow}}
 </label>
 
-<style type="text/css">
-
-	{{modalId}} .image-thumb	{
-		margin: 0 5px 5px 0;
-		background-color: #EEEEEE;
-	}
-
-	{{modalId}} .image-thumb img	{
-		width: 64px;
-		height: 64px;
-	}
-
-	{{modalId}} .image_add_button {
-		display: inline-block;
-		margin: 17px 12px;
-	}
-</style>
-
+<template id="settings_image_file">
+	{{=<% %>=}}
+	<li class="image-thumb pull-left" data-fileid='{{fileid}}'>
+		<div class="masks">
+			<div class="mask move-mask">
+				<div class="background"></div>
+				<span class="fa fa-arrows"></span>
+			</div>
+			<div class="mask delete-mask">
+				<div class="background"></div>
+				<span class="fa fa-trash-o" onclick='ImageEditView.removeImage($(this).closest(".image-thumb"))'></span>
+			</div>
+		</div>
+		<img src='__api__/files/{{fileid}}/download?type=avatar' alt='' />
+	</li>
+	<%={{ }}=%>
+</template>
 
 <script type="text/javascript">
 	var ImageEditView = (function($) {
 
 		"use strict";
+
+		var template = $("#settings_image_file").html();
 
 		function setFileIdsToForm() {
 			var fileids = [];
@@ -45,7 +130,6 @@
 				$(".slideshow-checkbox", "#{{modalId}}").show();
 			else
 				$(".slideshow-checkbox", "#{{modalId}}").hide();
-
 		}
 
 		function getFileIdsFromForm() {
@@ -54,7 +138,7 @@
 		};
 
 		function fileIdToHTML(fileid) {
-			return "<div class='pull-left image-thumb' onclick='ImageEditView.removeImage(this)' data-fileid='" + fileid + "'><img src='__api__/files/" + fileid + "/download?type=avatar' alt='' /></div>"
+			return Mustache.to_html(template, { fileid: fileid });
 		};
 
 		function showImages() {
@@ -63,7 +147,15 @@
 			for (var i in ids) {
 				html += fileIdToHTML(ids[i]);
 			}
-			$(".current_images", "#{{modalId}}").html(html);
+			$(".current-images", "#{{modalId}}").html(html);
+			$(".current-images", "#{{modalId}}").sortable({
+				placeholder: "<li class='image-thumb-placeholder'></li>",
+				vertical: false,
+				onDrop: function ($item, container, _super, event) {
+					setFileIdsToForm();
+					_super($item, container);
+				}
+			});
 		};
 
 		function addImage() {
@@ -75,8 +167,8 @@
 					SelectFile.show({multi: true, parentModalId: "#{{modalId}}", filter: [".png", ".jpeg", ".jpg", "gif"],
 						confirmed: function (ids) {
 							for (var i in ids) {
-								if ($(".current_images div[data-fileid=" + ids[i] + "]", "#{{modalId}}").length === 0)
-									$(".current_images", "#{{modalId}}").append(fileIdToHTML(ids[i]));
+								if ($(".current-images div[data-fileid=" + ids[i] + "]", "#{{modalId}}").length === 0)
+									$(".current-images", "#{{modalId}}").append(fileIdToHTML(ids[i]));
 							}
 							setFileIdsToForm();
 						},
