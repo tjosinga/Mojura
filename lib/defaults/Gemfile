@@ -4,4 +4,4 @@ source 'http://gems.mojura.nl'
 
 ruby '2.1.2'
 
-gem 'mojura', '>= 0.4.1'
+gem 'mojura', '>= 0.5.0'

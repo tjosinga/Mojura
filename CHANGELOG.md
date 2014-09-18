@@ -4,6 +4,11 @@
 This changelog summaries the most important changes per version.
 Besides the main topics mention, most versions also including some bugfixes or minor tweaks.
 
+##Version 0.5.0
+- Updates all external JavaScript libraries, like Bootstrap (3.2.0), FontAwesome (4.2.0), etc.
+- Update selecting thumbs when editing a view. Adds drag and drop support for sorting.
+- Several bugfixes.
+
 ##Version 0.4.1
 - Fixes a minor bug, which caused an error when saving views.
 - Fixes a bug which occurs on uploading files.
