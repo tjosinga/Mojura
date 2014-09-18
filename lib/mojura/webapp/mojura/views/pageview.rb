@@ -35,7 +35,6 @@ module MojuraWebApp
 			self.include_style_link('mojura/css/style.min.css')
 
 			self.include_script_link('ext/jquery/jquery.min.js')
-			self.include_script_link('ext/jquery/jquery-ui.min.js')
 			self.include_script_link('ext/jquery/jquery.form.min.js')
 			self.include_script_link('ext/bootstrap/js/bootstrap.min.js')
 			self.include_script_link('ext/mustache/mustache.min.js')

@@ -33,7 +33,6 @@ module MojuraWebApp
 			data[:classes] += " col-#{options[:col_devices]}-#{options[:col_rec]}" if (options[:add_span])
 			data[:classes] += " col-#{options[:col_devices]}-offset-#{options[:col_rec_offset]}" if (options[:col_rec_offset].to_i > 0)
 			data[:classes] += " row-offset#{options[:row_offset]}" if (options[:row_offset].to_i > 0)
-			data[:classes] += ' ui-state-default' if data[:may_edit_view]
 			data[:classes].strip!
 			options[:wrapping] = (options[:wrapping].nil?) ? 'normal' : options[:wrapping].to_s
 			data[:no_wrapping] = (options[:wrapping].to_s == 'nowrap')
