@@ -1,6 +1,7 @@
 # encoding: utf-8
 # The classes in this file extend common datatypes with some extra functionality.
 require 'bson'
+require 'json'
 
 # The Boolean module is used to mixin in the TrueClass and FalseClass for easy comparison.
 # This way fields can be given the Boolean datatype instead of a TrueClass or a FalseClass.
@@ -27,8 +28,8 @@ class BSON::OrderedHash
 		inject({}) { |acc, element| k,v = element; acc[k] = (if v.class == BSON::OrderedHash then v.to_h else v end); acc }
 	end
 
-	def to_json
-		to_h.to_json rescue '{}'
+	def to_json(options)
+		JSON.generate(to_h, options) rescue '{}'
 	end
 
 end
