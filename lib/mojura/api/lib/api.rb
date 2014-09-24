@@ -387,7 +387,7 @@ module MojuraAPI
 				API.session[:uid] = user.id
 				user.generate_new_cookie_token if (params[:set_cookie] == 'true')
 				API.log.info("Authentication for #{:username} succeeded")
-				return user.to_a
+				return user.to_h
 			else
 				API.session[:uid] = nil
 				API.log.warn("Authentication for #{:username} failed")

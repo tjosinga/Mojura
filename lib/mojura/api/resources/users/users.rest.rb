@@ -30,7 +30,7 @@ module MojuraAPI
 			#TODO: check rights
 			user = User.new
 			raise NoRightsException.new unless user.current_user_has_right?(:create)
-			return user.load_from_hash(params).save_to_db.to_a
+			return user.load_from_hash(params).save_to_db.to_h
 		end
 
 		def post_conditions
@@ -51,7 +51,7 @@ module MojuraAPI
 		def get(params)
 			user = User.new(params[:ids][0])
 			raise NoRightsException.new unless user.current_user_has_right?(:read)
-			return user.to_a
+			return user.to_h
 		end
 
 		def get_conditions
@@ -73,7 +73,7 @@ module MojuraAPI
 				params[:password] = params[:new_password]
 			end
 			user.load_from_hash(params)
-			return user.save_to_db.to_a
+			return user.save_to_db.to_h
 		end
 
 		def put_conditions

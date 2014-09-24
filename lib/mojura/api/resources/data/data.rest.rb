@@ -21,17 +21,17 @@ module MojuraAPI
 		end
 
 		def post(params)
-			DataBlock.new.load_from_hash(params).save_to_db.to_a
+			DataBlock.new.load_from_hash(params).save_to_db.to_h
 		end
 
 		def get(params)
-			DataBlock.new(params[:ids][0]).to_a
+			DataBlock.new(params[:ids][0]).to_h
 		end
 
 		def put(params)
 			datablock = DataBlock.new(params[:ids][0])
 			datablock.load_from_hash(params)
-			return datablock.save_to_db.to_a
+			return datablock.save_to_db.to_h
 		end
 
 		def delete(params)

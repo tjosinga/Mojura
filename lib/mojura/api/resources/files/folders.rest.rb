@@ -23,30 +23,30 @@ module MojuraAPI
 				result = DbFolderTree.new.nodes_of_path(path)
 			else
 				depth = (params.has_key?(:depth)) ? params[:depth].to_i : 2
-				result = DbFolderTree.new.to_a(depth)
+				result = DbFolderTree.new.to_h(depth)
 			end
 			return result
 		end
 
 		def get(params)
 			id = (params[:ids][0] == 'root') ? nil : params[:ids][0]
-			result = DbFolder.new(id).to_a
+			result = DbFolder.new(id).to_h
 			oid = BSON::ObjectId(id) rescue nil
 			#TODO: Check rights
 			result[:parents] = DbFolderTree.new.parents_of_node(id)
-			result[:subfolders] = DbFolders.new({parentid: oid}).to_a
-			result[:files] = DbFiles.new({folderid: oid}).to_a
+			result[:subfolders] = DbFolders.new({parentid: oid}).to_h
+			result[:files] = DbFiles.new({folderid: oid}).to_h
 			return result
 		end
 
 		def post(params)
-			DbFolder.new.load_from_hash(params).save_to_db.to_a
+			DbFolder.new.load_from_hash(params).save_to_db.to_h
 			#TODO: Check rights
 		end
 
 		def put(params)
 			id = (params[:ids][0] == 'root') ? nil : params[:ids][0]
-			DbFolder.new(id).load_from_hash(params).save_to_db.to_a
+			DbFolder.new(id).load_from_hash(params).save_to_db.to_h
 			#TODO: Check rights
 		end
 

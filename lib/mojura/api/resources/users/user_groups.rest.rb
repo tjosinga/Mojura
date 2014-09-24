@@ -33,8 +33,8 @@ module MojuraAPI
 
 			user.subscribe_to_group(groupid)
 			user.save_to_db
-			result = user.to_a
-			result[:groups] = user.groups.to_a
+			result = user.to_h
+			result[:groups] = user.groups.to_h
 			return result
 		end
 
@@ -50,7 +50,7 @@ module MojuraAPI
 			user.unsubscribe_from_group(groupid)
 			user.save_to_db
 
-			result = user.to_a
+			result = user.to_h
 			result[:groups] = user.groups.to_a
 			return result
 		end

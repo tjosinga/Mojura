@@ -31,21 +31,21 @@ module MojuraAPI
 
 		def post(params)
 			#TODO: Check rights
-			Page.new.load_from_hash(params).save_to_db.to_a
+			Page.new.load_from_hash(params).save_to_db.to_h
 		end
 
 		def get(params)
 			PageTree.new.refresh
 			page = Page.new(params[:ids][0])
 			#TODO: Check rights
-			return page.to_a
+			return page.to_h
 		end
 
 		def put(params)
 			page = Page.new(params[:ids][0])
 			#TODO: Check rights
 			page.load_from_hash(params)
-			return page.save_to_db.to_a
+			return page.save_to_db.to_h
 		end
 
 		def delete(params)

@@ -25,14 +25,14 @@ module MojuraAPI
 			userid = params[:ids][0]
 			user = User.new(userid)
 			user.save_avatar(params[:file][:tempfile].path, params[:file][:type]) if params[:file].is_a?(Hash)
-			return [user.to_a[:avatar]]
+			return [user.to_h[:avatar]]
 		end
 
 		def delete(params = {})
 			userid = params[:ids][0]
 			user = User.new(userid)
 			user.delete_avatar
-			return [user.to_a[:avatar]]
+			return [user.to_h[:avatar]]
 		end
 
 		def get_conditions

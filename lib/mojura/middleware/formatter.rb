@@ -84,7 +84,7 @@ module Mojura
 				body.each do |row|
 					data = []
 					row.each { |_, v|
-						v = v.to_a.join(', ') if (v.is_a?(Hash) || v.is_a?(Array))
+						v = v.to_h.join(', ') if (v.is_a?(Hash) || v.is_a?(Array))
 						data << v
 					}
 					csv << data

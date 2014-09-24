@@ -70,7 +70,7 @@ module MojuraAPI
 
 		def to_a(compact = true)
 			result = []
-			@objects.each { |obj| result << obj.to_a(compact) }
+			@objects.each { |obj| result << obj.to_h(compact) }
 			return result
 		end
 

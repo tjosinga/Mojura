@@ -20,12 +20,12 @@ module MojuraAPI
 		end
 
 		def get(params)
-			Group.new(params[:ids][0]).to_a
+			Group.new(params[:ids][0]).to_h
 			#TODO: Check rights
 		end
 
 		def post(params)
-			Group.new.load_from_hash(params).save_to_db.to_a
+			Group.new.load_from_hash(params).save_to_db.to_h
 			#TODO: Check rights
 		end
 
@@ -33,7 +33,7 @@ module MojuraAPI
 		def put(params)
 			group = Group.new(params[:ids][0])
 			#TODO: Check rights
-			return group.load_from_hash(params).save_to_db.to_a
+			return group.load_from_hash(params).save_to_db.to_h
 		end
 
 		def delete(params)

@@ -19,17 +19,17 @@ module MojuraAPI
 		end
 
 		def post(params)
-			Location.new.load_from_hash(params).save_to_db.to_a
+			Location.new.load_from_hash(params).save_to_db.to_h
 		end
 
 		def get(params)
-			Location.new(params[:ids][0]).to_a
+			Location.new(params[:ids][0]).to_h
 		end
 
 		def put(params)
 			location = Location.new(params[:ids][0])
 			location.load_from_hash(params)
-			return location.save_to_db.to_a
+			return location.save_to_db.to_h
 		end
 
 		def delete(params)

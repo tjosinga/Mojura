@@ -37,7 +37,7 @@ module MojuraAPI
 			file = DbFile.new(params[:ids][0])
 			raise NoRightsException unless AccessControl.has_rights?(:read, file)
 			#TODO: Check rights
-			return file.to_a
+			return file.to_h
 		end
 
 		def put(params)
@@ -59,9 +59,9 @@ module MojuraAPI
 			if (action == 'extract') || (action == 'extract_delete')
 				folder = file.extract
 				file.delete_from_db if (action == 'extract_delete')
-				return folder.to_a
+				return folder.to_h
 			end
-			return file.to_a
+			return file.to_h
 		end
 
 		def delete(params)

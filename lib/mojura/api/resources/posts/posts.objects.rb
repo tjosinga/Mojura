@@ -47,7 +47,7 @@ module MojuraAPI
 
 		def to_a(compact = false)
 			result = super
-			result[:author] = User.new(result[:author]).to_a
+			result[:author] = User.new(result[:author]).to_h
 			result[:you_like_this] = result[:likes].include?(API.current_user.id)
 			return result
 		end

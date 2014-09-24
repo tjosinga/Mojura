@@ -15,7 +15,7 @@ module MojuraAPI
 			yield :type, String, :required => true
 			yield :name, String, :required => true
 			yield :email, String, :required => true, :validations => {is_email: true}
-			yield :timestamp, Time, :required => true, :default => Time.new
+			yield :timestamp, DateTime, :required => true, :default => Time.new.iso8601
 			yield :text, RichText, :required => false
 			yield :values, Hash, :required => false, :default => {}
 		end

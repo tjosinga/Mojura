@@ -21,7 +21,7 @@ module MojuraAPI
 			index = params[:index] || -1
 			poll = Poll.new(params[:ids][0])
 			if poll.vote(index.to_i, API.remote_ip)
-				return poll.to_a(false, params[:include_votes])
+				return poll.to_h(false, params[:include_votes])
 			else
 				return { error: 'Unable to vote. Probably you need to wait 24 hours.' }
 			end

@@ -22,18 +22,18 @@ module MojuraAPI
 		end
 
 		def post(params)
-			Poll.new.load_from_hash(params).save_to_db.to_a(false, params[:include_votes])
+			Poll.new.load_from_hash(params).save_to_db.to_h(false, params[:include_votes])
 		end
 
 		def get(params)
-			Poll.new(params[:ids][0]).to_a(false, params[:include_votes])
+			Poll.new(params[:ids][0]).to_h(false, params[:include_votes])
 		end
 
 		def put(params)
 			poll = Poll.new(params[:ids][0])
 			poll.load_from_hash(params)
 			poll.clear_votes if params[:clear_votes]
-			return poll.save_to_db.to_a(false, params[:include_votes])
+			return poll.save_to_db.to_h(false, params[:include_votes])
 		end
 
 		def delete(params)

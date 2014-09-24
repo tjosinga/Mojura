@@ -23,7 +23,7 @@ module MojuraAPI
 		end
 
 		def get(params)
-			Group.new(params[:ids][0]).group_rights.to_hash
+			Group.new(params[:ids][0]).group_rights.to_h
 		end
 
 		def put(params)

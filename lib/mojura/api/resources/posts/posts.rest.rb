@@ -28,19 +28,19 @@ module MojuraAPI
 
 		def post(params)
 			#TODO: check rights
-			Post.new.load_from_hash(params).save_to_db.to_a
+			Post.new.load_from_hash(params).save_to_db.to_h
 		end
 
 		def get(params)
 			#TODO: check rights
-			Post.new(params[:ids][0]).to_a
+			Post.new(params[:ids][0]).to_h
 		end
 
 		def put(params)
 			#TODO: check rights
 			post = Post.new(params[:ids][0])
 			post.load_from_hash(params)
-			return post.save_to_db.to_a
+			return post.save_to_db.to_h
 		end
 
 		def delete(params)

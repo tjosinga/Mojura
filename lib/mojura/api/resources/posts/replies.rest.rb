@@ -33,15 +33,15 @@ module MojuraAPI
 		def put(params)
 			#TODO: check rights
 			params[:postid] = params[:ids][0]
-			Reply.new.load_from_hash(params).save_to_db.to_a
+			Reply.new.load_from_hash(params).save_to_db.to_h
 		end
 
 		def get(params)
 			#TODO: check rights
 			reply = Reply.new(params[:ids][1])
-			STDOUT << JSON.pretty_generate(reply.to_a)
+			STDOUT << JSON.pretty_generate(reply.to_h)
 			raise PostIdMismatchException.new if (params[:ids][0] != reply.postid.to_s)
-			return reply.to_a
+			return reply.to_h
 		end
 
 		def post(params)
@@ -49,7 +49,7 @@ module MojuraAPI
 			reply = Reply.new(params[:ids][1])
 			raise PostIdMismatchException.new if (params[:ids][0] != reply.postid.to_s)
 			reply.load_from_hash(params)
-			return reply.save_to_db.to_a
+			return reply.save_to_db.to_h
 		end
 
 		def delete(params)

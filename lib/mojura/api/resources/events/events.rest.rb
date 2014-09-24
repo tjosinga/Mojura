@@ -21,17 +21,17 @@ module MojuraAPI
 		end
 
 		def post(params)
-			Event.new.load_from_hash(params).save_to_db.to_a
+			Event.new.load_from_hash(params).save_to_db.to_h
 		end
 
 		def get(params)
-			Event.new(params[:ids][0]).to_a
+			Event.new(params[:ids][0]).to_h
 		end
 
 		def put(params)
 			event = Event.new(params[:ids][0])
 			event.load_from_hash(params)
-			return event.save_to_db.to_a
+			return event.save_to_db.to_h
 		end
 
 		def delete(params)

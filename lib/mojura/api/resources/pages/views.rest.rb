@@ -75,7 +75,7 @@ module MojuraAPI
 			page = Page.new(params[:ids][0])
 			page.delete_view(params[:ids][1])
 			page.save_to_db
-			return page.to_a
+			return page.to_h
 		end
 
 		def all_conditions

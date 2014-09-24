@@ -24,17 +24,17 @@ module MojuraAPI
 		end
 
 		def post(params)
-			NewsItem.new.load_from_hash(params).save_to_db.to_a
+			NewsItem.new.load_from_hash(params).save_to_db.to_h
 		end
 
 		def get(params)
-			NewsItem.new(params[:ids][0]).to_a
+			NewsItem.new(params[:ids][0]).to_h
 		end
 
 		def put(params)
 			newsitem = NewsItem.new(params[:ids][0])
 			newsitem.load_from_hash(params)
-			return newsitem.save_to_db.to_a
+			return newsitem.save_to_db.to_h
 		end
 
 		def delete(params)
