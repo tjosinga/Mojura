@@ -31,7 +31,7 @@ module MojuraAPI
 		def all(params)
 			page = Page.new(params[:ids][0])
 			#TODO: check rights
-			return page.views_to_a
+			return page.views_to_h
 		end
 
 		def post(params)
@@ -40,7 +40,7 @@ module MojuraAPI
 			#TODO: check rights
 			view = page.add_view(params[:parentid], params)
 			page.save_to_db
-			return page.view_to_a(view, view[:index], params[:parentid])
+			return page.view_to_h(view, view[:index], params[:parentid])
 		end
 
 		def get(params)
@@ -50,7 +50,7 @@ module MojuraAPI
 			ids = params[:ids][1].split(',')
 			index = ids.pop
 			path = ids.join(',')
-			return page.view_to_a(page.get_view(params[:ids][1]), index, path)
+			return page.view_to_h(page.get_view(params[:ids][1]), index, path)
 		end
 
 		def put(params)
@@ -67,7 +67,7 @@ module MojuraAPI
 
 			index = params[:index] if params.include?(:index)
 			path = params[:path] if params.include?(:path)
-			return page.view_to_a(view, index, path)
+			return page.view_to_h(view, index, path)
 		end
 
 		def delete(params)

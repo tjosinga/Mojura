@@ -141,11 +141,11 @@ module MojuraAPI
 
 		def to_h
 			result = super
-			result[:views] = self.views_to_a(result[:views])
+			result[:views] = self.views_to_h(result[:views])
 			return result
 		end
 
-		def view_to_a(view, index = 0, path = '')
+		def view_to_h(view, index = 0, path = '')
 			content = view[:content]
 			markup = view[:content_markup]
 			view = Marshal.load(Marshal.dump(view))
@@ -156,16 +156,16 @@ module MojuraAPI
 			view[:index] = index.to_i
 			view[:view_url] = API.api_url + "pages/#{self.id}/view/#{viewid}"
 			view[:content] = RichText.new(content, markup).to_parsed_a
-			view[:subviews] = self.views_to_a(view[:subviews], viewid) if (!view[:subviews].nil?)
+			view[:subviews] = self.views_to_h(view[:subviews], viewid) if (!view[:subviews].nil?)
 			return view
 		end
 
-		def views_to_a(views = nil, indexes = '')
+		def views_to_h(views = nil, indexes = '')
 			return {} if (views.nil?)
 			index = -1
 			views.map! { |view|
 				index += 1
-				self.view_to_a(view, index, indexes)
+				self.view_to_h(view, index, indexes)
 			}
 			return views
 		end

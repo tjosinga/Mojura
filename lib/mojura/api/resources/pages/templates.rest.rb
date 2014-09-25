@@ -23,7 +23,7 @@ module MojuraAPI
 
 		def get(params)
 			page = Page.new
-			page.view_to_a(page.new_view_from_template(params[:ids][0]))
+			page.view_to_h(page.new_view_from_template(params[:ids][0]))
 		end
 
 		def all_conditions
