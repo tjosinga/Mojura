@@ -146,10 +146,20 @@ module MojuraAPI
 			return result
 		end
 
+		def to_a(compact = false)
+			puts "#{self.class.name}.to_a is deprecated."
+			to_h(compact)
+		end
+
 		# Returns the all information on the fields on their values
 		# :category: Conversion methods
-		def to_debug_a
+		def to_debug_h
 			return @fields
+		end
+
+		def to_debug_a
+			puts "#{self.class.name}.to_debug_a is deprecated."
+			to_debug_h
 		end
 
 		# Validates the value for a specific field
