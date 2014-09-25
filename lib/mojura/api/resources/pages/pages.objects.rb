@@ -139,7 +139,7 @@ module MojuraAPI
 			end
 		end
 
-		def to_a
+		def to_h
 			result = super
 			result[:views] = self.views_to_a(result[:views])
 			return result
