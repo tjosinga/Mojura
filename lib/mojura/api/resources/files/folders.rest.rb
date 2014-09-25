@@ -23,7 +23,7 @@ module MojuraAPI
 				result = DbFolderTree.new.nodes_of_path(path)
 			else
 				depth = (params.has_key?(:depth)) ? params[:depth].to_i : 2
-				result = DbFolderTree.new.to_h(depth)
+				result = DbFolderTree.new.to_a(depth)
 			end
 			return result
 		end
@@ -34,8 +34,8 @@ module MojuraAPI
 			oid = BSON::ObjectId(id) rescue nil
 			#TODO: Check rights
 			result[:parents] = DbFolderTree.new.parents_of_node(id)
-			result[:subfolders] = DbFolders.new({parentid: oid}).to_h
-			result[:files] = DbFiles.new({folderid: oid}).to_h
+			result[:subfolders] = DbFolders.new({parentid: oid}).to_a
+			result[:files] = DbFiles.new({folderid: oid}).to_a
 			return result
 		end
 

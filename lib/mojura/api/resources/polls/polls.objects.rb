@@ -57,7 +57,7 @@ module MojuraAPI
 			votes = []
 		end
 
-		def to_a(compact = false, include_votes = false, ip = nil)
+		def to_h(compact = false, include_votes = false, ip = nil)
 			result = super(compact)
 			result.merge!(get_votes(include_votes))
 			result[:voteable] = voteable

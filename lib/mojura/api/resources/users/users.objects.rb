@@ -112,7 +112,7 @@ module MojuraAPI
 			(firstname.to_s + ' ' + infix.to_s).strip + ' ' + lastname.to_s
 		end
 
-		def to_a(compact = false)
+		def to_h(compact = false)
 			result = super
 			result[:fullname] = fullname
 			return result if API.current_user.nil? # Only happens in debugging mode, due to premature call of to_a

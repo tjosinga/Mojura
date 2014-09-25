@@ -144,7 +144,7 @@ module MojuraAPI
 		end
 
 		#noinspection RubyUnusedLocalVariable
-		def to_a(compact = false)
+		def to_h(compact = false)
 			result = super
 			result[:file_url] = API.api_url + "files/#{self.id}/download"
 			if !self.is_image?
