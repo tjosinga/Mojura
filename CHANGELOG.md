@@ -4,6 +4,9 @@
 This changelog summaries the most important changes per version.
 Besides the main topics mention, most versions also including some bugfixes or minor tweaks.
 
+##Version 0.5.2
+- Fixes some minor bugs caused by the change of renaming to_a into to_h.
+ 
 ##Version 0.5.1
 - Splits up DbObject into DataObject for object operations and DbObject for database operations.
 - Renames DataObject.to_a into DataObject.to_h. Method .to_a is now deprecated. 
