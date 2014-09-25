@@ -4,6 +4,11 @@
 This changelog summaries the most important changes per version.
 Besides the main topics mention, most versions also including some bugfixes or minor tweaks.
 
+##Version 0.5.1
+- Splits up DbObject into DataObject for object operations and DbObject for database operations.
+- Renames DataObject.to_a into DataObject.to_h. Method .to_a is now deprecated. 
+- Minor bugfixes.
+
 ##Version 0.5.0
 - Updates all external JavaScript libraries, like Bootstrap (3.2.0), FontAwesome (4.2.0), etc.
 - Update selecting thumbs when editing a view. Adds drag and drop support for sorting.
