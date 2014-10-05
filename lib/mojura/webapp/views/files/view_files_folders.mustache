@@ -91,7 +91,7 @@
          <span class='fa fa-file'></span>
 			{{/hide_icons}}
 			{{#is_image}}
-				<a href="{{file_url}}">{{title}}</a>
+				<a href="{{file_url}}" onclick="LightBox.show('files', '{{{file_url}}}'); return false">{{title}}</a>
 			{{/is_image}}
 			{{^is_image}}
 				<a href="{{file_url}}">{{title}}</a>
@@ -99,3 +99,12 @@
 		</li>
 	{{/files}}
 </ul>
+
+<script type="text/javascript">
+	LightBox.clear("files");
+	{{#files}}
+		{{#is_image}}
+			LightBox.add("files", "{{{file_url}}}");
+		{{/is_image}}
+	{{/files}}
+</script>
