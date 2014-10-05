@@ -1,7 +1,22 @@
 <div class="modal lightbox fade" id="lightbox-{{group}}">
-	<div class="lightbox-dialog">
+	<div class="lightbox-dialog modal-dialog">
+
 		<div class="lightbox-content">
-			<img src="__api__/files/5307646b5861f17f4f000014/download" alt="" />
+			<img src="" class="lightbox-image hidden" alt="" />
 		</div>
+
+		<div class="lightbox-control lightbox-close" data-dismiss="modal">
+			<span class="fa fa-times-circle-o"></span>
+		</div>
+
+		<div class="lightbox-control lightbox-left">
+			<span class="fa fa-arrow-circle-o-left" onclick="LightBox.previous()"></span>
+		</div>
+
+		<div class="lightbox-control lightbox-right">
+			<span class="fa fa-arrow-circle-o-right" onclick="LightBox.next()"></span>
+		</div>
+
+
 	</div>
 </div>
