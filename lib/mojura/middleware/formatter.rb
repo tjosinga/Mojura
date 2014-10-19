@@ -33,7 +33,7 @@ module Mojura
 					                  when 'xml' then
 						                  [self.to_xml(body), 'text/xml']
 					                  when 'csv' then
-						                  [self.to_csv(body), 'text/csv']
+						                  [self.to_csv(body, env), 'text/csv']
 					                  when 'ics' then
 						                  [self.to_ics(body), 'text/ics']
 					                  when 'vcard' then
@@ -71,25 +71,53 @@ module Mojura
 			return XmlSimple.xml_out(body.remove_nil_values!, options)
 		end
 
-		def to_csv(body)
+		def to_csv(body, env)
+			req = Rack::Request.new(env)
+			array_path = req.params['array_path']
+			if (!array_path.nil? && !array_path.empty?)
+				array_path = array_path.split('.')
+				array_path.each { | field | body = body[field.to_sym] rescue nil }
+			end
 			body = [body] if body.is_a? Hash
 			return '' if !body[0].is_a? Hash
 
 			headers = body[0].keys
-			options = {headers: headers,
-			           col_sep: ',',
-			           write_headers: true}
+			subfields = req.params['subfields'].to_s.split(',')
+			subfields.each { | subfield_path |
+				subdata = body[0]
+				path = subfield_path.split('.')
+				path.each { | p | subdata = subdata[p.to_sym] rescue nil }
+				subdata = subdata[0] if subdata.is_a?(Array)
+				subdata.keys.each { | k | headers << subfield_path.to_s + '.' + k.to_s } if subdata.is_a?(Hash)
+			}
 
-			return CSV.generate(options) do |csv|
-				body.each do |row|
+			options = {
+				headers: headers,
+				col_sep: req.params['col_sep'] || ',',
+				write_headers: true
+			}
+
+			subfields = req.params['subfields'].to_s.split(',')
+
+			return CSV.generate(options) { | csv |
+				body.each { | row |
 					data = []
-					row.each { |_, v|
-						v = v.to_h.join(', ') if (v.is_a?(Hash) || v.is_a?(Array))
-						data << v
+					row.each { | k, v |
+						v = v.values.join(', ') if v.is_a?(Hash)
+						v = v.join(', ') if v.is_a?(Array)
+						data << v.to_s unless subfields.include?(k)
+					}
+					subfields = req.params['subfields'].to_s.split(',')
+					subfields.each { | subfield_path |
+						subdata = body[0]
+						path = subfield_path.split('.')
+						path.each { | p | subdata = subdata[p.to_sym] rescue nil }
+						subdata = subdata[0] if subdata.is_a?(Array)
+						data += subdata.values if subdata.is_a?(Hash)
 					}
 					csv << data
-				end
-			end
+				}
+			}
 		end
 
 		def to_ics(body)
