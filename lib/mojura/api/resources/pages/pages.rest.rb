@@ -79,6 +79,7 @@ module MojuraAPI
 			}
 			result[:attributes].merge(self.rights_conditions)
 			result[:attributes].merge(self.tags_conditions)
+			result[:attributes].merge(self.locales_conditions)
 			return result
 		end
 

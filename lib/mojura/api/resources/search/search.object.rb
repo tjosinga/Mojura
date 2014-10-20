@@ -10,7 +10,7 @@ module MojuraAPI
 		KEYWORDS_PATTERN = /[\w@\d]+/
 
 		#noinspection RubyStringKeysInHashInspection
-		def set(id, category, title, description, api_url, weighted_keywords = {}, rights = {})
+		def set(id, category, title, description, api_url, weighted_keywords = {}, rights = {}, locales = [])
 			@collection ||= MongoDb.collection(:search_index)
 			keywords = []
 			weighted_keywords.each { | keyword, weight |
@@ -20,6 +20,7 @@ module MojuraAPI
 			# Forces correct rights
 			values = {
 				id: id.to_s,
+				locales: locales,
 				title: title.to_s.truncate(100),
 				description: description.to_s.truncate(160),
 				category: category,
@@ -48,6 +49,12 @@ module MojuraAPI
 			regex = keyword_string.normalize.downcase.scan(KEYWORDS_PATTERN).join('|')
 			first_matches = []
 			first_matches.push({'category' => category}) unless category.to_s.empty?
+			unless options[:check_locale].is_a?(FalseClass)
+				first_matches.push({'$or' => [
+						{'locales' => []},
+						{'locales' => {'$in' => [API.locale]}}
+				]})
+			end
 			first_matches.push({'keywords.keyword' => {'$regex' => /^(#{regex})/}})
 			first_matches.push(self.get_rights_where(API.current_user)) unless API.current_user.administrator?
 

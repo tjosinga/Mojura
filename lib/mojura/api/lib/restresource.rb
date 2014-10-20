@@ -233,6 +233,13 @@ module MojuraAPI
 			}
 		end
 
+		# Returns conditions for locales, mostly used in the :put method of resource
+		def locales_conditions
+			conditions = {
+				locales: {required: false, type: Array, description: 'A list of locales which are supported by this item.'},
+			}
+			return API.multilingual? ? conditions : {}
+		end
 	end
 
 end

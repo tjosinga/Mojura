@@ -17,6 +17,7 @@ module MojuraAPI
 
 		def initialize(db_col_name, item_class, where = {}, options = {})
 			self.class.send(:include, DbObjectsRights) if item_class.ancestors.include?(MojuraAPI::DbObjectRights)
+			self.class.send(:include, DbObjectsLocales) if API.multilingual? && item_class.ancestors.include?(MojuraAPI::DbObjectLocales)
 			@collection = MongoDb.collection(db_col_name)
 			@objects = []
 			@db_col_name = db_col_name
@@ -35,6 +36,7 @@ module MojuraAPI
 		def load_from_db(where)
 			# sk = @page * @pagesize
 			where = self.update_where_with_rights(where) if self.respond_to?(:update_where_with_rights)
+			where = self.update_where_with_locales(where) if API.multilingual? && self.respond_to?(:update_where_with_locales)
 			where.stringify_keys! if (where.is_a?(Hash))
 			cursor = @collection.find(where)
 			@count = cursor.count

@@ -6,6 +6,7 @@ require 'api/lib/dbobject_tags'
 require 'api/lib/dbobject_votes'
 require 'api/lib/dbobject_orderid'
 require 'api/lib/dbobject_searchable'
+require 'api/lib/dbobject_locales'
 
 module MojuraAPI
 
@@ -100,7 +101,8 @@ module MojuraAPI
 			end
 			rights[:rights] = DbObjectRights.int_to_rights_hash(rights[:rights].to_i) unless rights[:rights].is_a?(Hash)
 			title, description = self.get_search_index_title_and_description
-			SearchIndex.set(@id, @collection.name, title, description, api_url, get_weighted_keywords, rights)
+			locales = @fields[:locales][:value] rescue []
+			SearchIndex.set(@id, @collection.name, title, description, api_url, get_weighted_keywords, rights, locales)
 		end
 
 		def load_from_hash(values, silent = false)

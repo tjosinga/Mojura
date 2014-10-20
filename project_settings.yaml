@@ -35,7 +35,7 @@ protected:
   data:
     receiver:                   info@osingasoftware.nl
 
-  # By default all objects are readible by guests. Users are generally hidden for guests.
+  # By default all objects are readible by guests. Users are by default hidden for guests.
   users:
     object_rights:
       User:                      28736
@@ -57,3 +57,4 @@ public:
 
     # The default locale
     locale:                       nl
+    supported_locales:            [nl, en, de, es]

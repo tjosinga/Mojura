@@ -51,6 +51,10 @@ module MojuraAPI
 		# Each thread equalizes one request. Thread handling is done soly by this API module.
 		def init_thread(env = {})
 			self.load
+			req = Rack::Request.new(env)
+			if !req.params['set-locale'].to_s.empty? && Settings.get_a(:supported_locales, :core, []).include?(req.params['set-locale'])
+				env['rack.session']['locale'] = req.params['set-locale']
+			end
 			Thread.current[:mojura] = {} if Thread.current[:mojura].nil?
 			Thread.current[:mojura][:env] = env || {}
 			Thread.current[:mojura][:api_headers] = {}
@@ -115,6 +119,13 @@ module MojuraAPI
 
 		def locale
 			Thread.current[:mojura][:locale].to_sym
+		end
+
+		def multilingual?
+			unless Thread.current[:mojura].include?(:multilingual)
+				Thread.current[:mojura][:multilingual] = (Settings.get_a(:supported_locales, :core, []).size > 1)
+			end
+			Thread.current[:mojura][:multilingual]
 		end
 
 		# Returns the ip address of the client

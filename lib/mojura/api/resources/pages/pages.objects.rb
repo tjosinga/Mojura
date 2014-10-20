@@ -9,6 +9,7 @@ module MojuraAPI
 		include DbObjectVotes
 		include DbObjectRights
 		include DbObjectOrderId
+		include DbObjectLocales
 
 		@templates = nil
 
@@ -189,7 +190,7 @@ module MojuraAPI
 
 		def initialize(menu_only = false)
 			@menu_only = menu_only
-			super('pages', true, [:title, :in_menu, :menu_title, :orderid], 'pages')
+			super('pages', true, [:title, :in_menu, :menu_title, :orderid, :locales], 'pages')
 		end
 
 		def on_compact(src_info)

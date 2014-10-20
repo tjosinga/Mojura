@@ -145,11 +145,13 @@ module MojuraAPI
 
 		def compact_clone(src, depth = 0)
 			result = []
-			src.each { |src_info|
+			src.each { | src_info |
 				allowed = self.allowed_info_of_item(src_info[:rights])
-				if ((!@use_rights) || (allowed[:read])) && (on_compact(src_info))
+
+				if ((!@use_rights) || (allowed[:read])) && (on_compact(src_info)) &&
+					 ((!API.multilingual?) || ((src_info[:locales] || []).size == 0) || src_info[:locales].include?(API.locale.to_s))
 					dest_info = {id: src_info[:id]}
-					@cache_fields.each { |field|
+					@cache_fields.each { | field |
 						str = field.to_s
 						value = src_info[field]
 						value = API.api_url + value if (str.end_with?('_url')) && (!str.start_with?('www.')) && (!str.match('://'))
