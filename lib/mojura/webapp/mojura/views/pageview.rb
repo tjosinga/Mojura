@@ -7,7 +7,7 @@ module MojuraWebApp
 	class PageView < BaseView
 
 		attr_reader :request_uri, :request_params, :metatags, :links, :scripts, :script_links, :styles,
-		            :templates, :locales, :locale, :pageid, :is_home, :is_setup
+		            :templates, :locales, :pageid, :is_home, :is_setup
 
 		attr_accessor :favicon, :status
 
@@ -25,7 +25,6 @@ module MojuraWebApp
 			@body_html = ''
 			@is_home = false
 			@is_setup = false
-			@locale = Settings.get_s(:locale)
 			@favicon = 'mojura/images/favicon.ico'
 			@status = 200
 			super({})
@@ -49,6 +48,12 @@ module MojuraWebApp
 					self.include_script_link("mojura/js/sources/#{name}") if name.end_with?('.js')
 				}
 			end
+		end
+
+		def default_pageid
+			result = Settings.get_s("default_pageid_#{@locale}".to_sym)
+			result = Settings.get_s(:default_pageid) if (result.empty?)
+			return result
 		end
 
 		def load
@@ -239,6 +244,10 @@ module MojuraWebApp
 
 		def is_404
 			@status == 404
+		end
+
+		def locale
+			WebApp.locale
 		end
 
 	end

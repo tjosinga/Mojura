@@ -12,7 +12,7 @@ module MojuraWebApp
 		public
 
 		def load_strings(view, locale = nil)
-			locale ||= WebApp.page.locale
+			locale ||= WebApp.locale
 			view = view.to_sym
 			begin
 				strings_file = case view
@@ -37,7 +37,7 @@ module MojuraWebApp
 		public
 
 		def strings(view, options = {})
-			locale = options[:locale] || WebApp.page.locale
+			locale = options[:locale] || WebApp.locale
 			view = view.to_sym
 			@strings[locale] ||= {}
 			self.load_strings(view) unless (@strings[locale].include?(view))
@@ -46,7 +46,7 @@ module MojuraWebApp
 		end
 
 		def str(view, id, options = {})
-			locale = options[:locale] || WebApp.page.locale
+			locale = options[:locale].to_sym rescue WebApp.locale
 			view = view.to_sym
 			@strings[locale] ||= {}
 			self.load_strings(view) unless (@strings[locale].include?(view))

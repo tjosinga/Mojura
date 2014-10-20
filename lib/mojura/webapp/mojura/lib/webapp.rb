@@ -85,6 +85,10 @@ module MojuraWebApp
 			Thread.current[:mojura][:webapp_headers] = hdrs
 		end
 
+		def locale
+			Thread.current[:mojura][:locale].to_sym
+		end
+
 		# ------------------------------------------------------- API ------------------------------------------------------
 
 		def api_call(command, params = {}, method = 'get')

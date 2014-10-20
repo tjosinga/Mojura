@@ -13,8 +13,8 @@ module MojuraWebApp
 			if self.may_render
 				data[:pageid] = WebApp.page.pageid
 				data[:title] = WebApp.page.data[:title]
-				locale = WebApp.page.locale
-				unless @@views.has_key?(WebApp.page.locale)
+				locale = WebApp.locale
+				unless @@views.has_key?(WebApp.locale)
 					@@views[locale] = []
 					(WebApp.get_views || []).each { | obj |
 						obj[:title] = Locale.str(obj[:view_id], :view_title)
