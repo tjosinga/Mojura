@@ -4,6 +4,10 @@
 This changelog summaries the most important changes per version.
 Besides the main topics mention, most versions also including some bugfixes or minor tweaks.
 
+##Version 0.6.0
+- Improves CSV support.
+- Adds multilingual support.
+ 
 ##Version 0.5.2
 - Fixes some minor bugs caused by the change of renaming to_a into to_h.
  
