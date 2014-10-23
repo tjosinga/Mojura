@@ -15,7 +15,8 @@ module MojuraAPI
 		end
 
 		def all(params)
-			return Locations.new().to_h;
+			locations = Locations.new
+			return locations.to_a
 		end
 
 		def post(params)
