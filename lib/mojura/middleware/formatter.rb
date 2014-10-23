@@ -109,11 +109,11 @@ module Mojura
 					}
 					subfields = req.params['subfields'].to_s.split(',')
 					subfields.each { | subfield_path |
-						subdata = body[0]
+						subrow = row
 						path = subfield_path.split('.')
-						path.each { | p | subdata = subdata[p.to_sym] rescue nil }
-						subdata = subdata[0] if subdata.is_a?(Array)
-						data += subdata.values if subdata.is_a?(Hash)
+						path.each { | p | subrow = subrow[p.to_sym] rescue nil }
+						subrow = subrow[0] if subrow.is_a?(Array)
+						data += subrow.values if subrow.is_a?(Hash)
 					}
 					csv << data
 				}
