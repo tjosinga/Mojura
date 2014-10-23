@@ -4,6 +4,9 @@
 This changelog summaries the most important changes per version.
 Besides the main topics mention, most versions also including some bugfixes or minor tweaks.
 
+##Version 0.6.1
+- Fixes a bug in API resource Locations
+
 ##Version 0.6.0
 - Improves CSV support.
 - Adds multilingual support.
