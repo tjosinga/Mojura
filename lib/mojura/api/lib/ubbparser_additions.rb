@@ -47,6 +47,12 @@ module UBBParser
 		return "<span class='fa fa-#{icon_type}'></span>"
 	end
 
+	def self.render_locale(inner_text, attributes = {}, parse_options = {})
+		inner_text = parse(inner_text.gsub(/^\n/, ''), parse_options)
+		return inner_text if !MojuraAPI::API.multilingual? || parse_options[:strip_ubb]
+		return attributes[:default].split(',').include?(MojuraAPI::API.locale.to_s) ? inner_text : ''
+	end
+
 		# :category: Render methods
 	def self.render_quote(inner_text, attributes = {}, parse_options = {})
 		source = attributes[:original_attrib_str] || ''
