@@ -69,6 +69,10 @@ class Hash
 		return self
 	end
 
+	# Clones all data, including all subobjects
+	def recursive_clone
+		Marshal.load(Marshal.dump(self))
+	end
 end
 
 
@@ -89,6 +93,11 @@ class Array
 	# Changes all keys to strings. If the value is an array or hash, it will do this recursively.
 	def stringify_keys!(recursive = true)
 		self.map! { |val| val.stringify_keys! if (recursive && (val.is_a?(Hash) || val.is_a?(Array))); val }
+	end
+
+	# Clones all data, including all subobjects
+	def recursive_clone
+		Marshal.load(Marshal.dump(self))
 	end
 
 end

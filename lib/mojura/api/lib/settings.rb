@@ -124,11 +124,11 @@ module MojuraAPI
 		end
 
 		def get_h(key, category = :core, default = nil, scopes = [:private, :protected, :public])
-			get(key, category, default, scopes) || {}
+			get(key, category, default, scopes).recursive_clone || {}
 		end
 
 		def get_a(key, category = :core, default = nil, scopes = [:private, :protected, :public])
-			get(key, category, default, scopes).to_a
+			get(key, category, default, scopes).to_a.recursive_clone
 		end
 
 		def set(key, value, category = nil, level = nil, options = {})
