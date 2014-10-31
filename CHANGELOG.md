@@ -4,6 +4,12 @@
 This changelog summaries the most important changes per version.
 Besides the main topics mention, most versions also including some bugfixes or minor tweaks.
 
+##Version 0.6.2
+- Improvement in Settings
+- Adds Mojura specific ubb code [locale]
+- Fixes bugs Files view, locale.js, Setup view
+- Fixes grammar error in a string of Contact view.
+
 ##Version 0.6.1
 - Fixes a bug in API resource Locations
 
