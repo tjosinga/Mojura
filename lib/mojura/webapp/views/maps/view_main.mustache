@@ -15,5 +15,5 @@
 	{{#category}}options.category = "{{category}}";{{/category}}
 	{{#show_admin}}options.showAdmin = true;{{/show_admin}}
 	MapsView.initMap("map_{{urid}}", options);
-	MapsView.loadLocations("map_{{urid}}", true);
+	MapsView.loadLocations("map_{{urid}}", {{#zoom}}{{zoom}}{{/zoom}}{{^zoom}}-1{{/zoom}});
 </script>
