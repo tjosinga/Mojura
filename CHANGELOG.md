@@ -4,6 +4,9 @@
 This changelog summaries the most important changes per version.
 Besides the main topics mention, most versions also including some bugfixes or minor tweaks.
 
+##Version 0.7.0
+- Adds manual default zoom support in Maps view.
+ 
 ##Version 0.6.2
 - Improvement in Settings
 - Adds Mojura specific ubb code [locale]
