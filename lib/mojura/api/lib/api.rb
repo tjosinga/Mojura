@@ -32,6 +32,7 @@ module MojuraAPI
 		@loaded = false
 		@first_init = true
 		@log = nil
+		@version = `gem spec mojura version`[/(\d+.\d+.\d+)/]
 
 		# Loads all settings, resources and makes the connection with the database
 		def load
@@ -83,10 +84,11 @@ module MojuraAPI
 
 			if @first_init
 				@first_init = false
-				if Settings.get_b(:maintenance_on_first_init, :core, true)
+				if (Settings.get_s(:last_maintained_version) != @version)
 					@log.info('----- Running maintenance jobs -----')
 					self.maintenance({})
 					@log.info('----- Finished maintenance jobs -----')
+					Settings.set(:last_maintained_version, @version)
 				end
 			end
 		end
