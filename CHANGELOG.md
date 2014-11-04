@@ -4,6 +4,9 @@
 This changelog summaries the most important changes per version.
 Besides the main topics mention, most versions also including some bugfixes or minor tweaks.
 
+##Version 0.8.0
+- Only starts maintenance on startup, when the version of the gem has actually changed.
+
 ##Version 0.7.0
 - Adds manual default zoom support in Maps view.
  
