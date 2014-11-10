@@ -1,10 +1,7 @@
 require 'ubbparser'
 
 def ubbparser_convert_file_url(url)
-	STDOUT << "Converting #{url}\n"
 	url.gsub!(/\A([0-9a-f]{24})\z/, MojuraAPI::API.api_url + "files/\\1/download")
-	STDOUT << "to #{url}\n"
-	return url
 end
 
 #noinspection RubyUnusedLocalVariable
