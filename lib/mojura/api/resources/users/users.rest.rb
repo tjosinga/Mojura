@@ -26,7 +26,7 @@ module MojuraAPI
 			}
 		end
 
-		def put(params)
+		def post(params)
 			#TODO: check rights
 			user = User.new
 			raise NoRightsException.new unless user.current_user_has_right?(:create)
@@ -38,7 +38,7 @@ module MojuraAPI
 				description: 'Creates a user and returns the resource.',
 				attributes: {
 					username: {required: true, type: String, description: 'The username for the user. Must be unique.'},
-					password: {required: false, type: String, description: 'A password for the user, encoded as a digest (MD5([username]:[realm]:[password])).'},
+					password: {required: true, type: String, description: 'A password for the user, encoded as a digest (MD5([username]:[realm]:[password])).'},
 					firstname: {required: true, type: String, description: 'The first name of the user.'},
 					infix: {required: false, type: String, description: 'The infix of the user.'},
 					lastname: {required: true, type: String, description: 'The last name of the user.'},
