@@ -1,0 +1,14 @@
+<div class="alert alert-{{type}} {{#dismissable}}alert-dismissible{{/dismissable}}" role="alert">
+	{{#dismissable}}
+		<button type="button" class="close" data-dismiss="alert">
+			<span aria-hidden="true">&times;</span>
+			<span class="sr-only">{{locale_str_system_close}}</span>
+		</button>
+	{{/dismissable}}
+	{{#html}}
+		{{{html}}}
+	{{/html}}
+	{{^html}}
+		{{#title}}<strong>{{title}}</strong>{{/title}} {{text}}
+	{{/html}}
+</div>
