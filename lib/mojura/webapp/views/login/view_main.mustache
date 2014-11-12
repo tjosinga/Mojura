@@ -1,10 +1,6 @@
 {{^is_logged_in}}
     <form id="login_form form-horizontal" class="well" action="javascript:void(0)" method="get"
           onsubmit="LoginView.authenticateWithForm(this)">
-        <div class="message_login_failed alert alert-danger alert-dismissable hidden">
-            <button class="close" data-dismiss="alert">×</button>
-            <strong>{{locale_str_system_error}}</strong>: {{locale_str_login_failed}}
-        </div>
 			{{#redirect}}
           <input type="hidden" name="redirect" value="{{redirect}}"/>
 			{{/redirect}}

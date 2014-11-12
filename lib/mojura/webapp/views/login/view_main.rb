@@ -5,6 +5,7 @@ module MojuraWebApp
 		def initialize(options = {})
 			WebApp.page.include_script_link('ext/crypto-js/md5.min.js')
 			WebApp.page.include_script_link('ext/crypto-js/pbkdf2.min.js')
+			WebApp.page.include_locale(:login)
 			super(options, {})
 		end
 
