@@ -25,7 +25,7 @@ module MojuraAPI
 			if (@fields[:orderid][:value] <= 0)
 				@fields[:orderid][:value] = 1
 			elsif (@fields[:orderid][:value] >= count)
-				count += 1 unless id.nil?
+				count += 1
 			  @fields[:orderid][:value] = count
 			end
 
