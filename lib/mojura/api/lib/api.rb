@@ -123,6 +123,15 @@ module MojuraAPI
 			Thread.current[:mojura][:locale].to_sym
 		end
 
+		def locale=(loc)
+			loc = loc.to_s
+			return unless Settings.get_a(:supported_locales, :core, []).include?(loc)
+			return if (Thread.current[:mojura][:locale] == loc)
+			Thread.current[:mojura][:locale] = loc
+			Thread.current[:mojura][:env]['rack.session']['locale'] = loc
+			Locale.load_strings
+		end
+
 		def multilingual?
 			unless Thread.current[:mojura].include?(:multilingual)
 				Thread.current[:mojura][:multilingual] = (Settings.get_a(:supported_locales, :core, []).size > 1)

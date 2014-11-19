@@ -19,8 +19,21 @@ module MojuraAPI
 			PageTree.new.refresh
 			path = (params.has_key?(:path)) ? params[:path] : ''
 			if path != ''
-#	    	full = (params.has_key?(:path)) ? params[:path] : ''
 				result = PageTree.new.nodes_of_path(params[:path])
+				if (params[:auto_set_locale])
+					locale = API.locale
+					result.reverse_each { | page |
+						if !page[:locales].nil?
+							if page[:locales].size == 1
+								locale = page[:locales][0]
+								break
+							elsif page == result.first
+								locale = page[:locales][0]
+							end
+						end
+					}
+					API.locale = locale
+				end
 			else
 				depth = (params.has_key?(:depth)) ? params[:depth].to_i : 2
 				menu_only = params[:menu_only]
@@ -62,6 +75,7 @@ module MojuraAPI
 					depth: {required: false, type: Integer, description: 'The depth of the returned tree. If not specified, the whole tree is returned.'},
 					menu_only: {required: false, type: Boolean, description: 'If set to true, this will only return a tree of menu items.'},
 					path: {required: false, type: String, description: 'If a path (titles seperated with the \'/\' symbol) is given, a list of all pages on that path are returned. The last page will be returned fully. Returns an 404 error if the page does not exists. Each title should be \'urlencoded\' twice.'},
+					auto_set_locale: {required: false, type: Boolean, description: 'Set to true to set the sessions locale automatically to the page or nearest page, based on the given path attribute.'},
 				}
 			}
 		end
