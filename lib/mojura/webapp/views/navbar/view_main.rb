@@ -25,6 +25,14 @@ module MojuraWebApp
 					@pages = {}
 				end
 			end
+			if (@pages.size > 0)
+				parentid = @pages.first[:parentid]
+				unless (parentid.nil?)
+					parents = WebApp.api_call('pages', {path_pageid: parentid})
+					parents.each { | parent | options[:root_url] += URI.encode(parent[:title]) }
+					options[:root_url] += '/' if (options[:root_url] != '')
+				end
+			end
 			@pages.each { | page |
 				page[:menu_title] = page[:title] if page[:menu_title].to_s.empty?
 				page[:active] = (page[:id] === WebApp.page.pageid)

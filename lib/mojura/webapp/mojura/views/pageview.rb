@@ -51,7 +51,7 @@ module MojuraWebApp
 		end
 
 		def default_pageid
-			result = Settings.get_s("default_pageid_#{@locale}".to_sym)
+			result = Settings.get_s("default_pageid_#{WebApp.locale}".to_sym)
 			result = Settings.get_s(:default_pageid) if (result.empty?)
 			return result
 		end
@@ -62,13 +62,13 @@ module MojuraWebApp
 
 			if !@pageid.nil?
 				@data = WebApp.api_call("pages/#{@pageid}")
-				@is_home = (@pageid == Settings.get_s(:default_pageid))
+				@is_home = (@pageid == default_pageid)
 			elsif !@request_uri.empty?
 				begin
-					pages = WebApp.api_call('pages', {path: @request_uri})
+					pages = WebApp.api_call('pages', {path: @request_uri, auto_set_locale: true})
 					@pageid = pages.last[:id]
 					@data = WebApp.api_call("pages/#{@pageid}")
-					@is_home = (@pageid == Settings.get_s(:default_pageid))
+					@is_home = (@pageid == default_pageid)
 				rescue HTTPException => e
 					filename = Mojura.filename("webapp/views/#{@request_uri}/view_main.rb")
 					unless filename.empty?
@@ -83,7 +83,7 @@ module MojuraWebApp
 				end
 			else
 				@is_home = true
-				@pageid = Settings.get_s(:default_pageid) # TODO: Select the default page from Settings
+				@pageid = default_pageid
 				if @pageid.empty?
 					begin
 						@pages = WebApp.api_call('pages')

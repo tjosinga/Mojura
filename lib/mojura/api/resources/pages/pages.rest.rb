@@ -18,7 +18,7 @@ module MojuraAPI
 		def all(params)
 			PageTree.new.refresh
 			path = (params.has_key?(:path)) ? params[:path] : ''
-			if path != ''
+			if !path.empty?
 				result = PageTree.new.nodes_of_path(params[:path])
 				if (params[:auto_set_locale])
 					locale = API.locale
@@ -34,17 +34,32 @@ module MojuraAPI
 					}
 					API.locale = locale
 				end
+			elsif (!params[:path_pageid].to_s.empty?)
+				result = PageTree.new.parents_of_node(params[:path_pageid]) || []
+				result << Page.new(params[:path_pageid]).to_h
 			else
 				depth = (params.has_key?(:depth)) ? params[:depth].to_i : 2
 				menu_only = params[:menu_only]
-				result = PageTree.new(menu_only).to_a(depth)
+				root_id = nil
+				if (API.multilingual?)
+					root_id = Settings.get_s("root_pageid_#{API.locale}".to_sym)
+					root_id = nil if root_id.empty?
+				end
+				result = PageTree.new(menu_only).to_a(depth, root_id)
 			end
 			return result
 		end
 
 		def post(params)
+			page = Page.new
 			#TODO: Check rights
-			Page.new.load_from_hash(params).save_to_db.to_h
+			if (API.multilingual?)
+				pid = Settings.get_s("root_pageid_#{API.locale}".to_sym)
+				params[:parentid] = pid.empty? ? nil : BSON::ObjectId(pid)
+			end
+			page.load_from_hash(params).save_to_db
+			check_settings(params, page)
+			return page.to_h
 		end
 
 		def get(params)
@@ -57,8 +72,21 @@ module MojuraAPI
 		def put(params)
 			page = Page.new(params[:ids][0])
 			#TODO: Check rights
-			page.load_from_hash(params)
-			return page.save_to_db.to_h
+			if (API.multilingual?)
+				pid = Settings.get_s("root_pageid_#{API.locale}".to_sym)
+				params[:parentid] = pid.empty? ? nil : BSON::ObjectId(pid)
+			end
+			page.load_from_hash(params).save_to_db
+			check_settings(params, page)
+			return page.to_h
+		end
+
+		def check_settings(params, page)
+			if (params[:is_home])
+				setting = API.multilingual? ? "default_pageid_#{API.locale}".to_sym : :default_pageid
+				Settings.set(setting, page.id)
+			end
+			Settings.set("root_pageid_#{API.locale}".to_sym, page.id) if (params[:is_root] && API.multilingual?)
 		end
 
 		def delete(params)
@@ -76,6 +104,7 @@ module MojuraAPI
 					menu_only: {required: false, type: Boolean, description: 'If set to true, this will only return a tree of menu items.'},
 					path: {required: false, type: String, description: 'If a path (titles seperated with the \'/\' symbol) is given, a list of all pages on that path are returned. The last page will be returned fully. Returns an 404 error if the page does not exists. Each title should be \'urlencoded\' twice.'},
 					auto_set_locale: {required: false, type: Boolean, description: 'Set to true to set the sessions locale automatically to the page or nearest page, based on the given path attribute.'},
+					path_pageid: {required: false, type: String, description: 'If a path_pageid is given, a list of all pages on the path of the given page are returned. Returns an 404 error if the page does not exists. Is skipped when using path.'}
 				}
 			}
 		end
@@ -89,6 +118,8 @@ module MojuraAPI
 					in_menu: {required: false, type: Boolean, description: 'A key-value hash of settings. Default is true.'},
 					menu_title: {required: false, type: String, description: 'An alternative title which is used in the menu\'s.'},
 					orderid: {required: false, type: Integer, description: 'An id to specify the sorting order.'},
+					is_home: {required: false, type: Boolean, description: 'True if this page should be set as the home page. On multilingual sites, it is set as the home page for the current locale.'},
+					is_locale_root: {required: false, type: Boolean, description: 'True if this page should be set as a root page for a specific locale. This requires to set a single locale as well. Default is false.'},
 				}
 			}
 			result[:attributes].merge(self.rights_conditions)

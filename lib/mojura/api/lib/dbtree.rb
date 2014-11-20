@@ -30,15 +30,29 @@ module MojuraAPI
 			@order_field = order_field
 			@cache_fields = cache_fields
 			@cache_fields.push(:api_url)
+			@cache_fields.push(parent_field)
 			@use_rights = use_rights
 			@object_url = object_url
 			@tree = nil
 			@id = nil
 		end
 
-		def to_a(depth = 100)
+		def to_a(depth = 100, root_id = nil)
 			self.load_from_db if @tree.nil?
-			return self.compact_clone(@tree, depth)
+			tree = root_id.to_s.empty? ? @tree : get_tree_of_node(root_id)
+			return self.compact_clone(tree, depth)
+		end
+
+		def get_tree_of_node(nodeid, tree = nil)
+			tree ||= @tree
+			result = nil
+			tree.each { | node |
+				result = node[:children] if (node[:id] == nodeid)
+				break unless result.nil?
+				result = get_tree_of_node(node[:id], node[:children]) unless node[:children].nil?
+				break unless result.nil?
+			}
+			return result
 		end
 
 		def refresh
@@ -106,11 +120,13 @@ module MojuraAPI
 
 		def objects_to_tree(parentid = nil)
 			result = []
+			parentid = BSON::ObjectId(parentid) if parentid.is_a?(String)
 			data = @data_collection.find({parentid: parentid}).sort(@order_field).to_a
 			data.each { |object|
 				info = {id: object['_id'].to_s}
 				@cache_fields.each { |field|
 					info[field] = object[field.to_s]
+					info[field] = info[field].to_s if (info[field].is_a?(BSON::ObjectId))
 				}
 				info[:api_url] = @object_url + '/' + info[:id] if (@object_url != '')
 				if @use_rights
