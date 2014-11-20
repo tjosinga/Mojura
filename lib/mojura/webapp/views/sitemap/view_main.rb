@@ -1,4 +1,4 @@
-require 'uri'
+require 'cgi'
 
 module MojuraWebApp
 
@@ -41,13 +41,13 @@ module MojuraWebApp
 				suboptions = {}
 				suboptions[:items] = @pages[@index][:children]
 				suboptions[:show_admin] = @options[:show_admin]
-				suboptions[:root_url] = @options[:root_url] + URI.encode(@pages[@index][:title])
+				suboptions[:root_url] = @options[:root_url] + CGI.escape(@pages[@index][:title])
 				return SitemapView.new(suboptions).render
 			end
 		end
 
 		def page_url
-			@options[:root_url] + URI.encode(@pages[@index][:title])
+			@options[:root_url] + CGI.escape(@pages[@index][:title])
 		end
 
 		def inc_index

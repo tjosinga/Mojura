@@ -33,4 +33,17 @@ module MojuraWebApp
 		end
 	end
 
+	# RedirectException doesn't use the HTTPException, but a regular exception instead.
+	# Redirects are exceptions because clearly to current representation, doesn't fit.
+	# However, it's not needed to classify this as an error.
+	class RedirectException < Exception
+		attr_reader :url, :code
+
+		def initialize(url, redirect_code = 303)
+			@url = url
+			@code = redirect_code
+			super("Please, redirect to #{url}")
+		end
+	end
+
 end

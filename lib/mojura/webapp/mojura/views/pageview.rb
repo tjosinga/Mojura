@@ -67,6 +67,12 @@ module MojuraWebApp
 				begin
 					pages = WebApp.api_call('pages', {path: @request_uri, auto_set_locale: true})
 					@pageid = pages.last[:id]
+					if (@pageid == Settings.get_s("root_pageid_#{WebApp.locale}".to_sym))
+						parents = WebApp.api_call('pages', {path_pageid: default_pageid})
+						redirect_url = base_url
+						parents.each { | parent | redirect_url += CGI.escape(parent[:title]) + '/' }
+						raise RedirectException.new(redirect_url);
+					end
 					@data = WebApp.api_call("pages/#{@pageid}")
 					@is_home = (@pageid == default_pageid)
 				rescue HTTPException => e

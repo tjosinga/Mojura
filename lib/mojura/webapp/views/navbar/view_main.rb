@@ -29,7 +29,7 @@ module MojuraWebApp
 				parentid = @pages.first[:parentid]
 				unless (parentid.nil?)
 					parents = WebApp.api_call('pages', {path_pageid: parentid})
-					parents.each { | parent | options[:root_url] += URI.encode(parent[:title]) }
+					parents.each { | parent | options[:root_url] += CGI.escape(parent[:title]) }
 					options[:root_url] += '/' if (options[:root_url] != '')
 				end
 			end
@@ -53,7 +53,7 @@ module MojuraWebApp
 			if @pages[@index].has_key?(:children)
 				options[:items] = @pages[@index][:children]
 				options[:show_admin] = @options[:show_admin]
-				options[:root_url] = @options[:root_url] + URI.encode(@pages[@index][:title])
+				options[:root_url] = @options[:root_url] + CGI.escape(@pages[@index][:title])
 				return SitemapView.new(@options).render
 			end
 		end
