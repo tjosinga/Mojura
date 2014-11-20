@@ -10,7 +10,7 @@ module MojuraWebApp
 			@index = 0
 			options ||= {}
 			options[:show_admin] = (options.include?(:show_admin) && options[:show_admin])
-			options[:root_url] ||= ''
+			options[:root_url] ||= WebApp.page.root_url
 			options[:root_url] += '/' if (options[:root_url] != '')
 			if !options[:items].nil?
 				@pages = options[:items]

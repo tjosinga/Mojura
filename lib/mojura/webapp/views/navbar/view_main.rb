@@ -11,7 +11,7 @@ module MojuraWebApp
 			@brand_name = (options[:brand_name] || Settings.get_s(:brand_name))
 			@brand_name = 'Mojura Development' if @brand_name.empty?
 			options[:show_admin] |= (options.include?(:show_admin) && options[:show_admin])
-			options[:root_url] ||= ''
+			options[:root_url] ||= WebApp.page.root_url
 			options[:root_url] += '/' if (options[:root_url] != '')
 			options[:show_page_editor] = Settings.get_b(:navbar_show_page_editor)
 			if !options[:items].nil?
@@ -23,14 +23,6 @@ module MojuraWebApp
 					@pages = WebApp.api_call('pages', {menu_only: options[:menu_only], depth: options[:depth]})
 				rescue APIException => _
 					@pages = {}
-				end
-			end
-			if (@pages.size > 0)
-				parentid = @pages.first[:parentid]
-				unless (parentid.nil?)
-					parents = WebApp.api_call('pages', {path_pageid: parentid})
-					parents.each { | parent | options[:root_url] += CGI.escape(parent[:title]) }
-					options[:root_url] += '/' if (options[:root_url] != '')
 				end
 			end
 			@pages.each { | page |

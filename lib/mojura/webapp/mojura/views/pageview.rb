@@ -56,6 +56,17 @@ module MojuraWebApp
 			return result
 		end
 
+		def url_of_page(pageid)
+			return '' if pageid.to_s.empty?
+			parents = WebApp.api_call('pages', {path_pageid: pageid})
+			result = parents.map{ | p | CGI.escape(p[:title]) }.join('/')
+			return result
+		end
+
+		def root_url
+			return url_of_page(Settings.get_s("root_pageid_#{WebApp.locale}".to_sym))
+		end
+
 		def load
 			@pageid = nil
 			@pageid = @request_uri if (@request_uri.match(/^[0-9a-f]{24}$/))
@@ -68,10 +79,9 @@ module MojuraWebApp
 					pages = WebApp.api_call('pages', {path: @request_uri, auto_set_locale: true})
 					@pageid = pages.last[:id]
 					if (@pageid == Settings.get_s("root_pageid_#{WebApp.locale}".to_sym))
-						parents = WebApp.api_call('pages', {path_pageid: default_pageid})
-						redirect_url = base_url
-						parents.each { | parent | redirect_url += CGI.escape(parent[:title]) + '/' }
-						raise RedirectException.new(redirect_url);
+						pid = default_pageid
+						url = (pid.empty? || (pid == @pageid)) ? base_url : url_of_page(pid)
+						raise RedirectException.new(url)
 					end
 					@data = WebApp.api_call("pages/#{@pageid}")
 					@is_home = (@pageid == default_pageid)
