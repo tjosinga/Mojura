@@ -362,3 +362,46 @@ body.dragging, body.dragging * {
 	}
 
 }
+
+.flag-icon {
+	position: relative;
+	display: inline-block;
+	width: 1.3333333333333333em;
+	line-height: 1em;
+	background: no-repeat 50%;
+	background-size: contain;
+}
+.flag-icon:before {
+	content: "\00a0";
+}
+
+.flag-icon-background {
+	background: no-repeat 50%;
+	background-size: contain;
+}
+
+.flag-icon-de {
+	background-image: url(../svg/flag-locale-de.svg);
+}
+
+.flag-icon-es {
+	background-image: url(../svg/flag-locale-es.svg);
+}
+
+.flag-icon-en {
+	background-image: url(../svg/flag-locale-en.svg);
+}
+
+.flag-icon-fr {
+	background-image: url(../svg/flag-locale-fr.svg);
+}
+
+.flag-icon-frl {
+	background-image: url(../svg/flag-locale-frl.svg);
+}
+
+.flag-icon-nl {
+	background-image: url(../svg/flag-locale-nl.svg);
+}
+
+
