@@ -53,7 +53,7 @@ module MojuraAPI
 		def post(params)
 			page = Page.new
 			#TODO: Check rights
-			if (API.multilingual?)
+			if (API.multilingual? && params[:parentid].to_s.empty?)
 				pid = Settings.get_s("root_pageid_#{API.locale}".to_sym)
 				params[:parentid] = pid.empty? ? nil : BSON::ObjectId(pid)
 			end

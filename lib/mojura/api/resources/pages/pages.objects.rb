@@ -143,6 +143,10 @@ module MojuraAPI
 		def to_h(compact = false)
 			result = super
 			result[:views] = self.views_to_h(result[:views])
+			unless compact
+				parents = PageTree.new.parents_of_node(@id) || []
+				result[:breadcrumbs] = parents.map { | p | { title: p[:title], id: p[:id] } }
+			end
 			return result
 		end
 
