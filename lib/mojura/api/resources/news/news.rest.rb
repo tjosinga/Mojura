@@ -24,21 +24,27 @@ module MojuraAPI
 		end
 
 		def post(params)
-			NewsItem.new.load_from_hash(params).save_to_db.to_h
+			newsitem = NewsItem.new
+			raise NoRightsException unless AccessControl.has_rights?(:create, newsitem)
+			return newsitem.load_from_hash(params).save_to_db.to_h
 		end
 
 		def get(params)
-			NewsItem.new(params[:ids][0]).to_h
+			newsitem = NewsItem.new(params[:ids][0])
+			raise NoRightsException unless AccessControl.has_rights?(:read, newsitem)
+			return newsitem.to_h
 		end
 
 		def put(params)
 			newsitem = NewsItem.new(params[:ids][0])
+			raise NoRightsException unless AccessControl.has_rights?(:update, newsitem)
 			newsitem.load_from_hash(params)
 			return newsitem.save_to_db.to_h
 		end
 
 		def delete(params)
 			newsitem = NewsItem.new(params[:ids][0])
+			raise NoRightsException unless AccessControl.has_rights?(:delete, newsitem)
 			newsitem.delete_from_db
 			return [:success => true]
 		end
