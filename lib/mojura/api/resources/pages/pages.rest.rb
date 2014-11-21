@@ -52,7 +52,7 @@ module MojuraAPI
 
 		def post(params)
 			page = Page.new
-			#TODO: Check rights
+			raise NoRightsException unless AccessControl.has_rights?(:create, page)
 			if (API.multilingual? && params[:parentid].to_s.empty?)
 				pid = Settings.get_s("root_pageid_#{API.locale}".to_sym)
 				params[:parentid] = pid.empty? ? nil : BSON::ObjectId(pid)
@@ -65,13 +65,13 @@ module MojuraAPI
 		def get(params)
 			PageTree.new.refresh
 			page = Page.new(params[:ids][0])
-			#TODO: Check rights
+			raise NoRightsException unless AccessControl.has_rights?(:read, page)
 			return page.to_h
 		end
 
 		def put(params)
 			page = Page.new(params[:ids][0])
-			#TODO: Check rights
+			raise NoRightsException unless AccessControl.has_rights?(:update, page)
 			if (API.multilingual?)
 				pid = Settings.get_s("root_pageid_#{API.locale}".to_sym)
 				params[:parentid] = pid.empty? ? nil : BSON::ObjectId(pid)
@@ -91,7 +91,7 @@ module MojuraAPI
 
 		def delete(params)
 			page = Page.new(params[:ids][0])
-			#TODO: Check rights
+			raise NoRightsException unless AccessControl.has_rights?(:delete, page)
 			page.delete_from_db
 			return [:success => true]
 		end
