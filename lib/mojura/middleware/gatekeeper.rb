@@ -1,4 +1,5 @@
 require 'rack'
+require 'api/lib/settings'
 
 module Mojura
 
@@ -30,10 +31,12 @@ module Mojura
 				env['PATH_INFO'].gsub!(/^\/__api__/, '')
 				env['REQUEST_URI'].gsub!(/^\/__api__/, '')
 
-				# Check for the dynamic web api key
-				wak_cookie = req.cookies['web_api_key']
-				wak_session = env['rack.session']['web_api_key']
-				return [403, {}, [{error: 'Unauthorized API access'}]] if (wak_cookie.nil?) || (wak_cookie != wak_session)
+				unless (MojuraAPI::Settings.get_b(:developing))
+					# Check for the dynamic web api key
+					wak_cookie = req.cookies['web_api_key']
+			 		wak_session = env['rack.session']['web_api_key']
+					return [403, {}, [{error: 'Unauthorized API access'}]] if (wak_cookie.nil?) || (wak_cookie != wak_session)
+				end
 			end
 
 			status, headers, body = @app.call(env)
