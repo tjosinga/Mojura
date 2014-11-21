@@ -4,6 +4,8 @@ module MojuraAPI
 
 	class Poll < DbObject
 
+		include DbObjectRights
+
 		def initialize(id = nil, options = {})
 			super('polls', id)
 		end

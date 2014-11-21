@@ -20,6 +20,7 @@ module MojuraAPI
 		def post(params)
 			index = params[:index] || -1
 			poll = Poll.new(params[:ids][0])
+			raise NoRightsException unless AccessControl.has_rights?(:read, poll)
 			if poll.vote(index.to_i, API.remote_ip)
 				return poll.to_h(false, params[:include_votes])
 			else
