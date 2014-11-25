@@ -16,8 +16,8 @@ module MojuraAPI
 		end
 
 		def all(params)
-			PageTree.new.refresh
 			path = (params.has_key?(:path)) ? params[:path] : ''
+			use_locale = !params[:use_locale].is_a?(FalseClass) && API.multilingual?
 			if !path.empty?
 				result = PageTree.new.nodes_of_path(params[:path])
 				if (params[:auto_set_locale])
@@ -38,14 +38,16 @@ module MojuraAPI
 				result = PageTree.new.parents_of_node(params[:path_pageid]) || []
 				result << Page.new(params[:path_pageid]).to_h
 			else
-				depth = (params.has_key?(:depth)) ? params[:depth].to_i : 2
 				menu_only = params[:menu_only]
+				depth = menu_only ? 2 : 0
+				depth = params[:depth].to_i if params.has_key?(:depth)
+				depth = 100 if depth <= 0
 				root_id = nil
-				if (API.multilingual?)
+				if use_locale
 					root_id = Settings.get_s("root_pageid_#{API.locale}".to_sym)
 					root_id = nil if root_id.empty?
 				end
-				result = PageTree.new(menu_only).to_a(depth, root_id)
+				result = PageTree.new(menu_only, use_locale).to_a(depth, root_id)
 			end
 			return result
 		end
@@ -102,6 +104,7 @@ module MojuraAPI
 				attributes: {
 					depth: {required: false, type: Integer, description: 'The depth of the returned tree. If not specified, the whole tree is returned.'},
 					menu_only: {required: false, type: Boolean, description: 'If set to true, this will only return a tree of menu items.'},
+					use_locale: {required: false, type: Boolean, description: 'If true checks if the page uses the current locale. False to return the pages regardless of the locale.'},
 					path: {required: false, type: String, description: 'If a path (titles seperated with the \'/\' symbol) is given, a list of all pages on that path are returned. The last page will be returned fully. Returns an 404 error if the page does not exists. Each title should be \'urlencoded\' twice.'},
 					auto_set_locale: {required: false, type: Boolean, description: 'Set to true to set the sessions locale automatically to the page or nearest page, based on the given path attribute.'},
 					path_pageid: {required: false, type: String, description: 'If a path_pageid is given, a list of all pages on the path of the given page are returned. Returns an 404 error if the page does not exists. Is skipped when using path.'}

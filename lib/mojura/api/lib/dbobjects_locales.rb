@@ -6,7 +6,7 @@ module MojuraAPI
 	module DbObjectsLocales
 
 		def update_where_with_locales(where = {})
-			if API.multilingual?
+			if API.multilingual? && !@options[:ignore_locale]
 				locales_where = {'$or' => [
 					{'locales' => {'$exists' => false}},
 					{'locales' => []},

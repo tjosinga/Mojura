@@ -15,24 +15,20 @@ module MojuraAPI
 
 	class DbTree
 
-		@tree_collection
-		@data_collection
-		@cache_fields
-		@tree
-		@use_rights
-		@object_url
+		attr_reader :tree_collection, :data_collection, :cache_fields, :tree, :use_rights, :use_locale, :object_url
 
-		def initialize(db_col_name, use_rights = true, cache_fields = [:title], object_url = '', parent_field = :parentid, order_field = :orderid)
+		def initialize(db_col_name, options)
 			@tree_collection = DbTreeCollection.collection
 			@data_collection = MongoDb.collection(db_col_name.to_s)
 			@db_col_name = db_col_name
-			@parent_field = parent_field
-			@order_field = order_field
-			@cache_fields = cache_fields
+			@parent_field = options[:parent_field] || :parentid
+			@order_field = options[:order_field] || :orderid
+			@use_rights = options[:use_rights].is_a?(TrueClass)
+			@use_locale = options[:use_locale].is_a?(TrueClass)
+			@object_url = options[:object_url].to_s
+			@cache_fields = options[:cache_fields] || [:title]
 			@cache_fields.push(:api_url)
-			@cache_fields.push(parent_field)
-			@use_rights = use_rights
-			@object_url = object_url
+			@cache_fields.push(@parent_field)
 			@tree = nil
 			@id = nil
 		end
@@ -165,7 +161,8 @@ module MojuraAPI
 				allowed = self.allowed_info_of_item(src_info[:rights])
 
 				if ((!@use_rights) || (allowed[:read])) && (on_compact(src_info)) &&
-					 ((!API.multilingual?) || ((src_info[:locales] || []).size == 0) || src_info[:locales].include?(API.locale.to_s))
+					 ((!API.multilingual?) || !@use_locale ||
+						 ((src_info[:locales] || []).size == 0) || src_info[:locales].include?(API.locale.to_s))
 					dest_info = {id: src_info[:id]}
 					@cache_fields.each { | field |
 						str = field.to_s
