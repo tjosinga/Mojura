@@ -1,0 +1,36 @@
+- signin:
+    as: admin
+
+- cache:
+    get:
+      pollid_for_admins: id
+
+- api:
+    path: polls/#{id}
+    method: delete
+
+- cache:
+    get:
+      pollid_for_users: id
+
+- api:
+    path: polls/#{id}
+    method: delete
+
+- cache:
+    get:
+      pollid_for_guests: id
+
+- api:
+    path: polls/#{id}
+    method: delete
+
+- cache:
+    get:
+      pollid_for_guests_and_voteable: id
+
+- api:
+    path: polls/#{id}
+    method: delete
+
+- signoff:

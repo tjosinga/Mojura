@@ -1,0 +1,113 @@
+- api:
+    path: polls
+    method: get
+
+- api:
+    path: polls
+    method: post
+    expect: 412
+
+- api:
+    path: polls
+    method: post
+    data:
+      title: Screenplay IT Test should fail
+      options: "Option 1\nOption 2\nOption 3"
+    expect: 403
+
+
+
+- cache:
+    get:
+      pollid_for_guests: id
+
+- api:
+    path: polls/#{id}
+
+- cache:
+    get:
+      pollid_for_guests: id
+
+- cache:
+    get:
+      pollid_for_guests: id
+
+- api:
+    path: polls/#{id}
+    method: put
+    data:
+      title: Screenplay IT Test should fail too
+    expect: 403
+
+- api:
+    path: polls/#{id}
+    method: delete
+    expect: 403
+
+- cache:
+    get:
+      pollid_for_guests: id
+
+
+
+- cache:
+    get:
+      pollid_for_users: id
+
+- api:
+    path: polls/#{id}
+    expect: 403
+
+- cache:
+    get:
+      pollid_for_users: id
+
+- api:
+    path: polls/#{id}
+    method: put
+    data:
+      title: Screenplay IT Test should fail too
+    expect: 403
+
+- cache:
+    get:
+      pollid_for_users: id
+
+- api:
+    path: polls/#{id}
+    method: delete
+    expect: 403
+
+
+
+- cache:
+    get:
+      pollid_for_admins: id
+
+- cache:
+    get:
+      pollid_for_users: id
+
+- api:
+    path: polls/#{id}
+    expect: 403
+
+- cache:
+    get:
+      pollid_for_users: id
+
+- api:
+    path: polls/#{id}
+    method: put
+    data:
+      title: Screenplay IT Test should fail too
+    expect: 403
+
+- cache:
+    get:
+      pollid_for_users: id
+
+- api:
+    path: polls/#{id}
+    method: delete
+    expect: 403

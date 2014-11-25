@@ -1,0 +1,101 @@
+- api:
+    path: news
+    method: get
+
+- api:
+    path: news
+    method: post
+    expect: 412
+
+- api:
+    path: news
+    method: post
+    data:
+      title: Screenplay IT Test should fail
+      content: This post should fail.
+    expect: 403
+
+
+
+- cache:
+    get:
+      newsid_for_guests: id
+
+- api:
+    path: news/#{id}
+
+- api:
+    path: news/#{id}
+    method: put
+    data:
+      title: Screenplay IT Test should fail too
+    expect: 403
+
+- api:
+    path: news/#{id}
+    method: delete
+    expect: 403
+
+
+
+- cache:
+    get:
+      newsid_for_users: id
+
+- api:
+    path: news/#{id}
+    expect: 403
+
+- cache:
+    get:
+      newsid_for_users: id
+
+- api:
+    path: news/#{id}
+    method: put
+    data:
+      title: Screenplay IT Test should fail too
+    expect: 403
+
+- cache:
+    get:
+      newsid_for_users: id
+
+- api:
+    path: news/#{id}
+    method: delete
+    expect: 403
+
+
+
+- cache:
+    get:
+      newsid_for_admins: id
+
+- cache:
+    get:
+      newsid_for_users: id
+
+- api:
+    path: news/#{id}
+    expect: 403
+
+- cache:
+    get:
+      newsid_for_users: id
+
+- api:
+    path: news/#{id}
+    method: put
+    data:
+      title: Screenplay IT Test should fail too
+    expect: 403
+
+- cache:
+    get:
+      newsid_for_users: id
+
+- api:
+    path: news/#{id}
+    method: delete
+    expect: 403

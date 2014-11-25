@@ -10,6 +10,7 @@ GEM
     crypt (2.0)
     exifr (1.1.3)
     geocoder (1.2.4)
+    highline (1.6.21)
     json (1.8.1)
     kramdown (1.4.1)
     kvparser (0.0.1)
@@ -24,6 +25,7 @@ GEM
     mongo (1.10.2)
       bson (= 1.10.2)
     mustache (0.99.6)
+    netrc (0.7.7)
     nokogiri (1.6.3.1)
       mini_portile (= 0.6.0)
     nokogumbo (1.1.9)
@@ -34,11 +36,17 @@ GEM
       ttfunk (~> 1.2.0)
     prawn-table (0.1.2)
     rack (1.5.2)
+    rest-client (1.7.2)
+      mime-types (>= 1.16, < 3.0)
+      netrc (~> 0.7)
     sanitize (3.0.0)
       crass (~> 0.2.0)
       nokogiri (>= 1.4.4)
       nokogumbo (= 1.1.9)
     sass (3.3.14)
+    screenplay (0.1.1)
+      highline (~> 1.6)
+      rest-client (~> 1.7)
     subexec (0.2.3)
     ttfunk (1.2.0)
     ubbparser (0.2.0)
@@ -70,6 +78,7 @@ DEPENDENCIES
   rack
   sanitize
   sass
+  screenplay
   ubbparser
   xml-simple
   yui-compressor

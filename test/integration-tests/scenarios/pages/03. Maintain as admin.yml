@@ -1,0 +1,23 @@
+- signin:
+    as: admin
+
+- cache:
+    get:
+      base_id: parentid
+
+- data:
+    title: Subpage Title
+
+- api:
+    path: pages
+    method: post
+    data: $input
+
+- api:
+    path: pages/#{id}
+
+- api:
+    path: pages/#{id}
+    method: delete
+
+- signoff:

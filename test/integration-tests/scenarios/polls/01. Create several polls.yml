@@ -1,0 +1,54 @@
+- signin:
+    as: admin
+
+- api:
+    path: polls
+    method: post
+    data:
+      title: Screenplay Integration Test only for admins
+      options: "Option 1\nOption 2\nOption 3"
+      rights: 0
+
+- cache:
+    set:
+      id: pollid_for_admins
+
+- api:
+    path: polls
+    method: post
+    data:
+      title: Screenplay Integration Test visible to users
+      options: "Option 1\nOption 2\nOption 3"
+      rights: 28736
+
+- cache:
+    set:
+      id: pollid_for_users
+
+- api:
+    path: polls
+    method: post
+    data:
+      title: Screenplay Integration Test visible to guests
+      options: "Option 1\nOption 2\nOption 3"
+      rights: 28740
+
+- cache:
+    set:
+      id: pollid_for_guests
+
+
+- api:
+    path: polls
+    method: post
+    data:
+      title: Screenplay Integration Test visible to guests and voteable
+      options: "Option 1\nOption 2\nOption 3"
+      rights: 28740
+      active: true
+
+- cache:
+    set:
+      id: pollid_for_guests_and_voteable
+
+- signoff:

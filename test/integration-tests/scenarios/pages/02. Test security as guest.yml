@@ -1,0 +1,15 @@
+- api:
+    path: pages
+    method: get
+
+- api:
+    path: pages
+    method: post
+    expect: 412
+
+- api:
+    path: pages
+    method: post
+    data:
+      title: This is a Screenplay test.
+    expect: 403

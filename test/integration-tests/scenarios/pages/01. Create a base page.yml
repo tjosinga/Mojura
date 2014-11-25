@@ -1,0 +1,14 @@
+- signin:
+    as: admin
+
+- api:
+    path: pages
+    method: post
+    data:
+      title: ScreenplayIT
+
+- cache:
+    set:
+      id: base_id
+
+- signoff:

@@ -1,0 +1,8 @@
+api:
+  url: http://localhost:9292/__api__/
+
+signin:
+  admin: admin
+  user: user
+  groupmember: groupmember
+

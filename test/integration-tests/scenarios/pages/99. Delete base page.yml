@@ -1,0 +1,12 @@
+- signin:
+    as: admin
+
+- cache:
+    get:
+      base_id: id
+
+- api:
+    path: pages/#{id}
+    method: delete
+
+- signoff:

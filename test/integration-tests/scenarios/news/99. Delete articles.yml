@@ -1,0 +1,28 @@
+- signin:
+    as: admin
+
+- cache:
+    get:
+      newsid_for_admins: id
+
+- api:
+    path: news/#{id}
+    method: delete
+
+- cache:
+    get:
+      newsid_for_users: id
+
+- api:
+    path: news/#{id}
+    method: delete
+
+- cache:
+    get:
+      newsid_for_guests: id
+
+- api:
+    path: news/#{id}
+    method: delete
+
+- signoff:
