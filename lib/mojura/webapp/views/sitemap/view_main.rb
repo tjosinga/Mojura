@@ -4,59 +4,37 @@ module MojuraWebApp
 
 	class SitemapView < BaseView
 
-		attr_reader :pages, :index
-
 		def initialize(options = {})
-			@index = 0
+			WebApp.page.include_script_link('ext/jquery/jquery-sortable.js')
+
 			options ||= {}
 			options[:show_admin] = (options.include?(:show_admin) && options[:show_admin])
 			options[:root_url] ||= WebApp.page.root_url
 			options[:root_url] += '/' if (options[:root_url] != '')
-			if !options[:items].nil?
-				@pages = options[:items]
-			else
-				options[:depth] ||= 2
-				options[:menu_only] = (options[:menu_only])
 
+			if !options[:items].nil?
+				pages = options[:items]
+			else
+				options[:menu_only] = (options[:menu_only])
+				options[:depth] ||= options[:menu_only]? 2 : nil
+				options[:use_locale] = false
 				begin
-					@pages = WebApp.api_call('pages', {menu_only: options[:menu_only], depth: options[:depth]})
+					pages = WebApp.api_call('pages', options)
 				rescue APIException => _
-					@pages = {}
+					pages = {}
 				end
 			end
 			options.delete(:items)
-			super(options, @pages)
+			data = { children: pages }
+			prepare_node(data)
+			data[:is_base] = true
+			super(options, data)
 		end
 
-		def html_class
-			@options[:class]
-		end
-
-		def has_pages
-			(!@pages.nil?) && (@pages.size > 0)
-		end
-
-		def subpages
-			if @pages[@index].has_key?(:children)
-				suboptions = {}
-				suboptions[:items] = @pages[@index][:children]
-				suboptions[:show_admin] = @options[:show_admin]
-				suboptions[:root_url] = @options[:root_url] + CGI.escape(@pages[@index][:title])
-				return SitemapView.new(suboptions).render
-			end
-		end
-
-		def page_url
-			@options[:root_url] + CGI.escape(@pages[@index][:title])
-		end
-
-		def inc_index
-			@index += 1
-			return nil
-		end
-
-		def admin_icons
-			#		if (@options[:show_admin]
+		def prepare_node(node)
+			node[:has_children] = !node[:children].nil? && (node[:children].size > 0)
+			node[:is_base] = false # Should only by set on the first node.
+			node[:children].each { | child | prepare_node(child) } if node[:has_children]
 		end
 
 		WebApp.register_view('sitemap', SitemapView)

@@ -1,7 +1,180 @@
-{{#has_pages}}
-	<ul {{#html_class}}class='{{html_class}}'{{/html_class}}>
-		{{#pages}}
-			<li><a href='{{page_url}}'>{{title}}</a>{{{subpages}}}</li>{{inc_index}}
-		{{/pages}}		
-	</ul>
-{{/has_pages}}
+<ul {{#is_base}}id="sitemap-{{urid}}"{{/is_base}} class="sitemap list-unstyled {{^is_base}}{{#has_children}}hide{{/has_children}}{{/is_base}}" data-parentid="{{id}}">
+	{{#has_children}}
+		{{#children}}
+			<li data-id="{{id}}" data-orderid="{{orderid}}">
+				<div class="list-item">
+					<span class="drag-handle fa fa-fw fa-reorder"></span>&nbsp;
+					<span class="collapse-handle fa fa-fw fa-caret-right hide">&nbsp;</span>
+					<a href="{{page_url}}">{{title}} (<span class="orderid">{{orderid}}</span>)</a>
+					{{#locales}}
+						<span class="flag-icon flag-icon-{{.}} pull-right"></span>
+					{{/locales}}
+				</div>
+				{{> view_main}}
+			</li>
+		{{/children}}
+	{{/has_children}}
+</ul>
+
+{{#is_base}}
+	<style type="text/css">
+
+		ul.sitemap li > ul {
+			padding-left: 25px;
+		}
+
+		ul.sitemap li > .list-item {
+			padding: 10px 0px 10px 15px;
+			margin-bottom: -1px;
+			background-color: #fff;
+			border: 1px solid #ddd;
+			margin-bottom: 5px;
+			border-radius: 4px;
+			position: relative;
+		}
+
+		ul.sitemap li > .fa-reorder {
+			cursor: pointer;
+		}
+
+		ul.sitemap li.placeholder {
+			position: relative;
+		}
+
+		ul.sitemap li.placeholder:before {
+			position: absolute;
+			content: "\f178";
+			font-size: 14px;
+			font-family: FontAwesome;
+			margin-top: -12px;
+			z-index: 100;
+		}
+
+		ul.sitemap li.saving {
+			opacity: 0.5;
+		}
+
+		ul.sitemap li .drag-handle {
+			font-size: 1.2em;
+			color: #dddddd;
+			cursor: pointer;
+		}
+
+		ul.sitemap li .collapse-handle {
+			cursor: pointer;
+		}
+
+		ul.sitemap .flag-icon {
+			font-size: 1.3em;
+			margin-right: 10px;
+		}
+
+		ul.sitemap div.current-page {
+			border-color: #f0ad4e;
+		}
+
+		ul.sitemap.select-none {
+			select: none;
+		}
+
+	</style>
+
+	<script type="text/javascript">
+
+		"use strict";
+
+		$(function () {
+
+			var $sitemap = $("#sitemap-{{urid}}");
+
+			function getNewParentId($item) {
+				return $item.parent().attr("data-parentid");
+			}
+
+			function getNewOrderId($item) {
+				var result = parseInt($item.prev().attr("data-orderid"));
+				if (isNaN(result)) {
+					result = 0;
+				}
+				if (result < parseInt($item.attr("data-orderid"))) {
+					result += 1;
+				}
+				return result;
+			}
+
+			function setNewOrderIds(nodes) {
+				for (var x in nodes) {
+					var node = nodes[x];
+					$("li[data-id=" + node.id + "]").attr("data-orderid", node.orderid).find(".orderid").html(node.orderid);
+					if (typeof node.children !== "undefined") {
+						setNewOrderIds(node.children);
+					}
+				}
+			}
+
+			function checkCollapseHandles() {
+				$("span.collapse-handle", $sitemap).each(function(index) {
+					var $ul = $(this).parent().parent().children("ul");
+					var hasChildren = ($ul.children("li").size() > 0);
+					$(this).toggleClass("hide", !hasChildren);
+					var childrenVisible = true;
+					if (!hasChildren) {
+						$ul.children("ul").removeClass("hide");
+					} else {
+						childrenVisible = !$ul.hasClass("hide");
+					}
+					$(this).toggleClass("fa-caret-down", childrenVisible).toggleClass("fa-caret-right", !childrenVisible);
+				});
+			}
+
+			function onDrop($item, container, _super, event) {
+				_super($item);
+				var parentId = getNewParentId($item);
+				var orderId = getNewOrderId($item);
+				var id = $item.attr("data-id");
+				$item.attr("data-orderid", orderId).children("ul").attr("data-parentid", parentId);
+				$item.addClass("saving");
+				$item.children("div").children(".fa-reorder").removeClass("fa-reorder").addClass("fa-refresh fa-spin");
+
+				var url = "__api__/pages/" + id;
+				var postVars = {};
+				postVars._method = "put";
+				postVars.orderid = orderId;
+				postVars.parentid = parentId;
+				$.post(url, postVars, function(data, textStatus) {
+					$.getJSON("__api__/pages?use_locale=false", function (data) {
+						setNewOrderIds(data);
+						checkCollapseHandles($item);
+						$item.removeClass("saving");
+						$item.find(".fa-refresh").removeClass("fa-refresh fa-spin").addClass("fa-reorder");
+					});
+				}, "json");
+				$sitemap.removeClass("select-none");
+			}
+
+			var options = {
+				handle: "span.fa-reorder",
+				nested: true,
+				onStartDrag: function() {
+					$sitemap.addClass("select-none");
+				},
+				onDrop: onDrop
+			};
+			$sitemap.sortable(options);
+
+			$(".collapse-handle").click(function () {
+				$(this).toggleClass("fa-caret-down").toggleClass("fa-caret-right")
+				$(this).parent().parent().children("ul").toggleClass("hide");
+			});
+
+			checkCollapseHandles(null);
+
+			{{#current_pageid}}
+				var $li = $("li[data-id={{current_pageid}}]", $sitemap);
+				$li.children(".list-item").addClass("current-page");
+				$li.parents(".sitemap").removeClass("hide");
+			{{/current_pageid}}
+		});
+
+	</script>
+{{/is_base}}
