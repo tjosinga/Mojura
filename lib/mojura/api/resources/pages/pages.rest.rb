@@ -72,7 +72,7 @@ module MojuraAPI
 		def put(params)
 			page = Page.new(params[:ids][0])
 			raise NoRightsException unless AccessControl.has_rights?(:update, page)
-			if (API.multilingual?)
+			if (!params[:parentid].nil?) && (params[:parentid].to_s.empty?) && (API.multilingual?)
 				pid = Settings.get_s("root_pageid_#{API.locale}".to_sym)
 				params[:parentid] = pid.empty? ? nil : BSON::ObjectId(pid)
 			end

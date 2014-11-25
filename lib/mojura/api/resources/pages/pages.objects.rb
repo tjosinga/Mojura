@@ -26,8 +26,21 @@ module MojuraAPI
 		end
 
 		def save_to_db
-			self.reorder_before_save({parentid: self.parentid}) if (@id.nil? || @fields[:orderid][:changed])
+			@fields[:orderid][:changed] = true if @fields[:parentid][:changed]
+			reorder_old_parent = (!@id.nil? && @fields[:parentid][:changed])
+			old_parentid = @fields[:parentid][:orig_value]
+			reorder = (@id.nil? || @fields[:orderid][:changed])
+			self.reorder_before_save({parentid: self.parentid}, true) if reorder
 			super
+			self.reorder_before_save({parentid: old_parentid}, false) if reorder_old_parent
+			PageTree.new.refresh
+			return self
+		end
+
+		def delete_from_db
+			super
+			self.reorder_before_save({parentid: self.parentid}, false)
+			PageTree.new.refresh
 		end
 
 		def new_view(options = {})
@@ -192,9 +205,15 @@ module MojuraAPI
 
 		attr_reader :menu_only
 
-		def initialize(menu_only = false)
+		def initialize(menu_only = false, use_locale = true)
 			@menu_only = menu_only
-			super('pages', true, [:title, :in_menu, :menu_title, :orderid, :locales], 'pages')
+			options = {
+				use_rights: true,
+				use_locale: use_locale,
+				cache_fields: [:title, :in_menu, :menu_title, :orderid, :locales],
+				object_url: 'pages'
+			}
+			super('pages', options)
 		end
 
 		def on_compact(src_info)
