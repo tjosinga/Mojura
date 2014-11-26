@@ -46,6 +46,9 @@ module MojuraWebApp
 				WebApp.page.include_template_file('template-pageview-delete-page', 'webapp/mojura/modals/pageedit_delete_page.mustache')
 				WebApp.page.include_template_file('template-pageview-edit-view', 'webapp/mojura/modals/pageedit_edit_view.mustache')
 				WebApp.page.include_template_file('template-pageview-delete-view', 'webapp/mojura/modals/pageedit_delete_view.mustache')
+				WebApp.page.include_template_file('template-sitemap-view', 'webapp/views/sitemap/sitemap.mustache')
+				WebApp.page.include_script_link('ext/jquery/jquery-sortable.min.js')
+				WebApp.page.include_script_link('views/sitemap/script.min.js')
 			end
 			super(options, data)
 		end
