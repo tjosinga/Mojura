@@ -263,7 +263,7 @@ module MojuraAPI
 	class DbFolderTree < DbTree
 
 		def initialize
-			super('files_folders', true, [:title], 'files/folder')
+			super('files_folders', use_rights: true, object_url: 'files/folder')
 		end
 
 		#noinspection RubyUnusedLocalVariable
