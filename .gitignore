@@ -24,4 +24,6 @@ doc/
 # The Test view is only for testing purposes
 /lib/mojura/webapp/views/test
 
+dist/*
 bower_components/*
+node_modules/*
