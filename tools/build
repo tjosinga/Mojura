@@ -65,7 +65,8 @@ end
 compressor = YUI::JavaScriptCompressor.new
 @js_files.each { |original|
 	minified = original.gsub(/\.js$/, '.min.js')
-	File.write(minified, compressor.compress(File.read(original)))
+	`uglifyjs -m -o '#{minified}' '#{original}'`
+#	File.write(minified, compressor.compress(File.read(original)))
 	STDOUT << "Created file #{minified}\n"
 }
 
