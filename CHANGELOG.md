@@ -4,6 +4,18 @@
 This changelog summaries the most important changes per version.
 Besides the main topics mention, most versions also including some bugfixes or minor tweaks.
 
+##Version 0.10.0
+- Adds English locale
+- Adds multilingual support
+- Adds redirect support in the webapp.
+- Adds CSS support of a couple of SVG flags. Just some West-European countries.
+- Improves rights on the resources: news, pages and polls.
+- Improves ordering of objects like pages.
+- Improves view Sitemap with drag and drop.
+- Implements Sitemap as modal in the page editor.
+- Adds Integration Tests using Screenplay.
+- Updates Bootstrap, MustacheJS and MomentJS.
+
 ##Version 0.9.0
 - Adds alert.js for easy creation of alerts.
 - Some minor bugfixes and cleanup.
@@ -13,7 +25,7 @@ Besides the main topics mention, most versions also including some bugfixes or m
 
 ##Version 0.7.0
 - Adds manual default zoom support in Maps view.
- 
+
 ##Version 0.6.2
 - Improvement in Settings
 - Adds Mojura specific ubb code [locale]
@@ -26,13 +38,13 @@ Besides the main topics mention, most versions also including some bugfixes or m
 ##Version 0.6.0
 - Improves CSV support.
 - Adds multilingual support.
- 
+
 ##Version 0.5.2
 - Fixes some minor bugs caused by the change of renaming to_a into to_h.
- 
+
 ##Version 0.5.1
 - Splits up DbObject into DataObject for object operations and DbObject for database operations.
-- Renames DataObject.to_a into DataObject.to_h. Method .to_a is now deprecated. 
+- Renames DataObject.to_a into DataObject.to_h. Method .to_a is now deprecated.
 - Minor bugfixes.
 
 ##Version 0.5.0
@@ -49,7 +61,7 @@ Besides the main topics mention, most versions also including some bugfixes or m
 - Rewritten the method to reorder objects which uses the ObjectOrderId mixin.
 
 ##Version 0.3.10
-- Fixes a bug in the Data resource, which occurs when sending a mail and the text property is not used. 
+- Fixes a bug in the Data resource, which occurs when sending a mail and the text property is not used.
 
 ##Version 0.3.9
 - Fixes a lot of small bugs, mostly due to the POST-PUT fix.
@@ -61,7 +73,7 @@ Besides the main topics mention, most versions also including some bugfixes or m
 ##Version 0.3.8
 - Uses Ruby 2.1.2
 - Replaces PBKDF2 gem with the OpenSSL gem for PBKDF2 password encoding
-- Adds support for BSON::Binary id's in addition to BSON::ObjectId.  
+- Adds support for BSON::Binary id's in addition to BSON::ObjectId.
 
 ##Version 0.3.7
 - Adds production dependencies to gemspec.
@@ -70,7 +82,7 @@ Besides the main topics mention, most versions also including some bugfixes or m
 - Small fix in page editor caused by POST-PUT fix.
 
 ##Version 0.3.5
-- Fixes an architectual mistake that POST was meant for updates and PUT for creates. Now works according REST convention (POST for unknown resource URI and PUT for known resource URI). 
+- Fixes an architectual mistake that POST was meant for updates and PUT for creates. Now works according REST convention (POST for unknown resource URI and PUT for known resource URI).
 
 ##Version 0.3.4
 - Fixes AccessControl checks
