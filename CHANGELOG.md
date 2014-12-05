@@ -4,6 +4,9 @@
 This changelog summaries the most important changes per version.
 Besides the main topics mention, most versions also including some bugfixes or minor tweaks.
 
+##Version 0.10.1
+- Updates the external references of updated external libraries.
+
 ##Version 0.10.0
 - Adds English locale
 - Adds multilingual support
