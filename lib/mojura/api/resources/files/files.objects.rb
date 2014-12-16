@@ -218,7 +218,8 @@ module MojuraAPI
 	class DbFiles < DbObjects
 
 		def initialize(where = {}, options = {})
-			options[:sort] = {title: 1} if (!options.include?(:sort))
+			options[:sort] ||= {title: 1}
+			options[:pagesize] ||= 2500
 			super('files_files', DbFile, where, options)
 		end
 
@@ -253,7 +254,8 @@ module MojuraAPI
 	class DbFolders < DbObjects
 
 		def initialize(where = {}, options = {})
-			options[:sort] = {title: 1} if (!options.include?(:sort))
+			options[:sort] ||= {title: 1}
+			options[:pagesize] ||= 2500
 			super('files_folders', DbFolder, where, options)
 		end
 
