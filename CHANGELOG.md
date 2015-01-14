@@ -4,6 +4,11 @@
 This changelog summaries the most important changes per version.
 Besides the main topics mention, most versions also including some bugfixes or minor tweaks.
 
+##Version 0.10.3
+- Fixes bug in Setup view.
+- Fixes bug when running Mojura from command-line.
+- Adds command-line parameter 'digest'.
+
 ##Version 0.10.2
 - Increase default API pagesize for files and folders from 50 to 2500.
 
