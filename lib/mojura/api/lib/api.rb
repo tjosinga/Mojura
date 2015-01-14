@@ -52,6 +52,7 @@ module MojuraAPI
 		# Each thread equalizes one request. Thread handling is done soly by this API module.
 		def init_thread(env = {})
 			self.load
+			env['rack.input'] ||= {}
 			req = Rack::Request.new(env)
 			if !req.params['set-locale'].to_s.empty? && Settings.get_a(:supported_locales, :core, []).include?(req.params['set-locale'])
 				env['rack.session']['locale'] = req.params['set-locale']
