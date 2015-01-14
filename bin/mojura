@@ -2,6 +2,9 @@
 
 require 'fileutils'
 require 'json'
+require 'crypt/blowfish'
+require 'digest/md5'
+require 'highline/import'
 
 $:.unshift(File.expand_path(File.dirname(__FILE__) + '/../lib/'))
 $:.unshift(File.expand_path(File.dirname(__FILE__) + '/../lib/'))
@@ -9,17 +12,18 @@ $:.unshift(File.expand_path(File.dirname(__FILE__) + '/../lib/'))
 command = ARGV[0]
 
 def usage
-	print "\033[1mUsage: mojura new\033[0m\n"
-	print "\033[1mUsage: mojura run [api|webapp] [request]\033[0m\n\n"
-	print "Author: Taco Jan Osinga\n"
-	print "Date: 2013-11-14\n\n"
-	print "Use one of the following commands:\n"
-	print "  \033[1mnew\033[0m     Creates a new Mojura project in the current folder.\n"
-	print "  \033[1mversion\033[0m     Shows the current version of Mojura.\n"
-	print "  \033[1mrun\033[0m     Runs Mojura outside a webinterface, ideal for quick testing. Use the following parameters:\n"
-	print "               \033[1mapi\033[0m       Runs the API\n";
-	print "               \033[1mwebapp\033[0m    Runs the Webapp\n";
-	print "          Use the request paramater to run Mojura with a specific request.\n"
+	puts "\033[1mUsage: mojura new\033[0m"
+	puts "\033[1mUsage: mojura run [api|webapp] [request]\033[0m\n"
+	puts "Author: Taco Jan Osinga"
+	puts "Date: 2013-11-14\n"
+	puts "Use one of the following commands:"
+	puts "  \033[1mnew\033[0m     Creates a new Mojura project in the current folder."
+	puts "  \033[1mversion\033[0m Shows the current version of Mojura."
+	puts "  \033[1mdigest\033[0m  Asks a username, password and uses the current or given realm to create a digest and a blowfish variant."
+	puts "  \033[1mrun\033[0m     Runs Mojura outside a webinterface, ideal for quick testing. Use the following parameters:"
+	puts "               \033[1mapi\033[0m       Runs the API";
+	puts "               \033[1mwebapp\033[0m    Runs the Webapp";
+	puts "          Use the request paramater to run Mojura with a specific request."
 end
 
 def run
@@ -71,9 +75,22 @@ def version
 	puts version
 end
 
+def digest
+	realm = ARGV[1] || File.basename(Dir.getwd).downcase
+	username = ask('Username: ')
+	password = ask('Password: ') { | q | q.echo = '*' }
+
+	digest = Digest::MD5.hexdigest("#{username}:#{realm}:#{password}").to_s
+	puts 'Digest: ' + digest;
+	blowfish = Crypt::Blowfish.new('5t9WXHqboKGMDRZ3').encrypt_string(digest).unpack('H*')[0]
+	puts 'Blowfish: ' + blowfish
+
+end
+
 case command
 	when 'new' then new
 	when 'run' then run
 	when 'version' then version
+	when 'digest' then digest
 	else usage
 end
