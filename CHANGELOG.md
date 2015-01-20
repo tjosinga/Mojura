@@ -4,6 +4,9 @@
 This changelog summaries the most important changes per version.
 Besides the main topics mention, most versions also including some bugfixes or minor tweaks.
 
+##Version 0.10.4
+- Updates SitemapView to support both the old simple view and the new draggable view.
+
 ##Version 0.10.3
 - Fixes bug in Setup view.
 - Fixes bug when running Mojura from command-line.
