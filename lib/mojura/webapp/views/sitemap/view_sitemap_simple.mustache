@@ -1,0 +1,10 @@
+<ul {{#is_base}}id="sitemap-{{urid}}"{{/is_base}} class="sitemap list-unstyled" data-parentid="{{id}}">
+	{{#has_children}}
+		{{#children}}
+			<li data-id="{{id}}" data-orderid="{{orderid}}">
+				<a href="{{page_url}}">{{title}}</a>
+				{{> view_sitemap_simple}}
+			</li>
+		{{/children}}
+	{{/has_children}}
+</ul>

@@ -5,12 +5,13 @@ module MojuraWebApp
 	class SitemapView < BaseView
 
 		def initialize(options = {})
-			WebApp.page.include_script_link('ext/jquery/jquery-sortable.js')
 
 			options ||= {}
 			options[:show_admin] = (options.include?(:show_admin) && options[:show_admin])
 			options[:root_url] ||= WebApp.page.root_url
 			options[:root_url] += '/' if (options[:root_url] != '')
+			options[:draggable] = !options[:draggable].is_a?(FalseClass)
+			WebApp.page.include_script_link('ext/jquery/jquery-sortable.js')
 
 			if !options[:items].nil?
 				pages = options[:items]
@@ -28,6 +29,7 @@ module MojuraWebApp
 			data = { children: pages }
 			prepare_node(data)
 			data[:is_base] = true
+			data[:draggable] = options[:draggable]
 			super(options, data)
 		end
 

@@ -1,5 +1,9 @@
-{{> sitemap}}
-
-<script type="text/javascript">
-	SitemapView.register("sitemap-{{urid}}").initialize("sitemap-{{urid}}");
-</script>
+{{#draggable}}
+	{{> view_sitemap_draggable}}
+	<script type="text/javascript">
+		SitemapView.register("sitemap-{{urid}}").initialize("sitemap-{{urid}}");
+	</script>
+{{/draggable}}
+{{^draggable}}
+	{{> view_sitemap_simple}}
+{{/draggable}}

@@ -5,12 +5,12 @@
 				<div class="list-item">
 					<span class="drag-handle fa fa-fw fa-reorder"></span>&nbsp;
 					<span class="collapse-handle fa fa-fw fa-caret-right hide">&nbsp;</span>
-					<a href="{{page_url}}">{{title}} <span class="orderid">{{orderid}}</span></a>
+					<a href="{{page_url}}">{{title}}</a>
 					{{#locales}}
 						<span class="flag-icon flag-icon-{{.}} pull-right"></span>
 					{{/locales}}
 				</div>
-				{{> sitemap}}
+				{{> view_sitemap_draggable}}
 			</li>
 		{{/children}}
 	{{/has_children}}
