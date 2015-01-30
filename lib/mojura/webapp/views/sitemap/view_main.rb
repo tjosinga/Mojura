@@ -27,16 +27,19 @@ module MojuraWebApp
 			end
 			options.delete(:items)
 			data = { children: pages }
-			prepare_node(data)
+			prepare_node(data, options[:root_url].to_s)
 			data[:is_base] = true
 			data[:draggable] = options[:draggable]
 			super(options, data)
 		end
 
-		def prepare_node(node)
+		def prepare_node(node, base_url)
+			base_url += '/' unless (base_url.to_s.end_with?('/'))
+			page_url = base_url + URI.encode(node[:title].to_s).gsub('%20', '+')
 			node[:has_children] = !node[:children].nil? && (node[:children].size > 0)
 			node[:is_base] = false # Should only by set on the first node.
-			node[:children].each { | child | prepare_node(child) } if node[:has_children]
+			node[:page_url] = page_url
+			node[:children].each { | child | prepare_node(child, page_url) } if node[:has_children]
 		end
 
 		WebApp.register_view('sitemap', SitemapView)
