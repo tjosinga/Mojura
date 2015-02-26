@@ -1,5 +1,6 @@
 require 'api/lib/restresource'
 require 'api/lib/restresource_tags'
+require 'api/lib/exceptions'
 require 'api/resources/data/data.objects'
 
 module MojuraAPI
@@ -15,7 +16,8 @@ module MojuraAPI
 		end
 
 		def all(params)
-			params[:pagesize] ||= 10
+			raise NoRightsException.new unless API.current_user.administrator?
+			params[:pagesize] ||= 25
 			result = paginate(params) { |options| DataBlocks.new(self.filter(params), options) }
 			return result
 		end
@@ -25,16 +27,19 @@ module MojuraAPI
 		end
 
 		def get(params)
+			raise NoRightsException.new unless API.current_user.administrator?
 			DataBlock.new(params[:ids][0]).to_h
 		end
 
 		def put(params)
+			raise NoRightsException.new unless API.current_user.administrator?
 			datablock = DataBlock.new(params[:ids][0])
 			datablock.load_from_hash(params)
 			return datablock.save_to_db.to_h
 		end
 
 		def delete(params)
+			raise NoRightsException.new unless API.current_user.administrator?
 			datablock = DataBlock.new(params[:ids][0])
 			datablock.delete_from_db
 			return [:success => true]
