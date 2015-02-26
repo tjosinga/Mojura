@@ -12,6 +12,7 @@ require 'api/lib/exceptions'
 require 'api/lib/ubbparser_additions'
 require 'api/lib/settings'
 require 'api/lib/access_control'
+require 'api/lib/processor_manager'
 require 'api/resources/locale/locale.object'
 require 'api/resources/users/users.objects'
 require 'api/resources/pages/pages.objects'
@@ -44,6 +45,8 @@ module MojuraAPI
 			self.load_resources("#{Mojura::PATH}/api/resources/")
 			self.load_resources('api/resources/') if (Dir.exist?('api/resources/'))
 			AccessControl.load
+			ProcessorManager.load_processors(modules, "#{Mojura::PATH}/api/resources/")
+			ProcessorManager.load_processors(modules, 'api/resources/') if (Dir.exist?('api/resources/'))
 			@log.info('----- The API is loaded -----')
 			@loaded = true
 		end
@@ -252,6 +255,9 @@ module MojuraAPI
 
 			params ||= {}
 			params.symbolize_keys!
+
+			ProcessorManager.run_preprocessors(request_path, method, params);
+
 			if request_path == ''
 				result = []
 				mods = modules
@@ -274,6 +280,8 @@ module MojuraAPI
 			else
 				result = call_resource(request_path, params, method)
 			end
+
+			ProcessorManager.run_postprocessors(request_path, method, params, result);
 
 			if (params[:show_env] == 'true') && (Settings.get_s(:developing))
 				result = {result: result} unless result.is_a?(Hash)
