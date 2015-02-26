@@ -244,7 +244,8 @@ module MojuraAPI
 		end
 
 		# Executes a complete request. Request could be a resource, help or nothing
-		def call(request_path, params = {}, method = 'get')
+		def call(request_path, params = {}, method = :get)
+			method = method.to_sym
 			Thread.current[:mojura][:current_call] = request_path
 			self.load if (!@loaded)
 			API.log.debug("calling '#{request_path}' with params #{params}")
@@ -295,7 +296,7 @@ module MojuraAPI
 		end
 
 		# Executes the specified method on a specific resource
-		def call_resource(request_path, params = {}, method = 'get')
+		def call_resource(request_path, params = {}, method = :get)
 			result = []
 			resource = nil
 			return_help = request_path.match(/\/help$/)
@@ -317,15 +318,15 @@ module MojuraAPI
 				raise UnknownModuleException.new(request_path)
 			elsif return_help
 				result = resource[:object].conditions
-			elsif (resource[:type] == :items) && (method == 'get')
+			elsif (resource[:type] == :items) && (method == :get)
 				result = resource[:object].all(params) if resource[:object].required_params_present?(:all, params)
-			elsif (resource[:type] == :items) && (method == 'post')
+			elsif (resource[:type] == :items) && (method == :post)
 				result = resource[:object].post(params) if resource[:object].required_params_present?(:post, params)
-			elsif (resource[:type] == :item) && (method == 'get')
+			elsif (resource[:type] == :item) && (method == :get)
 				result = resource[:object].get(params) if resource[:object].required_params_present?(:get, params)
-			elsif (resource[:type] == :item) && (method == 'put')
+			elsif (resource[:type] == :item) && (method == :put)
 				result = resource[:object].put(params) if resource[:object].required_params_present?(:put, params)
-			elsif method == 'delete' # Delete is supported both by a list of resource and a single resource item
+			elsif method == :delete # Delete is supported both by a list of resource and a single resource item
 				result = resource[:object].delete(params) if resource[:object].required_params_present?(:delete, params)
 			else
 				raise UnknownModuleException.new(request_path)
@@ -358,7 +359,7 @@ module MojuraAPI
 		def setup(method, params)
 			users = Users.new({'$or' => [{is_admin: true}]}, {ignore_rights: true})
 			pages = Pages.new()
-			if (method == 'post')
+			if (method == :post)
 				users = Users.new({'$or' => [{is_admin: true}]}, {ignore_rights: true})
 				result = ''
 				if users.count == 0

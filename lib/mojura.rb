@@ -35,7 +35,7 @@ module Mojura
 				begin
 					result = MojuraAPI::API.call(env['PATH_INFO'].gsub(/\/*$/, '').gsub(/^\/*/, ''),
 					                             request.params,
-					                             env['REQUEST_METHOD'].downcase)
+					                             env['REQUEST_METHOD'].downcase.to_sym)
 					return [200, MojuraAPI::API.headers, [result]]
 				rescue Exception => e
 					error = {message: e, type: e.class}

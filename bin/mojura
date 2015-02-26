@@ -44,7 +44,7 @@ def run
 	MojuraAPI::API.init_thread(env)
 
 	if type == 'api'
-		result = JSON.pretty_generate(MojuraAPI::API.call(request, params, (params[:_method] || 'get')))
+		result = JSON.pretty_generate(MojuraAPI::API.call(request, params, (params[:_method] || :get)))
 	else
 		result = MojuraWebApp::WebApp.render(request, params)
 	end

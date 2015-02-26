@@ -91,7 +91,7 @@ module MojuraWebApp
 
 		# ------------------------------------------------------- API ------------------------------------------------------
 
-		def api_call(command, params = {}, method = 'get')
+		def api_call(command, params = {}, method = :get)
 			begin
 				MojuraAPI::API.call(command, params, method)
 #			rescue Exception => e
