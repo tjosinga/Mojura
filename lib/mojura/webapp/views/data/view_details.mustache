@@ -1,0 +1,27 @@
+<div class="row">
+	<div class="col-sm-4 details-key">{{locale_str_system_name}}</div>
+	<div class="col-sm-8 details-value">{{name}}</div>
+</div>
+
+<div class="row">
+	<div class="col-sm-4 details-key">{{locale_str_system_email}}</div>
+	<div class="col-sm-8 details-value">{{email}}</div>
+</div>
+
+<div class="row">
+	<div class="col-sm-4 details-key">{{locale_str_data_type}}</div>
+	<div class="col-sm-8 details-value">{{type}}</div>
+</div>
+
+<div class="row row-offset1">
+	{{#values}}
+		<div class="col-sm-4 details-key">{{key}}</div>
+		<div class="col-sm-8 details-value {{#large}}details-value-large{{/large}}">
+			{{value}}
+		</div>
+	{{/values}}
+</div>
+
+<div class="details-text row-offset4">
+	{{{text.html}}}
+</div>

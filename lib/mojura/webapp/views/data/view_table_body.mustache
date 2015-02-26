@@ -1,0 +1,11 @@
+{{#items}}
+	<tr style="cursor: pointer" onclick="DataView.showInfo('{{id}}')">
+		<td>{{name}}</td>
+		<td>{{type}}</td>
+		<td>{{email}}</td>
+		<td>{{#prettify}}{{timestamp}}{{/prettify}}</td>
+		<td>
+				<span class="fa fa-info-circle"></span>
+		</td>
+	</tr>
+{{/items}}

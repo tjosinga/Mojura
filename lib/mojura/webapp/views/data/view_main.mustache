@@ -1,0 +1,38 @@
+<div id="data-table-{{urid}}" data-id="{{urid}}" class="data-table table-responsive">
+
+	<nav>
+		<ul class="pager">
+			<li class="previous">
+				<a href="javascript:void(0)" onclick="DataView.previous('data-table-{{urid}}')">
+					<span aria-hidden="true">&larr;</span>
+					{{locale_str_system_newer}}
+				</a>
+			</li>
+			<li class="next">
+				<a href="javascript:void(0)" onclick="DataView.next('data-table-{{urid}}')">
+					{{locale_str_system_older}} <span aria-hidden="true">&rarr;</span>
+				</a>
+			</li>
+		</ul>
+	</nav>
+
+	<table class="table table-condensed table-hover">
+		<thead>
+			<tr>
+				<th>{{locale_str_system_name}}</th>
+				<th>{{locale_str_data_type}}</th>
+				<th>{{locale_str_system_email}}</th>
+				<th>{{locale_str_data_timestamp}}</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody></tbody>
+	</table>
+	<div class="loading"></div>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		DataView.load("data-table-{{urid}}");
+	});
+</script>
