@@ -79,7 +79,6 @@ module MojuraAPI
 
 		# Checks rights if user is a guest
 		def has_object_based_guest_rights?(right, object, user)
-			return false if !object.respond_to?(:rights) || object.rights.nil?
 			return object.rights[:guests][right] if user.id.nil?
 			return has_object_based_owner_rights?(right, object, user)
 		end

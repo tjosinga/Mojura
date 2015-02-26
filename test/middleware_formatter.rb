@@ -1,6 +1,7 @@
 $:.unshift File.join(File.dirname(__FILE__), '..')
 require 'test/unit'
 require 'middleware/formatter'
+require 'rack'
 
 $xml_sample = '<?xml version=\'1.0\' standalone=\'yes\'?>
 <items>
@@ -45,8 +46,18 @@ module Mojura
 
 	class FormatterTester < Test::Unit::TestCase
 
+		# noinspection RubyStringKeysInHashInspection
+		@@env = {
+			'rack.version' => Rack::VERSION,
+			'rack.input' => StringIO.new,
+			'rack.errors' => StringIO.new,
+			'rack.multithread' => true,
+			'rack.multiprocess' => true,
+			'rack.run_once' => false,
+		}
+
 		def get_sample
-			return [{firstname: 'Taco', birthyear: 1977, lastname: 'Osinga', siblings: %w(Frank Rens Douwe-Freerk)},
+			return [{firstname: 'Taco', birthyear: 1977, lastname: 'Osinga', siblings: ['Frank', 'Rens', 'Douwe Freerk']},
 			        {firstname: 'Chantal', birthyear: 1978, lastname: 'Osinga-Albers', siblings: []},
 			        {firstname: 'Hannah', birthyear: 2006, lastname: 'Osinga', siblings: %w(Sara Ruben)}]
 		end
@@ -60,7 +71,7 @@ module Mojura
 		end
 
 		def test_to_csv
-			assert_equal($csv_sample, Formatter.new(nil).to_csv(self.get_sample))
+			assert_equal($csv_sample, Formatter.new(nil).to_csv(self.get_sample, @@env))
 		end
 
 		def test_to_vcard
