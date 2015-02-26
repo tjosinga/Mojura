@@ -50,7 +50,7 @@ module MojuraAPI
 			options = {}
 			options[:page] = params[:page].to_i if (!params[:page].nil? && (params[:page].is_a?(Integer) || params[:page].numeric?))
 			options[:pagesize] = params[:pagesize].to_i if (!params[:pagesize].nil? && (params[:pagesize].is_a?(Integer) || params[:pagesize].numeric?))
-			options[:sort] = JSON.parse(params[:sort]) rescue nil
+			options[:sort] = JSON.parse(params[:sort]) rescue nil if params.include?(:sort)
 			objects = yield options
 			result = {}
 			result[:count] = objects.count
