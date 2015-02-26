@@ -1,2 +1,0 @@
-{ "_id" : { "$oid" : "4fa94d3b78e7237469000001" }, "email" : "taco@osisoft.nl", "firstname" : "Taco Jan", "infix" : "", "is_admin" : false, "lastname" : "Osinga", "password" : "544c9358c72312ffc3ca14a1117fdf5a", "username" : "osingat" }
-{ "_id" : { "$oid" : "502cd6fb78e72310e9000001" }, "username" : "tjosinga", "password" : "4c2dd9ef00ba7fcfcae0ca7f97eeb864db675cd50c563253", "email" : "taco@osisoft.nl", "firstname" : "Taco Jan", "infix" : "", "lastname" : "Osinga", "is_admin" : false, "groupids" : [], "cookie_tokens" : {} }

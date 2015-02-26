@@ -1,6 +1,5 @@
 $:.unshift File.join(File.dirname(__FILE__), '..')
 require 'test/unit'
-require 'test/testing_database'
 require 'api/lib/dbobject'
 require 'api/resources/users/users.objects'
 require 'api/resources/pages/pages.objects'
