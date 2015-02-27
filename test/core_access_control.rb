@@ -27,6 +27,10 @@ module MojuraAPI
 			end
 		end
 
+		def respond_to?(method_sym, include_private = false)
+			return @values.include?(method_sym) || super
+		end
+
 	end
 
 	class AccessControlTester < Test::Unit::TestCase

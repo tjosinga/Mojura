@@ -79,14 +79,14 @@ module MojuraAPI
 
 		# Checks rights if user is a guest
 		def has_object_based_guest_rights?(right, object, user)
-			return false if object.rights.nil?
+			return false if !object.respond_to?(:rights) || object.rights.nil?
 			return object.rights[:guests][right] if user.id.nil?
 			return has_object_based_owner_rights?(right, object, user)
 		end
 
 		# Checks rights if user is the owner of the object
 		def has_object_based_owner_rights?(right, object, user)
-			if !object.userids.nil? && object.userids.include?(user.id)
+			if object.respond_to?(:userids) && !object.userids.nil? && object.userids.include?(user.id)
 				return object.rights[:owners][right]
 			end
 			return has_object_based_group_rights?(right, object, user)
@@ -94,7 +94,7 @@ module MojuraAPI
 
 		# Checks rights if user is in the same group as the object
 		def has_object_based_group_rights?(right, object, user)
-			if !object.groupids.nil? && ((object.groupids & user.groupids).size > 0)
+			if object.respond_to?(:groupids) && !object.groupids.nil? && ((object.groupids & user.groupids).size > 0)
 				return object.rights[:groups][right]
 			end
 			return has_object_based_other_users_rights?(right, object)
