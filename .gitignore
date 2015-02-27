@@ -21,8 +21,9 @@ logs/*
 _yardoc
 doc/
 
-# The Test view is only for testing purposes
+# The Test view and resource are only for testing purposes
 /lib/mojura/webapp/views/test
+/lib/mojura/api/resources/test
 
 dist/*
 bower_components/*

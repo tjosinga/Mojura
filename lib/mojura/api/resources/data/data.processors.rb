@@ -42,6 +42,6 @@ module MojuraAPI
 
 	end
 
-	ProcessorManager.subscribe_postprocessor('data', :post, SendMailPostProcessor.new, input_filter: {type: 'contact'})
+	ProcessorManager.subscribe_processor('data', :post, SendMailPostProcessor.new, input_filter: {type: 'contact'})
 
 end
