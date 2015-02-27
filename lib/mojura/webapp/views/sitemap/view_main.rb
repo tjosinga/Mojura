@@ -7,10 +7,10 @@ module MojuraWebApp
 		def initialize(options = {})
 
 			options ||= {}
-			options[:show_admin] = (options.include?(:show_admin) && options[:show_admin])
+			options[:show_admin] = WebApp.current_user.administrator? && !options[:show_admin].is_a?(FalseClass)
 			options[:root_url] ||= WebApp.page.root_url
 			options[:root_url] += '/' if (options[:root_url] != '')
-			options[:draggable] = !options[:draggable].is_a?(FalseClass)
+			options[:draggable] = (!options[:draggable].is_a?(FalseClass)) && (options[:show_admin])
 			WebApp.page.include_script_link('ext/jquery/jquery-sortable.js')
 
 			if !options[:items].nil?
