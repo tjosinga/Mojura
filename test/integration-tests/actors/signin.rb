@@ -5,12 +5,14 @@ module Screenplay
 		attr_reader :users
 
 		def configure(config)
-			@users = config
+			@users = config || {}
 		end
 
 		def play(params, input)
 			username = params[:as]
+			raise "Missing the 'as' parameter, i.e.: - signin: as: [username]" if username.to_s.empty?
 			password = @users[username.to_sym]
+			raise "Missing a password for user #{username} in the configuration." if password.to_s.empty?
 			salt_data = Cast.get(:api).play({ path: 'salt' }, {})
 			realm = salt_data['realm']
 			salt = salt_data['salt']
