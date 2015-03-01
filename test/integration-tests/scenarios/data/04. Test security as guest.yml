@@ -1,0 +1,14 @@
+- api:
+    path: data
+    method: get
+    expect: 403
+
+- cache:
+    get:
+      id: dataid_for_users
+
+- api:
+    path: data/#{id}
+    method: delete
+    expect: 403
+

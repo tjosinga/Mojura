@@ -22,7 +22,7 @@
 
 - cache:
     get:
-      newsid_for_guests: id
+      id: newsid_for_guests
 
 - api:
     path: news/#{id}
@@ -36,7 +36,7 @@
 
 - cache:
     get:
-      newsid_for_guests: id
+      id: newsid_for_guests
 
 - api:
     path: news/#{id}
@@ -48,14 +48,14 @@
 
 - cache:
     get:
-      newsid_for_users: id
+      id: newsid_for_users
 
 - api:
     path: news/#{id}
 
 - cache:
     get:
-      newsid_for_users: id
+      id: newsid_for_users
 
 - api:
     path: news/#{id}
@@ -66,7 +66,7 @@
 
 - cache:
     get:
-      newsid_for_users: id
+      id: newsid_for_users
 
 - api:
     path: news/#{id}
@@ -79,7 +79,7 @@
 
 - cache:
     get:
-      newsid_for_admins: id
+      id: newsid_for_admins
 
 - api:
     path: news/#{id}
@@ -87,7 +87,7 @@
 
 - cache:
     get:
-      newsid_for_admins: id
+      id: newsid_for_admins
 
 - api:
     path: news/#{id}
@@ -98,9 +98,11 @@
 
 - cache:
     get:
-      newsid_for_admins: id
+      id: newsid_for_admins
 
 - api:
     path: news/#{id}
     method: delete
     expect: 403
+
+- signoff:

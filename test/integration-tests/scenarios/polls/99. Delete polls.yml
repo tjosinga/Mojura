@@ -3,7 +3,7 @@
 
 - cache:
     get:
-      pollid_for_admins: id
+      id: pollid_for_admins
 
 - api:
     path: polls/#{id}
@@ -11,7 +11,7 @@
 
 - cache:
     get:
-      pollid_for_users: id
+      id: pollid_for_users
 
 - api:
     path: polls/#{id}
@@ -19,7 +19,7 @@
 
 - cache:
     get:
-      pollid_for_guests: id
+      id: pollid_for_guests
 
 - api:
     path: polls/#{id}
@@ -27,7 +27,7 @@
 
 - cache:
     get:
-      pollid_for_guests_and_voteable: id
+      id: pollid_for_guests_and_voteable
 
 - api:
     path: polls/#{id}

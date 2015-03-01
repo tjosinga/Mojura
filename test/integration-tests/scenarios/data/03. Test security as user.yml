@@ -1,0 +1,14 @@
+- signin:
+    as: user
+
+- api:
+    path: data
+    method: get
+    expect: 403
+
+- api:
+    path: data/#{id}
+    method: delete
+    expect: 403
+
+- signoff

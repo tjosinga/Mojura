@@ -1,0 +1,20 @@
+- signin:
+    as: admin
+
+- cache:
+    get:
+      id: dataid_for_users
+
+- api:
+    path: data/#{id}
+    method: delete
+
+- cache:
+    get:
+      id: dataid_for_guests
+
+- api:
+    path: data/#{id}
+    method: delete
+
+- signoff

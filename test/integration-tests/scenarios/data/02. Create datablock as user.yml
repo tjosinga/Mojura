@@ -1,0 +1,17 @@
+- signin:
+    as: user
+
+- api:
+    path: data
+    method: post
+    data:
+      type: integration-test
+      name: Authenticated user
+      email: test@test.nl
+      text: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer dignissim ornare urna non convallis. Vestibulum tempor urna at quam aliquet luctus. Proin aliquam quam at mollis suscipit. Maecenas varius mauris justo, a imperdiet mauris molestie tempus. Ut eros magna, faucibus ut tellus id, aliquam facilisis nisl. Sed a dictum nisl, et blandit nunc. Nulla bibendum risus urna, at tempus lectus interdum at. Maecenas in dapibus nulla, vel cursus erat. Maecenas at ultricies quam. Ut vel viverra tellus, vel tincidunt mauris. Nulla facilisi. Nullam id condimentum diam. Etiam non risus elementum, luctus erat a, eleifend est.
+
+- cache:
+    set:
+      dataid_for_users: id
+
+- signoff

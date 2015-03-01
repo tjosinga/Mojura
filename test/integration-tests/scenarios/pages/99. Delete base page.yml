@@ -3,7 +3,7 @@
 
 - cache:
     get:
-      base_id: id
+      id: base_id
 
 - api:
     path: pages/#{id}

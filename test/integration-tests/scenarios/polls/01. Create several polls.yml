@@ -11,7 +11,7 @@
 
 - cache:
     set:
-      id: pollid_for_admins
+      pollid_for_admins: id
 
 - api:
     path: polls
@@ -23,7 +23,7 @@
 
 - cache:
     set:
-      id: pollid_for_users
+      pollid_for_users: id
 
 - api:
     path: polls
@@ -35,7 +35,7 @@
 
 - cache:
     set:
-      id: pollid_for_guests
+      pollid_for_guests: id
 
 
 - api:
@@ -49,6 +49,6 @@
 
 - cache:
     set:
-      id: pollid_for_guests_and_voteable
+      pollid_for_guests_and_voteable: id
 
 - signoff:

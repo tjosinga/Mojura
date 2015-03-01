@@ -1,0 +1,16 @@
+-
+- api:
+    path: data
+    method: post
+    data:
+      type: integration-test
+      name: Guest user
+      email: test@test.nl
+
+- test:
+    name:
+      eq: Guest user
+
+- cache:
+    set:
+      dataid_for_guests: id

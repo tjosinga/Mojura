@@ -3,7 +3,7 @@
 
 - cache:
     get:
-      base_id: parentid
+      parentid: base_id
 
 - data:
     title: Subpage Title
