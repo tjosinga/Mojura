@@ -4,6 +4,12 @@
 This changelog summaries the most important changes per version.
 Besides the main topics mention, most versions also including some bugfixes or minor tweaks.
 
+##Version 0.11.0
+- Adds support of pre- and postprocessors, by default asychronously.
+- Adds WebApp view Data to view all raw data.
+- Updates WebApp view Sitemap.
+- Small bugfixes which were noticed during unit tests and integation tests.
+
 ##Version 0.10.5
 - Fixes a bug in the access control
 - Fixes a bug in the Sitemap view
