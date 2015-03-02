@@ -4,6 +4,10 @@
 This changelog summaries the most important changes per version.
 Besides the main topics mention, most versions also including some bugfixes or minor tweaks.
 
+##Version 0.11.1
+- Minor layout fix in details of Data view.
+- Adds output filter support in ProcessorManager.
+
 ##Version 0.11.0
 - Adds support of pre- and postprocessors, by default asychronously.
 - Adds WebApp view Data to view all raw data.
