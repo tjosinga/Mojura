@@ -13,11 +13,13 @@
 	<div class="col-sm-8 details-value">{{type}}</div>
 </div>
 
-<div class="row row-offset1">
+<div class="row-offset1">
 	{{#values}}
-		<div class="col-sm-4 details-key">{{key}}</div>
-		<div class="col-sm-8 details-value {{#large}}details-value-large{{/large}}">
-			{{value}}
+		<div class="row">
+			<div class="col-sm-4 details-key">{{key}}</div>
+			<div class="col-sm-8 details-value {{#large}}details-value-large{{/large}}">
+				{{value}}
+			</div>
 		</div>
 	{{/values}}
 </div>
