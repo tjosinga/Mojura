@@ -4,6 +4,9 @@
 This changelog summaries the most important changes per version.
 Besides the main topics mention, most versions also including some bugfixes or minor tweaks.
 
+##Version 0.11.2
+- Adds richtext editor when adding or editing files or files.
+
 ##Version 0.11.1
 - Minor layout fix in details of Data view.
 - Adds output filter support in ProcessorManager.
