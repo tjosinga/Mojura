@@ -26,6 +26,7 @@ module MojuraWebApp
       data[:base_folderid] = options[:base_folder].to_s
       data[:has_description] = (!data[:description][:html].empty?) rescue false
       data[:is_base_folder] = (@folderid == 'root') || (@folderid == data[:base_folderid])
+      options[:uses_editor] = true
 			super(options, data)
 			data[:files] ||= []
 			@data[:files].map! { |item|

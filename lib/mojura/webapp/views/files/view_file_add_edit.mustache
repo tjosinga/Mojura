@@ -1,4 +1,4 @@
-<form enctype="multipart/form-data" action="__api__/files/{{id}}" method="post">
+<form enctype="multipart/form-data" action="__api__/files/{{id}}" id="form-{{urid}}" method="post">
 	<input type="hidden" name="_method" value="{{method}}" />
 	<input type="hidden" name="folderid" value="{{folderid}}" />
 
@@ -19,3 +19,8 @@
 		<textarea id="description_{{urid}}" class="form-control small" name='description'>{{description.raw}}</textarea>
 	</div>
 </form>
+
+
+<script type="text/javascript">
+	TextEditor.init("#description_{{urid}}", "form-{{urid}}");
+</script>

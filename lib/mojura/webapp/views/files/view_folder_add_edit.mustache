@@ -1,4 +1,4 @@
-<form action="{{url}}" method="post">
+<form action="{{url}}" id="form-{{urid}}" method="post">
 	<input type="hidden" name="_method" value="{{method}}" />
 	<input type="hidden" name="parentid" value="{{parentid}}" />
 
@@ -14,3 +14,7 @@
 		<textarea id="description_{{urid}}" class="form-control small" name='description'>{{description.raw}}</textarea>
 	</div>
 </form>
+
+<script type="text/javascript">
+	TextEditor.init("#description_{{urid}}", "form-{{urid}}");
+</script>
