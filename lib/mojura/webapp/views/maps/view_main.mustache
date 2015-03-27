@@ -14,6 +14,7 @@
 	{{#tile_attribution}}options.tileAttribution = "{{{tile_attribution}}}";{{/tile_attribution}}
 	{{#category}}options.category = "{{category}}";{{/category}}
 	{{#show_admin}}options.showAdmin = true;{{/show_admin}}
+	{{#disable_scrollwheel}}options.scrollWheelZoom = false;{{/disable_scrollwheel}}
 	MapsView.initMap("map_{{urid}}", options);
 	MapsView.loadLocations("map_{{urid}}", {{#zoom}}{{zoom}}{{/zoom}}{{^zoom}}-1{{/zoom}});
 </script>

@@ -8,6 +8,7 @@ module MojuraWebApp
 			data = {}
 			data[:height] = options[:height] || '300px';
 			data[:zoom] = options[:zoom]
+			data[:disable_scrollwheel] = options[:disable_scrollwheel]
 			data[:tile_url] = options[:tile_url] || Settings.get_s(:tile_url, :maps)
 			data[:tile_attribution] = options[:tile_attribution] || Settings.get_s(:tile_attribution, :maps).gsub("\"", "\\\"")
 			if WebApp.current_user.logged_in?
