@@ -497,3 +497,7 @@ ul.sitemap {
 ul.sitemap.select-none {
 	select: none;
 }
+
+.fa-times-thin:before {
+	content: '\00d7';
+}
