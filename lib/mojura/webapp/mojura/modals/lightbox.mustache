@@ -3,18 +3,25 @@
 
 		<div class="lightbox-content">
 			<img src="" class="lightbox-image hidden" alt="" />
+
+			<div class="aspect-ratio">
+				<video class="lightbox-video hidden" controls>
+					<source src="">
+				</video>
+				<iframe class="lightbox-iframe hidden" />
+			</div>
 		</div>
 
 		<div class="lightbox-control lightbox-close" data-dismiss="modal">
-			<span class="fa fa-times-circle-o"></span>
+			<span class="fa fa-times"></span>
 		</div>
 
 		<div class="lightbox-control lightbox-left">
-			<span class="fa fa-arrow-circle-o-left" onclick="LightBox.previous()"></span>
+			<span class="fa fa-angle-left" onclick="LightBox.previous()"></span>
 		</div>
 
 		<div class="lightbox-control lightbox-right">
-			<span class="fa fa-arrow-circle-o-right" onclick="LightBox.next()"></span>
+			<span class="fa fa-angle-right" onclick="LightBox.next()"></span>
 		</div>
 
 	</div>
