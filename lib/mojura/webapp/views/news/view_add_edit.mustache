@@ -6,6 +6,18 @@
 		<input id="title_{{urid}}" class="form-control" type="text" name="title" value="{{title}}" />
 	</div>
 
+	{{#has_categories}}
+		<div class="form-group">
+			<label for="category_{{urid}}">{{locale_str_system_category}}</label>
+			<select id="category_{{urid}}" class="form-control" data-validation="required">
+				<option></option>
+				{{#categories}}
+					<option>{{.}}</option>
+				{{/categories}}
+			</select>
+		</div>
+	{{/has_categories}}
+
 	<div class="form-group">
 		<label for="title_{{urid}}">{{locale_str_news_imageid}}</label>
 		<input id="imageid_{{urid}}" type="hidden" name="imageid" value="{{imageid}}" />
