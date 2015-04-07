@@ -4,6 +4,9 @@
 This changelog summaries the most important changes per version.
 Besides the main topics mention, most versions also including some bugfixes or minor tweaks.
 
+##Version 0.12.0
+- Adds support for Youtube, Vimeo, other videos and iframes to the lightbox.
+
 ##Version 0.11.3
 - Adds option to disable zooming with the scrollwheel on maps.
 
