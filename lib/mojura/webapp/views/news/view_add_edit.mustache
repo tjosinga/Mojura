@@ -43,7 +43,6 @@
 <script type="text/javascript">
 	$("option", "#category_{{urid}}").each(function() {
 		var text = this.innerHTML;
-		debugger
 		if (text === "{{category}}") {
 			$(this).prop("selected", "selected");
 		}
