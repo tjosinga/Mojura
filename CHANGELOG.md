@@ -4,6 +4,9 @@
 This changelog summaries the most important changes per version.
 Besides the main topics mention, most versions also including some bugfixes or minor tweaks.
 
+##Version 0.13.2
+- Removes regex validation on the category of news items.
+
 ##Version 0.13.1
 - Fixes bugs in News resource and view.
 
