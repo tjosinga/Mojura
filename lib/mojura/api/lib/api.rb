@@ -149,6 +149,10 @@ module MojuraAPI
 			Thread.current[:mojura][:env]['REMOTE_ADDR']
 		end
 
+		def requested_format
+			Thread.current[:mojura][:env]['REQUESTED_FORMAT']
+		end
+
 		def current_call
 			Thread.current[:mojura][:current_call]
 		end

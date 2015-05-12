@@ -13,6 +13,7 @@ module Mojura
 
 		def call(env)
 			return_type = (env['PATH_INFO'][/.*\.([\w]*)$/, 1] || '').downcase
+			env['REQUESTED_FORMAT'] = return_type
 			env['PATH_INFO'] = env['PATH_INFO'][0..(-1 * (return_type.length + 2))] if (return_type != '')
 
 			status, headers, body = @app.call(env)
