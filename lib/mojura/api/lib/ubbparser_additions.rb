@@ -53,7 +53,7 @@ module UBBParser
 
 		# :category: Render methods
 	def self.render_quote(inner_text, attributes = {}, parse_options = {})
-		source = attributes[:original_attrib_str] || ''
+		source = attributes[:class_attrib_str] || ''
 		result = '<blockquote>'
 		result += '<p>' + self.parse(inner_text, parse_options) + '</p>'
 		result += "<small>#{source}</small>" if !source.empty?
@@ -79,6 +79,18 @@ module UBBParser
 		result += '</div></div>'
 		result += "<script type='text/javascript'>$('##{id}').carousel('cycle')</script>"
 		return result
+	end
+
+	# :category: Render methods
+	def self.render_tip(inner_text, attributes = {}, parse_options = {})
+		hint = attributes[:class_attrib_str] || ''
+		text = self.parse(inner_text, parse_options)
+		unless text.empty?
+			id = "ubb-tip-" + SecureRandom.hex(16)
+			text = "<a href='#' id='#{id}' data-toggle='tooltip' title='#{hint}'>#{text}</a>"
+			text += "<script type='text/javascript'>$('##{id}').tooltip()</script>"
+		end
+		return text
 	end
 
 	## :category: Render methods
