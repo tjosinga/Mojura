@@ -4,6 +4,12 @@
 This changelog summaries the most important changes per version.
 Besides the main topics mention, most versions also including some bugfixes or minor tweaks.
 
+##Version 0.14.0
+- Adds ubb code [tip]. For example: [tip=This is the tip of an example]example[/tip].
+- Removes specific gem version.
+- Adds Hash.flatten_hash to convert a multidimensional hashes to a one dimensional hash.
+- Adds the possibility to the API to get the requested file format.
+
 ##Version 0.13.2
 - Removes regex validation on the category of news items.
 
