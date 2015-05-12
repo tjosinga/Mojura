@@ -1,8 +1,6 @@
 source 'http://rubygems.org'
 source 'http://gems.github.com'
 
-ruby '2.1.2'
-
 gem 'bson'
 gem 'bson_ext'
 gem 'chunky_png'
