@@ -73,6 +73,29 @@ class Hash
 	def recursive_clone
 		Marshal.load(Marshal.dump(self))
 	end
+
+	def flatten_hash(path_sep_char = '.', join_sep_char = "\n")
+		result = {}
+		self.each { | k, v |
+			if v.is_a?(Hash)
+				v.flatten_hash(path_sep_char, join_sep_char).each { | k2, v2 |
+					result[(k.to_s + path_sep_char + k2.to_s).to_sym] = v2
+				}
+			elsif v.is_a?(Array)
+				result[k] = v.join(join_sep_char)
+			else
+				result[k] = v
+			end
+		}
+		return result
+	end
+
+	def flatten_hash!(path_sep_char = '.', join_sep_char = "\n")
+		copy = flatten_hash(path_sep_char, join_sep_char)
+		self.clear
+		self.merge!(copy)
+	end
+
 end
 
 
