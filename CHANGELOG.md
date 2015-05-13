@@ -4,6 +4,10 @@
 This changelog summaries the most important changes per version.
 Besides the main topics mention, most versions also including some bugfixes or minor tweaks.
 
+##Version 0.14.1
+- Updates the formatter middleware to improve CSV support.
+- Fixes external Mustache link.
+
 ##Version 0.14.0
 - Adds ubb code [tip]. For example: [tip=This is the tip of an example]example[/tip].
 - Removes specific gem version.
