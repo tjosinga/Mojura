@@ -86,7 +86,6 @@ module Mojura
 
 			fields = req.params['fields'].to_s.split(',')
 			fields = body[0].flatten_hash.keys if (fields.size == 0) && (body[0].is_a?(Hash))
-			fields.push(:values)
 
 			options = {
 				headers: fields,
