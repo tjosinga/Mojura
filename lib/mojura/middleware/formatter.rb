@@ -12,36 +12,37 @@ module Mojura
 		end
 
 		def call(env)
-			return_type = (env['PATH_INFO'][/.*\.([\w]*)$/, 1] || '').downcase
+			return_type = (env['PATH_INFO'][/.*\.([\w]*)$/, 1] || '').downcase.to_sym
+			req = Rack::Request.new(env)
+			req.update_param('pagesize', 9999) if (return_type == :csv) && (!req.params.include?('pagesize'))
 			env['REQUESTED_FORMAT'] = return_type
-			env['PATH_INFO'] = env['PATH_INFO'][0..(-1 * (return_type.length + 2))] if (return_type != '')
+			env['PATH_INFO'] = env['PATH_INFO'][0..(-1 * (return_type.to_s.length + 2))] unless (return_type.to_s.empty?)
 
 			status, headers, body = @app.call(env)
 
 			if !headers.include?('Content-Type') || headers['Content-Type'] == ''
 				return_type = headers['return_type'] if headers.include?('return_type')
 				body = body[0]
-				req = Rack::Request.new(env)
-				return_type = 'jsonp' if ((!req.params['callback'].nil?) && (req.params['callback'] != ''))
+				return_type = :jsonp if ((!req.params['callback'].nil?) && (req.params['callback'] != ''))
 
-				return_type = ((env['is_api_call']) ? 'json' : 'html') if (return_type == '')
+				return_type = ((env['is_api_call']) ? :json : :html) if (return_type.to_s.empty?)
 
 				body_str, ctype = case return_type
-					                  when 'json' then
+					                  when :json then
 						                  [self.to_json(body), 'application/json']
-					                  when 'jsonp' then
+					                  when :jsonp then
 						                  [self.to_jsonp(body, env), 'text/javascript']
-					                  when 'xml' then
+					                  when :xml then
 						                  [self.to_xml(body), 'text/xml']
-					                  when 'csv' then
+					                  when :csv then
 						                  [self.to_csv(body, env), 'text/csv']
-					                  when 'ics' then
+					                  when :ics then
 						                  [self.to_ics(body), 'text/ics']
-					                  when 'vcard' then
+					                  when :vcard then
 						                  [self.to_vcard(body), 'text/vcard']
-					                  when 'txt' then
+					                  when :txt then
 						                  [self.to_txt(body), 'text/plain']
-					                  when 'html' then
+					                  when :html then
 						                  [self.to_html(body), 'text/html']
 					                  else
 						                  [self.to_json(body), 'application/json']
@@ -79,42 +80,31 @@ module Mojura
 				array_path = array_path.split('.')
 				array_path.each { | field | body = body[field.to_sym] rescue nil }
 			end
+			body = body[:items] if body.is_a?(Hash) && body.include?(:items) # In case of pagination, only the items.
 			body = [body] if body.is_a? Hash
 			return '' if !body[0].is_a? Hash
 
-			headers = body[0].keys
-			subfields = req.params['subfields'].to_s.split(',')
-			subfields.each { | subfield_path |
-				subdata = body[0]
-				path = subfield_path.split('.')
-				path.each { | p | subdata = subdata[p.to_sym] rescue nil }
-				subdata = subdata[0] if subdata.is_a?(Array)
-				subdata.keys.each { | k | headers << subfield_path.to_s + '.' + k.to_s } if subdata.is_a?(Hash)
-			}
+			fields = req.params['fields'].to_s.split(',')
+			fields = body[0].flatten_hash.keys if (fields.size == 0) && (body[0].is_a?(Hash))
+			fields.push(:values)
 
 			options = {
-				headers: headers,
+				headers: fields,
 				col_sep: req.params['col_sep'] || ',',
 				write_headers: true
 			}
 
-			subfields = req.params['subfields'].to_s.split(',')
-
-			return CSV.generate(options) { | csv |
+ 			return CSV.generate(options) { | csv |
 				body.each { | row |
 					data = []
-					row.each { | k, v |
-						v = v.values.join(', ') if v.is_a?(Hash)
-						v = v.join(', ') if v.is_a?(Array)
-						data << v.to_s unless subfields.include?(k)
-					}
-					subfields = req.params['subfields'].to_s.split(',')
-					subfields.each { | subfield_path |
+					fields.each { | field_path |
 						subrow = row
-						path = subfield_path.split('.')
+						path = field_path.to_s.split('.')
 						path.each { | p | subrow = subrow[p.to_sym] rescue nil }
-						subrow = subrow[0] if subrow.is_a?(Array)
-						data += subrow.values if subrow.is_a?(Hash)
+
+						subrow = subrow.join("\n") if subrow.is_a?(Array)
+						subrow = JSON.pretty_generate(subrow) if subrow.is_a?(Hash)
+						data << subrow
 					}
 					csv << data
 				}
