@@ -4,6 +4,9 @@
 This changelog summaries the most important changes per version.
 Besides the main topics mention, most versions also including some bugfixes or minor tweaks.
 
+##Version 0.14.2
+- Removes line of code in formatter middleware which added all values as json in csv.
+
 ##Version 0.14.1
 - Updates the formatter middleware to improve CSV support.
 - Fixes external Mustache link.
