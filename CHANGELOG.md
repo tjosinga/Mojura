@@ -4,6 +4,9 @@
 This changelog summaries the most important changes per version.
 Besides the main topics mention, most versions also including some bugfixes or minor tweaks.
 
+##Version 0.14.3
+- Updates the view Maps: Adds JS method to get the Map object, based on the mapID. 
+
 ##Version 0.14.2
 - Removes line of code in formatter middleware which added all values as json in csv.
 
