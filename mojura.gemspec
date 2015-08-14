@@ -3,7 +3,7 @@
 
 Gem::Specification.new do |s|
 	s.name            = 'mojura'
-	s.version         = '0.14.5'
+	s.version         = '0.14.6'
 	s.date            = '2015-08-14'
 	s.summary         = 'Mojura'
 	s.description     = 'A CMS based on a REST API, MongoDb backend and a Bootstrap frontend.'

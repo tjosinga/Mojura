@@ -4,6 +4,9 @@
 This changelog summaries the most important changes per version.
 Besides the main topics mention, most versions also including some bugfixes or minor tweaks.
 
+##Version 0.14.6
+- Small bugfix from previous version.
+
 ##Version 0.14.5
 - Forgot to build the previous fix in mojura.js.
 
