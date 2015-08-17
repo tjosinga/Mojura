@@ -77,7 +77,15 @@ module MojuraWebApp
 
     def show_admin
 	    WebApp.current_user.administrator?
-		end
+    end
+
+    def other_locales
+	    return nil unless WebApp.multilingual?
+	    locales = WebApp.page.locale_default_urls || []
+	    return locales.delete_if { | data |
+		    data[:locale].to_sym == WebApp.locale.to_sym
+	    }
+    end
 
 	end
 

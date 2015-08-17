@@ -283,6 +283,16 @@ module MojuraWebApp
 			WebApp.locale
 		end
 
+		def locale_default_urls
+			result = [{ locale: WebApp.locale, url: url_of_page(default_pageid)}] unless WebApp.multilingual?
+			result = []
+			Settings.get_a(:supported_locales).each { | locale |
+				url = url_of_page(Settings.get_s("default_pageid_#{locale}".to_sym))
+				result.push({ locale: locale, url: url })
+			}
+			return result
+		end
+
 	end
 
 end
