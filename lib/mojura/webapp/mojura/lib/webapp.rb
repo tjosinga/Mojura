@@ -112,6 +112,14 @@ module MojuraWebApp
 			MojuraAPI::Settings.get_s(:realm)
 		end
 
+		def multilingual?
+			MojuraAPI::API.multilingual?
+		end
+
+		def locale=(loc)
+			MojuraAPI::API.locale = loc
+		end
+
 		# ------------------------------------------------------ Views -----------------------------------------------------
 
 		def register_view(view_id, view_class, options = {})
