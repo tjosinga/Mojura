@@ -4,6 +4,9 @@
 This changelog summaries the most important changes per version.
 Besides the main topics mention, most versions also including some bugfixes or minor tweaks.
 
+##Version 0.14.8
+- Adds support for flags and their url.
+
 ##Version 0.14.7
 - Improves the multilingual support when requesting an root page.
 
