@@ -92,7 +92,7 @@
 
 <div class="checkbox">
 	<label class="slideshow-checkbox">
-		<input type="checkbox" name="setting_slideshow" value="true" {{#slideshow}}checked="checked"{{/slideshow}} />
+		<input type="checkbox" name="setting_slideshow" data-type="boolean" value="{{slideshow}}" />
 		{{locale_str_images_slideshow}}
 	</label>
 </div>
@@ -116,6 +116,8 @@
 </template>
 
 <script type="text/javascript">
+	BooleanBoxes.init();
+
 	var ImageEditView = (function($) {
 
 		"use strict";

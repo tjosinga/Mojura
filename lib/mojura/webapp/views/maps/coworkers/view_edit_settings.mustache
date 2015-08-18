@@ -27,11 +27,13 @@
 
 <div class="checkbox">
 	<label>
-		<input type="checkbox" name="setting_disable_scrollwheel" {{#disable_scrollwheel}}checked{{/disable_scrollwheel}}> {{locale_str_maps_disable_scrollwheel}}
+		<input type="checkbox" name="setting_disable_scrollwheel" data-type="boolean" value="{{disable_scrollwheel}}" />
+		{{locale_str_maps_disable_scrollwheel}}
 	</label>
 </div>
 
 <script type='text/javascript'>
+	BooleanBoxes.init();
 	{{#zoom}}
 		$("#setting_zoom_{{urid}}").val({{zoom}});
 	{{/zoom}}

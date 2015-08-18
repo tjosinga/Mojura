@@ -8,8 +8,7 @@
 
 	<div class="checkbox">
 		<label>
-			<input type="hidden" name="active" value="false" />
-			<input type="checkbox" {{#active}}checked="checked"{{/active}} name="active" value="true"> {{locale_str_polls_active}}
+			<input type="checkbox" name="active" data-type="boolean" value="{{active}}" /> {{locale_str_polls_active}}
 		</label>
 	</div>
 
@@ -18,3 +17,7 @@
 		<textarea class="form-control" type="text" id="options_{{urid}}" name="options">{{#options}}{{title}}{{newline}}{{/options}}</textarea>
 	</div>
 </form>
+
+<script type='text/javascript'>
+	BooleanBoxes.init();
+</script>

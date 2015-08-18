@@ -25,21 +25,21 @@
 <div class="form-group">
 	<div class="checkbox">
 		<label>
-			<input type="checkbox" name="setting_show_avatars" value="true" {{#show_avatars}}checked="checked"{{/show_avatars}} />
+			<input type="checkbox" name="setting_show_avatars" data-type="boolean" value="{{show_avatars}}" />
 			{{locale_str_twitter_show_avatars}}
 		</label>
 	</div>
 
 	<div class="checkbox">
 		<label>
-			<input type="checkbox" name="setting_show_time" value="true" {{#show_time}}checked="checked"{{/show_time}} />
+			<input type="checkbox" name="setting_show_time" data-type="boolean" value="{{show_time}}" />
 			{{locale_str_twitter_show_time}}
 		</label>
 	</div>
 
 	<div class="checkbox">
 		<label>
-			<input type="checkbox" name="setting_show_actions" value="true" {{#show_actions}}checked="checked"{{/show_actions}} />
+			<input type="checkbox" name="setting_show_actions" data-type="boolean" value="{{show_actions}}" />
 			{{locale_str_twitter_show_actions}}
 		</label>
 	</div>
@@ -47,6 +47,7 @@
 
 
 <script type="text/javascript">
+	BooleanBoxes.init();
 	max = '{{max_tweets}}';
 	if (max == '') max = '5';
 	$("select[name=setting_max_tweets] option[value=" + max + "]", "#{{modalId}}").prop("selected", "selected");

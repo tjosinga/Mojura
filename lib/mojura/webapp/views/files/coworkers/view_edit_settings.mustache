@@ -1,34 +1,34 @@
 <div class="checkbox">
 	<label>
-		<input type="checkbox" name="setting_hide_admin" value="true" {{#hide_admin}}checked="checked"{{/hide_admin}} />
+		<input type="checkbox" name="setting_hide_admin" data-type="boolean" value="{{hide_admin}}" />
 		{{locale_str_files_hide_admin}}
 	</label>
 </div>
 
 <div class="checkbox">
 	<label>
-		<input type="checkbox" name="setting_hide_folders" value="true" {{#hide_folders}}checked="checked"{{/hide_folders}} />
+		<input type="checkbox" name="setting_hide_folders" data-type="boolean" value="{{hide_folders}}" />
 		{{locale_str_files_hide_folders}}
 	</label>
 </div>
 
 <div class="checkbox">
 	<label>
-		<input type="checkbox" name="setting_hide_breadcrumbs" value="true" {{#hide_breadcrumbs}}checked="checked"{{/hide_breadcrumbs}} />
+		<input type="checkbox" name="setting_hide_breadcrumbs" data-type="boolean" value="{{hide_breadcrumbs}}" />
 		{{locale_str_files_hide_breadcrumbs}}
 	</label>
 </div>
 
 <div class="checkbox">
 	<label>
-		<input type="checkbox" name="setting_hide_extensions" value="true" {{#hide_extensions}}checked="checked"{{/hide_extensions}} />
+		<input type="checkbox" name="setting_hide_extensions" data-type="boolean" value="{{hide_extensions}}" />
 		{{locale_str_files_hide_extensions}}
 	</label>
 </div>
 
 <div class="checkbox">
 	<label>
-		<input type="checkbox" name="setting_hide_icons" value="true" {{#hide_icons}}checked="checked"{{/hide_icons}} />
+		<input type="checkbox" name="setting_hide_icons" data-type="boolean" value="{{hide_icons}}" />
 		{{locale_str_files_hide_icons}}
 	</label>
 </div>
@@ -39,5 +39,5 @@
 </div>
 
 <script type='text/javascript'>
-
+	BooleanBoxes.init();
 </script>
