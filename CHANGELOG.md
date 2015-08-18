@@ -4,6 +4,9 @@
 This changelog summaries the most important changes per version.
 Besides the main topics mention, most versions also including some bugfixes or minor tweaks.
 
+##Version 0.14.9
+- Finds the first root page of the current page and sets the corresponding locale.
+
 ##Version 0.14.8
 - Adds support for flags and their url.
 
