@@ -27,6 +27,7 @@ module MojuraWebApp
 			@is_setup = false
 			@favicon = 'mojura/images/favicon.ico'
 			@status = 200
+			@cache_urls = {}
 			super({})
 
 			self.include_style_link('ext/font-awesome/css/font-awesome.min.css')
@@ -58,8 +59,10 @@ module MojuraWebApp
 
 		def url_of_page(pageid)
 			return '' if pageid.to_s.empty?
+			return @cache_urls[pageid] if @cache_urls.include?(pageid)
 			parents = WebApp.api_call('pages', {path_pageid: pageid})
 			result = parents.map{ | p | CGI.escape(p[:title]) }.join('/')
+			@cache_urls[pageid] = result
 			return result
 		end
 
