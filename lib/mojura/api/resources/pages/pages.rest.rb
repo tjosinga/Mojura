@@ -65,7 +65,6 @@ module MojuraAPI
 		end
 
 		def get(params)
-			PageTree.new.refresh
 			page = Page.new(params[:ids][0])
 			raise NoRightsException unless AccessControl.has_rights?(:read, page)
 			return page.to_h
