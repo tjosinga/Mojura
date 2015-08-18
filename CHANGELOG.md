@@ -4,6 +4,10 @@
 This changelog summaries the most important changes per version.
 Besides the main topics mention, most versions also including some bugfixes or minor tweaks.
 
+##Version 0.14.10
+- Increases performance when getting a page.
+- Fixes a bug when saving unchecked input boxes.
+
 ##Version 0.14.9
 - Finds the first root page of the current page and sets the corresponding locale.
 
