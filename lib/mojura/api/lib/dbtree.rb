@@ -87,7 +87,6 @@ module MojuraAPI
 
 		def parents_of_node(id, node = nil)
 			return nil if (id.nil?)
-			self.refresh
 			self.load_from_db if @tree.nil?
 			result = nil
 			subnodes = (node.nil?) ? @tree : node[:children]
