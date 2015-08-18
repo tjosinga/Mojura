@@ -68,10 +68,10 @@ module MojuraWebApp
 		end
 
 		def locale_of_root_page(pageid)
-			return Settings.get_s(:locale) if pageid.nil? || !WebApp.multilingual?
+			return Settings.get_s(:locale).to_sym if pageid.nil? || !WebApp.multilingual?
 			supported_locales = Settings.get_a(:supported_locales, :core, [])
 			supported_locales.each { | locale |
-				return locale if (pageid == Settings.get_s("root_pageid_#{locale}".to_sym))
+				return locale.to_sym if (pageid == Settings.get_s("root_pageid_#{locale}".to_sym))
 			}
 			return nil
 		end
@@ -96,6 +96,14 @@ module MojuraWebApp
 						pid = default_pageid
 						url = (pid.empty?) ? base_url : base_url.gsub(/\/$/, '') + '/' + url_of_page(pid)
 						raise RedirectException.new(url) unless (pageid == pid)
+					else
+						pages.reverse_each { | page |
+							if (is_root_page?(page[:id]))
+								WebApp.locale = locale_of_root_page(page[:id])
+								break
+							end
+							WebApp.locale = Settings.get_s(:locale).to_sym
+						}
 					end
 					@data = WebApp.api_call("pages/#{@pageid}")
 					@is_home = (@pageid == default_pageid)
