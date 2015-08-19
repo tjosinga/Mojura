@@ -64,8 +64,9 @@ module MojuraAPI
 					notes: {required: false, type: RichText, description: 'The notes of the event.'},
 				}
 			}
-			result[:attributes].merge(self.rights_conditions)
-			result[:attributes].merge(self.tags_conditions)
+			result[:attributes].merge!(self.rights_conditions)
+			result[:attributes].merge!(self.tags_conditions)
+			result[:attributes].merge!(self.locales_conditions)
 			return result
 		end
 

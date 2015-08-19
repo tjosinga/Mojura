@@ -8,6 +8,7 @@ module MojuraAPI
 
 		include DbObjectTags
 		include DbObjectRights
+		include DbObjectLocales
 
 		def initialize(id = nil)
 			super('events', id)

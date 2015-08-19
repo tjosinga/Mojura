@@ -67,14 +67,14 @@ module MojuraAPI
 					title: {required: true, type: String, description: 'The title of the news item.'},
 					category: {required: false, type: String, description: 'The category of the news item.'},
 					imageid: {required: false, type: BSON::ObjectId, description: 'The file id of an image.'},
-					language: {required: false, type: String, description: 'The language of the news item.'},
 					timestamp: {required: false, type: DateTime, description: 'The timestamp of the news item.'},
 					format_type: {required: false, type: String, description: 'The formatting type of the content, which could be \'ubb\' (default), \'html\' or \'plain\'.'},
 					content: {required: true, type: RichText, description: 'The content of the item in the format.'},
 				}
 			}
-			result[:attributes].merge(self.rights_conditions)
-			result[:attributes].merge(self.tags_conditions)
+			result[:attributes].merge!(self.rights_conditions)
+			result[:attributes].merge!(self.tags_conditions)
+			result[:attributes].merge!(self.locales_conditions)
 			return result
 		end
 

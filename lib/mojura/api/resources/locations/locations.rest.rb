@@ -59,10 +59,10 @@ module MojuraAPI
 					address: {required: false, type: String, description: 'The address of the location. This address will be converted to a latitude or longitude. If the search fails, the server responds with a server error and nothing is saved.'},
 					category: {required: false, type: String, description: 'The category of the location.'},
 					description: {required: false, type: RichText, description: 'The description of the item in the format.'},
-					language: {required: false, type: String, description: 'The language of the description.'},
 					format_type: {required: false, type: String, description: 'The formatting type of the description, which could be \'ubb\' (default), \'html\' or \'plain\'.'},
 				}
 			}
+			result[:attributes].merge!(self.locales_conditions)
 			return result
 		end
 

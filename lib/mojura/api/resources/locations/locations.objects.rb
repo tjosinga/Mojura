@@ -13,6 +13,8 @@ module MojuraAPI
 
 	class Location < DbObject
 
+		include DbObjectLocales
+
 		def initialize(id = nil)
 			super('locations', id)
 		end

@@ -12,7 +12,7 @@ module MojuraAPI
 					{'locales' => []},
 					{'locales' => API.locale}
 				]}
-				where = {'$and' => [where, locales_where] }
+				where = (where.nil? || where.empty?) ? locales_where : {'$and' => [where, locales_where] }
 			end
 			return where
 		end

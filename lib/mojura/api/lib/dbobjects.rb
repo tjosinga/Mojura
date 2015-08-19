@@ -1,5 +1,6 @@
 require 'api/lib/dbobject'
 require 'api/lib/dbobjects_rights'
+require 'api/lib/dbobjects_locales'
 
 module MojuraAPI
 
