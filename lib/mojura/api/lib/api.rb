@@ -304,6 +304,9 @@ module MojuraAPI
 				}
 			end
 
+			self.headers['Content-Language'] = API.locale.to_s
+			self.headers['Mojura-Supported-Languages'] = Settings.get_a(:supported_locales).join(', ') if API.multilingual?
+
 			Thread.current[:mojura][:current_call] = nil
 			return result
 		end
