@@ -406,6 +406,10 @@ body.dragging, body.dragging * {
 	background-size: contain;
 }
 
+.flag-icon-2x {
+	font-size: 1.5em;
+}
+
 .flag-icon-de {
 	background-image: url(../svg/flag-locale-de.svg);
 }
@@ -500,4 +504,19 @@ ul.sitemap.select-none {
 
 .fa-times-thin:before {
 	content: '\00d7';
+}
+
+.locales_selection_flags {
+
+	.locales_selection_flag {
+		opacity: 0.3;
+		cursor: pointer;
+		display: inline-block;
+	}
+
+	.locales_selection_on {
+		opacity: 1;
+	}
+
+
 }

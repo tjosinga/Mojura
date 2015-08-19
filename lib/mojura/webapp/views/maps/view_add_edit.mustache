@@ -16,6 +16,8 @@
 		<input id="address_{{urid}}" class="form-control" type="text" name="address" value="{{address}}" />
 	</div>
 
+	{{>locales-selection}}
+
 	<div class="form-group view_texteditor">
 		<label for="description_{{urid}}">{{locale_str_system_description}}</label>
 		<textarea id="description_{{urid}}" class="form-control texteditor small" name='description'>{{description.raw}}</textarea>

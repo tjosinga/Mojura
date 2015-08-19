@@ -1,0 +1,38 @@
+{{#is_multilingual}}
+	<div class="form-group">
+		<label>{{locale_str_system_locales_selection}} *:</label>
+		<input type="hidden" name="locales" value="" />
+		<div class="locales_selection_flags" id="flags-{{urid}}">
+			{{#supported_locales}}
+				<div class="locales_selection_flag" data-locale="{{.}}">
+					<span class="flag-icon flag-icon-2x flag-icon-{{.}}"></span>
+				</div>
+			{{/supported_locales}}
+		</div>
+	</div>
+
+	<script type="application/javascript">
+		"use strict";
+		var currentFlags = "{{locales}}".split(",");
+		var $flags = $("#flags-{{urid}} > .locales_selection_flag");
+
+		$flags.each(function() {
+			var $flag = $(this);
+			$(this).click(function() {
+				$flag.toggleClass("locales_selection_on");
+				var newLocales = new Array();
+				$flags.filter(".locales_selection_on").each(function() {
+					newLocales.push($(this).attr("data-locale"));
+				});
+				$flag.parent().parent().children("input").attr("value", newLocales.join("\n"));
+			});
+
+			var thisLocale = $flag.attr("data-locale");
+			if (currentFlags.indexOf(thisLocale) >= 0) {
+				$(this).click();
+			}
+		});
+
+	</{{ending_for_script}}script>
+{{/is_multilingual}}
+
