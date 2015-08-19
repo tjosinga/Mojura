@@ -32,12 +32,23 @@ module MojuraAPI
 			@strings[locale] ||= {}
 			self.load_strings(view) unless (@strings[locale].include?(view))
 			@strings[locale][view] ||= {}
-			return (@strings[locale][view] || {})
-		end
+
+			result = @strings[locale][view]
+			if result.nil?
+				fallback = Settings.get_s(:fallback_locale, :core, :en).to_sym
+				result = @strings[fallback][view] rescue nil
+			end
+			return result || {}		end
 
 		def all(options = {})
 			locale = options[:locale] || API.locale
-			return @strings[locale]
+			result = @strings[locale]
+			if result.nil?
+				fallback = Settings.get_s(:fallback_locale, :core, :en).to_sym
+				load_strings(locale) unless @strings.include?(fallback)
+				result = @strings[fallback] rescue nil
+			end
+			return result
 		end
 
 		def str(view, id, options = {})
@@ -46,7 +57,14 @@ module MojuraAPI
 			@strings[locale] ||= {}
 			self.load_strings(view) unless (@strings[locale].include?(view))
 			@strings[locale][view] ||= {}
-			return (@strings[locale][view][id.to_sym] || options[:default] || "__#{view}_#{id}__")
+
+			result = @strings[locale][view][id.to_sym]
+			if result.nil?
+				fallback = Settings.get_s(:fallback_locale, :core, :en).to_sym
+				load_strings(locale) unless @strings.include?(fallback)
+				result = '[' + @strings[fallback][view][id.to_sym] + ']' rescue nil
+			end
+			return (result || options[:default] || "__#{view}_#{id}__")
 		end
 	end
 
