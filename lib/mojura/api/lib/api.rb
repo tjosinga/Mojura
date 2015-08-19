@@ -42,11 +42,9 @@ module MojuraAPI
 			@log.add(Log4r::Outputter.stdout)
 			@log.info('----- Loading the API -----')
 			MongoDb.connect(Settings.get_s(:database))
-			self.load_resources("#{Mojura::PATH}/api/resources/")
-			self.load_resources('api/resources/') if (Dir.exist?('api/resources/'))
+			self.load_resources
 			AccessControl.load
-			ProcessorManager.load_processors(modules, "#{Mojura::PATH}/api/resources/")
-			ProcessorManager.load_processors(modules, 'api/resources/') if (Dir.exist?('api/resources/'))
+			ProcessorManager.load_processors(modules)
 			@log.info('----- The API is loaded -----')
 			@loaded = true
 		end
@@ -196,8 +194,10 @@ module MojuraAPI
 				API.log.info('Loading the API core')
 				mod_dependencies = {core: load_module(:core)}
 				paths = ["#{Mojura::PATH}/api/resources/"]
-				paths.push('./api/resources/') if Dir.exist?('./api/resources/')
-
+				Mojura::PluginsManager.get_plugin_paths.each { | path |
+					paths.push(path + '/api/resources/') if File.exists?(path + '/api/resources/')
+				}
+				paths.push('./api/resources/') if File.exists?('./api/resources/')
 				paths.each { | path |
 					Dir.foreach(path) { | name |
 						if (name[0] != '.') && (File.directory?("#{path}#{name}"))
@@ -227,13 +227,14 @@ module MojuraAPI
 
 		# Loads all the REST resources, which are stored in the modules folder.
 		# Each resource should be descendant of the RestResource object and deals with
-		# the GET, PUT, POST and DELETE requests for that specific resource.
-		def load_resources(path)
+ 		# the GET, PUT, POST and DELETE requests for that specific resource.
+		#
+		# noinspection RubyResolve
+		def load_resources
 			mods = modules
 			mods.each { | mod |
-				if File.exists?("#{path}/#{mod}/#{mod}.rest.rb")
-					require "#{path}/#{mod}/#{mod}.rest.rb"
-				end
+				filename = Mojura.filename("api/resources/#{mod}/#{mod}.rest.rb")
+				require filename unless filename.empty?
 			}
 		end
 

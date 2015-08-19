@@ -1,6 +1,7 @@
 $:.unshift(File.expand_path(File.dirname(__FILE__)))
 
 require 'lib/mojura'
+require 'test/plugins-test/plugins-test'
 
 use Rack::Lint
 use Rack::ContentLength

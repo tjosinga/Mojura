@@ -10,11 +10,11 @@ module MojuraAPI
 
 		@subscriptions = {}
 
-		def load_processors(mods, resource)
+		# noinspection RubyResolve
+		def load_processors(mods)
 			mods.each { | mod |
-				if File.exists?("#{resource}/#{mod}/#{mod}.processors.rb")
-					require "#{resource}/#{mod}/#{mod}.processors.rb"
-				end
+				filename = Mojura.filename("api/resources/#{mod}/#{mod}.processors.rb")
+				require filename unless filename.empty?
 			}
 		end
 

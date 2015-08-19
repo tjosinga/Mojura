@@ -60,12 +60,13 @@ module MojuraWebApp
 			js = WebApp.page.get_best_url("#{path}/script.min.js")
 			WebApp.page.include_script_link(js) if File.exists?(Mojura.filename("webapp/#{js}"))
 
-			begin
-				source_file = "webapp/#{path}/view_main"
-				require(source_file) if (File.exists?(source_file + '.rb'))
-			rescue Exception => e
-				raise CorruptViewFileException.new(@view, e.to_s)
-			end
+			# TODO: Remove this could. Requiring view_main should be done in other places.
+			# begin
+			# 	source_file = "webapp/#{path}/view_main"
+			# 	require(source_file) if (File.exists?(source_file + '.rb'))
+			# rescue Exception => e
+			# 	raise CorruptViewFileException.new(@view, e.to_s)
+			# end
 
 			begin
 				view_class = WebApp.get_view_class(@view)

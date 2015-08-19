@@ -43,6 +43,10 @@ module MojuraWebApp
 			@log.info('----- Loading the WebApp -----')
 			self.load_views("#{Mojura::PATH}/webapp/views/")
 			self.load_views('./webapp/views/') if (Dir.exist?('./webapp/views/'))
+			Mojura::PluginsManager.get_plugin_paths.each { | path |
+				self.load_views(path + '/webapp/views/') if (Dir.exist?(path + '/webapp/views/'))
+			}
+
 			ExternalLibraries.load
 			@log.info('----- The WebApp is loaded -----')
 		end
