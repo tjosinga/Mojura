@@ -4,6 +4,14 @@
 This changelog summaries the most important changes per version.
 Besides the main topics mention, most versions also including some bugfixes or minor tweaks.
 
+##Version 0.15.0
+- Fixes proper working of the FilesView and adds title_without_ext to the API.
+- Adds fallback locale (English) when current locale misses strings.
+- Adds support for selecting the locales in forms.
+- Updates the API and adds locale support to news, events and locations.
+- Adds prefix Mojura to some response headers and adds locale information.
+- Adds a PluginManager, which make separate plugin development possible.
+
 ##Version 0.14.10
 - Increases performance when getting a page.
 - Fixes a bug when saving unchecked input boxes.
