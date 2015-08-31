@@ -9,7 +9,7 @@ module MojuraWebApp
 		def initialize(options = {})
       @folderid = options[:folderid].to_s
       @folderid = WebApp.page.request_params[:folderid].to_s if (@folderid == '')
-      @folderid = options[:base_folderid].to_s if (@folderid == '')
+      @folderid = options[:root_folderid].to_s if (@folderid == '')
 			@folderid = 'root' if (@folderid == '')
 			params = {}
 			params[:folderid] = @folderid
@@ -23,13 +23,15 @@ module MojuraWebApp
       data[:hide_breadcrumbs] = options[:hide_breadcrumbs].to_s == 'true'
       data[:hide_icons] = options[:hide_icons].to_s == 'true'
       data[:hide_extensions] = options[:hide_extensions].to_s == 'true'
-      data[:base_folderid] = options[:base_folder].to_s
+      data[:root_folderid] = options[:root_folderid].to_s
       data[:has_description] = (!data[:description][:html].empty?) rescue false
-      data[:is_base_folder] = (@folderid == 'root') || (@folderid == data[:base_folderid])
+      data[:is_root_folder] = (@folderid == 'root') || (@folderid == data[:root_folderid])
+      data[:has_other_root_folder] = (!data[:root_folderid].empty?) && (data[:root_folderid] != 'root')
+
       options[:uses_editor] = true
 			super(options, data)
 			data[:files] ||= []
-			@data[:files].map! { |item|
+			@data[:files].map! { | item |
         item[:title].chomp!(File.extname(item[:title])) if data[:hide_extensions]
 				item[:api_url].gsub!(/files/, 'files')
 				item[:file_url].gsub!(/files/, 'files')

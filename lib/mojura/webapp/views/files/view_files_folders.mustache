@@ -5,7 +5,7 @@
      data-hide_admin="{{hide_admin}}"
      data-hide_icons="{{hide_icons}}"
      data-hide_folders="{{hide_folders}}"
-     data-base_folder="{{base_folderid}}">
+     data-root_folderid="{{root_folderid}}">
 </div>
 
 {{^hide_admin}}
@@ -25,9 +25,12 @@
 {{^hide_breadcrumbs}}
 	{{!#id}}
 		<ul class="breadcrumb">
-			<li><a href="{{base_url}}" onclick="FilesView.setCurrentFolderId(''); return false;"><span class="fa fa-home"></span></a></li>
+			{{^has_other_root_folder}}
+				<li><a href="javascript:void(0)" onclick="FilesView.setCurrentFolderId('{{root_folderid}}'); return false;"><span class="fa fa-home"></span></a></li>
+			{{/has_other_root_folder}}
+
 			{{#parents}}
-				<li><span class="divider"></span> <a href="{{base_url}}?folderid={{id}}" onclick="FilesView.setCurrentFolderId('{{id}}'); return false;">{{title}}</a></li>
+				<li><span class="divider"></span> <a href="javascript:void(0)" onclick="FilesView.setCurrentFolderId('{{id}}'); return false;">{{title}}</a></li>
 			{{/parents}}
 			<li class="active"><span class="divider"></span> {{title}}</li>
 		</ul>
@@ -91,10 +94,24 @@
          <span class='fa fa-file'></span>
 			{{/hide_icons}}
 			{{#is_image}}
-				<a href="{{file_url}}" onclick="LightBox.show('files', '{{{file_url}}}'); return false">{{title}}</a>
+				<a href="{{file_url}}" onclick="LightBox.show('files', '{{{file_url}}}'); return false">
+					{{#hide_extensions}}
+						{{title_without_ext}}
+					{{/hide_extensions}}
+					{{^hide_extensions}}
+						{{title}}
+					{{/hide_extensions}}
+				</a>
 			{{/is_image}}
 			{{^is_image}}
-				<a href="{{file_url}}">{{title}}</a>
+				<a href="{{file_url}}">
+					{{#hide_extensions}}
+						{{title_without_ext}}
+					{{/hide_extensions}}
+					{{^hide_extensions}}
+						{{title}}
+					{{/hide_extensions}}
+				</a>
 			{{/is_image}}
 		</li>
 	{{/files}}

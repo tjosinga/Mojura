@@ -147,6 +147,7 @@ module MojuraAPI
 		def to_h(compact = false)
 			result = super
 			result[:file_url] = API.api_url + "files/#{self.id}/download"
+			result[:title_without_ext] = result[:title].gsub(/\.\w+$/, '')
 			if !self.is_image?
 				result.delete(:img_width)
 				result.delete(:img_height)
