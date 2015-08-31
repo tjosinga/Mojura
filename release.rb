@@ -85,7 +85,7 @@ puts '----- Pushing commits to the repository -----'
 `git push`
 
 puts '----- Store the gem at gems.mojura.nl. -----'
-`gem push --host http://mojura:mojuragems@gems.mojura.nl mojura.`
+`gem push --host http://mojura:mojuragems@gems.mojura.nl mojura-#{release_version}.gem`
 
 puts '----- Update mojura locally. -----'
 `gem install mojura --no-document`
