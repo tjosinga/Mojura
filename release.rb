@@ -72,27 +72,23 @@ puts '----- Committing release version -----'
 `git tag #{version_tag}`
 
 
+puts '----- Building the gem -----'
+`gem build mojura.gemspec`
+
 puts '----- Committing snapshot version -----'
 
 gemspec.gsub!(version_pattern, "\\1#{snapshot_version}\\3")
 File.write('mojura.gemspec', gemspec)
 `git commit -a -m "[release tool] Perpare for next development iteration."`
 
-
 puts '----- Pushing commits to the repository -----'
 `git push`
 
-
-puts '----- Building the gem -----'
-`gem build mojura.gemspec`
-
-
 puts '----- Store the gem at gems.mojura.nl. -----'
-`gem push --host http://mojura:mojuragems@gems.mojura.nl`
-
+`gem push --host http://mojura:mojuragems@gems.mojura.nl mojura.`
 
 puts '----- Update mojura locally. -----'
-`gem install mojura --no-ri --no-rdoc`
+`gem install mojura --no-document`
 
 
 puts "\n----- You successfully released version #{version_tag}. Happy coding. -----"
