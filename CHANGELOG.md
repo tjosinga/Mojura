@@ -4,6 +4,10 @@
 This changelog summaries the most important changes per version.
 Besides the main topics mention, most versions also including some bugfixes or minor tweaks.
 
+##Version 0.15.1
+- Updates Google Analytics tracking code.
+- Updates validation regex for email.
+
 ##Version 0.15.0
 - Fixes proper working of the FilesView and adds title_without_ext to the API.
 - Adds fallback locale (English) when current locale misses strings.
