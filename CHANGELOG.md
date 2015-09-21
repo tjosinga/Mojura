@@ -4,6 +4,9 @@
 This changelog summaries the most important changes per version.
 Besides the main topics mention, most versions also including some bugfixes or minor tweaks.
 
+##Version 0.15.2
+- Adds support for locale specific descriptions, adds metatags and html locale.
+
 ##Version 0.15.1
 - Updates Google Analytics tracking code.
 - Updates validation regex for email.
