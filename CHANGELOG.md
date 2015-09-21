@@ -4,6 +4,9 @@
 This changelog summaries the most important changes per version.
 Besides the main topics mention, most versions also including some bugfixes or minor tweaks.
 
+##Version 0.15.3
+- Fixes a bug in the JavaScript, when there are no supported languages defined.
+
 ##Version 0.15.2
 - Adds support for locale specific descriptions, adds metatags and html locale.
 
