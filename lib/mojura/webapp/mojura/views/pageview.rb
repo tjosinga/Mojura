@@ -158,7 +158,15 @@ module MojuraWebApp
 		end
 
 		def description
-			@data[:description] || Settings.get_s('description', :core, 'Mojura is a fine API based Content Management System')
+		result = @data[:description] || Settings.get_s('description_' + locale.to_s, :core)
+			result = Settings.get_s('description', :core, 'This website is build on Mojura.') if result.empty?
+			return result
+		end
+
+		def keywords
+			result = @data[:keywords] || Settings.get_s('keywords_' + locale.to_s, :core)
+			result = Settings.get_s('keywords', :core) if result.empty?
+			return result
 		end
 
 		def get_best_url(filename)
