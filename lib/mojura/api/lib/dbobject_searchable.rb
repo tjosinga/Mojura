@@ -1,6 +1,6 @@
 # encoding: utf-8
 require 'api/resources/search/search.object'
-require 'sanitize'
+#require 'sanitize'
 
 module MojuraAPI
 
@@ -60,7 +60,7 @@ module MojuraAPI
 				if (options[:markup] == :ubb)
 					value = UBBParser.strip_ubb(value)
 				else
-					value = Sanitize.clean(RichText.new(value).to_html)
+					value = RichText.new(value).to_html # Sanitize.clean(RichText.new(value).to_html)
 				end
 			end
 			return value.to_s

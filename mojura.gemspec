@@ -33,7 +33,6 @@ Gem::Specification.new do |s|
 	s.add_runtime_dependency('prawn', '>= 0')
 	s.add_runtime_dependency('rack', '>= 0')
 	s.add_runtime_dependency('sanitize', '>= 0')
-	s.add_runtime_dependency('xml-simple', '>= 0')
 	s.add_runtime_dependency('zipruby', '>= 0')
 
 	s.add_runtime_dependency('kvparser', '>= 0')
