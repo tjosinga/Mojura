@@ -4,6 +4,9 @@
 This changelog summaries the most important changes per version.
 Besides the main topics mention, most versions also including some bugfixes or minor tweaks.
 
+##Version 0.16.1
+- Removes xml-simple from middleware.
+
 ##Version 0.16.0
 - Removes xml-simple and sanitize, because of server problems.
 
