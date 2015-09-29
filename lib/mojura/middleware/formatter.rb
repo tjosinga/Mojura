@@ -1,5 +1,5 @@
 require 'json'
-require 'xmlsimple'
+#require 'xmlsimple'
 require 'csv'
 require 'api/lib/datatypes'
 
@@ -70,7 +70,7 @@ module Mojura
 				anonymousTag: 'item',
 				rootname: 'mojura'
 			}
-			return XmlSimple.xml_out(body.remove_nil_values!, options)
+			return ''#XmlSimple.xml_out(body.remove_nil_values!, options)
 		end
 
 		def to_csv(body, env)
