@@ -4,6 +4,9 @@
 This changelog summaries the most important changes per version.
 Besides the main topics mention, most versions also including some bugfixes or minor tweaks.
 
+##Version 0.16.2
+- Fixes a bug in the simple rights control.
+
 ##Version 0.16.1
 - Removes xml-simple from middleware.
 

@@ -6,7 +6,6 @@ GEM
     bson_ext (1.12.3)
       bson (~> 1.12.3)
     chunky_png (1.3.4)
-    crass (1.0.2)
     crypt (2.2.1)
     domain_name (0.5.24)
       unf (>= 0.0.5, < 1.0.0)
@@ -24,15 +23,10 @@ GEM
     memcache-client (1.8.5)
     mime-types (2.6.2)
     mini_magick (4.3.3)
-    mini_portile (0.6.2)
     mongo (1.12.3)
       bson (= 1.12.3)
     mustache (1.0.2)
     netrc (0.10.3)
-    nokogiri (1.6.6.2)
-      mini_portile (~> 0.6.0)
-    nokogumbo (1.4.1)
-      nokogiri
     pdf-core (0.6.0)
     prawn (2.0.2)
       pdf-core (~> 0.6.0)
@@ -44,10 +38,6 @@ GEM
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 3.0)
       netrc (~> 0.7)
-    sanitize (4.0.0)
-      crass (~> 1.0.2)
-      nokogiri (>= 1.4.4)
-      nokogumbo (= 1.4.1)
     sass (3.4.18)
     screenplay (0.1.5)
       highline (~> 1.6)
@@ -82,11 +72,9 @@ DEPENDENCIES
   prawn
   prawn-table
   rack
-  sanitize
   sass
   screenplay
   ubbparser
-  xml-simple
   yui-compressor
   zipruby
 
